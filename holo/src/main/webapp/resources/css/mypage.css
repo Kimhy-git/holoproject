@@ -1,0 +1,49 @@
+@charset "EUC-KR";
+section{
+	margin-top: 40px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+#mine{
+	text-align:left;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	width : 700px;
+}
+#mine a{
+	margin-left: 10px;
+    text-decoration: none;
+}
+
+table{
+	padding:10px;
+	clear:both;
+	text-align: center;
+    margin: 0 auto;
+    width : 700px;
+    background: white;
+    border: 1px solid black;
+}
+
+#list_title{
+	text-align: left;
+	margin-top: 10px;
+}
+.small_title{
+	font-weight: bold;
+	padding: 6px 3px;
+    background-color:#bbbbbb;
+}
+#count{
+	text-align: right;
+	width:60px;
+}
+section{
+	height: 1000px;
+    text-align: center;
+}
+h2{
+	padding-top:20px;
+	text-align: left;
+	margin-left: 20px;
+}

@@ -1,0 +1,24 @@
+table{
+	padding-top:200px;
+	text-align: center;
+    margin: 0 auto;
+}
+
+#log_btn{
+	text-align: center;
+	padding: 16px 18px;
+    margin: 12px;
+	color: #666666;
+	border-radius: 5px;
+	box-shadow: 0 1px 0 black;
+}
+
+#bottom{
+	text-align: center;
+    margin: 0 auto;
+}
+section{
+	margin-top: 40px;
+	height: 500px;
+    text-align: center;
+}

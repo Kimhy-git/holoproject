@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.mapper">
+
+	<!-- test -->
+	<select id="selectMember" resultType="dto">
+        select * from user;
+    </select>
+    
+    <!-- help_me 게시글 리스트 -->
+	<select id="list" resultType="dto_p">
+		select * from help_post order by help_post_id desc;
+	</select>
+	
+	<!-- help_me 게시글 상세보기 -->
+	<select id="read" resultType="dto_p">
+		select * from help_post where help_post_id = #{help_post_id}
+	</select>
+	
+	<!-- help_me 게시글 쓰기 -->
+	<select id="write" parameterType="dto_p">
+		insert into help_post (tag_area, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
+		values(#{tag_area},1,#{title},"hi",#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"a")
+	</select>
+	<!-- help_me 게시글 수정 -->
+	
+	<!-- help_me 게시글 삭제 -->
+	<select id="delete" resultType="dto_p">
+		delete from help_post where help_post_id=#{help_post_id} 
+	</select>
+	
+	<!-- help_you -->
+	<select id="helpyou_list" resultType="helpdto">
+		select * from help_post where board=0
+	</select>
+	
+	<!-- helpyou_write -->
+	<insert id="helpyou_submit" parameterType="helpdto">
+		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
+		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
+	</insert>
+
+	<!-- notice -->
+    <select id="select_post" resultType="dto_post"> 
+    	select * from post; 
+    </select>
+    
+     <!-- notice_write : add a post -->
+    <select id="add_post" parameterType="Dto_post"> 
+    	insert into post(post_id, board, title, nick, content, user_user_id)
+		values(10,0,#{title},'One',#{content},'a');
+    </select>
+    
+    <!-- notice_write_view -->
+    <select id="select_post_view" resultType="dto_post_view"> 
+    	select * from post where board=0 and post_id=#{post_id}; 
+    </select>
+    
+    <!-- notice_write_view : comment -->
+    <select id="select_post_reply" resultType="dto_post_reply"> 
+    	select * from reply where board=0 and post_post_id=#{post_id}; 
+    </select>
+    
+    <!-- notice_write_view : delete posts -->
+    <select id="select_post_delete" resultType="dto_post_delete"> 
+    	delete from post where post_id=#{post_id} and board=0;
+    </select>
+    
+    <!-- notice_write_view : delete posts -->
+    <select id="select_reply_delete" resultType="dto_post_reply"> 
+    	delete from reply where post_post_id=#{post_id} and board=0;
+    </select>
+    
+    <select id="select_freeboard" resultType="dto_freeboard">
+        select * from post;
+    </select>
+    <!-- 리스트 보기 -->
+    
+    <select id="select_freeboard_view" resultType="dto_freeboard">
+        select * from post where board=1 and post_id=#{post_id};
+    </select>
+    <!-- 게시글 보기 -->
+    
+    <select id="select_freeboard_reply" resultType="dto_freeboard"> 
+    	select * from reply where board=0 and post_post_id=#{post_id}; 
+    </select>
+    <!-- 댓글 보기 -->
+    
+    <select id="select_freeboard_delete" resultType="dto_freeboard"> 
+    	delete from post where post_id=#{post_id} and board=0;
+    </select>
+    <!-- 게시글 삭제 -->
+    
+    <select id="select_freeboard_reply_delete" resultType="dto_freeboard"> 
+    	delete from reply where post_post_id=#{post_id} and board=0;
+    </select>
+    <!-- 댓글 삭제 -->
+    
+    <insert id="freeboard_submit" parameterType="dto_freeboard">
+    	insert into post(post_id, board, title, operator,nick, content, img, user_user_id) 
+    		values (#{post_id},1,#{title},#{operator},#{nick},#{content},#{img},#{user_user_id);
+    </insert>
+
+
+</mapper>

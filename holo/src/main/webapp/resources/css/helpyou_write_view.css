@@ -1,0 +1,111 @@
+@charset "ISO-8859-1";
+section{
+	background-color: rgb(245, 232, 255);
+	overflow-y:300px;
+}
+header #logo{
+    height: 100px;
+    float:left;
+}
+header #logo img{
+    width: 150px;
+    margin-top: 30px;
+}
+#move{
+	margin-top: 0;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+h2{
+	float: left;
+	padding: 5px 0 5px 0;
+	margin: 0;
+}
+#section_h{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 50px;
+}
+#search{
+	padding: 10px 0 10px 0;
+	width: 370px;
+	float: left;
+	margin-left: 220px;
+}
+.write{
+    background-color: rgb(175, 107, 230);
+    margin-top: 7px;
+    float:right;
+}
+#content{
+    margin:0 auto;
+    width: 940px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 10px;
+    resize: none;
+}
+table tr{
+	padding:5px;
+	padding-left:30px;
+}
+table tr td{
+	padding:5px;
+	padding-right:50px;
+}
+#wrap{
+    background-color: white;
+    width:1000px;
+}
+#form-commentInfo{
+	margin-top:30px;
+}
+#form-commentInfo, #btn, #comments{
+	width:300px;
+	padding-left:35px;
+	padding-bottom:5px;
+}
+#comment-count, #comment-input, #submit,
+#remove, #edit, #list{
+	padding:5px;
+}
+#comment-input{
+	width:790px;
+	height:100px;
+}
+#submit{
+	height:112px;
+	width:112px;
+	float:right;
+}
+#cc{
+	width:930px;
+}
+#btn input{
+	margin-right:5px;
+}
+#btn{
+	padding-top:3px;
+	padding-left:670px;
+}
+
+
+#first{
+	margin-left:30px;
+	width:700px;
+}
+#first tr td:first-child{
+	width:60px;
+}
+#second{
+	margin-left:30px;
+}
+
+#write{
+	padding:5px;
+	text-align:right;
+}
+#write a{
+	font-size:12pt;
+	padding:5px;
+}

@@ -1,0 +1,40 @@
+@charset "EUC-KR";
+
+#wrap{
+    height: 500px;
+    text-align: center;
+}
+header{
+    padding-bottom: 80px;
+}
+header #logo img{
+    width: 220px;
+    
+}
+#box{
+    padding-top: 160px;
+}
+#box a{
+    /* font-family: 'Gaegu', cursive; */
+    /* border: 1px solid red; */
+    display: inline-block;
+    padding: 15px 60px;
+    font-weight: 400;
+    text-decoration: none;
+    font-size: 24px;
+    background-color: #fff;
+    color: #3d3d3d;
+    box-shadow:3px 3px 6px rgba(0,0,0,0.1);
+    border-radius: 50px;
+    margin-bottom: 25px;
+}
+#box #help_you{
+    margin-bottom: 0;
+}
+#sub_menu{
+    margin-top: 140px;
+}
+#sub_menu a{
+    color:  rgb(136, 136, 136);
+    text-decoration: none;
+}

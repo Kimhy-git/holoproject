@@ -1,0 +1,106 @@
+@charset "EUC-KR";
+#all{
+    width: 1000px;
+    margin: 0 auto;
+}
+#wrap{
+    background-color: white;
+    text-align: center;
+    padding-bottom: 80px;
+}
+section{
+    padding: 80px 0;
+}
+
+
+input::placeholder,
+textarea::placeholder{
+    color: #ccc;
+}
+
+#move{
+	margin:0;
+	margin-bottom: 10px;
+}
+
+#wrap h3{
+    width: 80%;
+    margin: 0 auto;
+    font-size: 26px;
+    text-align: left;
+    font-weight: 500;
+    padding-top: 40px;
+    color: #6085b6;
+    
+}
+.input-title{
+    margin-top: 40px;
+    height: 35px;
+    outline: none;
+    width: 80%;
+    border-radius: 3px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+    font-weight: 400;
+    padding-bottom: 5px;
+}
+#area{
+    width: 120px;
+    margin-left: 17px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+#job{
+    width: 120px;
+    margin-left: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 3px;
+}
+#content{
+    margin-top: 20px;
+}
+#content p{
+    margin-left: 30px;
+    font-size: 20px;
+}
+#content textarea{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 20px 2%;
+    width: 76%;
+    margin-top: 10px;
+    resize: none;
+    outline: none;
+}
+#img_up{
+    float: left;
+    margin-left: 10%;
+}
+#img_up input{
+    margin: 0;
+    margin-top: 20px;
+    width: 300px;
+}
+#btn{
+    float: right;
+    margin-right: 10%;
+    padding: 20px 0;
+}
+#btn input{
+    width: 100px;
+    height: 30px;
+}
+#submit{
+    background-color: rgb(95, 143, 214);
+    border: 1px solid rgb(70, 114, 180);
+    color: white;
+}
+.clear{
+    clear: both;
+}
+h2{
+	padding: 5px 0 5px 0;
+	margin: 0;
+	padding: 20px;
+}

@@ -1,0 +1,46 @@
+@charset "EUC-KR";
+
+#wrap{
+    height: 500px;
+    text-align: center;
+    /* position: relative; */
+}
+input, select{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 180px;
+    margin-right: 30px;
+    outline:none;
+}
+#id{
+    margin-top: 200px;
+    margin-right: 119px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+#choice{
+    margin-bottom: 5px;
+}
+#answer{
+    margin-bottom: 20px;
+}
+#find{
+    width: 130px;
+    margin-left: 30px;
+    /* margin-right: 120px; */
+}
+#wrap a:last-child{
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+    color: rgb(107, 107, 107);
+}
+.clear{
+    clear: both;
+}
+h2{
+   float: left;
+   padding: 5px 0 5px 0;
+   margin: 0;
+   margin-top:20px
+}

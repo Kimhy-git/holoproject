@@ -1,0 +1,74 @@
+@charset "EUC-KR";
+.clear{
+	clear: both;
+}
+header{
+}
+header #logo{
+    height: 100px;
+}
+header #logo img{
+    width: 150px;
+    margin-top: 30px;
+}
+#move{
+	margin-top: 0;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+
+section{
+	overflow-y:auto;
+}
+h2{
+	float: left;
+	padding: 5px 0 5px 0;
+	margin: 0;
+}
+#wrap{
+    width: 1000px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+#section_h{
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 50px;
+}
+#search{
+	padding: 10px 0 10px 0;
+	width: 370px;
+	float: left;
+	margin-left: 210px;
+}
+.write{
+	float: right;
+    margin-top: 7px;
+}
+#tablediv{
+	height: 500px;
+}
+table{
+    background-color: white;
+    border: 1px solid #bbbbbb;
+    border-collapse: collapse;
+    width: 850px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+table tr td:first-child{
+    padding-right: 120px;
+}
+th, td {
+    border-bottom: 1px solid #bbbbbb;
+    padding: 3px;
+}
+#info td{
+    font-weight: bolder;
+    padding: 6px 3px;
+    background-color:#bbbbbb;
+}
+#index{
+    text-align:center;
+}
