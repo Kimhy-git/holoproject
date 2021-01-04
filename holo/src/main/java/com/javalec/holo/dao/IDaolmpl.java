@@ -133,12 +133,11 @@ public class IDaolmpl implements IDao {
 			return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
 		}
 
-		public void add_post( String title,String content) {
+		//add posts
+		@Override
+		public void add_post(String title, String content, String img) {
 			
-			System.out.println("IDaoImpl, content : "+content);
-					
-			Dto_post Dto_post=new Dto_post(title, content);		
-					
+			Dto_post Dto_post=new Dto_post(title, content, img);
 			sqlSession.insert(Namespace+".add_post",Dto_post);
 			
 		}
@@ -222,6 +221,4 @@ public class IDaolmpl implements IDao {
 			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator,nick, content, img, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_submit",Dto_freeboard);
 		}
-	
-
 }
