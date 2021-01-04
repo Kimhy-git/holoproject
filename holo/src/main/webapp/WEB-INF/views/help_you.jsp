@@ -121,7 +121,7 @@ $(document)
 				console.log(data);
 				$.each(data,function(ndx,value){
 					console.log(value['title']);
-					var content='<li onclick="location.href=/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'">'+
+					var content='<li onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
 									'<input type=hidden id=help_post_id value='+value['help_post_id']+'>'+
                         			'<img class="thumbnail" src="resources/img/test1.jpg">'+
                     				'<p class=title>[지역]'+value['title']+'</p>'+
@@ -137,7 +137,7 @@ $(document)
 		console.log(count)
 	}
 })
-.on('click','.thumbnail',function(){
+/* .on('click','.thumbnail',function(){
 	console.log("thumbnail");
 	var id=$('#help_post_id').val();
 	console.log(id);
@@ -146,7 +146,7 @@ $(document)
 .on('click','.title',function(){
 	var id=$('#help_post_id').val();
 	read(id);
-})
+}) */
 
 </script>
 
