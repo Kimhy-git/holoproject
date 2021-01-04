@@ -62,6 +62,4 @@
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
-//Delete post and comments
-
 </html>
