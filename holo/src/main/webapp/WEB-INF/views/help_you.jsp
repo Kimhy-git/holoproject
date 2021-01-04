@@ -121,7 +121,7 @@ $(document)
 				console.log(data);
 				$.each(data,function(ndx,value){
 					console.log(value['title']);
-					var content='<li>'+
+					var content='<li onclick="">'+
 									'<input type=hidden id=help_post_id value='+value['help_post_id']+'>'+
                         			'<img class="thumbnail" src="resources/img/test1.jpg">'+
                     				'<p class=title>[지역]'+value['title']+'</p>'+
