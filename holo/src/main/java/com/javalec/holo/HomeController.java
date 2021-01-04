@@ -84,16 +84,16 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
          
          return "edit_mp";
       }
-      @RequestMapping(value = "/help_me", method = RequestMethod.GET)
-      public String help_me() {
-         
-         return "help_me";
-      }
-      @RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
-      public String helpme_write() {
-         
-         return "helpme_write";
-      }
+//      @RequestMapping(value = "/help_me", method = RequestMethod.GET)
+//      public String help_me() {
+//         
+//         return "help_me";
+//      }
+//      @RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
+//      public String helpme_write() {
+//         
+//         return "helpme_write";
+//      }
 //      @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
 //      public String helpme_write_view() {
 //         

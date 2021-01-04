@@ -35,7 +35,7 @@ public class IDaolmpl implements IDao {
   	public List<Dto_help_post> list() throws Exception {
   		// TODO Auto-generated method stub
   		
-  		return sqlSession.selectOne(Namespace+".list");
+  		return sqlSession.selectList(Namespace+".list");
   	}
   	
   	//help_me게시글 상세보기 (뷰어)
