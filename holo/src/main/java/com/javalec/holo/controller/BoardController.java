@@ -62,7 +62,7 @@ public class BoardController {
 		@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
         public String helpme_write_go(HttpServletRequest req, Model model)throws Exception {
 		    	  
-				System.out.println("helpme_write_go작동");
+			 System.out.println("helpme_write_go작동");
 
 	 	  String title=req.getParameter("title");
 			  String content=req.getParameter("content"); 
@@ -74,7 +74,7 @@ public class BoardController {
 
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-	   	service.write(title,content,tag_area,gender,tag_job,payment, min_price);
+			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
 
 	   	  return "redirect:help_me";
 	     }

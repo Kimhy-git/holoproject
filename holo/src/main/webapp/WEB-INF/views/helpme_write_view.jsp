@@ -96,8 +96,8 @@
             <form method="get" action="help_reply_go">
 	            <div id="form-commentInfo"> 
 	                <div id="comment-count">댓글 <span id="count">0</span></div> 
-	                <div id=cc><input id="comment-input" name="reply" placeholder="댓글을 입력해 주세요." > 
-	                <input type=submit id="submit">등록</button> </div>  
+	                <div id=cc><input id="comment-input" name="reply" placeholder="댓글을 입력해 주세요.">
+	                <input type=submit id="submit" value="등록"></div>  
 	            </div> 
 	        </form>	
 	            <c:forEach var="list" items="${re_list}">

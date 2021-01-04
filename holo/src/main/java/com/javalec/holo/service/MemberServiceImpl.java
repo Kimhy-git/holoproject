@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
 //		return dao.list();
 //	}
 
-	//help_me게시글 리스트
+		//help_me게시글 리스트
 		@Override
 		public List<Dto_help_post> list() throws Exception {
 
