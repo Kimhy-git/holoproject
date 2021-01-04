@@ -53,7 +53,7 @@
         </div>
     </section>
     <footer>
-        <p>copyright 홀로서기
+        <p>copyright 홀
             alone@alone.co.kr</p>
     </footer>
 </body>
