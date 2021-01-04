@@ -1,23 +1,27 @@
 package com.javalec.holo.dto;
 
+import java.sql.Timestamp;
+
 public class Dto_help_reply {
-	private String help_reply_id;
-	private String operator;
-	private String board;
-	private String re_index;
+	private int help_reply_id;
+	private Timestamp operator;
+	private int board;
+	private int re_index;
 	private String re_comment;
-	private String re_class;
-	private String re_order;
-	private String groupNum;
-	private String help_post_post_id;
+	private int re_class;
+	private int re_order;
+	private int groupNum;
+	private int help_post_post_id;
 	private String user_user_id;
 	
 	public Dto_help_reply() {
 	
 }
 
-	public Dto_help_reply(String help_reply_id, String operator, String board, String re_index, String re_comment,
-			String re_class, String re_order, String groupNum, String help_post_post_id, String user_user_id) {
+
+
+	public Dto_help_reply(int help_reply_id, Timestamp operator, int board, int re_index, String re_comment, int re_class,
+			int re_order, int groupNum, int help_post_post_id, String user_user_id) {
 		super();
 		this.help_reply_id = help_reply_id;
 		this.operator = operator;
@@ -31,84 +35,133 @@ public class Dto_help_reply {
 		this.user_user_id = user_user_id;
 	}
 
-	public String getHelp_reply_id() {
+
+
+	public Dto_help_reply(String re_comment, int help_post_post_id) {
+		// TODO Auto-generated constructor stub
+		this.re_comment=re_comment;
+		this.help_post_post_id=help_post_post_id;
+	}
+
+
+
+	public int getHelp_reply_id() {
 		return help_reply_id;
 	}
 
-	public String getOperator() {
+
+
+	public Timestamp getOperator() {
 		return operator;
 	}
 
-	public String getBoard() {
+
+
+	public int getBoard() {
 		return board;
 	}
 
-	public String getRe_index() {
+
+
+	public int getRe_index() {
 		return re_index;
 	}
+
+
 
 	public String getRe_comment() {
 		return re_comment;
 	}
 
-	public String getRe_class() {
+
+
+	public int getRe_class() {
 		return re_class;
 	}
 
-	public String getRe_order() {
+
+
+	public int getRe_order() {
 		return re_order;
 	}
 
-	public String getGroupNum() {
+
+
+	public int getGroupNum() {
 		return groupNum;
 	}
 
-	public String getHelp_post_post_id() {
+
+
+	public int getHelp_post_post_id() {
 		return help_post_post_id;
 	}
+
+
 
 	public String getUser_user_id() {
 		return user_user_id;
 	}
 
-	public void setHelp_reply_id(String help_reply_id) {
+
+
+	public void setHelp_reply_id(int help_reply_id) {
 		this.help_reply_id = help_reply_id;
 	}
 
-	public void setOperator(String operator) {
+
+
+	public void setOperator(Timestamp operator) {
 		this.operator = operator;
 	}
 
-	public void setBoard(String board) {
+
+
+	public void setBoard(int board) {
 		this.board = board;
 	}
 
-	public void setRe_index(String re_index) {
+
+
+	public void setRe_index(int re_index) {
 		this.re_index = re_index;
 	}
+
+
 
 	public void setRe_comment(String re_comment) {
 		this.re_comment = re_comment;
 	}
 
-	public void setRe_class(String re_class) {
+
+
+	public void setRe_class(int re_class) {
 		this.re_class = re_class;
 	}
 
-	public void setRe_order(String re_order) {
+
+
+	public void setRe_order(int re_order) {
 		this.re_order = re_order;
 	}
 
-	public void setGroupNum(String groupNum) {
+
+
+	public void setGroupNum(int groupNum) {
 		this.groupNum = groupNum;
 	}
 
-	public void setHelp_post_post_id(String help_post_post_id) {
+
+
+	public void setHelp_post_post_id(int help_post_post_id) {
 		this.help_post_post_id = help_post_post_id;
 	}
+
+
 
 	public void setUser_user_id(String user_user_id) {
 		this.user_user_id = user_user_id;
 	}
-
+	
+	
 }

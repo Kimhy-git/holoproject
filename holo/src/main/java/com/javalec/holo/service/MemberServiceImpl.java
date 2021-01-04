@@ -76,9 +76,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.re_list(help_post_id);
 		}
 		//help_me 댓글 작성
-		public void re_write(int help_post_id, String reply) throws Exception {
-		System.out.println("멤버서비스 댓글보여주기 help_post_id"+help_post_id);
-		dao.re_write(help_post_id,reply);
+		public void re_write(String re_comment,int help_post_post_id ) throws Exception {
+		System.out.println("멤버서비스 댓글보여주기 reply"+re_comment);
+			dao.re_write(re_comment,help_post_post_id);
 		};
 		//help_me 댓글 수정
 
@@ -204,4 +204,6 @@ public class MemberServiceImpl implements MemberService {
 				{
 			dao.freeboard_submit(post_id, board, title, operator, nick, content, img, user_user_id);
 		}
+
+		
 }

@@ -78,9 +78,10 @@ public class IDaolmpl implements IDao {
   	}
   	//help_me 댓글 작성
   	@Override
-  	public void re_write(int help_post_id, String reply)throws Exception {
-  		System.out.println("아이다오 댓글보여주기 help_post_id :"+help_post_id);
-  		sqlSession.insert(Namespace+".re_write",help_post_id);
+  	public void re_write(String re_comment,int help_post_post_id )throws Exception {
+  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_post_id);
+  		sqlSession.insert(Namespace+".re_write",Dto_pr);
   	}
   	//help_me 댓글 수정
   	//help_me 댓글 삭제

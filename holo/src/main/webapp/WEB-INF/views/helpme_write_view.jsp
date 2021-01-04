@@ -48,8 +48,9 @@
     </header>
     <section>
     
-    	<input type=hidden id=pId value="${read.help_post_id}">
+    	
         <div id="wrap">
+        	<input type=text value="${read.help_post_id}" name="help_post_post_id">
             <table id="first">
                 <tr>
                     <td>제목</td>
@@ -96,7 +97,8 @@
             <form method="get" action="help_reply_go">
 	            <div id="form-commentInfo"> 
 	                <div id="comment-count">댓글 <span id="count">0</span></div> 
-	                <div id=cc><input id="comment-input" name="reply" placeholder="댓글을 입력해 주세요.">
+	                <input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
+	                <div id=cc><input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
 	                <input type=submit id="submit" value="등록"></div>  
 	            </div> 
 	        </form>	
