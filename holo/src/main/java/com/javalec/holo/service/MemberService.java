@@ -34,7 +34,8 @@ public interface MemberService {
 			//notice_write_view : delete comments with a post
 			public List<Dto_reply> select_reply_delete(String post_id) throws Exception;
 
-			public void add_post(String title,String content);
+			//add posts
+			public void add_post(String title,String content, String file_up);
 			
 			//add comments
 			public void add_comment(String post_post_id, String re_comment);
@@ -48,6 +49,10 @@ public interface MemberService {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			
+			
+			
+			
 			//help_me게시글 상세보기
 			public Dto_help_post read(int help_post_id) throws Exception;
 			

@@ -7,8 +7,8 @@ import java.util.Calendar;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileuploadServlet {
-	private static final String SAVE_PATH = "D:\\HoloProject\\resources\\board";
-	private static final String PREFIX_URL = "D:\\HoloProject\\resources\\board\\";
+	private static final String SAVE_PATH = "D:\\img";
+	private static final String PREFIX_URL = "D:\\img\\";
 	
 	public static String restore(MultipartFile multipartFile) {
 		String url = null;
@@ -29,7 +29,7 @@ public class FileuploadServlet {
 			System.out.println("saveFileName : " + saveFileName);
 			
 			writeFile(multipartFile, saveFileName);
-			url = PREFIX_URL + saveFileName;
+			url = saveFileName;
 		}
 		catch (IOException e) {
 			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만

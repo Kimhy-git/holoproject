@@ -197,7 +197,7 @@ public class BoardController {
 		    }
 			
 			//notice_write
-		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST,RequestMethod.GET})
+		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST, RequestMethod.GET})
 		    public String notice_write(HttpServletRequest req, Model model) {
 		       
 		       return "notice_write";
@@ -205,7 +205,7 @@ public class BoardController {
 		    
 		    //notice_write_add
 		    @RequestMapping(value = "notice_write_add", method = {RequestMethod.POST,RequestMethod.GET})
-		    public String notice_write_add(HttpServletRequest req, Model model) throws Exception {
+		    public String notice_write_add(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
 		        System.out.println("Start : notice_write_add");
 
 		    	System.out.println("test1");
@@ -213,10 +213,14 @@ public class BoardController {
 		    	System.out.println(title);
 		    	String content=req.getParameter("content");
 		    	System.out.println(content);
-		
+		    	System.out.println(file);
+				String file_up=null;
+				if(!file.isEmpty()) {
+					file_up=FileuploadServlet.restore(file);
+				}
 				
 				
-				service.add_post(title,content);
+				service.add_post(title,content,file_up);
 				System.out.println("End : notice_write_add");
 		       return "redirect:notice";
 		    }
