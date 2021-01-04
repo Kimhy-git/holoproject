@@ -117,6 +117,9 @@
                 <a href="helpyou_write"><input type="button" id="list" value="목록보기"></a>
             </div>
         </div>
+        </section>
+        </div>
+        </div>
     </section>
     <footer>
         <p>copyright 홀로서기
