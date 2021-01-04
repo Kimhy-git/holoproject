@@ -61,7 +61,7 @@
 
 	<!-- notice -->
     <select id="select_post" resultType="dto_post"> 
-    	select * from post; 
+    	select * from post where board=0; 
     </select>
     
      <!-- notice_write : add posts -->
