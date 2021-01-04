@@ -95,9 +95,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override // help_you
-	public List<Help_postDto> helpyou_list(){
+	public List<Dto_help_post> helpyou_list(){
 		return dao.helpyou_list();
 	}
+	@Override // helpyou_write_view
+	public void helpyou_write_view(int help_post_id) {
+		dao.helpyou_write_view(help_post_id);
+	}
+	
+	
 	
 	//NOTICE 
 		@Override //notice
@@ -126,11 +132,19 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		//add posts
+<<<<<<< HEAD
 				@Override
 				public void add_post(String title, String content, String img) {
 				System.out.println("MemberServiceImpl, content : "+content);
 					dao.add_post(title,content,img);
 				}
+=======
+		@Override
+		public void add_post(String title, String content, String img) {
+		System.out.println("MemberServiceImpl, content : "+content);
+			dao.add_post(title,content,img);
+		}
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 		
 		//add comments
 		@Override

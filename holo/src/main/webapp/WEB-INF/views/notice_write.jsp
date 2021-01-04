@@ -42,7 +42,7 @@
                     <textarea id="txtarea" name="content" cols="60" rows="40" placeholder="내용을 입력하세요."></textarea>
                 </div>
                 <div id="img_up">
-                    <span>이미지첨부 </span><input type="file" id="file_up">
+                    <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
                 </div>
                 <div id="btn">
                     <a href="notice"><input type="button" id="cancel" value="취소"></a>
@@ -53,7 +53,7 @@
         </div>
     </section>
     <footer>
-        <p>copyright 홀
+        <p>copyright 홀로서기
             alone@alone.co.kr</p>
     </footer>
 </body>

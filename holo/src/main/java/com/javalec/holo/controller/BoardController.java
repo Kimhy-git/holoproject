@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -153,13 +154,35 @@ public class BoardController {
 	@RequestMapping(value="/helpyou_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public @ResponseBody String helpyou_list() {
     	System.out.println("start help_you");
-		List<Help_postDto> dto=service.helpyou_list();
+		List<Dto_help_post> dto=service.helpyou_list();
 		System.out.println(dto);
 		Gson gson = new Gson();
 		String json = gson.toJson(dto);
 		System.out.println(json);
 		System.out.println("end help_you");
 		return json;
+	}
+	@RequestMapping(value="/helpyou_read", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_read(@RequestBody Object post_id) {
+		System.out.println("start helpyou_read");
+		System.out.println(post_id.getClass());
+//		int id=Integer.parseInt(post_id);
+//		service.helpyou_write_view(post_id);
+		System.out.println("end helpyou_read");
+		return "helpyou_write_view";
+	}
+	@RequestMapping(value="/helpyou_write_view", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_write_view() {
+		System.out.println("start helpyou_write_view");
+		System.out.println("end helpyou_write_view");
+		return "helpyou_write_view";
+	}
+	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_delete(@RequestBody String user_id) {
+    	System.out.println("start helpyou_delete");
+    	
+		System.out.println("end helpyou_delete");
+		return "redirect:help_you";
 	}
 	
 	
@@ -174,7 +197,7 @@ public class BoardController {
 		    }
 			
 			//notice_write
-		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST,RequestMethod.GET})
+		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST, RequestMethod.GET})
 		    public String notice_write(HttpServletRequest req, Model model) {
 		       
 		       return "notice_write";

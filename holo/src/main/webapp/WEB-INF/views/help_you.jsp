@@ -103,6 +103,13 @@ function getContextPath() {
     return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 }
 var ip='http://localhost:8080';
+function read(id){
+	console.log("read");
+	$.post(ip+getContextPath()+'/helpyou_read',
+		{post_id:id},
+		function(){
+	})
+}
 $(document)
 .ready(function(){
 	console.log("test");
@@ -114,9 +121,10 @@ $(document)
 				console.log(data);
 				$.each(data,function(ndx,value){
 					console.log(value['title']);
-					var content='<li>'+
+					var content='<li onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
+									'<input type=hidden id=help_post_id value='+value['help_post_id']+'>'+
                         			'<img class="thumbnail" src="resources/img/test1.jpg">'+
-                    				'<p>[지역]'+value['title']+'</p>'+
+                    				'<p class=title>[지역]'+value['title']+'</p>'+
                     				'<p>'+value['nick']+'</p>'+
                     				'<p>'+value['operator']+'</p>'+
                 				'</li>';
@@ -129,6 +137,17 @@ $(document)
 		console.log(count)
 	}
 })
+/* .on('click','.thumbnail',function(){
+	console.log("thumbnail");
+	var id=$('#help_post_id').val();
+	console.log(id);
+	read(id);
+})
+.on('click','.title',function(){
+	var id=$('#help_post_id').val();
+	read(id);
+}) */
+
 </script>
 
 </html>

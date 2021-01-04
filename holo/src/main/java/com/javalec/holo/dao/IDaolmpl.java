@@ -90,6 +90,14 @@ public class IDaolmpl implements IDao {
   		sqlSession.delete(Namespace+".re_delete",help_reply_id);
   	}
     
+		
+	//help_you
+	@Override
+	public List<Dto_help_post> helpyou_list() {
+		System.out.println("helpyou_list");
+		return sqlSession.selectList(Namespace+".helpyou_list");
+	}
+		
   	//helpyou_write
 	@Override
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
@@ -100,13 +108,12 @@ public class IDaolmpl implements IDao {
 		
 		sqlSession.insert(Namespace+".helpyou_submit",helpDto);
 	}
-	
-	//help_you
+
 	@Override
-	public List<Help_postDto> helpyou_list() {
-		System.out.println("helpyou_list");
-		return sqlSession.selectList(Namespace+".helpyou_list");
+	public void helpyou_write_view(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
 	
 	//NOTICE
 		@Override //notice
@@ -135,6 +142,7 @@ public class IDaolmpl implements IDao {
 		}
 
 		//add posts
+<<<<<<< HEAD
 				@Override
 				public void add_post(String title, String content, String img) {
 					
@@ -142,6 +150,15 @@ public class IDaolmpl implements IDao {
 					sqlSession.insert(Namespace+".add_post",Dto_post);
 					
 				}
+=======
+		@Override
+		public void add_post(String title, String content, String img) {
+			
+			Dto_post Dto_post=new Dto_post(title, content, img);
+			sqlSession.insert(Namespace+".add_post",Dto_post);
+			
+		}
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 		
 		//add comments
 		@Override
@@ -222,6 +239,4 @@ public class IDaolmpl implements IDao {
 			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator,nick, content, img, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_submit",Dto_freeboard);
 		}
-	
-
 }
