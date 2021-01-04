@@ -159,7 +159,7 @@ public class BoardController {
 	
 	
 	//notice
-			@RequestMapping(value = "notice", method = RequestMethod.GET)
+			@RequestMapping(value = "notice", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice(HttpServletRequest req, Model model) throws Exception{
 		        
 				List<Dto_post> notice = service.select_post(); 
@@ -169,14 +169,14 @@ public class BoardController {
 		    }
 			
 			//notice_write
-		    @RequestMapping(value = "notice_write", method = RequestMethod.GET)
+		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice_write(HttpServletRequest req, Model model) {
 		       
 		       return "notice_write";
 		    }
 		    
 		    //notice_write_add
-		    @RequestMapping(value = "notice_write_add", method = RequestMethod.GET)
+		    @RequestMapping(value = "notice_write_add", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice_write_add(HttpServletRequest req, Model model) throws Exception {
 		        System.out.println("Start : notice_write_add");
 
@@ -194,7 +194,7 @@ public class BoardController {
 		    }
 		    
 		    //add comments
-		    @RequestMapping(value = "add_comment", method = RequestMethod.GET)
+		    @RequestMapping(value = "add_comment", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String add_comment(HttpServletRequest req, Model model) {
 		    	
 		    	System.out.println("add_comment");
@@ -209,7 +209,7 @@ public class BoardController {
 		    }
 		    
 		    //notice_write_view + comments
-		    @RequestMapping(value = "notice_write_view", method = RequestMethod.GET)
+		    @RequestMapping(value = "notice_write_view", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice_write_view(HttpServletRequest req, Model model) throws Exception {
 		      
 		    	System.out.println("write_view작동");
@@ -226,7 +226,7 @@ public class BoardController {
 		    }
 
 		    //delete posts
-		    @RequestMapping(value = "notice_write_delete", method = RequestMethod.GET)
+		    @RequestMapping(value = "notice_write_delete", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice_write_delete(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	if(req.getParameter("post_id").equals("")) {
@@ -243,7 +243,7 @@ public class BoardController {
 		    }
 		    
 		    //delete comments
-		    @RequestMapping(value = "delete_comment", method = RequestMethod.GET)
+		    @RequestMapping(value = "delete_comment", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String delete_comment(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	String reply_id=req.getParameter("reply_id");
@@ -261,7 +261,7 @@ public class BoardController {
 		    }
 		    
 		    //notice_write_edit_reply
-		    @RequestMapping(value = "update_comment", method = RequestMethod.GET)
+		    @RequestMapping(value = "update_comment", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String update_comment(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	String post_post_id=req.getParameter("post_post_id");
@@ -280,7 +280,7 @@ public class BoardController {
 		    }
 		    
 		    //update comments
-		    @RequestMapping(value = "update_comment_now", method = RequestMethod.GET)
+		    @RequestMapping(value = "update_comment_now", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String update_comment_now(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	String post_post_id=req.getParameter("post_post_id");
@@ -300,7 +300,7 @@ public class BoardController {
 		    }
 		    
 		    //update posts
-		    @RequestMapping(value = "update_post", method = RequestMethod.GET)
+		    @RequestMapping(value = "update_post", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String update_post(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	String post_id=req.getParameter("post_id");
@@ -322,7 +322,7 @@ public class BoardController {
 		    }
 		    
 		    //update posts
-		    @RequestMapping(value = "update_post_now", method = RequestMethod.GET)
+		    @RequestMapping(value = "update_post_now", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String update_post_now(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	String post_id=req.getParameter("post_id");

@@ -35,7 +35,7 @@
                 <!-- <span>제목</span>  -->
                 
                 <!-- insert -->
-                <form action="update_post_now" method="get" enctype="multipart/form-data">
+                <form action="update_post_now" method="post" enctype="multipart/form-data">
              		<input type="text" id="title" class="input-title" name="title" placeholder="${title}">
              		<input hidden="text" name="post_id" value="${post_id}">
                 <div id="content">
