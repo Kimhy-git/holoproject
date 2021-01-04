@@ -142,15 +142,7 @@ public class IDaolmpl implements IDao {
 		}
 
 		//add posts
-<<<<<<< HEAD
-				@Override
-				public void add_post(String title, String content, String img) {
-					
-					Dto_post Dto_post=new Dto_post(title, content, img);
-					sqlSession.insert(Namespace+".add_post",Dto_post);
-					
-				}
-=======
+
 		@Override
 		public void add_post(String title, String content, String img) {
 			
@@ -158,7 +150,7 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".add_post",Dto_post);
 			
 		}
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
+
 		
 		//add comments
 		@Override
