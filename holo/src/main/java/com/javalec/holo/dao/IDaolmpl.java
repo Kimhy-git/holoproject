@@ -79,9 +79,10 @@ public class IDaolmpl implements IDao {
   	}
   	//help_me 댓글 작성
   	@Override
-  	public void re_write(int help_post_id, String reply)throws Exception {
-  		System.out.println("아이다오 댓글보여주기 help_post_id :"+help_post_id);
-  		sqlSession.insert(Namespace+".re_write",help_post_id);
+  	public void re_write(String re_comment,int help_post_post_id )throws Exception {
+  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_post_id);
+  		sqlSession.insert(Namespace+".re_write",Dto_pr);
   	}
   	//help_me 댓글 수정
   	//help_me 댓글 삭제
@@ -90,6 +91,14 @@ public class IDaolmpl implements IDao {
   		sqlSession.delete(Namespace+".re_delete",help_reply_id);
   	}
     
+		
+	//help_you
+	@Override
+	public List<Dto_help_post> helpyou_list() {
+		System.out.println("helpyou_list");
+		return sqlSession.selectList(Namespace+".helpyou_list");
+	}
+		
   	//helpyou_write
 	@Override
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
@@ -100,13 +109,12 @@ public class IDaolmpl implements IDao {
 		
 		sqlSession.insert(Namespace+".helpyou_submit",helpDto);
 	}
-	
-	//help_you
+
 	@Override
-	public List<Help_postDto> helpyou_list() {
-		System.out.println("helpyou_list");
-		return sqlSession.selectList(Namespace+".helpyou_list");
+	public void helpyou_write_view(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
 	
 	//NOTICE
 		@Override //notice
@@ -134,15 +142,24 @@ public class IDaolmpl implements IDao {
 			return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
 		}
 
-		public void add_post( String title,String content) {
+		//add posts
+<<<<<<< HEAD
+				@Override
+				public void add_post(String title, String content, String img) {
+					
+					Dto_post Dto_post=new Dto_post(title, content, img);
+					sqlSession.insert(Namespace+".add_post",Dto_post);
+					
+				}
+=======
+		@Override
+		public void add_post(String title, String content, String img) {
 			
-			System.out.println("IDaoImpl, content : "+content);
-					
-			Dto_post Dto_post=new Dto_post(title, content);		
-					
+			Dto_post Dto_post=new Dto_post(title, content, img);
 			sqlSession.insert(Namespace+".add_post",Dto_post);
 			
 		}
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 		
 		//add comments
 		@Override
@@ -214,6 +231,4 @@ public class IDaolmpl implements IDao {
 			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 		}
-	
-
 }

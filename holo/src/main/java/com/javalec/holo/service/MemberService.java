@@ -17,7 +17,8 @@ public interface MemberService {
 	
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
-	public List<Help_postDto> helpyou_list();
+	public List<Dto_help_post> helpyou_list();
+	public void helpyou_write_view(int help_post_id);
 	
 	//notice
 			public List<Dto_post> select_post() throws Exception;
@@ -34,7 +35,11 @@ public interface MemberService {
 			//notice_write_view : delete comments with a post
 			public List<Dto_reply> select_reply_delete(String post_id) throws Exception;
 
-			public void add_post(String title,String content);
+<<<<<<< HEAD
+=======
+			//add posts
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
+			public void add_post(String title,String content, String file_up);
 			
 			//add comments
 			public void add_comment(String post_post_id, String re_comment);
@@ -48,6 +53,10 @@ public interface MemberService {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			
+			
+			
+			
 			//help_me게시글 상세보기
 			public Dto_help_post read(int help_post_id) throws Exception;
 			
@@ -69,8 +78,10 @@ public interface MemberService {
 
 			//help_me 댓글 보기
 			public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
+			
 			//help_me 댓글 쓰기
-			public void re_write(int help_post_id,String reply) throws Exception;
+			public void re_write(String re_comment,int help_post_id) throws Exception;
+			
 			//help_me 댓글 삭제
 			public void re_delete(int help_reply_id) throws Exception;
 		

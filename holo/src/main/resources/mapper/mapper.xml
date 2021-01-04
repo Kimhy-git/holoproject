@@ -9,7 +9,7 @@
     
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
-		select * from help_post order by help_post_id desc;
+		select * from help_post where board=1 order by help_post_id desc;
 	</select>
 	
 	<!-- help_me likes -->
@@ -40,7 +40,7 @@
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
 		insert into help_reply (board,re_index, re_comment, re_class, re_order, groupNum, help_post_post_id, 
-		user_user_id) values(1,1,#{reply},1,1,1,#{help_post_id},'abc123') ;
+		user_user_id) values(1,1,#{re_comment},1,1,1,#{help_post_post_id},'abc123') ;
 	</select>
 	<!-- help_me댓글 수정 -->
 	<!-- help_me댓글 삭제 -->
@@ -49,25 +49,34 @@
 	</select>
 	
 	<!-- help_you -->
-	<select id="helpyou_list" resultType="helpdto">
+	<select id="helpyou_list" resultType="dto_p">
 		select * from help_post where board=0
 	</select>
 	
 	<!-- helpyou_write -->
-	<insert id="helpyou_submit" parameterType="helpdto">
+	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
 		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
 	</insert>
+<<<<<<< HEAD
+<!-- notice -->
+=======
+	<!-- helpyou_write_view -->
+	<delete id="helpyou_write_view" parameterType="dto_p">
+		delete from help_post where help_post_id=#{help_post_id}
+	</delete>
+
 
 	<!-- notice -->
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
     <select id="select_post" resultType="dto_post"> 
     	select * from post where board=0; 
     </select>
     
      <!-- notice_write : add posts -->
     <select id="add_post" parameterType="Dto_post"> 
-    	insert into post(board, title, operator, nick, content, user_user_id)
-		values(0,#{title},null,'One',#{content},'1');
+    	insert into post(board, title, nick, content, img, user_user_id)
+		values(0,#{title},'One',#{content},#{img},'a');
     </select>
     
     <!-- notice_write_view : add comments -->
@@ -119,7 +128,6 @@
     	update post set content=#{content}
     	where board=#{board} and post_id=#{post_id};
     </select>
-    
     
     <!-- freeboard -->
     <select id="select_freeboard" resultType="dto_freeboard">

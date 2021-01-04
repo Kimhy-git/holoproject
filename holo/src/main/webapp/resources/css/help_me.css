@@ -91,12 +91,29 @@ h2{
 	list-style: none;
 	/*float: left;*/
 	/*margin-right: 40px;*/
+	cursor:pointer;
+	
+}
+#content ul li:hover{
+	text-decoration:underline;	
 }
 #content ul li:nth-child(1){
 	margin-left:0;
 }
-#content ul li p:nth-child(2){
+#content ul li p.title{
 	font-weight: bolder;
+}
+#content ul li p.date{
+	color: #777;
+	font-size:14px;
+}
+#content ul li span.address{
+	font-size:14px;
+	color: #777;
+	font-weight:500;
+}
+#content ul li span.like{
+	color:#753224;
 }
 .write{
     margin-top: 7px;

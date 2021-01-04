@@ -36,7 +36,7 @@ public interface IDao {
 		public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
 
 		//help_me 댓글 작성
-		void re_write(int help_post_id, String reply)throws Exception;
+		void re_write( String re_commnet,int help_post_post_id)throws Exception;
 
 		//help_me 댓글 수정
 
@@ -45,7 +45,8 @@ public interface IDao {
 	
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
-	public List<Help_postDto> helpyou_list();
+	public List<Dto_help_post> helpyou_list();
+	public void helpyou_write_view(int help_post_id);
 	
 	//NOTICE
 			public List<Dto_post> select_post();
@@ -64,10 +65,13 @@ public interface IDao {
 			
 			//notice_write : add a post
 			
-			public void add_post(String title,String content);
+			public void add_post(String title,String content, String img);
+<<<<<<< HEAD
 			
 //			public void add_post(String post_id, String board, String title, String operator, 
 //					String nick, String content, String img, String user_user_id);
+=======
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 			
 			//add comments
 			public void add_comment(String post_post_id, String re_comment);

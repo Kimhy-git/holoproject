@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,7 +64,7 @@ public class BoardController {
 		@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
         public String helpme_write_go(HttpServletRequest req, Model model)throws Exception {
 		    	  
-				System.out.println("helpme_write_go작동");
+			 System.out.println("helpme_write_go작동");
 
 	 	  String title=req.getParameter("title");
 			  String content=req.getParameter("content"); 
@@ -75,7 +76,7 @@ public class BoardController {
 
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-	   	service.write(title,content,tag_area,gender,tag_job,payment, min_price);
+			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
 
 	   	  return "redirect:help_me";
 	     }
@@ -111,11 +112,12 @@ public class BoardController {
 
 		@RequestMapping(value="/help_reply_go", method=RequestMethod.GET)
 	    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
-	   	System.out.println("help_reply 작동");
-	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-	   	String reply=req.getParameter("reply");
-//	   	service.re_write(help_post_id );
-	   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
+	   	System.out.println("help_reply go 작동");
+	    int help_post_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+	   	String re_comment=req.getParameter("re_comment");
+	   	System.out.println("서비스");
+	   	service.re_write(re_comment,help_post_post_id );
+	   	System.out.println("help_reply 아이디 받아오기"+help_post_post_id);
 	   	return "redirect:helpme_write_view";
 	   }
 	
@@ -133,7 +135,11 @@ public class BoardController {
 		String title=req.getParameter("title");
 		String job=req.getParameter("job");
 		String txtarea=req.getParameter("txtarea");
-		String file_up=FileuploadServlet.restore(file);
+		System.out.println(file);
+		String file_up=null;
+		if(!file.isEmpty()) {
+			file_up=FileuploadServlet.restore(file);
+		}
 		String gender=req.getParameter("gender");
 		int price=Integer.parseInt(req.getParameter("price"));
 		String payment=req.getParameter("payment");
@@ -149,13 +155,35 @@ public class BoardController {
 	@RequestMapping(value="/helpyou_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public @ResponseBody String helpyou_list() {
     	System.out.println("start help_you");
-		List<Help_postDto> dto=service.helpyou_list();
+		List<Dto_help_post> dto=service.helpyou_list();
 		System.out.println(dto);
 		Gson gson = new Gson();
 		String json = gson.toJson(dto);
 		System.out.println(json);
 		System.out.println("end help_you");
 		return json;
+	}
+	@RequestMapping(value="/helpyou_read", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_read(@RequestBody Object post_id) {
+		System.out.println("start helpyou_read");
+		System.out.println(post_id.getClass());
+//		int id=Integer.parseInt(post_id);
+//		service.helpyou_write_view(post_id);
+		System.out.println("end helpyou_read");
+		return "helpyou_write_view";
+	}
+	@RequestMapping(value="/helpyou_write_view", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_write_view() {
+		System.out.println("start helpyou_write_view");
+		System.out.println("end helpyou_write_view");
+		return "helpyou_write_view";
+	}
+	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_delete(@RequestBody String user_id) {
+    	System.out.println("start helpyou_delete");
+    	
+		System.out.println("end helpyou_delete");
+		return "redirect:help_you";
 	}
 	
 	
@@ -170,7 +198,7 @@ public class BoardController {
 		    }
 			
 			//notice_write
-		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST,RequestMethod.GET})
+		    @RequestMapping(value = "notice_write", method = {RequestMethod.POST, RequestMethod.GET})
 		    public String notice_write(HttpServletRequest req, Model model) {
 		       
 		       return "notice_write";
@@ -178,7 +206,7 @@ public class BoardController {
 		    
 		    //notice_write_add
 		    @RequestMapping(value = "notice_write_add", method = {RequestMethod.POST,RequestMethod.GET})
-		    public String notice_write_add(HttpServletRequest req, Model model) throws Exception {
+		    public String notice_write_add(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
 		        System.out.println("Start : notice_write_add");
 
 		    	System.out.println("test1");
@@ -186,10 +214,14 @@ public class BoardController {
 		    	System.out.println(title);
 		    	String content=req.getParameter("content");
 		    	System.out.println(content);
-		
+		    	System.out.println(file);
+				String file_up=null;
+				if(!file.isEmpty()) {
+					file_up=FileuploadServlet.restore(file);
+				}
 				
 				
-				service.add_post(title,content);
+				service.add_post(title,content,file_up);
 				System.out.println("End : notice_write_add");
 		       return "redirect:notice";
 		    }
