@@ -12,6 +12,20 @@ public class Dto_post {
 	
 	public Dto_post() {}
 	
+	public Dto_post(String title, String content) {
+		super();
+		this.title = title;
+		this.content = content;
+	}
+
+	public Dto_post(String post_id, String board, String title, String content) {
+		super();
+		this.post_id = post_id;
+		this.board = board;
+		this.title = title;
+		this.content = content;
+	}
+	
 	public Dto_post(String post_id, String board, String title, String operator, String content, String img,
 			String user_user_id, String nick) {
 		super();

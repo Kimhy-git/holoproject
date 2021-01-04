@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,101 +66,23 @@
                 </div>
                 <div id="content">
                     <ul>
-                        <li>
+                    <c:forEach var="list" items="${list}">
+                    
+                        <li onclick="location.href='/holo/helpme_write_view?help_post_id=${list.help_post_id}'">
+                        	<input type="hidden" value="${list.user_user_id}" name="user_id">
+                        	<input type="hidden" value="${list.help_post_id}">
                             <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[지역]</span>글제목</p>
-                            <p class="price">최소 1000원</p>
-                            <p class="writer">작성자 <sapn class="like">추천수:2</sapn></p>
-                            <p class="date">2020.12.21 13:15</p>
-                        </li>
+                            <p class="title"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}</p>
+                            <p class="writer">${list.nick} <span class="like"> ♥ 3</span></p>
+                            <p class="price">최소금액 : ${list.min_price}원</p>
+                            <p class="date">${list.operator}</p>
+                        </li> 
+                    
+                    </c:forEach>                
                     </ul>
                 </div>
             </div>  
         </div>
-      
     </section>
     <div class="clear"></div>
     <footer>
@@ -167,4 +90,15 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+$(document)
+.ready(function(){
+	var count = 0
+	for (count; count<=$("#content ul li").length; count=count+3){
+		$("#content ul li:eq("+count+")").css("margin-left","0");
+		console.log(count)
+	}
+})
+</script>
 </html>

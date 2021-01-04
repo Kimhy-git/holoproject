@@ -45,7 +45,7 @@
                     <span>이미지첨부 </span><input type="file" id="file_up">
                 </div>
                 <div id="btn">
-                    <input type="button" id="cancel" value="취소">
+                    <a href="notice"><input type="button" id="cancel" value="취소"></a>
                     <input type="submit" id="submit" value="등록">
                 </div>
                 </form>

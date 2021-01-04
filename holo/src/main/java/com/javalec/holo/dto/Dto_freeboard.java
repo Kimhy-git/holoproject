@@ -1,18 +1,18 @@
 package com.javalec.holo.dto;
 
 public class Dto_freeboard {
-	private int post_id;
-	private int board;
+	private String post_id;
+	private String board;
 	private String title;
 	private String operator;
 	private String content;
 	private String img;
 	private String user_user_id;
 	private String nick;
-
+	
 	public Dto_freeboard() {}
-
-	public Dto_freeboard(int post_id, int board, String title, String operator, String content, String img,
+	
+	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String img,
 			String user_user_id, String nick) {
 		super();
 		this.post_id = post_id;
@@ -25,19 +25,11 @@ public class Dto_freeboard {
 		this.nick = nick;
 	}
 
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public int getPost_id() {
+	public String getPost_id() {
 		return post_id;
 	}
 
-	public int getBoard() {
+	public String getBoard() {
 		return board;
 	}
 
@@ -45,7 +37,7 @@ public class Dto_freeboard {
 		return title;
 	}
 
-	public String getoperator() {
+	public String getOperator() {
 		return operator;
 	}
 
@@ -61,11 +53,15 @@ public class Dto_freeboard {
 		return user_user_id;
 	}
 
-	public void setPost_id(int post_id) {
+	public String getNick() {
+		return nick;
+	}
+
+	public void setPost_id(String post_id) {
 		this.post_id = post_id;
 	}
 
-	public void setBoard(int board) {
+	public void setBoard(String board) {
 		this.board = board;
 	}
 
@@ -73,7 +69,7 @@ public class Dto_freeboard {
 		this.title = title;
 	}
 
-	public void setoperator(String operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 
@@ -89,5 +85,7 @@ public class Dto_freeboard {
 		this.user_user_id = user_user_id;
 	}
 
-
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 }

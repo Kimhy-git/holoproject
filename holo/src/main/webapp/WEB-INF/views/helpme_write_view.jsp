@@ -47,7 +47,7 @@
        <div id=write><a href="helpme_write">글쓰기</a></div>
     </header>
     <section>
-    <form name=helpme_form method="post">
+    
     	<input type=hidden id=pId value="${read.help_post_id}">
         <div id="wrap">
             <table id="first">
@@ -93,21 +93,30 @@
                     <td><textarea id="content" cols="130" rows="40" readonly>${read.content}</textarea></td>
                 </tr>
             </table>
-            
-            <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">0</span></div> 
-                <div id=cc><input id="comment-input" placeholder="댓글을 입력해 주세요." > 
-                <button id="submit">등록</button> </div>
-            </div> 
-            <div id=comments> </div>
-
-            <div id="btn">
-                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
-                <a href="helpme_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
-                <a href="helpme_write"><input type="button" id="list" value="목록보기"></a>
-            </div>            
+            <form method="get" action="help_reply_go">
+	            <div id="form-commentInfo"> 
+	                <div id="comment-count">댓글 <span id="count">0</span></div> 
+	                <div id=cc><input id="comment-input" name="reply" placeholder="댓글을 입력해 주세요." > 
+	                <input type=submit id="submit">등록</button> </div>  
+	            </div> 
+	        </form>	
+	            <c:forEach var="list" items="${re_list}">
+	            <div id=comments>
+		           <p class="reply_user">${list.user_user_id}</p>
+		           <p class="reply_comment">${list.re_comment}</p>
+		           <p class="reply_date">${list.operator}</p>
+		           <a href=#>삭제</a> <a href=#>수정</a>
+	            </div>
+				</c:forEach>
+			
+	            <div id="btn">
+	                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
+	                <a href="helpme_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+	                <a href="help_me"><input type="button" id="list" value="목록보기"></a>
+	            </div>
+                     
         </div>
-    </form>
+    
     </section>
     <footer>
         <p>copyright 홀로서기

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,10 +30,11 @@
     <section>
         <!-- <h2>도움받기 글 작성</h2> -->
         <div id="wrap">
+        
         <!-- <span>제목</span> -->
             <h3>도움받기</h3>
-            <form method='post' action='helpme_write_go'>
-            <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
+            <form method='post' action='helpme_write_go' name="write_go">
+            
             <div id="choice">
                 <!-- <span>태그</span>  -->
                 <select id="area" name="tag_area">
@@ -61,10 +62,12 @@
                     <option value="대리전화">대리전화</option>
                     <option value="기타">기타</option>
                 </select>
-                
-                <div id="gender">지원자 성별 <input type="checkbox" name="gender" value='f'>여 <input type="checkbox" name="gender" value='f'>남</div>
-                <div>최소 금액 <input type="number" name="min_price">원</div>
-                <div id="payment" >결제 방법 <input type="checkbox" value="현금" name="payment">현금 <input type="checkbox" value="계좌이체" name="payment">계좌이체</div>
+                <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
+                <div id="gender">지원자 성별 <input type="checkbox" name="gender" id="female" value='f'>여 <input type="checkbox" id="male" name="gender" value='f'>남</div>
+                <div id="payment" >결제 방법 
+                <input type="checkbox" value="현금" name="payment" id="cash">현금 
+                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>
+            	<div><input type="text" id="min" name="min_price" size=9 placeholder="최소(보장) 금액">원</div>
             </div>
             <div id="content">
                 <!-- <p>글내용</p>  -->
@@ -74,10 +77,9 @@
                 <span>이미지첨부 </span><input type="file" id="file_up">
             </div>
             <div id="btn">
-                <input type="button" id="cancel" value="취소">
+                <a href="help_me"><input type="button" id="cancel" value="취소"></a>
                 <input type="submit" id="submit" value="등록" >
             </div>
-           
         </form>   
         </div>
         
@@ -87,4 +89,40 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+
+
+.on('click','#submit',function(){
+	console.log($.isNumeric($('#min').val()));
+	//console.log($('#min').isNumeric());
+	if($('#title').val()==""){
+		alert("제목을 입력하세요.");
+		return false;
+	}if($('#female').is(':checked')==false && $('#male').is(':checked')==false){
+		alert("지원자 희망 성별을 선택하세요.");
+		return false;
+	}if($('#cash').is(':checked')==false && $('#account').is(':checked')==false){
+		alert("결제 방법을 선택하세요.");
+		return false;
+	}if($('#job').val()==''){
+		alert("도움받을 종류를 선택하세요.");
+		return false;
+	}if($('#min').val()==''){
+		alert("최소(보장)금액을 입력하세요.");
+		return false;
+	}if($.isNumeric($('#min').val())==false){
+		alert("최소(보장)금액은 숫자만 입력할 수 있습니다.");
+		return false;	
+	}if($('#txtarea').val()==''){
+		alert("내용을 입력하세요.");
+		return false;
+	}
+	else{
+		
+	}
+	
+	
+})
+</script>
 </html>

@@ -13,6 +13,34 @@ public class Dto_reply {
 	private String user_user_id;
 	
 	public Dto_reply() {}
+	
+	public Dto_reply(String reply_id, String board, String re_comment, String post_post_id) {
+		super();
+		this.reply_id = reply_id;
+		this.board = board;
+		this.re_comment = re_comment;
+		this.post_post_id = post_post_id;
+	}
+
+
+
+
+
+	public Dto_reply(String reply_id, String board, String post_post_id) {
+//		super();
+		this.reply_id = reply_id;
+		this.board = board;
+		this.post_post_id = post_post_id;
+	}
+
+
+
+	public Dto_reply(String re_comment, String post_post_id) {
+		super();
+		this.re_comment = re_comment;
+		this.post_post_id = post_post_id;
+	}
+	
 	public Dto_reply(String reply_id, String board, String operator, String re_index, String re_comment,
 			String re_class, String order, String groupNum, String post_post_id, String user_user_id) {
 		super();

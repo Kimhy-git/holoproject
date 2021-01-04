@@ -33,7 +33,7 @@
             <div id="wrap">
                 <h3>자유게시판</h3>
                 <!-- <span>제목</span>  -->
-                <form action="freeboard_write" method="get">
+                <form action="freeboard_submit" method="get" enctype="multipart/form-data">
                 <input type="text" id="title" class="input-title" placeholder="제목을 입력하세요.">
                 <div id="content">
                     <!-- <p>글내용</p>  -->
@@ -44,7 +44,7 @@
                 </div>
                 <div id="btn">
                     <input type="button" id="cancel" value="취소">
-                    <input type="button" id="freeboard_submit" value="등록">
+                    <input type="submit" id="submit" value="등록">
                 </div>
                </form>
             </div>
