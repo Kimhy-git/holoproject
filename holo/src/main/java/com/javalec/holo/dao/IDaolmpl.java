@@ -134,15 +134,14 @@ public class IDaolmpl implements IDao {
 			return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
 		}
 
-		public void add_post( String title,String content) {
-			
-			System.out.println("IDaoImpl, content : "+content);
+		//add posts
+				@Override
+				public void add_post(String title, String content, String img) {
 					
-			Dto_post Dto_post=new Dto_post(title, content);		
+					Dto_post Dto_post=new Dto_post(title, content, img);
+					sqlSession.insert(Namespace+".add_post",Dto_post);
 					
-			sqlSession.insert(Namespace+".add_post",Dto_post);
-			
-		}
+				}
 		
 		//add comments
 		@Override

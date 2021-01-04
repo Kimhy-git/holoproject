@@ -61,7 +61,11 @@
             </table>
             <table id="second">
             	<tr>                
-                    <td><textarea id="content" name="content" cols="130" rows="40" readonly>${dto.content}</textarea></td>
+                    <td><textarea id="content" name="content" cols="130" rows="40" readonly>${dto.content}
+                    ${dto.img}
+                    </textarea>
+                    </td>
+                    <img src="http://localhost:8080/holo/img/${dto.img}"/>
                 </tr>
                 </c:forEach>   
             </table>
@@ -102,7 +106,7 @@
         </div>
     </section>
     <footer>
-        <p>copyright 홀로서기
+        <p>copyright 홀로서기 
             alone@alone.co.kr</p>
     </footer>
 </body>   

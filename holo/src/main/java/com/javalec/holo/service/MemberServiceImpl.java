@@ -126,11 +126,11 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		//add posts
-		@Override
-		public void add_post(String title, String content) {
-		System.out.println("MemberServiceImpl, content : "+content);
-			dao.add_post(title,content);
-		}
+				@Override
+				public void add_post(String title, String content, String img) {
+				System.out.println("MemberServiceImpl, content : "+content);
+					dao.add_post(title,content,img);
+				}
 		
 		//add comments
 		@Override
