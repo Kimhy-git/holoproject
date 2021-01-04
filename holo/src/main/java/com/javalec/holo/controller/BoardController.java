@@ -62,7 +62,7 @@ public class BoardController {
 		@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
         public String helpme_write_go(HttpServletRequest req, Model model)throws Exception {
 		    	  
-				System.out.println("helpme_write_go작동");
+			 System.out.println("helpme_write_go작동");
 
 	 	  String title=req.getParameter("title");
 			  String content=req.getParameter("content"); 
@@ -74,7 +74,7 @@ public class BoardController {
 
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-	   	service.write(title,content,tag_area,gender,tag_job,payment, min_price);
+			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
 
 	   	  return "redirect:help_me";
 	     }
@@ -110,11 +110,12 @@ public class BoardController {
 
 		@RequestMapping(value="/help_reply_go", method=RequestMethod.GET)
 	    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
-	   	System.out.println("help_reply 작동");
-	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-	   	String reply=req.getParameter("reply");
-//	   	service.re_write(help_post_id );
-	   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
+	   	System.out.println("help_reply go 작동");
+	    int help_post_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+	   	String re_comment=req.getParameter("re_comment");
+	   	System.out.println("서비스");
+	   	service.re_write(re_comment,help_post_post_id );
+	   	System.out.println("help_reply 아이디 받아오기"+help_post_post_id);
 	   	return "redirect:helpme_write_view";
 	   }
 	
