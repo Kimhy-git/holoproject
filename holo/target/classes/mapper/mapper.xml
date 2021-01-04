@@ -58,6 +58,9 @@
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
 		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
 	</insert>
+
+<!-- notice -->
+
 	<!-- helpyou_write_view -->
 	<delete id="helpyou_write_view" parameterType="dto_p">
 		delete from help_post where help_post_id=#{help_post_id}
@@ -65,6 +68,7 @@
 
 
 	<!-- notice -->
+
     <select id="select_post" resultType="dto_post"> 
     	select * from post where board=0; 
     </select>
@@ -124,7 +128,6 @@
     	update post set content=#{content}
     	where board=#{board} and post_id=#{post_id};
     </select>
-    
     
     <!-- freeboard -->
     <select id="select_freeboard" resultType="dto_freeboard">

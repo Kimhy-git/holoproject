@@ -142,6 +142,7 @@ public class IDaolmpl implements IDao {
 		}
 
 		//add posts
+
 		@Override
 		public void add_post(String title, String content, String img) {
 			
@@ -149,6 +150,7 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".add_post",Dto_post);
 			
 		}
+
 		
 		//add comments
 		@Override

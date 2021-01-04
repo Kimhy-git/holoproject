@@ -19,6 +19,7 @@ public class Dto_post {
 		this.img = img;
 	}
 
+
 	public Dto_post(String post_id, String board, String title, String content) {
 		super();
 		this.post_id = post_id;

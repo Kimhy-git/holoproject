@@ -34,7 +34,7 @@ public interface MemberService {
 			//notice_write_view : delete comments with a post
 			public List<Dto_reply> select_reply_delete(String post_id) throws Exception;
 
-			//add posts
+
 			public void add_post(String title,String content, String file_up);
 			
 			//add comments
