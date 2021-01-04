@@ -89,6 +89,14 @@ public class IDaolmpl implements IDao {
   		sqlSession.delete(Namespace+".re_delete",help_reply_id);
   	}
     
+		
+	//help_you
+	@Override
+	public List<Dto_help_post> helpyou_list() {
+		System.out.println("helpyou_list");
+		return sqlSession.selectList(Namespace+".helpyou_list");
+	}
+		
   	//helpyou_write
 	@Override
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
@@ -99,13 +107,12 @@ public class IDaolmpl implements IDao {
 		
 		sqlSession.insert(Namespace+".helpyou_submit",helpDto);
 	}
-	
-	//help_you
+
 	@Override
-	public List<Help_postDto> helpyou_list() {
-		System.out.println("helpyou_list");
-		return sqlSession.selectList(Namespace+".helpyou_list");
+	public void helpyou_write_view(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
 	
 	//NOTICE
 		@Override //notice

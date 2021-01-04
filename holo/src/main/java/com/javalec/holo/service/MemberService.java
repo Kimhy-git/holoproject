@@ -16,7 +16,8 @@ public interface MemberService {
 	
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
-	public List<Help_postDto> helpyou_list();
+	public List<Dto_help_post> helpyou_list();
+	public void helpyou_write_view(int help_post_id);
 	
 	//notice
 			public List<Dto_post> select_post() throws Exception;

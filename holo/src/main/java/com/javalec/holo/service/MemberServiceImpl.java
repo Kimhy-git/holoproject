@@ -95,9 +95,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override // help_you
-	public List<Help_postDto> helpyou_list(){
+	public List<Dto_help_post> helpyou_list(){
 		return dao.helpyou_list();
 	}
+	@Override // helpyou_write_view
+	public void helpyou_write_view(int help_post_id) {
+		dao.helpyou_write_view(help_post_id);
+	}
+	
+	
 	
 	//NOTICE 
 		@Override //notice
