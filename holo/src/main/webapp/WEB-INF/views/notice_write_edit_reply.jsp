@@ -37,7 +37,7 @@
 	        <!-- <div id=write><a href="freeboard_write">댓글 수정</a></div> -->
             </table>
             <div id="form-commentInfo"> 
-            <form action="update_comment_now" method=get>
+            <form action="update_comment_now" method=post>
             	<input type=hidden name="reply_id" value=${reply_id}>
             	<input type=hidden name="post_post_id" value=${post_post_id}>
                 <div id=cc><input id="comment-input" name="re_comment" placeholder="${re_comment}"></div>

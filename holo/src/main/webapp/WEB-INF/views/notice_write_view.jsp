@@ -38,7 +38,7 @@
             <table id="first">
             <div>
             <c:forEach var="dto" items="${notice}">
-            <form action="update_post" method="get">
+            <form action="update_post" method="post">
                 <tr>
                 <td><input type=hidden id=post_id name=post_id value=${dto.post_id}></td>
             	<td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
@@ -85,7 +85,7 @@
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
 	            <c:forEach var="dto_reply" items="${reply}">
-	            <form action="update_comment" method=get>
+	            <form action="update_comment" method=post>
 		            ${dto_reply.operator}<br>
 		            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
 		            ${dto_reply.user_user_id}<br>

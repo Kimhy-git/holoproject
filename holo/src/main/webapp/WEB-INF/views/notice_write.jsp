@@ -35,7 +35,7 @@
                 <!-- <span>제목</span>  -->
                 
                 <!-- insert -->
-                <form action="notice_write_add" method="get" enctype="multipart/form-data">
+                <form action="notice_write_add" method="post" enctype="multipart/form-data">
              <input type="text" id="title" class="input-title" name="title" placeholder="제목을 입력하세요.">
                 <div id="content">
                     <!-- <p>글내용</p>  -->
@@ -53,7 +53,7 @@
         </div>
     </section>
     <footer>
-        <p>copyright 홀로서기
+        <p>copyright 홀
             alone@alone.co.kr</p>
     </footer>
 </body>

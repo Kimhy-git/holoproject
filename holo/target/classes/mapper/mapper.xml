@@ -67,7 +67,7 @@
      <!-- notice_write : add posts -->
     <select id="add_post" parameterType="Dto_post"> 
     	insert into post(board, title, operator, nick, content, user_user_id)
-		values(0,#{title},null,'One',#{content},'a');
+		values(0,#{title},null,'One',#{content},'1');
     </select>
     
     <!-- notice_write_view : add comments -->

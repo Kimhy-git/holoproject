@@ -46,17 +46,15 @@
 	                    <td>날짜</td>
 	                    <td>조회수</td>
 	                </tr>
-	      			
-	      			<!-- select_post의 dto를 가져옴 (post table에서 데이터를 가져옴) -->
-	                <tr>
 	                <c:forEach var="dto" items="${notice}">
-            	<td><a href="notice_write_view?post_id=${dto.post_id}">${dto.title}</a></td>
-            	<td>${dto.nick}</td>
-            	<td>${dto.user_user_id}</td>
-            	<td><input type=hidden>${dto.post_id}</td>
-            	<td><input type=hidden>${dto.board}</td><br>
-            		</c:forEach>
+	                <tr>
+	                
+	                    <td><a href="notice_write_view?post_id=${dto.post_id}">${dto.title}</a></td>
+	                    <td>${dto.nick}</td>
+	                    <td>${dto.operator}</td><br>
+	                
 	                </tr>
+	                </c:forEach>
 	            </table>
 	        </div>
             <div id="index">
