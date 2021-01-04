@@ -66,12 +66,6 @@ public interface IDao {
 			//notice_write : add a post
 			
 			public void add_post(String title,String content, String img);
-<<<<<<< HEAD
-			
-//			public void add_post(String post_id, String board, String title, String operator, 
-//					String nick, String content, String img, String user_user_id);
-=======
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 			
 			//add comments
 			public void add_comment(String post_post_id, String re_comment);
