@@ -69,8 +69,10 @@ public interface MemberService {
 
 			//help_me 댓글 보기
 			public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
+			
 			//help_me 댓글 쓰기
-			public void re_write(int help_post_id,String reply) throws Exception;
+			public void re_write(String re_comment,int help_post_id) throws Exception;
+			
 			//help_me 댓글 삭제
 			public void re_delete(int help_reply_id) throws Exception;
 		

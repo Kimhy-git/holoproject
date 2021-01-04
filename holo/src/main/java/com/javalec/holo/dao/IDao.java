@@ -35,7 +35,7 @@ public interface IDao {
 		public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
 
 		//help_me 댓글 작성
-		void re_write(int help_post_id, String reply)throws Exception;
+		void re_write( String re_commnet,int help_post_post_id)throws Exception;
 
 		//help_me 댓글 수정
 
