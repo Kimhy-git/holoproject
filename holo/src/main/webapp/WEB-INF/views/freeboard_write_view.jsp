@@ -38,14 +38,17 @@
             <table id="first">
                
                <c:forEach var="dto" items="${freeboard}">
+                <form action="modify_freeboard" method="post">
 	                <tr>
 	                 <td><input type=hidden id=post_id value=${dto.post_id}></td>
-            		 <td><input type=hidden id=board>${dto.board}</td>
-            		 <td><input type=hidden id=user_user_id>${dto.user_user_id}</td>
-                    <td>제목</td>
-                     <td><a href="#">${dto.title}</a></td>
-                </tr>
-                
+            		 <td><input type=hidden id=board value=${dto.board}></td>
+            		 <td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
+                	</tr>
+                	<tr>
+                	<td>제목</td>
+                    <td>${dto.title}
+                    <input type=hidden name=title value=${dto.title}></td>
+                     </tr>
 	                <tr>
                     <td>닉네임</td>
                     <td>${dto.nick}</td>
@@ -65,34 +68,43 @@
             <table id="second">
             	<c:forEach var="dto" items="${freeboard}">
             	<tr>                
-                    <td><textarea id="content" cols="130" rows="40" readonly>${dto.content}</textarea></td>
+                    <td><textarea id="content" cols="130" rows="40" name="content" readonly>${dto.content}</textarea></td>
                 </tr>
                 </c:forEach>
             </table>
+              <div id="btn">
+                <input type="button" id="remove" value="삭제">
+                <input type="submit" id="edit" value="수정">
+                <a href="freeboard"><input type="button" id="list" value="목록보기"></a>
+            </div>
+            </form>
+            
+             
             <div id="form-commentInfo"> 
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
-                <div id=cc><input id="comment-input" placeholder="댓글을 입력해 주세요." > 
-                <button id="submit">등록</button> </div>
+                <div id=cc>
+                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
+                	<button id="submit">등록</button> 
+                </div>
             </div> 
             
-                      <br><br><br>
+            <br><br><br>
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
-            <div id="btn_reply">
-                <input type="button" id="remove_reply" value="삭제">
-                <input type="button" id="edit_reply" value="수정">
-            </div>
-            <c:forEach var="dto_reply" items="${reply}">
-            ${dto_reply.operator}<br>
-            ${dto_reply.re_comment}<br>
-            ${dto_reply.user_user_id}<br>
-            </c:forEach>
-            </div>
-
-            <div id="btn">
-                <input type="button" id="remove" value="삭제">
-                <input type="button" id="edit" value="수정">
-                <a href="freeboard"><input type="button" id="list" value="목록보기"></a>
+	            <c:forEach var="dto_free_reply" items="${reply}">
+	            <form action="update_comment" method=post>
+		            ${dto_free_reply.operator}<br>
+		            <input type=text id="re_comment" value="${dto_free_reply.re_comment}" name="re_comment"><br>
+		            ${dto_free_reply.user_user_id}<br>
+		            ${dto_free_reply.reply_id}<br>
+		            <input type=hidden name="post_post_id" value=${dto_free_reply.post_post_id}>
+		            <input type=hidden name="reply_id" value=${dto_free_reply.reply_id}>
+		            <div id="btn_reply">
+		                <input type="button" id="remove_reply" value="삭제" data_r=${dto_free_reply.reply_id}>
+		                <input type="submit" id="edit_reply" value="수정" data_r=${dto_free_reply.reply_id}>
+		            </div>
+	            </form>
+	            </c:forEach>
             </div>
         </div>
     </section>
@@ -102,8 +114,6 @@
     </footer>
 </body>   
 
-
-<!--  -->
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
@@ -113,17 +123,42 @@ $(document)
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
-		window.location.href="<c:url value='notice_write_delete'/>?post_id="+post_id;
+		window.location.href="<c:url value='freeboard_write_delete'/>?post_id="+post_id;
 	}
 })
+
 //Delete ONLY comments
 .on('click','#remove_reply',function changeView(){
 	var post_id=$('#post_id').val();
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
-		window.location.href="<c:url value='notice_write_delete'/>?post_id="+post_id;
+		window.location.href="<c:url value='delete_comment'/>?post_id="
+				+post_id+"&reply_id="+$(this).attr("data_r");
 	}
+})
+
+//update comments
+//.on('click','#edit_reply',function changeView(){
+//	var re_comment=$('#re_comment').val();
+//	console.log(re_comment);
+//	$.get("update_comment", //URL
+//			 {post_post_id:$('input[name=post_id]').val(),
+//			 re_comment:$('#re_comment').val(),
+//			 reply_id:$(this).attr("data_r")}, //data
+//			 function(txt){ 
+//		 }, //function
+//		'text'); //dataType
+//})
+
+//add comments
+.on('click','#submit',function changeView(){
+	$.get("add_comment", //URL
+			 {post_post_id:$('input[name=post_id]').val(),
+			 re_comment:$('input[name=re_comment]').val()}, //data
+			 function(txt){ 
+			 }, //function
+		'text'); //dataType
 })
 </script>
 </html>

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
@@ -362,13 +363,13 @@ public class BoardController {
 					return "redirect:freeboard";
 				}
 				int post_id=Integer.parseInt(req.getParameter("post_id"));
-				List<Dto_reply> reply = service.select_freeboard_reply(post_id);
+				
 				List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
 				
 				System.out.println("test :"+ freeboard);
 				
 				model.addAttribute("freeboard",freeboard);
-				model.addAttribute("reply", reply);
+				
 				return "freeboard_write_view";
 			} //게시글 보기
 			
@@ -380,11 +381,13 @@ public class BoardController {
 					}
 
 			    	int post_id=Integer.parseInt(req.getParameter("post_id"));
-			    	service.select_freeboard_reply_delete(post_id);
+			    	
 			    	service.select_freeboard_delete(post_id);
 
 			    	return "redirect:freeboard";
 			    } //게시글 삭제
+			 
+			    
 
 			@RequestMapping(value="/freeboard_submit", method = RequestMethod.GET)
 			public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
@@ -392,12 +395,11 @@ public class BoardController {
 		    	String board="1";
 		    	String title=req.getParameter("title");
 		    	String operator=null;
-		    	String nick="kikiki";
+		    	
 		    	String content=req.getParameter("content");
-				String img=null;
-				String user_user_id="a";
+				String user_user_id="b";
 
-				service.freeboard_submit(post_id, board, title, operator, nick, content, img, user_user_id);
+				service.freeboard_write(post_id, board, title, operator, content,user_user_id);
 				
 				return "redirect:freeboard";
 			} //게시글 작성

@@ -132,11 +132,6 @@
     </select>
     <!-- 게시글 보기 -->
     
-    <select id="select_freeboard_reply" resultType="dto_freeboard"> 
-    	select * from reply where board=1 and post_post_id=#{post_id}; 
-    </select>
-    <!-- 댓글 보기 -->
-    
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
     	delete from post where post_id=#{post_id} and board=1;
     </select>
@@ -148,9 +143,9 @@
     <!-- 댓글 삭제 -->
     
     
-    <select id="freeboard_submit" parameterType="dto_freeboard">
-    	insert into post(post_id, board, title, nick, content, user_user_id) 
-    		values (10,1,#{title},'kikiki',#{content},'a');
+    <select id="freeboard_write" parameterType="dto_freeboard">
+    	insert into post(post_id, board, title, content,user_user_id) 
+    		values (10,1,#{title},#{content},"b");
     </select>
 
 

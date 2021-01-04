@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
@@ -183,25 +184,17 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return dao.select_freeboard_view(post_id);
 		} // 게시글 보기
-		@Override //notice_write_view : comments
-		public List<Dto_reply> select_freeboard_reply(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard_reply(post_id);
-		}//댓글 보기
+
 		@Override
 		public void select_freeboard_delete(int post_id) throws Exception {
 			// TODO Auto-generated method stub
 			dao.select_freeboard_delete(post_id);
 		}//게시글 삭제
+
 		@Override
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard_reply_delete(post_id);
-		}//댓글 삭제
-		@Override
-		public void freeboard_submit(String post_id, String board, String title, String operator, 
-				String nick, String content, String img, String user_user_id) throws Exception
+		public void freeboard_write(String post_id, String board, String title, String operator, 
+				String content, String user_user_id) throws Exception
 				{
-			dao.freeboard_submit(post_id, board, title, operator, nick, content, img, user_user_id);
+			dao.freeboard_write(post_id, board, title, operator, content, user_user_id);
 		}
 }
