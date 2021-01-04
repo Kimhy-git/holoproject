@@ -73,7 +73,7 @@
                         	<input type="hidden" value="${list.help_post_id}">
                             <img class="thumbnail" src="resources/img/test1.jpg">
                             <p class="title"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}</p>
-                            <p class="writer">${list.nick} <span class="like"> ♥♥♥ 3</span></p>
+                            <p class="writer">${list.nick} <span class="like"> ♥ 5</span></p>
                             <p class="price">최소금액 : ${list.min_price}원</p>
                             <p class="date">${list.operator}</p>
                         </li> 
