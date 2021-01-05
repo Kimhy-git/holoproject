@@ -113,7 +113,6 @@ public interface MemberService {
 		//댓글 삭제
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
 				String nick, String content, String img, String user_user_id)throws Exception;
-		
 
 		public void freeboard_write(String post_id, String board, String title, String operator, 
 				String content, String user_user_id) throws Exception;

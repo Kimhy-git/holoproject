@@ -109,6 +109,7 @@ public interface IDao {
 
 		public void freeboard_write(String post_id, String board, String title, String operator,
 				String content, String user_user_id) throws Exception; 
+
 		//게시글 작성
 
 }

@@ -114,9 +114,6 @@ $(document)
                 				'</li>';
 
                 	$('#content ul').append(content);
-
-                	console.log(content);
-                	$('#content_ul').append(content);
  
 				})
 				var count = 0;
@@ -126,12 +123,6 @@ $(document)
             		console.log("count: "+count);
             	}
 		},'json')
-
-	var count = 0
-	for (count; count<=$("#content ul li").length; count=count+3){
-		$("#content ul content:eq("+count+")").css("margin-left","0");
-		console.log(count)
-	}
 
 
 })
