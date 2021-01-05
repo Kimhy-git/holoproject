@@ -150,11 +150,23 @@
     </select>
     <!-- 댓글 삭제 -->
     
-    
-    <select id="freeboard_write" parameterType="dto_freeboard">
-    	insert into post(post_id, board, title, content,user_user_id) 
-    		values (10,1,#{title},#{content},"b");
+       
+    <select id="freeboard_update" resultType="dto_freeboard"> 
+    	update post set title=#{title}, content=#{content}
+    	where post_id=#{post_id} and board=1;
     </select>
-
+    <!-- 게시물 수정 -->
+ 
+    <insert id="freeboard_write" parameterType="dto_freeboard">
+    	insert into post(board, title, content, user_user_id) 
+    		values (1, #{title}, #{content}, "b");
+    </insert>
+	<!-- 게시물 등록 -->
+	
+	<select id="free_write_comment" parameterType="dto_free_reply"> 
+    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
+		values(1,0,#{re_comment},#{post_post_id},'b');	
+    </select>
+    <!-- 댓글 쓰기 -->
 
 </mapper>

@@ -86,9 +86,12 @@ public interface IDao {
 		
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
-
-		public void freeboard_write(String post_id, String board, String title, String operator, 
+		
+		public void freeboard_update(String post_id, String board, String title, String content);
+		// 게시물 수정
+		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id) throws Exception;
 		//게시글 작성
+		public void free_write_reply(String post_post_id, String re_comment);
 		
 }

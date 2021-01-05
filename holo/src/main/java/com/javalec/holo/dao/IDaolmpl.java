@@ -218,9 +218,21 @@ public class IDaolmpl implements IDao {
 			sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
 		}//게시글 삭제
 		@Override
-		public void freeboard_write(String post_id, String board, String operator, String title, String content, String user_user_id)
+		public void freeboard_update(String post_id, String board, String title, String content) {			
+			Dto_freeboard freeboard_update=new Dto_freeboard(post_id,board,title,content);
+			
+			sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
+		}// 게시물 수정
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
 		throws Exception{
-			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator, content, user_user_id);
+			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
-		}
+		}// 게시물 달기
+		@Override
+		public void free_write_reply(String post_post_id, String re_comment) {
+			Dto_free_reply Dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+			sqlSession.insert(Namespace+".free_write_reply",Dto_free_reply);
+
+		}// 댓글 쓰기
 }

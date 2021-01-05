@@ -91,8 +91,13 @@ public interface MemberService {
 
 		public void select_freeboard_delete(int post_id) throws Exception;
 		//게시글 삭제
-
-		public void freeboard_write(String post_id, String board, String title, String operator, 
+		
+		public void freeboard_update(String post_id, String board, String title, String content);
+		// 게시글 수정
+		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id)throws Exception;
-
+		// 게시물 쓰기
+		public void free_write_reply(String post_post_id, String re_comment)throws Exception;
+		// 댓글 쓰기
+		
 }
