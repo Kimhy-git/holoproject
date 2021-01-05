@@ -28,7 +28,9 @@
 		values(#{tag_area},1,#{title},"hi",#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"1")
 	</select>
 	<!-- help_me 게시글 수정 -->
-	
+	<select id="edit" resultType="dto_p">
+		select * from help_post where help_post_id = #{help_post_id}
+	</select>
 	<!-- help_me 게시글 삭제 -->
 	<select id="delete" resultType="dto_p">
 		delete from help_post where help_post_id=#{help_post_id} 

@@ -120,7 +120,7 @@
 			
 	            <div id="btn">
 	                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
-	                <a href="helpme_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+	                <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
 	                <a href="help_me"><input type="button" id="list" value="목록보기"></a>
 	            </div>
                      

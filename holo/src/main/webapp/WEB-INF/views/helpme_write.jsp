@@ -70,10 +70,11 @@
 					<option value="기타">기타
                 </select>
                 <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
-                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남</div>
-                <div id="payment" >결제 방법 
+                <div id="gender"><span class="bold">지원자 성별 </span><input type="checkbox" name="female" id="female">여 
+                <input type="checkbox" name="male" id="male">남 <sapn class="overlap">※중복 선택 가능</sapn></div>
+                <div id="payment" ><span class="bold">결제 방법</span>
                 <input type="checkbox" value="현금" name="payment" id="cash">현금 
-                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>
+                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체 <sapn class="overlap">※중복 선택 가능</sapn> </div>
             	<div><input type="text" id="min" name="min_price" size=9 placeholder="최소(보장) 금액">원</div>
             </div>
             <div id="content">
