@@ -225,6 +225,22 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".update_comment",update_comment);
 			
 		}
+		
+		//add re_comments
+		@Override
+		public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			
+			System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+			
+			Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+			sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
+		}
+		
+		
+		
+		
+		
+		
 
 		@Override
 		public void update_post(String post_id, String board, String title, String content) {
@@ -255,9 +271,28 @@ public class IDaolmpl implements IDao {
 			sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
 		}//게시글 삭제
 		@Override
-		public void freeboard_write(String post_id, String board, String operator, String title, String content, String user_user_id)
+		public void freeboard_update(String post_id, String board, String title, String content) {			
+			Dto_freeboard freeboard_update=new Dto_freeboard(post_id,board,title,content);
+			
+			sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
+		}// 게시물 수정
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
 		throws Exception{
-			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator, content, user_user_id);
+			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
+		}// 게시물 달기
+		@Override
+		public void free_write_reply(String post_post_id, String re_comment) {
+			Dto_free_reply Dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+			sqlSession.insert(Namespace+".free_write_reply",Dto_free_reply);
+
+		}// 댓글 쓰기
+
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String operator, String content,
+				String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
 		}
 }

@@ -38,16 +38,16 @@
             <table id="first">
                
                <c:forEach var="dto" items="${freeboard}">
-                <form action="modify_freeboard" method="post">
+                <form action="freeboard_modify" method="get">
 	                <tr>
-	                 <td><input type=hidden id=post_id value=${dto.post_id}></td>
-            		 <td><input type=hidden id=board value=${dto.board}></td>
-            		 <td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
+	                 <td><input type="hidden" id="post_id" name="post_id" value="${dto.post_id}"></td>
+            		 <td><input type="hidden" id="board" value="${dto.board}"></td>
+            		 <td><input type="hidden" id="user_user_id" value="${dto.user_user_id}"></td>
                 	</tr>
                 	<tr>
                 	<td>제목</td>
                     <td>${dto.title}
-                    <input type=hidden name=title value=${dto.title}></td>
+                    <input type="hidden" name="title" value="${dto.title}"></td>
                      </tr>
 	                <tr>
                     <td>닉네임</td>
@@ -79,20 +79,21 @@
             </div>
             </form>
             
-             
+            <form method="get" action="free_write_reply"> 
             <div id="form-commentInfo"> 
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
                 <div id=cc>
                 	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 	<button id="submit">등록</button> 
                 </div>
+            </form>
             </div> 
             
             <br><br><br>
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
 	            <c:forEach var="dto_free_reply" items="${reply}">
-	            <form action="update_comment" method=post>
+	            <form action="free_update_comment" method=post>
 		            ${dto_free_reply.operator}<br>
 		            <input type=text id="re_comment" value="${dto_free_reply.re_comment}" name="re_comment"><br>
 		            ${dto_free_reply.user_user_id}<br>
@@ -152,13 +153,13 @@ $(document)
 //})
 
 //add comments
-.on('click','#submit',function changeView(){
-	$.get("add_comment", //URL
-			 {post_post_id:$('input[name=post_id]').val(),
-			 re_comment:$('input[name=re_comment]').val()}, //data
-			 function(txt){ 
-			 }, //function
-		'text'); //dataType
+//.on('click','#submit',function changeView(){
+	//$.get("free_write_comment", //URL
+		//	 {post_post_id:$('input[name=post_id]').val(),
+			// re_comment:$('input[name=re_comment]').val()}, //data
+			 //function(txt){ 
+			 //}, //function
+//		'text'); //dataType
 })
 </script>
 </html>

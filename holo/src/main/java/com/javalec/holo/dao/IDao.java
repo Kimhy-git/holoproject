@@ -91,6 +91,16 @@ public interface IDao {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			//add re_comments
+			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+			
+			
+			
+			
+			
+			
+			
+			
 		public List<Dto_freeboard> select_freeboard();
 		//리스트 보여주기
 		public List<Dto_freeboard> select_freeboard_view(int post_id);
@@ -99,9 +109,19 @@ public interface IDao {
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
 
+		
+		public void freeboard_update(String post_id, String board, String title, String content);
+		// 게시물 수정
+		public void freeboard_write(String post_id, String board, String title,
+				String content, String user_user_id) throws Exception;
+
 		public void freeboard_write(String post_id, String board, String title, String operator,
 				String content, String user_user_id) throws Exception; 
 
 		//게시글 작성
+
+		public void free_write_reply(String post_post_id, String re_comment);
+		
 }
 
+		//게시글 작성

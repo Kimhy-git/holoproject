@@ -8,22 +8,31 @@
             <typeAlias type="com.javalec.holo.dto.Dto" alias="dto"/>
             <!-- help_you -->
             <typeAlias type="com.javalec.holo.dto.Help_postDto" alias="helpdto"/>
+            
+            
+            
             <!-- notice -->
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="dto_post"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="dto_post_view"/>
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="dto_post_reply"/>
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="dto_reply"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="add_re_comment"/>
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="dto_reply_delete"/>
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="delete_comment"/>
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="update_comment"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="dto_post_delete"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="add_post"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="update_post"/>
+            
+            
+            
             <!-- help_me -->
             <typeAlias type="com.javalec.holo.dto.Dto_help_post" alias="dto_p"/>
             <typeAlias type="com.javalec.holo.dto.Dto_help_reply" alias="dto_pr"/>
             <!-- freeboard -->
             <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="dto_freeboard"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="freeboard_update"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="dto_free_reply"/>
 
         </typeAliases>
 
