@@ -74,8 +74,8 @@ public interface MemberService {
 			public List<Dto_help_post> likes() throws Exception;
 
 			//help_me게시글 작성
-			public void write(String title, String content,String gender, String tag_area, String tag_job, String payment,
-						int min_price) throws Exception;
+			public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+					int min_price) throws Exception;
 
 			//help_me게시글 수정
 			public void edit(Dto_help_post dto_p) throws Exception;
@@ -109,7 +109,6 @@ public interface MemberService {
 		public void select_freeboard_delete(int post_id) throws Exception;
 		//게시글 삭제
 
-		
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시글 수정
 		public void freeboard_write(String post_id, String board, String title,
@@ -126,5 +125,10 @@ public interface MemberService {
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
 				String nick, String content, String img, String user_user_id)throws Exception;
 
+
+		public void freeboard_write(String post_id, String board, String title, String operator, 
+				String content, String user_user_id) throws Exception;
+
+		
 }
 

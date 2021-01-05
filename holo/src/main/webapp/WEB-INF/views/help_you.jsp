@@ -65,7 +65,7 @@
                     <a href="#">기타</a>
                 </div>
                 <div id="content">
-
+					<ul>
                     </ul>
                 </div>
             </div>  
@@ -117,9 +117,9 @@ $(document)
  
 				})
 				var count = 0;
-            	console.log($("#content_ul li").length);
-            	for (count; count<=$("#content_ul li").length; count=count+3){
-            		$("#content_ul li:eq("+count+")").css("margin-left","0");
+            	console.log($("#content ul li").length);
+            	for (count; count<=$("#content ul li").length; count=count+3){
+            		$("#content ul li:eq("+count+")").css("margin-left","0");
             		console.log("count: "+count);
             	}
 		},'json')
