@@ -108,7 +108,7 @@ public interface MemberService {
 
 		public void select_freeboard_delete(int post_id) throws Exception;
 		//게시글 삭제
-<<<<<<< HEAD
+
 		
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시글 수정
@@ -118,19 +118,13 @@ public interface MemberService {
 		public void free_write_reply(String post_post_id, String re_comment)throws Exception;
 		// 댓글 쓰기
 		
-}
-=======
+
+
 
 		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception;
 		//댓글 삭제
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
 				String nick, String content, String img, String user_user_id)throws Exception;
 
-		public void freeboard_write(String post_id, String board, String title, String operator, 
-				String content, String user_user_id) throws Exception;
-<<<<<<< HEAD
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
-=======
-
 }
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
+

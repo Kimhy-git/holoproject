@@ -73,20 +73,20 @@
                 </c:forEach>
             </table>
               <div id="btn">
-                <input type="button" id="remove" value="삭제">
+                <input type="button" id="remove" name="remove" value="삭제">
                 <input type="submit" id="edit" value="수정">
                 <a href="freeboard"><input type="button" id="list" value="목록보기"></a>
             </div>
             </form>
             
-            <form method="get" action="free_write_reply"> 
+            
             <div id="form-commentInfo"> 
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
                 <div id=cc>
                 	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 	<button id="submit">등록</button> 
                 </div>
-            </form>
+
             </div> 
             
             <br><br><br>
@@ -153,13 +153,13 @@ $(document)
 //})
 
 //add comments
-//.on('click','#submit',function changeView(){
-	//$.get("free_write_comment", //URL
-		//	 {post_post_id:$('input[name=post_id]').val(),
-			// re_comment:$('input[name=re_comment]').val()}, //data
-			 //function(txt){ 
-			 //}, //function
-//		'text'); //dataType
+.on('click','#submit',function changeView(){
+	$.get("free_write_comment", //URL
+			 {post_post_id:$('input[name=post_id]').val(),
+			 re_comment:$('input[name=re_comment]').val()}, //data
+			function(txt){ 
+			}, //function
+		'text'); //dataType
 })
 </script>
 </html>

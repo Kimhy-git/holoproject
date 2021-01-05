@@ -106,28 +106,16 @@ public interface IDao {
 		
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
-<<<<<<< HEAD
+
 		
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시물 수정
 		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id) throws Exception;
-=======
 
-		public void freeboard_write(String post_id, String board, String title, String operator,
-				String content, String user_user_id) throws Exception; 
-
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
-		//게시글 작성
-<<<<<<< HEAD
 		public void free_write_reply(String post_post_id, String re_comment);
 		
 }
-=======
 
-<<<<<<< HEAD
 
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
-=======
-}
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
+
