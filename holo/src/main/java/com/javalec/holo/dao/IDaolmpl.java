@@ -223,6 +223,22 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".update_comment",update_comment);
 			
 		}
+		
+		//add re_comments
+		@Override
+		public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			
+			System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+			
+			Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+			sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
+		}
+		
+		
+		
+		
+		
+		
 
 		@Override
 		public void update_post(String post_id, String board, String title, String content) {

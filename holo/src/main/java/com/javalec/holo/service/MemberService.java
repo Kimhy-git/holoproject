@@ -55,6 +55,11 @@ public interface MemberService {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			//add re_comments
+			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+			
+			
+			
 			
 			
 			
@@ -123,4 +128,9 @@ public interface MemberService {
 
 		public void freeboard_write(String post_id, String board, String title, String operator, 
 				String content, String user_user_id) throws Exception;
+<<<<<<< HEAD
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
+=======
+
+}
 >>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git

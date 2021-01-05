@@ -96,14 +96,15 @@
 		            ${dto_reply.reply_id}<br>
 		            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 		            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
-		            <input type=hidden id=order value=${dto_reply.order}>
-		            <input type=hidden id=groupNum value=${dto_reply.groupNum}>
+		            <input type=hidden name="re_order" value=${dto_reply.re_order}>
+		            <input type=hidden name="groupNum" value=${dto_reply.groupNum}>
 		            <div id="btn_reply">
 		                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
 		                <input type="submit" id="edit_reply${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
 		                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 		                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
-		                <input type=textarea id="re_re_comment"> <input type="button" id="reply_submit${dto_reply.reply_id}" value="등록">
+		                <input type=textarea name="re_re_comment"> 
+		                <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';"/> 
 		                </div>
 		            </div>
 	            </form>
@@ -154,16 +155,6 @@ $(document)
 //		'text'); //dataType
 //})
 
-//add comments
-.on('click','#submit',function changeView(){
-	$.get("add_comment", //URL
-			 {post_post_id:$('input[name=post_id]').val(),
-			 re_comment:$('input[name=re_comment]').val()}, //data
-			 function(txt){ 
-			 }, //function
-		'text'); //dataType
-})
-
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
 	var n=(this.id).substr(11); 
@@ -176,16 +167,6 @@ $(document)
 })
 
 //add re_comments
-.on('click','input[id^=reply_submit]',function(){
-	var n=(this.id).substr(12);
-	$.get("add_re_comment", //URL
-			 {post_post_id:$('input[name=post_id]').val(),
-			 re_comment:$('input[name=re_re_comment]').val(),
-			 reply_id:n, re_index:n,
-			 order:$('input[id=order]'),groupNum:$('input[id=groupNum]')}, //data
-			 function(txt){ 
-			 }, //function
-		'text'); //dataType
-})
+
 </script>
 </html>
