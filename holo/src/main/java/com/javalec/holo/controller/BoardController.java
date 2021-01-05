@@ -233,6 +233,11 @@ public class BoardController {
 	
 	
 	
+	
+	
+	
+	
+	
 	//notice
 			@RequestMapping(value = "notice", method = {RequestMethod.POST,RequestMethod.GET})
 		    public String notice(HttpServletRequest req, Model model) throws Exception{
@@ -419,6 +424,43 @@ public class BoardController {
 
 		    	return "redirect:notice";
 		    }
+		    
+		  //add_re_comments
+		    @RequestMapping(value = "add_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
+		    public String add_re_comment(HttpServletRequest req, Model model) throws Exception{
+		    	
+		    	System.out.println("Start add_recomment");
+		    	
+		    	String re_index=req.getParameter("reply_id");
+		    	String re_comment=req.getParameter("re_re_comment");
+		    	int order_i=Integer.parseInt(req.getParameter("re_order"));
+		    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+		    	String post_post_id=req.getParameter("post_post_id");
+		    	
+		    	order_i+=1;
+		    	groupNum_i+=1;
+		    	
+		    	String re_order=String.valueOf(order_i);
+		    	String groupNum=String.valueOf(groupNum_i);
+
+		    	System.out.println("this is re_index : " +re_index);
+		    	System.out.println("this is re_comment : " +re_comment);
+		    	System.out.println("this is order : " +re_order);
+		    	System.out.println("this is groupNum : " +groupNum);
+		    	System.out.println("this is post_post_id : " +post_post_id);
+		    	
+		    	service.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		    	
+		    	System.out.println("The end of update_post_now");
+
+		    	return "redirect:notice";
+		    }
+		    
+		    
+		    
+		    
+		    
+		    
 	    
 	    //freeboard
 		    @RequestMapping(value="freeboard", method = RequestMethod.GET)

@@ -89,6 +89,16 @@ public interface IDao {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			//add re_comments
+			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+			
+			
+			
+			
+			
+			
+			
+			
 		public List<Dto_freeboard> select_freeboard();
 		//리스트 보여주기
 		public List<Dto_freeboard> select_freeboard_view(int post_id);
@@ -101,4 +111,4 @@ public interface IDao {
 				String content, String user_user_id) throws Exception; 
 		//게시글 작성
 
-
+}
