@@ -92,7 +92,8 @@
     
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_post_reply"> 
-    	select * from reply where board=0 and post_post_id=#{post_id}; 
+    	select * from reply where board=0 and post_post_id=#{post_id}
+    	order by re_index, reply_id; 
     </select>
     
     <!-- notice_write_view : delete posts -->
