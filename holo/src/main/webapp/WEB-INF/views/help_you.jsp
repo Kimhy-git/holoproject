@@ -65,7 +65,6 @@
                     <a href="#">기타</a>
                 </div>
                 <div id="content">
-                    <ul id="content_ul">
 
                     </ul>
                 </div>
@@ -113,8 +112,9 @@ $(document)
                     				'<p class="price">최소금액 : '+value['min_price']+'원</p>'+
                     				'<p>'+value['operator']+'</p>'+
                 				'</li>';
-                	console.log(content);
-                	$('#content_ul').append(content);
+
+                	$('#content ul').append(content);
+ 
 				})
 				var count = 0;
             	console.log($("#content_ul li").length);
@@ -123,6 +123,7 @@ $(document)
             		console.log("count: "+count);
             	}
 		},'json')
+
 
 })
 /* .on('click','.thumbnail',function(){

@@ -86,7 +86,14 @@ public interface MemberService {
 			
 			//help_me 댓글 삭제
 			public void re_delete(int help_reply_id) throws Exception;
-		
+			
+			//help_me  수정 댓글 보기
+			public Dto_help_reply re_read(int help_reply_id)throws Exception;
+			
+			//help_me 댓글 수정
+			public void re_edit(String re_comment, int help_reply_id) throws Exception;
+			
+			
 			
 		//freeboard
 		public List<Dto_freeboard> select_freeboard() throws Exception;
@@ -97,7 +104,10 @@ public interface MemberService {
 		public void select_freeboard_delete(int post_id) throws Exception;
 		//게시글 삭제
 
-		public void freeboard_write(String post_id, String board, String title, String operator, 
-				String content, String user_user_id)throws Exception;
+		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception;
+		//댓글 삭제
+		public void freeboard_submit(String post_id, String board, String title, String operator, 
+				String nick, String content, String img, String user_user_id)throws Exception;
 
-}
+		public void freeboard_write(String post_id, String board, String title, String operator, 
+				String content, String user_user_id) throws Exception;

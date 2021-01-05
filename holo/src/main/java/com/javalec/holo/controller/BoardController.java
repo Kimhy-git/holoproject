@@ -36,7 +36,7 @@ public class BoardController {
 	@Inject
     private MemberService service;
 	
-	//helpme
+		//helpme
 		@RequestMapping(value = "/help_me", method = RequestMethod.GET)
 	    public String help_me(HttpServletRequest req,Model model) throws Exception {
 			 System.out.println("help_me작동");
@@ -86,7 +86,6 @@ public class BoardController {
 	   @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
 	   public String helpme_write_view(HttpServletRequest req, Model model) throws Exception {
 			  System.out.println("helpme_write_view작동");
-		
 			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 			  System.out.println("help_post_id:"+help_post_id);
 			  Dto_help_post read = service.read(help_post_id);      
@@ -113,15 +112,53 @@ public class BoardController {
 		@RequestMapping(value="/help_reply_go", method=RequestMethod.GET)
 	    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
 	   	System.out.println("help_reply go 작동");
-	    int help_post_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+	    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
 	   	String re_comment=req.getParameter("re_comment");
 	   	System.out.println("서비스");
-	   	service.re_write(re_comment,help_post_post_id );
-	   	System.out.println("help_reply 아이디 받아오기"+help_post_post_id);
-	   	return "redirect:helpme_write_view";
+	   	service.re_write(re_comment,help_post_id );
+	   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
+	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	   }
+		
+		@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
+		public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
+			System.out.println("help_reply_del 실행");
+			
+			int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+			System.out.println("help_reply_del 1");
+			service.re_delete(help_reply_id);
+			System.out.println("help_reply_del 2:"+help_reply_id);
+			int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+			System.out.println("help_reply_del 3:"+help_post_id);
+			System.out.println("help_reply_del 종료");
+			return "redirect:helpme_write_view?help_post_id="+help_post_id;
+		}
 	
-	
+		@RequestMapping(value="/help_reply_edit", method=RequestMethod.POST)
+		public String help_reply_edit(HttpServletRequest req, Model model) throws Exception{
+			System.out.println("helpme_reply_edit작동");
+			  int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+			  int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+			  Dto_help_post read = service.read(help_post_id);      
+			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
+			  Dto_help_reply re_read = service.re_read(help_reply_id);
+			  model.addAttribute("read", read);
+			  model.addAttribute("re_list",re_list);
+			  model.addAttribute("re_read",re_read);
+			return "help_reply_edit";
+		}
+		
+		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
+	   	System.out.println("help_reply_edit_go 작동");
+	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+	   	String re_comment=req.getParameter("re_comment");
+	   	service.re_edit(re_comment,help_reply_id );
+	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
+	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+	   }
+		
 	// helpyou
     @RequestMapping(value = "/help_you")
     public String help_you(Model model) {
