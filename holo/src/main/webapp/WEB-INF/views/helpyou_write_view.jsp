@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,10 +107,16 @@
             </table>
             <div id="form-commentInfo"> 
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
-                <div id=cc><input id="comment-input" placeholder="댓글을 입력해 주세요." > 
-                <button id="submit">등록</button></div>
+                <form method="post" action="helpyou_reply_done">
+	                <div id=cc>
+	                <input type=hidden name="post_id" value="${read.help_post_id}">
+	                <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+	                <input type=submit value="등록">
+	                </div>
+            	</form>
             </div> 
-            <div id=comments> </div>
+            <div id=comments>
+            </div>
 
             <div id="btn">
                 <input type="button" id="remove" value="삭제">
@@ -128,14 +135,41 @@
 </body>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+function getContextPath() {
+    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+    console.log("location: "+location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) ));
+    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+}
+var ip='http://localhost:8080';
 $(document)
+.ready(function(){
+	console.log($('#pId').val());
+	$.post(ip+getContextPath()+'/helpyou_reply_list',
+			{"post_id":$('#pId').val()},
+			function(data){
+				console.log(data);
+				$.each(data,function(ndx,value){
+					console.log("each"+value['help_reply_id']);
+					var content='<div id=comments>'+
+								   '<input type="hidden" class="reply_id" value="'+value['help_reply_id']+'">'+
+						           '<p class="reply_user">'+value['user_user_id']+'</p>'+
+						           '<p class="reply_comment">'+value['re_comment']+'</p>'+
+						           '<p class="reply_date">'+value['operator']+'</p>'+
+						           '<a href="helpyou_reply_delete?post_id='+value['help_post_post_id']+'&reply_id='+value['help_reply_id']+'">삭제</a> <a href=#>수정</a>'+
+					            '</div>';
+                	console.log("content: "+content);
+                	$('#comments').append(content);
+				})
+		},'json')
+})
 .on('click','#remove',function(){
-	console.log("remove");
-	$.post(ip+getContextPath()+'/helpyou_read',
-			{},
-			function(){
-				window.location.replace("help_you");
-			})
+	var post_id=$('#pId').val();
+	console.log(post_id);
+	if(confirm('삭제하시겠습니까?')){
+		window.location.href="<c:url value='helpyou_delete'/>?post_id="+post_id;
+	}else{
+		return false;
+	}
 })
 </script>
 </html>

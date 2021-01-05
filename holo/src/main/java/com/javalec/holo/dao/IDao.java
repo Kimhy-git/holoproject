@@ -45,7 +45,12 @@ public interface IDao {
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list();
-	public void helpyou_write_view(int help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id);
+	public void helpyou_delete(int help_post_id);
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id);
+	public void helpyou_reply_delete(int help_reply_id);
+	
 	
 	//NOTICE
 			public List<Dto_post> select_post();
@@ -91,5 +96,7 @@ public interface IDao {
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
 				String nick, String content, String img, String user_user_id) throws Exception;
 		//게시글 작성
+
+
 		
 }

@@ -99,8 +99,24 @@ public class MemberServiceImpl implements MemberService {
 		return dao.helpyou_list();
 	}
 	@Override // helpyou_write_view
-	public void helpyou_write_view(int help_post_id) {
-		dao.helpyou_write_view(help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id) {
+		return dao.helpyou_write_view(help_post_id);
+	}
+	@Override
+	public void helpyou_delete(int help_post_id) {
+		dao.helpyou_delete(help_post_id);
+	}
+	@Override
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
+		dao.helpyou_reply_submit(comment, help_post_post_id, user_user_id);
+	}
+	@Override
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
+		return dao.helpyou_reply_list(help_post_post_id);
+	}
+	@Override
+	public void helpyou_reply_delete(int help_reply_id) {
+		dao.helpyou_reply_delete(help_reply_id);
 	}
 	
 	

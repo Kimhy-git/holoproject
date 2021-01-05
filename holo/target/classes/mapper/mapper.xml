@@ -48,23 +48,38 @@
 		delete from help_reply where help_reply_id=#{help_reply_id} 
 	</select>
 	
+	
+	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
 		select * from help_post where board=0
 	</select>
-	
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
 		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
 	</insert>
-
-<!-- notice -->
-
 	<!-- helpyou_write_view -->
-	<delete id="helpyou_write_view" parameterType="dto_p">
+	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
+		select * from help_post where help_post_id=#{help_post_id}
+	</select>
+	<!-- helpyou write delete -->
+	<delete id="helpyou_delete" parameterType="int">
 		delete from help_post where help_post_id=#{help_post_id}
 	</delete>
+	<!-- helpyou_reply_done -->
+	<insert id="helpyou_reply_submit">
+		insert into help_reply(board, re_index, re_comment, re_class, re_order, groupNum, help_post_post_id, user_user_id)
+		 values(0, 0, #{re_comment}, 0, 0, 1, #{help_post_post_id}, #{user_user_id})
+	</insert>
+	<!-- helpyou_reply_list -->
+	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
+		select * from help_reply where board=0 and help_post_post_id=#{help_post_post_id}
+	</select>
+	<delete id="helpyou_reply_delete" parameterType="int">
+		delete from help_reply where help_reply_id=#{help_post_post_id}
+	</delete>
+
 
 
 	<!-- notice -->

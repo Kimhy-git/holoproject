@@ -110,9 +110,32 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override
-	public void helpyou_write_view(int help_post_id) {
-		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id) {
+		return sqlSession.selectOne(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
+	@Override
+	public void helpyou_delete(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_delete",help_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
+		Dto_help_reply helpreplyDto=new Dto_help_reply(comment,help_post_post_id,user_user_id);
+		sqlSession.insert(Namespace+".helpyou_reply_submit",helpreplyDto);
+	}
+	
+	@Override
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
+		return sqlSession.selectList(Namespace+".helpyou_reply_list",help_post_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_delete(int help_reply_id) {
+		System.out.println("IDaoImpl: "+help_reply_id);
+		sqlSession.delete(Namespace+".helpyou_reply_delete",help_reply_id);
+	}
+	
 	
 	
 	//NOTICE
