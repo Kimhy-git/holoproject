@@ -119,7 +119,7 @@ public class IDaolmpl implements IDao {
 		System.out.println("helpyou_submit");
 		System.out.println(tag_area+", "+title+", "+tag_job+", "+content+", "+img+", "+gender+", "+min_price+", "+payment+", "+user_user_id);
 		
-		Help_postDto helpDto=new Help_postDto(tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);		
+		Dto_help_post helpDto=new Dto_help_post(tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);		
 		
 		sqlSession.insert(Namespace+".helpyou_submit",helpDto);
 	}
@@ -131,6 +131,7 @@ public class IDaolmpl implements IDao {
 	
 	@Override
 	public void helpyou_delete(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_repost_delete",help_post_id);
 		sqlSession.delete(Namespace+".helpyou_delete",help_post_id);
 	}
 	

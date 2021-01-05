@@ -113,6 +113,7 @@ public interface IDao {
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시물 수정
 		public void freeboard_write(String post_id, String board, String title,
+
 				String content, String user_user_id) throws Exception;
 
 		public void freeboard_write(String post_id, String board, String title, String operator,
@@ -120,8 +121,9 @@ public interface IDao {
 
 		//게시글 작성
 
+
 		public void free_write_reply(String post_post_id, String re_comment);
-		
-}
 
 		//게시글 작성
+}
+

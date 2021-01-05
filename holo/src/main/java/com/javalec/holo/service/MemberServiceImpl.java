@@ -262,8 +262,8 @@ public class MemberServiceImpl implements MemberService {
 			return null;
 		}
 
-		@Override
 
+		@Override
 		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
 				String content, String img, String user_user_id) throws Exception {
 			// TODO Auto-generated method stub
