@@ -102,4 +102,4 @@ public interface IDao {
 
 		//게시글 작성
 
-
+}

@@ -66,14 +66,14 @@ public class BoardController {
 		    	  
 			 System.out.println("helpme_write_go작동");
 
-	 	  String title=req.getParameter("title");
+			  String title=req.getParameter("title");
 			  String content=req.getParameter("content"); 
 			  String tag_area=req.getParameter("tag_area");
-			  String tag_job=req.getParameter("tag_job"); 
-			  String gender=req.getParameter("gender"); 
+			  String tag_job=req.getParameter("tag_job");
+			  String gender=req.getParameter("gender");
 			  int min_price=Integer.parseInt(req.getParameter("min_price"));
 			  String payment=req.getParameter("payment");
-
+			  
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
 			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
@@ -88,7 +88,7 @@ public class BoardController {
 			  System.out.println("helpme_write_view작동");
 			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 			  System.out.println("help_post_id:"+help_post_id);
-			  Dto_help_post read = service.read(help_post_id);      
+			  Dto_help_post read = service.read(help_post_id);
 			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
 			  model.addAttribute("read", read);
 			  model.addAttribute("re_list",re_list);
@@ -159,6 +159,8 @@ public class BoardController {
 	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	   }
 		
+		
+		
 	// helpyou
     @RequestMapping(value = "/help_you")
     public String help_you(Model model) {
@@ -176,9 +178,17 @@ public class BoardController {
 		if(!file.isEmpty()) {
 			file_up=FileuploadServlet.restore(file);
 		}
-		String gender=req.getParameter("gender");
+		String gender=null;
+		if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+			gender="a";
+		}else if(req.getParameter("female")!=null) {
+			gender="f";
+		}else if(req.getParameter("male")!=null) {
+			gender="m";
+		}
 		int price=Integer.parseInt(req.getParameter("price"));
-		String payment=req.getParameter("payment");
+		String[] paymentList=req.getParameterValues("payment");
+		String payment=String.join(", ", paymentList);
 		String user_id="a";
 		service.helpyou_submit(area,title,job,txtarea,file_up,gender,price,payment,user_id);
         return "redirect:help_you";
@@ -193,10 +203,20 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_write_view")
 	public String helpyou_write_view(HttpServletRequest req, Model model) {
+		System.out.println("start helpyouview");
 		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-		Dto_help_post dto=service.helpyou_write_view(help_post_id);
-		System.out.println(dto);
-		model.addAttribute("read",dto);
+		Dto_help_post read=service.helpyou_write_view(help_post_id);
+		System.out.println("gender: "+read.getGender());
+		  if(read.getGender().equals("a")) {
+			  read.setGender("상관없음");
+		  }else if(read.getGender().equals("f")) {
+			  read.setGender("여성");
+		  }else if(read.getGender().equals("m")) {
+			  read.setGender("남성");
+		  }
+		System.out.println(read.getGender());
+		model.addAttribute("read",read);
+		System.out.println("end helpyouview");
 		return "helpyou_write_view";
 	}
 	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
@@ -208,7 +228,7 @@ public class BoardController {
 	@RequestMapping(value="/helpyou_reply_done", method = {RequestMethod.POST,RequestMethod.GET})
 	public String helpyou_reply_done(HttpServletRequest req, Model model) {
 		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
-		String comment=req.getParameter("comment-input");
+		String comment=req.getParameter("re_comment");
 		String user_id="b";
 		service.helpyou_reply_submit(comment, help_post_id, user_id);
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
@@ -229,6 +249,10 @@ public class BoardController {
 		String post_id=req.getParameter("post_id");
 		service.helpyou_reply_delete(help_reply_id);
     	return "redirect:helpyou_write_view?help_post_id="+post_id;
+	}
+	@RequestMapping(value="/helpyou_write")
+	public String helpyou_write() {
+		return "helpyou_write";
 	}
 	
 	

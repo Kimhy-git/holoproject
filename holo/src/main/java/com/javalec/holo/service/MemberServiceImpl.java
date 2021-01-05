@@ -231,5 +231,18 @@ public class MemberServiceImpl implements MemberService {
 			dao.freeboard_write(post_id, board, title, operator, content, user_user_id);
 		}
 
+		@Override
+		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
+				String content, String img, String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
+		}
+
 		
 }

@@ -31,6 +31,17 @@ public class Dto_help_post {
 		this.min_price = min_price;
 		this.payment = payment;
 	}
+	
+	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
+		this.tag_area = tag_area;
+		this.title = title;
+		this.tag_job = tag_job;
+		this.content = content;
+		this.gender = gender;
+		this.min_price = min_price;
+		this.payment = payment;
+		this.user_user_id = user_user_id;
+	}
 
 	public Dto_help_post(int help_post_id, String tag_area, int board, String title, Timestamp operator, String nick,
 			String tag_job, String content, String img, String gender, int min_price, String payment, int complete,

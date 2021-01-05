@@ -45,7 +45,7 @@
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
 		update help_reply setre_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
-	</select>		
+	</select>
 	<!-- help_me댓글 삭제 -->
 	<select id="re_delete" resultType="dto_pr">
 		delete from help_reply where help_reply_id=#{help_reply_id} 
@@ -59,7 +59,7 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select * from help_post where board=0
+		select * from help_post where board=0 order by help_post_id desc
 	</select>
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
@@ -73,6 +73,10 @@
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
 		delete from help_post where help_post_id=#{help_post_id}
+	</delete>
+	<!-- helpyou postre delete -->
+	<delete id="helpyou_repost_delete" parameterType="int">
+		delete from help_reply where help_post_post_id=#{help_post_id}
 	</delete>
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
