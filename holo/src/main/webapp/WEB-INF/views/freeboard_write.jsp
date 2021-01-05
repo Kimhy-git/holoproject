@@ -34,10 +34,11 @@
                 <h3>자유게시판</h3>
                 <!-- <span>제목</span>  -->
                 <form action="freeboard_submit" method="get" enctype="multipart/form-data">
-                <input type="text" id="title" class="input-title" placeholder="제목을 입력하세요.">
+                
+                <input type="text" id="title" class="input-title" name="title" placeholder="제목을 입력하세요.">
                 <div id="content">
                     <!-- <p>글내용</p>  -->
-                    <textarea id="txtarea" cols="60" rows="40" placeholder="내용을 입력하세요."></textarea>
+                    <textarea id="txtarea" cols="60" rows="40" name="content" placeholder="내용을 입력하세요."></textarea>
                 </div>
                 <div id="img_up">
                     <span>이미지첨부 </span><input type="file" id="file_up">
