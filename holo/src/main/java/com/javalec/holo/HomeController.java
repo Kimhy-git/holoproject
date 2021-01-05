@@ -99,16 +99,6 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 //         
 //         return "helpme_write_view";
 //      }
-      @RequestMapping(value = "/helpyou_write", method = RequestMethod.GET)
-      public String helpyou_write() {
-         
-         return "helpyou_write";
-      }
-      @RequestMapping(value = "/helpyou_write_view", method = RequestMethod.GET)
-      public String helpyou_write_view() {
-         
-         return "helpyou_write_view";
-      }
       @RequestMapping(value = "/admin", method = RequestMethod.GET)
       public String admin() {
          

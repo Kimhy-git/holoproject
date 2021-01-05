@@ -22,6 +22,7 @@ header #logo img{
 
 section{
 	overflow-y:auto;
+	background-color: rgb(245, 232, 255);
 }
 h2{
 	float: left;
@@ -40,6 +41,7 @@ h2{
 	margin-left: 220px;
 }
 .write{
+	background-color: rgb(175, 107, 230);
 	float: right;
 }
 
@@ -91,6 +93,10 @@ h2{
 	list-style: none;
 	/*float: left;*/
 	/*margin-right: 40px;*/
+	cursor:pointer;
+}
+#content ul li .title:hover{
+	text-decoration:underline;	
 }
 #content ul li:nth-child(1){
 	margin-left:0;
