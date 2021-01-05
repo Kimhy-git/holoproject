@@ -36,17 +36,27 @@ public interface IDao {
 		public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
 
 		//help_me 댓글 작성
-		void re_write( String re_commnet,int help_post_post_id)throws Exception;
+		void re_write( String re_commnet,int help_post_id)throws Exception;
 
+		//help_me 수정 댓글 보기
+		public Dto_help_reply re_read(int help_reply_id)throws Exception;
+		
 		//help_me 댓글 수정
-
+		public void re_edit(String re_comment, int help_reply_id) throws Exception;
+		
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception;
 	
+		
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list();
-	public void helpyou_write_view(int help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id);
+	public void helpyou_delete(int help_post_id);
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id);
+	public void helpyou_reply_delete(int help_reply_id);
+	
 	
 	//NOTICE
 			public List<Dto_post> select_post();
@@ -86,12 +96,24 @@ public interface IDao {
 		
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
+<<<<<<< HEAD
 		
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시물 수정
 		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id) throws Exception;
+=======
+
+		public void freeboard_write(String post_id, String board, String title, String operator,
+				String content, String user_user_id) throws Exception; 
+
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git
 		//게시글 작성
+<<<<<<< HEAD
 		public void free_write_reply(String post_post_id, String re_comment);
 		
 }
+=======
+
+
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject.git

@@ -79,17 +79,29 @@ public class IDaolmpl implements IDao {
   	}
   	//help_me 댓글 작성
   	@Override
-  	public void re_write(String re_comment,int help_post_post_id )throws Exception {
+  	public void re_write(String re_comment,int help_post_id )throws Exception {
   		System.out.println("아이다오 댓글보여주기 reply :"+re_comment);
-  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_post_id);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id);
   		sqlSession.insert(Namespace+".re_write",Dto_pr);
   	}
+  	//help_me 수정 댓글 보기
+  	@Override
+  	public Dto_help_reply re_read(int help_reply_id)throws Exception{
+  		return sqlSession.selectOne(Namespace+".re_edit_view",help_reply_id);
+  	};
   	//help_me 댓글 수정
+  	@Override
+  	public void re_edit(String re_comment, int help_reply_id)throws Exception {
+  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_reply_id);
+  		sqlSession.insert(Namespace+".re_edit",Dto_pr);
+  	}
   	//help_me 댓글 삭제
-		@Override
+	@Override
   	public void re_delete(int help_reply_id) throws Exception {
   		sqlSession.delete(Namespace+".re_delete",help_reply_id);
   	}
+	
+	
     
 		
 	//help_you
@@ -111,9 +123,32 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override
-	public void helpyou_write_view(int help_post_id) {
-		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id) {
+		return sqlSession.selectOne(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
+	@Override
+	public void helpyou_delete(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_delete",help_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
+		Dto_help_reply helpreplyDto=new Dto_help_reply(comment,help_post_post_id,user_user_id);
+		sqlSession.insert(Namespace+".helpyou_reply_submit",helpreplyDto);
+	}
+	
+	@Override
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
+		return sqlSession.selectList(Namespace+".helpyou_reply_list",help_post_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_delete(int help_reply_id) {
+		System.out.println("IDaoImpl: "+help_reply_id);
+		sqlSession.delete(Namespace+".helpyou_reply_delete",help_reply_id);
+	}
+	
 	
 	
 	//NOTICE
