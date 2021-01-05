@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +65,7 @@
                     <a href="#">기타</a>
                 </div>
                 <div id="content">
-                    <ul>
+
                     </ul>
                 </div>
             </div>  
@@ -95,7 +96,6 @@ function read(id){
 $(document)
 .ready(function(){
 	console.log("test");
-	console.log(ip+getContextPath()+'/helpyou_list');
 	$.post(ip+getContextPath()+'/helpyou_list',
 			{},
 			function(data){
@@ -103,21 +103,37 @@ $(document)
 				console.log(data);
 				$.each(data,function(ndx,value){
 					console.log(value['title']);
-					var content='<li onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
+					var content='<li>'+
 									'<input type=hidden id=help_post_id value='+value['help_post_id']+'>'+
-                        			'<img class="thumbnail" src="resources/img/test1.jpg">'+
-                    				'<p class=title>[지역]'+value['title']+'</p>'+
-                    				'<p>'+value['nick']+'</p>'+
+									'<input type="hidden" id=user_user_id value='+value['user_user_id']+'>'+
+                        			'<img class="thumbnail" src="resources/img/test1.jpg" onclick="location.href=\'holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
+                    				'<p class=title onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'"><span class="address">['+value['tag_area']+']['+value['tag_job']+']</span>'+value['title']+'</p>'+
+                    				'<p>'+value['nick']+'<span class="like"> ♥ 5</span></p>'+
+                    				'<p class="price">최소금액 : '+value['min_price']+'원</p>'+
                     				'<p>'+value['operator']+'</p>'+
                 				'</li>';
+
                 	$('#content ul').append(content);
+
+                	console.log(content);
+                	$('#content_ul').append(content);
+ 
 				})
+				var count = 0;
+            	console.log($("#content_ul li").length);
+            	for (count; count<=$("#content_ul li").length; count=count+3){
+            		$("#content_ul li:eq("+count+")").css("margin-left","0");
+            		console.log("count: "+count);
+            	}
 		},'json')
+
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul content:eq("+count+")").css("margin-left","0");
 		console.log(count)
 	}
+
+
 })
 /* .on('click','.thumbnail',function(){
 	console.log("thumbnail");

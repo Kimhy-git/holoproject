@@ -24,6 +24,23 @@ public class Dto_freeboard {
 		this.user_user_id = user_user_id;
 		this.nick = nick;
 	}
+	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String user_user_id) {
+		super();
+		this.post_id = post_id;
+		this.board = board;
+		this.title = title;
+		this.operator = operator;
+		this.content = content;
+		this.user_user_id = user_user_id;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 
 	public String getPost_id() {
 		return post_id;
@@ -37,7 +54,7 @@ public class Dto_freeboard {
 		return title;
 	}
 
-	public String getOperator() {
+	public String getoperator() {
 		return operator;
 	}
 
@@ -53,10 +70,6 @@ public class Dto_freeboard {
 		return user_user_id;
 	}
 
-	public String getNick() {
-		return nick;
-	}
-
 	public void setPost_id(String post_id) {
 		this.post_id = post_id;
 	}
@@ -69,7 +82,7 @@ public class Dto_freeboard {
 		this.title = title;
 	}
 
-	public void setOperator(String operator) {
+	public void setoperator(String operator) {
 		this.operator = operator;
 	}
 
@@ -84,8 +97,6 @@ public class Dto_freeboard {
 	public void setUser_user_id(String user_user_id) {
 		this.user_user_id = user_user_id;
 	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
+	
+	
 }

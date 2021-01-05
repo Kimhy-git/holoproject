@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
@@ -122,9 +123,32 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override
-	public void helpyou_write_view(int help_post_id) {
-		sqlSession.delete(Namespace+".helpyou_write_view",help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id) {
+		return sqlSession.selectOne(Namespace+".helpyou_write_view",help_post_id);
 	}
+	
+	@Override
+	public void helpyou_delete(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_delete",help_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
+		Dto_help_reply helpreplyDto=new Dto_help_reply(comment,help_post_post_id,user_user_id);
+		sqlSession.insert(Namespace+".helpyou_reply_submit",helpreplyDto);
+	}
+	
+	@Override
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
+		return sqlSession.selectList(Namespace+".helpyou_reply_list",help_post_post_id);
+	}
+	
+	@Override
+	public void helpyou_reply_delete(int help_reply_id) {
+		System.out.println("IDaoImpl: "+help_reply_id);
+		sqlSession.delete(Namespace+".helpyou_reply_delete",help_reply_id);
+	}
+	
 	
 	
 	//NOTICE
@@ -223,24 +247,15 @@ public class IDaolmpl implements IDao {
 			// TODO Auto-generated method stub
 			return sqlSession.selectList(Namespace+".select_freeboard_view",post_id);
 		}//게시글 상세보기
-		@Override
-		public List<Dto_reply> select_freeboard_reply(int post_id) {
-			// TODO Auto-generated method stub
-			return sqlSession.selectList(Namespace+".select_freeboard_reply",post_id);
-		}//댓글보기
+	
 		@Override
 		public void select_freeboard_delete(int post_id) {
 			sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
 		}//게시글 삭제
 		@Override
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id) {
-			return sqlSession.selectList(Namespace+".select_freeboard_reply_delete",post_id);
-		}//댓글 삭제
-		@Override
-		public void freeboard_submit(String post_id, String board, String operator, String nick, 
-				String title, String content, String img, String user_user_id)
+		public void freeboard_write(String post_id, String board, String operator, String title, String content, String user_user_id)
 		throws Exception{
-			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator,nick, content, img, user_user_id);
-			sqlSession.insert(Namespace+".freeboard_submit",Dto_freeboard);
+			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator, content, user_user_id);
+			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 		}
 }

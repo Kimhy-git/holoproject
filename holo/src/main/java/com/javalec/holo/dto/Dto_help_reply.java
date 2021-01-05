@@ -37,6 +37,15 @@ public class Dto_help_reply {
 
 
 
+	public Dto_help_reply(String re_comment, int help_post_post_id, String user_user_id) {
+		super();
+		this.re_comment = re_comment;
+		this.help_post_post_id = help_post_post_id;
+		this.user_user_id = user_user_id;
+	}
+
+
+
 	public Dto_help_reply(String re_comment, int help_post_post_id) {
 		// TODO Auto-generated constructor stub
 		this.re_comment=re_comment;

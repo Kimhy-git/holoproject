@@ -102,16 +102,18 @@
 	                <input type=submit id="submit" value="등록"></div>  
 	            </div> 
 	        </form>	
+	        
 	        <form method="post" >
+	        
 	         <!--  <c:forEach var="list" items="${re_list}"> -->  
 	            <div id=comments>
 	               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 		           <!--<p class="reply_user">${list.user_user_id}</p>
 		           <p class="reply_comment">${list.re_comment}</p>
 		           <p class="reply_date">${he.operator}</p>-->
-		           <input id="comment-input" name="re_comment" value="${re_read.re_comment}">
+		           <input class="comment-input" name="re_comment" value="${re_read.re_comment}">
 		           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
-		             <a href="helpme_write_view?help_post_id=${read.help_post_id}">취소</a>
+		           <a href="helpme_write_view?help_post_id=${read.help_post_id}">취소</a>
 		           <input type=submit value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
 	            </div>
 				<!--</c:forEach>-->
@@ -133,11 +135,15 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
+.ready(function(){
+	console.log(${re_read.re_comment});
+})
 .on('click','#remove',function(){
 	if(confirm('삭제하시겠습니까?')){	
 	}else{
 		return false;
 	}
 })
+
 </script>
 </html>

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
@@ -106,8 +107,24 @@ public class MemberServiceImpl implements MemberService {
 		return dao.helpyou_list();
 	}
 	@Override // helpyou_write_view
-	public void helpyou_write_view(int help_post_id) {
-		dao.helpyou_write_view(help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id) {
+		return dao.helpyou_write_view(help_post_id);
+	}
+	@Override
+	public void helpyou_delete(int help_post_id) {
+		dao.helpyou_delete(help_post_id);
+	}
+	@Override
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
+		dao.helpyou_reply_submit(comment, help_post_post_id, user_user_id);
+	}
+	@Override
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
+		return dao.helpyou_reply_list(help_post_post_id);
+	}
+	@Override
+	public void helpyou_reply_delete(int help_reply_id) {
+		dao.helpyou_reply_delete(help_reply_id);
 	}
 	
 	
@@ -200,26 +217,18 @@ public class MemberServiceImpl implements MemberService {
 			// TODO Auto-generated method stub
 			return dao.select_freeboard_view(post_id);
 		} // 게시글 보기
-		@Override //notice_write_view : comments
-		public List<Dto_reply> select_freeboard_reply(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard_reply(post_id);
-		}//댓글 보기
+
 		@Override
 		public void select_freeboard_delete(int post_id) throws Exception {
 			// TODO Auto-generated method stub
 			dao.select_freeboard_delete(post_id);
 		}//게시글 삭제
+
 		@Override
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard_reply_delete(post_id);
-		}//댓글 삭제
-		@Override
-		public void freeboard_submit(String post_id, String board, String title, String operator, 
-				String nick, String content, String img, String user_user_id) throws Exception
+		public void freeboard_write(String post_id, String board, String title, String operator, 
+				String content, String user_user_id) throws Exception
 				{
-			dao.freeboard_submit(post_id, board, title, operator, nick, content, img, user_user_id);
+			dao.freeboard_write(post_id, board, title, operator, content, user_user_id);
 		}
 
 		

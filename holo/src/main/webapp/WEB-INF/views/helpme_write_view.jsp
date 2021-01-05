@@ -111,7 +111,7 @@
 		           <p class="reply_date">${he.operator}</p>
 		           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
 		           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
-		           <input type=submit value="수정" onclick="javascript: form.action='help_reply_edit';"/>
+		           <input type=submit value="수정" class=re_edit onclick="javascript: form.action='help_reply_edit';"/>
 	            </div>
 				</c:forEach>
 			</form>
@@ -137,6 +137,10 @@ $(document)
 	}else{
 		return false;
 	}
+})
+
+.on('click','.re_edit',function(){
+	console.log(${list.help_reply_id})
 })
 </script>
 </html>

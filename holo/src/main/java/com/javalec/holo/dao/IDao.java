@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.util.List;
 
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
@@ -50,7 +51,12 @@ public interface IDao {
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list();
-	public void helpyou_write_view(int help_post_id);
+	public Dto_help_post helpyou_write_view(int help_post_id);
+	public void helpyou_delete(int help_post_id);
+	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);
+	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id);
+	public void helpyou_reply_delete(int help_reply_id);
+	
 	
 	//NOTICE
 			public List<Dto_post> select_post();
@@ -87,16 +93,12 @@ public interface IDao {
 		//리스트 보여주기
 		public List<Dto_freeboard> select_freeboard_view(int post_id);
 		//게시글 상세 보기
-		public List<Dto_reply> select_freeboard_reply(int post_id);
-		//댓글 보여주기
+		
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id);
-		//댓글 삭제
-		public void freeboard_submit(String post_id, String board, String title, String operator, 
-				String nick, String content, String img, String user_user_id) throws Exception;
+
+		public void freeboard_write(String post_id, String board, String title, String operator,
+				String content, String user_user_id) throws Exception; 
 		//게시글 작성
 
-		
-		
-}
+
