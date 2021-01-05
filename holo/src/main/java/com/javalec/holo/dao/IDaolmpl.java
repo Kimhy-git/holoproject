@@ -55,7 +55,8 @@ public class IDaolmpl implements IDao {
 		@Override
   	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
 			int min_price)throws Exception {
-		
+		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
+				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price);
 		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price);
   		sqlSession.insert(Namespace+".write",Dto_p);
   	}
@@ -68,6 +69,7 @@ public class IDaolmpl implements IDao {
   	//help_me게시글 삭제
   	@Override
   	public void delete(int help_post_id) throws Exception {
+  		sqlSession.delete(Namespace+".delete_re",help_post_id);
   		sqlSession.delete(Namespace+".delete",help_post_id);
   	}
 

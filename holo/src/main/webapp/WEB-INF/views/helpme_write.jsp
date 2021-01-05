@@ -57,13 +57,20 @@
                     <option value="제주">제주</option>
                 </select>
                 <select id="job" name="tag_job">
-                    <option value="벌레잡기">벌레잡기</option>
-                    <option value="줄서주기">줄서주기</option>
-                    <option value="대리전화">대리전화</option>
-                    <option value="기타">기타</option>
+                    <option value="벌레잡기">벌레잡기
+					<option value="쓰레기 분리수거">쓰레기 분리수거
+					<option value="음식물쓰레기 처리">음식물쓰레기 처리
+					<option value="장봐주기">장봐주기
+					<option value="이삿짐 도와주기">이삿짐 도와주기
+					<option value="가구 조립">가구 조립
+					<option value="설거지">설거지
+					<option value="변기 뚫기">변기 뚫기
+					<option value="냉장고 정리">냉장고 정리
+					<option value="모닝콜">모닝콜
+					<option value="기타">기타
                 </select>
                 <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
-                <div id="gender">지원자 성별 <input type="checkbox" name="gender" id="female" value='f'>여 <input type="checkbox" id="male" name="gender" value='f'>남</div>
+                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남</div>
                 <div id="payment" >결제 방법 
                 <input type="checkbox" value="현금" name="payment" id="cash">현금 
                 <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>

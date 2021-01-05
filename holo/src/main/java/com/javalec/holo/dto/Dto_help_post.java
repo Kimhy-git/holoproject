@@ -20,7 +20,7 @@ public class Dto_help_post {
 	
 	public Dto_help_post() {}
 	
-	public Dto_help_post(String title, String content, String tag_job, String tag_area,String gender, String payment ,
+	public Dto_help_post(String title, String content, String tag_area, String tag_job, String gender, String payment,
 			int min_price) {
 		super();
 		this.tag_area = tag_area;

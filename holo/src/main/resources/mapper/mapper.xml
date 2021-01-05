@@ -33,9 +33,14 @@
 	<select id="delete" resultType="dto_p">
 		delete from help_post where help_post_id=#{help_post_id} 
 	</select>
+	<!-- help_me 게시글, 댓글 삭제 -->
+	<select id='delete_re' resultType="dto_p">
+		delete from help_reply where help_post_post_id=#{help_post_id} 
+	</select>
+	
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply where help_post_post_id=#{help_post_id}
+	 	select * from help_reply where help_post_post_id=#{help_post_id};
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">

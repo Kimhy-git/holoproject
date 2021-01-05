@@ -21,7 +21,9 @@ public interface IDao {
 		public Dto_help_post read(int help_post_id) throws Exception;
 			
 		//help_me게시글 작성
-		void write(String title, String content,String gender, String tag_area, String tag_job, String payment, int min_price)throws Exception;
+		
+		void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+				int min_price)throws Exception;
 
 		//help_me게시글 수정
 		public void edit(Dto_help_post dto_p) throws Exception;
@@ -101,5 +103,5 @@ public interface IDao {
 				String content, String user_user_id) throws Exception; 
 
 		//게시글 작성
-
+}
 

@@ -51,11 +51,10 @@ public class MemberServiceImpl implements MemberService {
 		//help_me게시글 쓰기
 
 		@Override
-		public void write(String title, String content, String tag_area,
-											String gender, String tag_job, String payment,int min_price
-				)throws Exception {
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+				int min_price )throws Exception {
 			
-			dao.write(title,content,tag_area,gender,tag_job,payment,min_price);
+			dao.write(title,content,gender,tag_area,tag_job,payment,min_price);
 		
 		}
 		//help_me게시글 수정
@@ -229,6 +228,19 @@ public class MemberServiceImpl implements MemberService {
 				String content, String user_user_id) throws Exception
 				{
 			dao.freeboard_write(post_id, board, title, operator, content, user_user_id);
+		}
+
+		@Override
+		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
+				String content, String img, String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
 		}
 
 		
