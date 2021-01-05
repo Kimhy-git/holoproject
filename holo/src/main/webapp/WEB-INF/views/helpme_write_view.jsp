@@ -102,15 +102,19 @@
 	                <input type=submit id="submit" value="등록"></div>  
 	            </div> 
 	        </form>	
+	        <form method="post" >
 	            <c:forEach var="list" items="${re_list}">
 	            <div id=comments>
+	               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 		           <p class="reply_user">${list.user_user_id}</p>
 		           <p class="reply_comment">${list.re_comment}</p>
-		           <p class="reply_date">${list.operator}</p>
-		           <a href=#>삭제</a> <a href=#>수정</a>
+		           <p class="reply_date">${he.operator}</p>
+		           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
+		           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
+		           <input type=submit value="수정" onclick="javascript: form.action='help_reply_edit';"/>
 	            </div>
 				</c:forEach>
-			
+			</form>
 	            <div id="btn">
 	                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
 	                <a href="helpme_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>

@@ -22,6 +22,7 @@ header #logo img{
 
 section{
 	overflow-y:auto;
+	background-color: rgb(245, 232, 255);
 }
 h2{
 	float: left;

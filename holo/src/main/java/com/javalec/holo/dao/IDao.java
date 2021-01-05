@@ -35,13 +35,18 @@ public interface IDao {
 		public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
 
 		//help_me 댓글 작성
-		void re_write( String re_commnet,int help_post_post_id)throws Exception;
+		void re_write( String re_commnet,int help_post_id)throws Exception;
 
+		//help_me 수정 댓글 보기
+		public Dto_help_reply re_read(int help_reply_id)throws Exception;
+		
 		//help_me 댓글 수정
-
+		public void re_edit(String re_comment, int help_reply_id) throws Exception;
+		
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception;
 	
+		
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list();
@@ -91,5 +96,7 @@ public interface IDao {
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
 				String nick, String content, String img, String user_user_id) throws Exception;
 		//게시글 작성
+
+		
 		
 }

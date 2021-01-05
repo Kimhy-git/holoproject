@@ -64,25 +64,7 @@
                     <a href="#">기타</a>
                 </div>
                 <div id="content">
-                    <ul id="content_ul">
-                        <li>
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p>[지역]글제목</p>
-                            <p>작성자</p>
-                            <p>2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test2.jpg">
-                            <p>[지역]글제목</p>
-                            <p>작성자</p>
-                            <p>2020.12.21 13:15</p>
-                        </li>
-                        <li>
-                            <img class="thumbnail" src="resources/img/test3.jpg">
-                            <p>[지역]글제목</p>
-                            <p>작성자</p>
-                            <p>2020.12.21 13:15</p>
-                        </li>
+                    <ul>
                     </ul>
                 </div>
             </div>  
@@ -128,12 +110,12 @@ $(document)
                     				'<p>'+value['nick']+'</p>'+
                     				'<p>'+value['operator']+'</p>'+
                 				'</li>';
-                	$('#content_ul').append(content);
+                	$('#content ul').append(content);
 				})
 		},'json')
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
-		$("#content ul li:eq("+count+")").css("margin-left","0");
+		$("#content ul content:eq("+count+")").css("margin-left","0");
 		console.log(count)
 	}
 })

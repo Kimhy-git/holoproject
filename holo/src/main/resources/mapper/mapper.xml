@@ -43,9 +43,16 @@
 		user_user_id) values(1,1,#{re_comment},1,1,1,#{help_post_post_id},'abc123') ;
 	</select>
 	<!-- help_me댓글 수정 -->
+	<select id="re_edit" resultType="dto_pr">
+		update help_reply setre_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
+	</select>		
 	<!-- help_me댓글 삭제 -->
 	<select id="re_delete" resultType="dto_pr">
 		delete from help_reply where help_reply_id=#{help_reply_id} 
+	</select>
+	<!-- help_me 수정 댓글 보기 -->
+	<select id="re_edit_view" resultType="dto_pr">
+		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
 	
 	<!-- help_you -->
