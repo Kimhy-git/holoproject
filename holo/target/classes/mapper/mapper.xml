@@ -33,9 +33,14 @@
 	<select id="delete" resultType="dto_p">
 		delete from help_post where help_post_id=#{help_post_id} 
 	</select>
+	<!-- help_me 게시글, 댓글 삭제 -->
+	<select id='delete_re' resultType="dto_p">
+		delete from help_reply where help_post_post_id=#{help_post_id} 
+	</select>
+	
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply where help_post_post_id=#{help_post_id}
+	 	select * from help_reply where help_post_post_id=#{help_post_id};
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
@@ -156,6 +161,22 @@
     	where board=#{board} and post_id=#{post_id};
     </select>
     
+    <!-- notice_write_view : add re_comments -->
+    <select id="add_re_comment" parameterType="dto_reply"> 
+    	insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
+		values(0,#{re_index},#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- freeboard -->
     <select id="select_freeboard" resultType="dto_freeboard">
         select * from post where board=1;
@@ -177,11 +198,23 @@
     </select>
     <!-- 댓글 삭제 -->
     
-    
-    <select id="freeboard_write" parameterType="dto_freeboard">
-    	insert into post(post_id, board, title, content,user_user_id) 
-    		values (10,1,#{title},#{content},"b");
+       
+    <select id="freeboard_update" resultType="dto_freeboard"> 
+    	update post set title=#{title}, content=#{content}
+    	where post_id=#{post_id} and board=1;
     </select>
-
+    <!-- 게시물 수정 -->
+ 
+    <insert id="freeboard_write" parameterType="dto_freeboard">
+    	insert into post(board, title, content, user_user_id) 
+    		values (1, #{title}, #{content}, "b");
+    </insert>
+	<!-- 게시물 등록 -->
+	
+	<select id="free_write_comment" parameterType="dto_free_reply"> 
+    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
+		values(1,0,#{re_comment},#{post_post_id},'b');	
+    </select>
+    <!-- 댓글 쓰기 -->
 
 </mapper>

@@ -55,6 +55,11 @@ public interface MemberService {
 			//update posts
 			public void update_post(String post_id, String board, String title, String content);
 		
+			//add re_comments
+			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+			
+			
+			
 			
 			
 			
@@ -69,8 +74,8 @@ public interface MemberService {
 			public List<Dto_help_post> likes() throws Exception;
 
 			//help_me게시글 작성
-			public void write(String title, String content,String gender, String tag_area, String tag_job, String payment,
-						int min_price) throws Exception;
+			public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+					int min_price) throws Exception;
 
 			//help_me게시글 수정
 			public void edit(Dto_help_post dto_p) throws Exception;
@@ -104,6 +109,16 @@ public interface MemberService {
 		public void select_freeboard_delete(int post_id) throws Exception;
 		//게시글 삭제
 
+		public void freeboard_update(String post_id, String board, String title, String content);
+		// 게시글 수정
+		public void freeboard_write(String post_id, String board, String title,
+				String content, String user_user_id)throws Exception;
+		// 게시물 쓰기
+		public void free_write_reply(String post_post_id, String re_comment)throws Exception;
+		// 댓글 쓰기
+		
+
+
 		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception;
 		//댓글 삭제
 		public void freeboard_submit(String post_id, String board, String title, String operator, 
@@ -111,5 +126,12 @@ public interface MemberService {
 
 		public void freeboard_write(String post_id, String board, String title, String operator, 
 				String content, String user_user_id) throws Exception;
+
 		
 }
+
+
+
+
+
+

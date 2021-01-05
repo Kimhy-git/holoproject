@@ -56,7 +56,7 @@ public class BoardController {
 				
 		@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
 	    public String helpme_write() {
-	       
+			 
 	   	 return "helpme_write";
 	    }
 				
@@ -72,11 +72,29 @@ public class BoardController {
 			  String tag_job=req.getParameter("tag_job");
 			  String gender=req.getParameter("gender");
 			  int min_price=Integer.parseInt(req.getParameter("min_price"));
-			  String payment=req.getParameter("payment");
+
+
+			  String[] paymentList =req.getParameterValues("payment");
 			  
+			  
+			  String payment=String.join(", ",paymentList);
+			  System.out.println("결제방법은 바로바로"+payment);
+			  	gender=null;
+			  	
+				System.out.println(req.getParameter("female"));
+				System.out.println(req.getParameter("male"));
+				if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+					gender="a";
+				}else if(req.getParameter("female")!=null) {
+					gender="f";
+				}else if(req.getParameter("male")!=null) {
+					gender="m";
+				}
+				
+
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
+			  service.write(title,content,gender,tag_area,tag_job,payment, min_price);
 
 	   	  return "redirect:help_me";
 	     }
@@ -90,9 +108,18 @@ public class BoardController {
 			  System.out.println("help_post_id:"+help_post_id);
 			  Dto_help_post read = service.read(help_post_id);
 			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
-			  model.addAttribute("read", read);
+			  System.out.println("겟 젠더 : "+read.getGender());
 			  model.addAttribute("re_list",re_list);
-			  System.out.println(re_list);
+			  if(read.getGender().equals("a")) {
+				  read.setGender("상관없음");
+			  }else if(read.getGender().equals("f")) {
+				  read.setGender("여성");
+			  }else if(read.getGender().equals("m")) {
+				  read.setGender("남성");
+			  }
+			  model.addAttribute("read", read);
+			  
+			  System.out.println("helpme_write_view종료");
 		      return "helpme_write_view";
 	   }
 
@@ -115,7 +142,8 @@ public class BoardController {
 	    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
 	   	String re_comment=req.getParameter("re_comment");
 	   	System.out.println("서비스");
-	   	service.re_write(re_comment,help_post_id );
+	   	service.re_write(re_comment,help_post_id );   	
+	
 	   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
 	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	   }
@@ -123,7 +151,6 @@ public class BoardController {
 		@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
 		public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
 			System.out.println("help_reply_del 실행");
-			
 			int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
 			System.out.println("help_reply_del 1");
 			service.re_delete(help_reply_id);
@@ -133,31 +160,17 @@ public class BoardController {
 			System.out.println("help_reply_del 종료");
 			return "redirect:helpme_write_view?help_post_id="+help_post_id;
 		}
-	
-		@RequestMapping(value="/help_reply_edit", method=RequestMethod.POST)
-		public String help_reply_edit(HttpServletRequest req, Model model) throws Exception{
-			System.out.println("helpme_reply_edit작동");
-			  int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-			  int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-			  Dto_help_post read = service.read(help_post_id);      
-			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
-			  Dto_help_reply re_read = service.re_read(help_reply_id);
-			  model.addAttribute("read", read);
-			  model.addAttribute("re_list",re_list);
-			  model.addAttribute("re_read",re_read);
-			return "help_reply_edit";
-		}
 		
-		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
-	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
-	   	System.out.println("help_reply_edit_go 작동");
-	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-	   	String re_comment=req.getParameter("re_comment");
-	   	service.re_edit(re_comment,help_reply_id );
-	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
-	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
-	   }
+//		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+//	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
+//	   	System.out.println("help_reply_edit_go 작동");
+//	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+//	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+//	   	String re_comment=req.getParameter("re_comment");
+//	   	service.re_edit(re_comment,help_reply_id );
+//	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
+//	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+//	   }
 		
 		
 		
@@ -178,6 +191,7 @@ public class BoardController {
 		if(!file.isEmpty()) {
 			file_up=FileuploadServlet.restore(file);
 		}
+
 		String gender=null;
 		if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
 			gender="a";
@@ -254,6 +268,11 @@ public class BoardController {
 	public String helpyou_write() {
 		return "helpyou_write";
 	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -443,6 +462,43 @@ public class BoardController {
 
 		    	return "redirect:notice";
 		    }
+		    
+		  //add_re_comments
+		    @RequestMapping(value = "add_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
+		    public String add_re_comment(HttpServletRequest req, Model model) throws Exception{
+		    	
+		    	System.out.println("Start add_recomment");
+		    	
+		    	String re_index=req.getParameter("reply_id");
+		    	String re_comment=req.getParameter("re_re_comment");
+		    	int order_i=Integer.parseInt(req.getParameter("re_order"));
+		    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+		    	String post_post_id=req.getParameter("post_post_id");
+		    	
+		    	order_i+=1;
+		    	groupNum_i+=1;
+		    	
+		    	String re_order=String.valueOf(order_i);
+		    	String groupNum=String.valueOf(groupNum_i);
+
+		    	System.out.println("this is re_index : " +re_index);
+		    	System.out.println("this is re_comment : " +re_comment);
+		    	System.out.println("this is order : " +re_order);
+		    	System.out.println("this is groupNum : " +groupNum);
+		    	System.out.println("this is post_post_id : " +post_post_id);
+		    	
+		    	service.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		    	
+		    	System.out.println("The end of update_post_now");
+
+		    	return "redirect:notice";
+		    }
+		    
+		    
+		    
+		    
+		    
+		    
 	    
 	    //freeboard
 		    @RequestMapping(value="freeboard", method = RequestMethod.GET)
@@ -464,12 +520,8 @@ public class BoardController {
 				if(req.getParameter("post_id").equals("")) {
 					return "redirect:freeboard";
 				}
-				int post_id=Integer.parseInt(req.getParameter("post_id"));
-				
+				int post_id=Integer.parseInt(req.getParameter("post_id"));				
 				List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
-				
-				System.out.println("test :"+ freeboard);
-				
 				model.addAttribute("freeboard",freeboard);
 				
 				return "freeboard_write_view";
@@ -477,33 +529,71 @@ public class BoardController {
 			
 			  @RequestMapping(value = "/freeboard_write_delete", method = RequestMethod.GET)
 			    public String freeboard_write_delete(HttpServletRequest req, Model model) throws Exception{
-
-			    	if(req.getParameter("post_id").equals("")) {
-						return "freeboard_write_view";
-					}
-
-			    	int post_id=Integer.parseInt(req.getParameter("post_id"));
-			    	
+				   System.out.println(req.getParameter("post_id"));
+			    	int post_id=Integer.parseInt(req.getParameter("post_id"));			    	
+			    	System.out.println("delete: "+post_id);
 			    	service.select_freeboard_delete(post_id);
-
 			    	return "redirect:freeboard";
 			    } //게시글 삭제
-			 
-			    
+			  
+			  @RequestMapping(value="freeboard_modify", method = RequestMethod.GET)
+				public String freeboard_modify(HttpServletRequest req, Model model) throws Exception{
+				  	String post_id=req.getParameter("post_id");
+			    	String title=req.getParameter("title");
+			    	String content=req.getParameter("content");
+			    	String board="1";
+			    	
+			    	System.out.println("to modify: "+post_id);
+			    	
+			    	model.addAttribute("title",title);
+			    	model.addAttribute("post_id",post_id);
+			    	model.addAttribute("content",content);
 
+			    	return "freeboard_modify";
+			    } //수정페이지로 이동
+			  @RequestMapping(value = "freeboard_update", method = RequestMethod.GET)
+			    public String freeboard_update(HttpServletRequest req, Model model) throws Exception{
+			    	
+			    	String post_id=req.getParameter("post_id");
+			    	String board="1";
+			    	String title=req.getParameter("title");
+			    	String content=req.getParameter("content");
+			    	
+			    	System.out.println("test : " +post_id);
+			    	System.out.println("test : " +title);
+			    	System.out.println("test : " +content);
+			    	
+			    	service.freeboard_update(post_id,board,title,content);
+
+			    	return "redirect:freeboard";
+			    } //게시물 수정
+			    	
 			@RequestMapping(value="/freeboard_submit", method = RequestMethod.GET)
 			public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
 				String post_id="10";
 		    	String board="1";
 		    	String title=req.getParameter("title");
 		    	String operator=null;
-		    	
+
 		    	String content=req.getParameter("content");
 				String user_user_id="b";
-
-				service.freeboard_write(post_id, board, title, operator, content,user_user_id);
+				
+				System.out.println("test : " +title);
+				
+				service.freeboard_write(post_id, board, title, content,user_user_id);
 				
 				return "redirect:freeboard";
 			} //게시글 작성
+			
+			 @RequestMapping(value = "/free_write_reply", method = RequestMethod.GET)
+			    public String free_write_comment(HttpServletRequest req, Model model) throws Exception {
+			    	
+			    	String post_post_id=req.getParameter("post_post_id");
+			    	String re_comment=req.getParameter("re_comment");
+
+			    	service.free_write_reply(post_post_id, re_comment);
+
+			    	return "redirect:freeboard_write_view";
+			    } //댓글 작성
 	
 }

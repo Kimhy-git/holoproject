@@ -51,11 +51,10 @@ public class MemberServiceImpl implements MemberService {
 		//help_me게시글 쓰기
 
 		@Override
-		public void write(String title, String content, String tag_area,
-											String gender, String tag_job, String payment,int min_price
-				)throws Exception {
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+				int min_price )throws Exception {
 			
-			dao.write(title,content,tag_area,gender,tag_job,payment,min_price);
+			dao.write(title,content,gender,tag_area,tag_job,payment,min_price);
 		
 		}
 		//help_me게시글 수정
@@ -206,6 +205,21 @@ public class MemberServiceImpl implements MemberService {
 			dao.update_post(post_id,board,title,content);
 			
 		}
+		
+		//add re_comments
+		@Override
+		public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			
+			System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+			dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+			
+		}	
+		
+		
+		
+		
+		
+		
 	
 		@Override
 		public List<Dto_freeboard> select_freeboard() throws Exception {
@@ -222,20 +236,32 @@ public class MemberServiceImpl implements MemberService {
 		public void select_freeboard_delete(int post_id) throws Exception {
 			// TODO Auto-generated method stub
 			dao.select_freeboard_delete(post_id);
-		}//게시글 삭제
-
+		} //게시글 삭제
+		
 		@Override
-		public void freeboard_write(String post_id, String board, String title, String operator, 
+		public void freeboard_update(String post_id, String board, String title, String content) {
+
+			dao.freeboard_update(post_id,board,title,content);			
+		} // 게시글 수정
+		
+		@Override
+		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id) throws Exception
 				{
-			dao.freeboard_write(post_id, board, title, operator, content, user_user_id);
-		}
+			dao.freeboard_write(post_id, board, title, content, user_user_id);
+		} // 게시글 작성
+		
+		@Override
+		public void free_write_reply(String post_post_id, String re_comment) throws Exception {
+					dao.free_write_reply(post_post_id, re_comment);
+		} //댓글 쓰기
 
 		@Override
 		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
 
 		@Override
 		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
@@ -244,5 +270,11 @@ public class MemberServiceImpl implements MemberService {
 			
 		}
 
-		
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String operator, String content,
+				String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
+		}
+
 }

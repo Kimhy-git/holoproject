@@ -27,7 +27,7 @@ public class Dto_free_reply {
 
 
 	public Dto_free_reply(String reply_id, String board, String post_post_id) {
-//		super();
+		super();
 		this.reply_id = reply_id;
 		this.board = board;
 		this.post_post_id = post_post_id;

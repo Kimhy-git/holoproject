@@ -24,7 +24,7 @@ public class Dto_freeboard {
 		this.user_user_id = user_user_id;
 		this.nick = nick;
 	}
-	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String user_user_id) {
+	public Dto_freeboard(String post_id, String board, String title, String content, String user_user_id) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
@@ -32,6 +32,13 @@ public class Dto_freeboard {
 		this.operator = operator;
 		this.content = content;
 		this.user_user_id = user_user_id;
+	}
+	public Dto_freeboard(String post_id, String board, String title, String content) {
+		super();
+		this.post_id = post_id;
+		this.board = board;
+		this.title = title;
+		this.content = content;
 	}
 
 	public String getNick() {
