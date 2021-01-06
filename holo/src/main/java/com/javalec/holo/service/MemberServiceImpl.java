@@ -59,9 +59,11 @@ public class MemberServiceImpl implements MemberService {
 		}
 		//help_me게시글 수정
 		@Override
-		public void edit(Dto_help_post dto_p) throws Exception {
-			// TODO Auto-generated method stub
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
 			
+			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id);
+		
 		}
 		//help_me게시글 삭제
 		@Override
@@ -214,7 +216,13 @@ public class MemberServiceImpl implements MemberService {
 			dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 			
 		}	
-		
+
+		//hits
+		@Override
+		public void uphit(String post_id) {
+			System.out.println("MemberServiceImpl, post_id : "+post_id);
+			dao.uphit(post_id);
+		}
 		
 		
 		
@@ -268,9 +276,8 @@ public class MemberServiceImpl implements MemberService {
 			dao.update_free_comment(reply_id,re_comment,post_post_id,board);
 		} // 댓글 수정
 		@Override
+
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
 			dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 		} // 대댓글 작성	
-				
-
 }

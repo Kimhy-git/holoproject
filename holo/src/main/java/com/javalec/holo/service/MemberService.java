@@ -58,6 +58,8 @@ public interface MemberService {
 			//add re_comments
 			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 			
+			//hits
+			public void uphit(String post_id);
 			
 			
 			
@@ -78,7 +80,8 @@ public interface MemberService {
 					int min_price) throws Exception;
 
 			//help_me게시글 수정
-			public void edit(Dto_help_post dto_p) throws Exception;
+			public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+					int min_price, int help_post_id) throws Exception;
 			
 			//help_me게시글 삭제
 			public void delete(int help_post_id) throws Exception;
@@ -106,7 +109,9 @@ public interface MemberService {
 		public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception;
 		// 게시글 보기
 		public void select_freeboard_delete(int post_id) throws Exception;
-		// 게시글 삭제
+		//게시글 삭제
+
+
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시글 수정
 		public void freeboard_write(String post_id, String board, String title,
@@ -116,11 +121,13 @@ public interface MemberService {
 		// 댓글 보기
 		public void add_free_comment(String post_post_id, String re_comment) throws Exception;
 		// 댓글 쓰기
+
 		public void delete_free_comment(String reply_id, String board, String post_post_id);
 		// 댓글 삭제
 		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 		// 댓글 수정
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
-		// 대댓글 작성
+		// 대댓글 작성	
+
 }
 

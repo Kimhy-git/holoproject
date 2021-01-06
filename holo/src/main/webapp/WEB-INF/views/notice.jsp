@@ -51,8 +51,8 @@
 	                
 	                    <td><a href="notice_write_view?post_id=${dto.post_id}">${dto.title}</a></td>
 	                    <td>${dto.nick}</td>
-	                    <td>${dto.operator}</td><br>
-	                
+	                    <td>${dto.operator}</td>
+	                	<td>${dto.hit}</td><br>
 	                </tr>
 	                </c:forEach>
 	            </table>

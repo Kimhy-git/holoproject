@@ -53,7 +53,7 @@ public class IDaolmpl implements IDao {
   	//help_me게시글 쓰기
 
 		@Override
-  	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
 			int min_price)throws Exception {
 		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
 				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price);
@@ -61,11 +61,13 @@ public class IDaolmpl implements IDao {
   		sqlSession.insert(Namespace+".write",Dto_p);
   	}
   	//help_me게시글 수정
-  	@Override
-  	public void edit(Dto_help_post dto_p) throws Exception {
-  		sqlSession.update(Namespace+".edit");
-  		
-  	}
+		@Override
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
+		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+  		sqlSession.insert(Namespace+".edit",Dto_p);
+		}
   	//help_me게시글 삭제
   	@Override
   	public void delete(int help_post_id) throws Exception {
@@ -236,7 +238,13 @@ public class IDaolmpl implements IDao {
 			Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
 			sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
 		}
-		
+
+		//hits
+		@Override
+		public void uphit(String post_id) {
+			System.out.println("IdaoImpl, uphit : "+post_id);
+			sqlSession.insert(Namespace+".uphit",post_id);
+		}
 		
 		
 		
