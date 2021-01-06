@@ -72,8 +72,9 @@
                         	<input type="hidden" value="${list.user_user_id}" name="user_id">
                         	<input type="hidden" value="${list.help_post_id}">
                             <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}</p>
-                            <p class="writer">${list.nick} <span class="like"> ♥ 5</span></p>
+                            <p class="title"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}
+                            <!--<span class="hit">${list.hit}</span> --></p>
+                            <p class="writer">${list.nick} <span class="like"> ♥ ${list.likes}</span>
                             <p class="price">최소금액 : ${list.min_price}원</p>
                             <p class="date">${list.operator}</p>
                         </li> 
@@ -94,6 +95,7 @@
 <script>
 $(document)
 .ready(function(){
+
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul li:eq("+count+")").css("margin-left","0");

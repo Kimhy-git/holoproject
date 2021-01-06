@@ -23,7 +23,7 @@ public interface IDao {
 		//help_me게시글 작성
 		
 		void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price)throws Exception;
+				int min_price,String img)throws Exception;
 
 		//help_me게시글 수정
 		void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
@@ -44,11 +44,14 @@ public interface IDao {
 		public Dto_help_reply re_read(int help_reply_id)throws Exception;
 		
 		//help_me 댓글 수정
-		public void re_edit(String re_comment, int help_reply_id) throws Exception;
+		public void re_edit(int help_reply_id,String re_comment) throws Exception;
 		
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception;
 	
+		//help_hit 
+		public void hit(int help_post_id) throws Exception;
+		
 		
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);

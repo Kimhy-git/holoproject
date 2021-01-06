@@ -9,7 +9,7 @@
     
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
-		select * from help_post where board=1 order by help_post_id desc;
+		select * from help_post, user where help_post.user_user_id=user.user_id and board=1 order by help_post_id desc;
 	</select>
 	
 	<!-- help_me likes -->
@@ -19,13 +19,14 @@
 	
 	<!-- help_me 게시글 상세보기 -->
 	<select id="read" resultType="dto_p">
-		select * from help_post where help_post_id = #{help_post_id}
+		
+		select * from help_post, user where user.user_id = help_post.user_user_id and help_post.help_post_id = #{help_post_id};
 	</select>
 	
 	<!-- help_me 게시글 쓰기 -->
 	<select id="write" parameterType="dto_p">
-		insert into help_post (tag_area, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
-		values(#{tag_area},1,#{title},"hi",#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"1")
+		insert into help_post (tag_area,img, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
+		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id='b'),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"b")
 	</select>
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
@@ -44,7 +45,7 @@
 		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply where help_post_post_id=#{help_post_id};
+	 	select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
@@ -53,7 +54,7 @@
 	</select>
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
-		update help_reply setre_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
+		update help_reply set re_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
 	</select>
 	<!-- help_me댓글 삭제 -->
 	<select id="re_delete" resultType="dto_pr">
@@ -64,6 +65,10 @@
 		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
 	
+	<!-- help_me hit -->
+	<select id="hit" resultType="dto_p">
+		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
+	</select>
 	
 	
 	<!-- help_you -->

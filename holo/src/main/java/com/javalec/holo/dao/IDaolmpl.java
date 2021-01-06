@@ -54,10 +54,10 @@ public class IDaolmpl implements IDao {
 
 		@Override
 		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price)throws Exception {
+			int min_price,String img)throws Exception {
 		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
-				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price);
-		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price);
+				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img);
+		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img);
   		sqlSession.insert(Namespace+".write",Dto_p);
   	}
   	//help_me게시글 수정
@@ -85,6 +85,7 @@ public class IDaolmpl implements IDao {
   	@Override
   	public void re_write(String re_comment,int help_post_id )throws Exception {
   		System.out.println("아이다오 댓글보여주기 reply :"+re_comment);
+  		
   		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id);
   		sqlSession.insert(Namespace+".re_write",Dto_pr);
   	}
@@ -95,8 +96,10 @@ public class IDaolmpl implements IDao {
   	};
   	//help_me 댓글 수정
   	@Override
-  	public void re_edit(String re_comment, int help_reply_id)throws Exception {
-  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_reply_id);
+  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
+  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
+  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
   		sqlSession.insert(Namespace+".re_edit",Dto_pr);
   	}
   	//help_me 댓글 삭제
@@ -105,6 +108,11 @@ public class IDaolmpl implements IDao {
   		sqlSession.delete(Namespace+".re_delete",help_reply_id);
   	}
 	
+	//help_me hit
+	@Override
+	public void hit(int help_post_id) throws Exception{
+	    sqlSession.insert(Namespace+".hit",help_post_id);
+	};
 	
     
 		

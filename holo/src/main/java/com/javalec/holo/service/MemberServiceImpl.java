@@ -52,9 +52,9 @@ public class MemberServiceImpl implements MemberService {
 
 		@Override
 		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price )throws Exception {
+				int min_price, String img )throws Exception {
 			
-			dao.write(title,content,gender,tag_area,tag_job,payment,min_price);
+			dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img);
 		
 		}
 		//help_me게시글 수정
@@ -88,13 +88,21 @@ public class MemberServiceImpl implements MemberService {
 			return dao.re_read(help_reply_id);
 		};
 		//help_me 댓글 수정
-		public void re_edit(String re_comment, int help_reply_id)throws Exception {
-			dao.re_edit(re_comment,help_reply_id);
+		public void re_edit(int help_reply_id, String re_comment)throws Exception {
+			System.out.println("멤버 서비스에서 리코멘트 수정한거 ~~:"+re_comment);
+			dao.re_edit(help_reply_id,re_comment);
 		}
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception{
 		dao.re_delete(help_reply_id);
 		}
+		
+		//help_me hit
+		public void hit(int help_post_id) throws Exception{
+			dao.hit(help_post_id);
+		}
+		
+		
 	
 	@Override // help_you_write
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
