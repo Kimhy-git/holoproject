@@ -7,12 +7,21 @@ public class Dto_free_reply {
 	private String re_index;
 	private String re_comment;
 	private String re_class;
-	private String order;
+	private String re_order;
 	private String groupNum;
 	private String post_post_id;
 	private String user_user_id;
 	
 	public Dto_free_reply() {}
+	
+	public Dto_free_reply(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+		super();
+		this.re_index = re_index;
+		this.re_comment = re_comment;
+		this.re_order = re_order;
+		this.groupNum = groupNum;
+		this.post_post_id = post_post_id;
+	}
 	
 	public Dto_free_reply(String reply_id, String board, String re_comment, String post_post_id) {
 		super();
@@ -42,7 +51,7 @@ public class Dto_free_reply {
 	}
 	
 	public Dto_free_reply(String reply_id, String board, String operator, String re_index, String re_comment,
-			String re_class, String order, String groupNum, String post_post_id, String user_user_id) {
+			String re_class, String re_order, String groupNum, String post_post_id, String user_user_id) {
 		super();
 		this.reply_id = reply_id;
 		this.board = board;
@@ -50,7 +59,7 @@ public class Dto_free_reply {
 		this.re_index = re_index;
 		this.re_comment = re_comment;
 		this.re_class = re_class;
-		this.order = order;
+		this.re_order = re_order;
 		this.groupNum = groupNum;
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
@@ -79,8 +88,8 @@ public class Dto_free_reply {
 	public String getRe_class() {
 		return re_class;
 	}
-	public String getOrder() {
-		return order;
+	public String getRe_order() {
+		return re_order;
 	}
 	public String getGroupNum() {
 		return groupNum;
@@ -106,8 +115,8 @@ public class Dto_free_reply {
 	public void setRe_class(String re_class) {
 		this.re_class = re_class;
 	}
-	public void setOrder(String order) {
-		this.order = order;
+	public void setRe_order(String re_order) {
+		this.re_order = re_order;
 	}
 	public void setGroupNum(String groupNum) {
 		this.groupNum = groupNum;
