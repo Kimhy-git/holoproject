@@ -10,6 +10,7 @@ public class Dto_post {
 	private String user_user_id;
 	private String nick;
 	private String hit;
+	private String reply_cnt;
 	
 	public Dto_post() {}
 	
@@ -35,7 +36,7 @@ public class Dto_post {
 	}
 	
 	public Dto_post(String post_id, String board, String title, String operator, String content, String img,
-			String user_user_id, String nick, String hit) {
+			String user_user_id, String nick, String hit, String reply_cnt) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
@@ -46,6 +47,15 @@ public class Dto_post {
 		this.user_user_id = user_user_id;
 		this.nick = nick;
 		this.hit = hit;
+		this.reply_cnt = reply_cnt;
+	}
+
+	public String getReply_cnt() {
+		return reply_cnt;
+	}
+
+	public void setReply_cnt(String reply_cnt) {
+		this.reply_cnt = reply_cnt;
 	}
 
 	public String getHit() {

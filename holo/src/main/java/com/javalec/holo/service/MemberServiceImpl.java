@@ -232,6 +232,14 @@ public class MemberServiceImpl implements MemberService {
 			dao.uphit(post_id);
 		}
 		
+		//the number of comments
+		@Override
+		public void num_of_comments(String post_id) {
+			System.out.println("MemberServiceImpl, post_id, number : "+post_id);
+			dao.num_of_comments(post_id);
+		}
+		
+		
 		
 		
 		

@@ -61,6 +61,10 @@ public interface MemberService {
 			//hits
 			public void uphit(String post_id);
 			
+			//the number of comments
+			public void num_of_comments(String post_id);
+			
+			
 			
 			
 			
@@ -123,13 +127,36 @@ public interface MemberService {
 		// 댓글 보기
 		public void add_free_comment(String post_post_id, String re_comment) throws Exception;
 		// 댓글 쓰기
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+		
+
+
+
+		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception;
+		//댓글 삭제
+		public void freeboard_submit(String post_id, String board, String title, String operator, 
+				String nick, String content, String img, String user_user_id)throws Exception;
+
+
+		public void freeboard_write(String post_id, String board, String title, String operator, 
+				String content, String user_user_id) throws Exception;	
+=======
+
+>>>>>>> bda147b88957b7d3dfbc21512d33d91439b5ff6c
 		public void delete_free_comment(String reply_id, String board, String post_post_id);
 		// 댓글 삭제
 		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 		// 댓글 수정
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 		// 대댓글 작성	
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
+>>>>>>> bda147b88957b7d3dfbc21512d33d91439b5ff6c
 }
 

@@ -387,12 +387,15 @@ public class BoardController {
 		    	System.out.println("add_comment");
 		    	String post_post_id=req.getParameter("post_post_id");
 		    	String re_comment=req.getParameter("re_comment");
+		    	
 		    	System.out.println("THIS IS post_post_id : "+post_post_id);
 		    	System.out.println("THIS IS re_comment : "+re_comment);
 		    	service.add_comment(post_post_id, re_comment);
+//		    	service.get_reply_id(re_comment);//방금 쓴 댓글의 reply_id를 가져옴
+//		    	service.set_re_index//그 댓글의 re_index에 reply_id를 넣음
 		    	
 		    	System.out.println("The end of add_comment");
-		    	return "redirect:notice_write_view";
+		    	return "redirect:notice";
 		    }
 		    
 		    //notice_write_view + comments
@@ -403,7 +406,12 @@ public class BoardController {
 		    	String post_id=req.getParameter("post_id");
 		    	System.out.println("this is post_id : " +post_id);
 		    	
+		    	//hits
 		    	service.uphit(post_id);
+		    	
+		    	//the number of comments
+		    	service.num_of_comments(post_id);
+		    	
 		    	List<Dto_reply> reply = service.select_post_reply(post_id);
 		    	List<Dto_post> notice = service.select_post_view(post_id); 
 		    	
@@ -534,17 +542,18 @@ public class BoardController {
 		    public String add_re_comment(HttpServletRequest req, Model model) throws Exception{
 		    	
 		    	System.out.println("Start add_recomment");
-		    	
+
 		    	String re_index=req.getParameter("reply_id");
 		    	String re_comment=req.getParameter("re_re_comment");
-		    	int order_i=Integer.parseInt(req.getParameter("re_order"));
+		    	int order=Integer.parseInt(req.getParameter("re_order"));
 		    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
 		    	String post_post_id=req.getParameter("post_post_id");
 		    	
-		    	order_i+=1;
+		    	order+=1;
 		    	groupNum_i+=1;
+
 		    	
-		    	String re_order=String.valueOf(order_i);
+		    	String re_order=String.valueOf(order);
 		    	String groupNum=String.valueOf(groupNum_i);
 
 		    	System.out.println("this is re_index : " +re_index);
@@ -555,10 +564,14 @@ public class BoardController {
 		    	
 		    	service.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 		    	
+		    	
 		    	System.out.println("The end of update_post_now");
 
 		    	return "redirect:notice";
 		    }
+		    
+		    
+		    
 		    
 		    
 		    
