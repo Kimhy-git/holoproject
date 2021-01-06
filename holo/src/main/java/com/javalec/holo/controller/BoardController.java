@@ -300,8 +300,9 @@ public class BoardController {
 		    	String post_id=req.getParameter("post_id");
 		    	System.out.println("this is post_id : " +post_id);
 		    	
+		    	service.uphit(post_id);
 		    	List<Dto_reply> reply = service.select_post_reply(post_id);
-		    	List<Dto_post> notice = service.select_post_view(post_id);  
+		    	List<Dto_post> notice = service.select_post_view(post_id); 
 		    	
 		        model.addAttribute("notice", notice);
 		        model.addAttribute("reply", reply);

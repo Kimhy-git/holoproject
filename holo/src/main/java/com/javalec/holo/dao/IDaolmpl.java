@@ -233,7 +233,13 @@ public class IDaolmpl implements IDao {
 			Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
 			sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
 		}
-		
+
+		//hits
+		@Override
+		public void uphit(String post_id) {
+			System.out.println("IdaoImpl, uphit : "+post_id);
+			sqlSession.insert(Namespace+".uphit",post_id);
+		}
 		
 		
 		

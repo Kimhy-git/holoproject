@@ -58,6 +58,8 @@ public interface MemberService {
 			//add re_comments
 			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 			
+			//hits
+			public void uphit(String post_id);
 			
 			
 			

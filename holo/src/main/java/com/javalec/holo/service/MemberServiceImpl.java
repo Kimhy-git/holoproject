@@ -215,7 +215,13 @@ public class MemberServiceImpl implements MemberService {
 			dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 			
 		}	
-		
+
+		//hits
+		@Override
+		public void uphit(String post_id) {
+			System.out.println("MemberServiceImpl, post_id : "+post_id);
+			dao.uphit(post_id);
+		}
 		
 		
 		
