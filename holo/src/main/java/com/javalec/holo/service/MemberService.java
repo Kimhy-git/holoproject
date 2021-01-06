@@ -61,6 +61,10 @@ public interface MemberService {
 			//hits
 			public void uphit(String post_id);
 			
+			//the number of comments
+			public void num_of_comments(String post_id);
+			
+			
 			
 			
 			
@@ -130,8 +134,6 @@ public interface MemberService {
 
 
 		public void freeboard_write(String post_id, String board, String title, String operator, 
-				String content, String user_user_id) throws Exception;
-
-		
+				String content, String user_user_id) throws Exception;	
 }
 

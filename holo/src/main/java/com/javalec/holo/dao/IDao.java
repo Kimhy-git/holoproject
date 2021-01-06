@@ -97,6 +97,10 @@ public interface IDao {
 			//hits
 			public void uphit(String post_id); 
 			
+			//the number of comments
+			public void num_of_comments(String post_id);
+			
+			
 			
 			
 			
@@ -119,18 +123,16 @@ public interface IDao {
 				String content, String user_user_id) throws Exception;
 
 		public void freeboard_write(String post_id, String board, String title, String operator,
-<<<<<<< HEAD
 				String content, String user_user_id) throws Exception;
 
 
-=======
-				String content, String user_user_id) throws Exception; 
 
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
+
 		//게시글 작성
 
 
 		public void free_write_reply(String post_post_id, String re_comment);
+
 
 		//게시글 작성
 }

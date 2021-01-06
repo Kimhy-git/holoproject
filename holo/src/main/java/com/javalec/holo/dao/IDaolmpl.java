@@ -246,6 +246,14 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".uphit",post_id);
 		}
 		
+		//the number of comments
+		@Override
+		public void num_of_comments(String post_id) {
+			System.out.println("IdaoImpl, uphit, number : "+post_id);
+			sqlSession.insert(Namespace+".num_of_comments",post_id);
+		}
+		
+		
 		
 		
 		

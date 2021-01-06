@@ -114,10 +114,10 @@
 		values(0,#{title},'One',#{content},#{img},'a');
     </select>
     
-    <!-- notice_write_view : add comments -->
+    <!-- notice_write_view : add comments --> //첫번째 댓글
     <select id="add_comment" parameterType="dto_reply"> 
-    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(0,0,#{re_comment},#{post_post_id},'a');	
+    	insert into reply(board,re_comment,post_post_id,user_user_id)
+		values(0,#{re_comment},#{post_post_id},'a');	
     </select>
     
     <!-- notice_write_view -->
@@ -133,7 +133,7 @@
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_post_reply"> 
     	select * from reply where board=0 and post_post_id=#{post_id}
-    	order by re_index, reply_id; 
+    	order by re_order, re_index, reply_id; 
     </select>
     
     <!-- notice_write_view : delete posts -->
@@ -170,11 +170,19 @@
     	where board=#{board} and post_id=#{post_id};
     </select>
     
-    <!-- notice_write_view : add re_comments -->
+    <!-- notice_write_view : add re_comments -->//대댓글
     <select id="add_re_comment" parameterType="dto_reply"> 
     	insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
 		values(0,#{re_index},#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
     </select>
+    
+    <!-- notice_write_view : the number of comments -->
+    <select id="num_of_comments" parameterType="dto_post_and_reply"> 
+    	select *,
+		(select count(*) from reply where reply.post_post_id=post_id) as reply_cnt
+		from post;
+    </select>
+    
     
     
     
