@@ -121,7 +121,7 @@
             <div id="btn">
                 <input type="button" id="remove" value="삭제">
                 <input type="button" id="edit" value="수정">
-                <a href="helpyou_write"><input type="button" id="list" value="목록보기"></a>
+                <a href="help_you"><input type="button" id="list" value="목록보기"></a>
             </div>
         </div>
         </section>

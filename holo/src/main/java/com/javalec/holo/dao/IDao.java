@@ -21,11 +21,13 @@ public interface IDao {
 		public Dto_help_post read(int help_post_id) throws Exception;
 			
 		//help_me게시글 작성
-		void write(String title, String content,String gender, String tag_area, String tag_job, String payment, int min_price)throws Exception;
+		
+		void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+				int min_price)throws Exception;
 
 		//help_me게시글 수정
-		public void edit(Dto_help_post dto_p) throws Exception;
-		
+		void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception;
 		//help_me게시글 삭제
 		public void delete(int help_post_id) throws Exception;
 
@@ -109,10 +111,27 @@ public interface IDao {
 		public void select_freeboard_delete(int post_id);
 		//게시글 삭제
 
+		
+		public void freeboard_update(String post_id, String board, String title, String content);
+		// 게시물 수정
+		public void freeboard_write(String post_id, String board, String title,
+
+				String content, String user_user_id) throws Exception;
+
 		public void freeboard_write(String post_id, String board, String title, String operator,
+<<<<<<< HEAD
 				String content, String user_user_id) throws Exception;
 
 
+=======
+				String content, String user_user_id) throws Exception; 
+
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
 		//게시글 작성
 
+
+		public void free_write_reply(String post_post_id, String re_comment);
+
+		//게시글 작성
 }
+

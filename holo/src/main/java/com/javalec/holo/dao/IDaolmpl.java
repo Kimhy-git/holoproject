@@ -53,21 +53,25 @@ public class IDaolmpl implements IDao {
   	//help_me게시글 쓰기
 
 		@Override
-  	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
 			int min_price)throws Exception {
-		
+		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
+				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price);
 		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price);
   		sqlSession.insert(Namespace+".write",Dto_p);
   	}
   	//help_me게시글 수정
-  	@Override
-  	public void edit(Dto_help_post dto_p) throws Exception {
-  		sqlSession.update(Namespace+".edit");
-  		
-  	}
+		@Override
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
+		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+  		sqlSession.insert(Namespace+".edit",Dto_p);
+		}
   	//help_me게시글 삭제
   	@Override
   	public void delete(int help_post_id) throws Exception {
+  		sqlSession.delete(Namespace+".delete_re",help_post_id);
   		sqlSession.delete(Namespace+".delete",help_post_id);
   	}
 
@@ -117,7 +121,7 @@ public class IDaolmpl implements IDao {
 		System.out.println("helpyou_submit");
 		System.out.println(tag_area+", "+title+", "+tag_job+", "+content+", "+img+", "+gender+", "+min_price+", "+payment+", "+user_user_id);
 		
-		Help_postDto helpDto=new Help_postDto(tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);		
+		Dto_help_post helpDto=new Dto_help_post(tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);		
 		
 		sqlSession.insert(Namespace+".helpyou_submit",helpDto);
 	}
@@ -129,6 +133,7 @@ public class IDaolmpl implements IDao {
 	
 	@Override
 	public void helpyou_delete(int help_post_id) {
+		sqlSession.delete(Namespace+".helpyou_repost_delete",help_post_id);
 		sqlSession.delete(Namespace+".helpyou_delete",help_post_id);
 	}
 	
@@ -275,9 +280,28 @@ public class IDaolmpl implements IDao {
 			sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
 		}//게시글 삭제
 		@Override
-		public void freeboard_write(String post_id, String board, String operator, String title, String content, String user_user_id)
+		public void freeboard_update(String post_id, String board, String title, String content) {			
+			Dto_freeboard freeboard_update=new Dto_freeboard(post_id,board,title,content);
+			
+			sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
+		}// 게시물 수정
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
 		throws Exception{
-			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, operator, content, user_user_id);
+			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
+		}// 게시물 달기
+		@Override
+		public void free_write_reply(String post_post_id, String re_comment) {
+			Dto_free_reply Dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+			sqlSession.insert(Namespace+".free_write_reply",Dto_free_reply);
+
+		}// 댓글 쓰기
+
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String operator, String content,
+				String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
 		}
 }

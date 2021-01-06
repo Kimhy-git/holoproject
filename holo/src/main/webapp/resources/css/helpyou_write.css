@@ -7,8 +7,8 @@
 
 section{
     /* padding-bottom: 80px; */
-    background-color: rgb(245, 232, 255);
     padding: 80px 0;
+    background-color: rgb(245, 232, 255);
 }
 
 
@@ -16,11 +16,12 @@ input::placeholder,
 textarea::placeholder{
     color: #ccc;
 }
+
 #move{
 	margin:0;
 	margin-bottom: 10px;
 }
-   
+
 #wrap h3{
     width: 80%;
     margin: 0 auto;
@@ -32,7 +33,7 @@ textarea::placeholder{
     
 }
 .input-title{
-    margin-top: 40px;
+    
     height: 35px;
     outline: none;
     width: 80%;
@@ -95,7 +96,7 @@ textarea::placeholder{
 }
 
 #submit{
-    background-color: rgb(138, 114, 226);
+	background-color: rgb(138, 114, 226);
     border: 1px solid rgb(126, 83, 194);
     color: white;
 }

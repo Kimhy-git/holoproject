@@ -56,7 +56,7 @@ public class BoardController {
 				
 		@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
 	    public String helpme_write() {
-	       
+			 
 	   	 return "helpme_write";
 	    }
 				
@@ -66,17 +66,35 @@ public class BoardController {
 		    	  
 			 System.out.println("helpme_write_go작동");
 
-	 	  String title=req.getParameter("title");
+			  String title=req.getParameter("title");
 			  String content=req.getParameter("content"); 
 			  String tag_area=req.getParameter("tag_area");
-			  String tag_job=req.getParameter("tag_job"); 
-			  String gender=req.getParameter("gender"); 
+			  String tag_job=req.getParameter("tag_job");
+			  String gender=req.getParameter("gender");
 			  int min_price=Integer.parseInt(req.getParameter("min_price"));
-			  String payment=req.getParameter("payment");
+
+
+			  String[] paymentList =req.getParameterValues("payment");
+			  
+			  
+			  String payment=String.join(", ",paymentList);
+			  System.out.println("결제방법은 바로바로"+payment);
+			  	gender=null;
+			  	
+				System.out.println(req.getParameter("female"));
+				System.out.println(req.getParameter("male"));
+				if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+					gender="a";
+				}else if(req.getParameter("female")!=null) {
+					gender="f";
+				}else if(req.getParameter("male")!=null) {
+					gender="m";
+				}
+				
 
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-			  service.write(title,content,tag_area,gender,tag_job,payment, min_price);
+			  service.write(title,content,gender,tag_area,tag_job,payment, min_price);
 
 	   	  return "redirect:help_me";
 	     }
@@ -88,13 +106,70 @@ public class BoardController {
 			  System.out.println("helpme_write_view작동");
 			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 			  System.out.println("help_post_id:"+help_post_id);
-			  Dto_help_post read = service.read(help_post_id);      
+			  Dto_help_post read = service.read(help_post_id);
 			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
-			  model.addAttribute("read", read);
+			  System.out.println("겟 젠더 : "+read.getGender());
 			  model.addAttribute("re_list",re_list);
-			  System.out.println(re_list);
+			  if(read.getGender().equals("a")) {
+				  read.setGender("상관없음");
+			  }else if(read.getGender().equals("f")) {
+				  read.setGender("여성");
+			  }else if(read.getGender().equals("m")) {
+				  read.setGender("남성");
+			  }
+			  model.addAttribute("read", read);
+			  
+			  System.out.println("helpme_write_view종료");
 		      return "helpme_write_view";
 	   }
+	   
+	   @RequestMapping(value = "/helpme_write_edit", method = RequestMethod.GET)
+	   public String helpme_write_edit(HttpServletRequest req, Model model) throws Exception {
+		   System.out.println("helpme_write_eidt 작동");
+		   
+		   int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+		   System.out.println("help_post_id 모디파이 에서...:"+help_post_id);
+		   Dto_help_post read = service.read(help_post_id);
+		   model.addAttribute("read", read);
+		   
+		   return "helpme_write_edit";
+	   }
+	   
+	   @RequestMapping(value="/helpme_edit_go", method = RequestMethod.POST)
+       public String helpme_edit_go(HttpServletRequest req, Model model)throws Exception {
+		    	  
+			 System.out.println("helpme_edit_go작동");
+
+			  String title=req.getParameter("title");
+			  String content=req.getParameter("content"); 
+			  String tag_area=req.getParameter("tag_area");
+			  System.out.println("가져요?");
+			  String tag_job=req.getParameter("tag_job");
+			  String gender=req.getParameter("gender");
+			  int min_price=Integer.parseInt(req.getParameter("min_price"));
+			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+			  System.out.println("가져요2?");
+			  String[] paymentList =req.getParameterValues("payment");
+			  String payment=String.join(", ",paymentList);
+
+			  	gender=null;
+			  	
+				System.out.println(req.getParameter("female"));
+				System.out.println(req.getParameter("male"));
+				if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+					gender="a";
+				}else if(req.getParameter("female")!=null) {
+					gender="f";
+				}else if(req.getParameter("male")!=null) {
+					gender="m";
+				}
+				
+			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
+														+gender+","+min_price+","+payment);
+			  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+			  System.out.println("가져요?3");
+	   	  return "redirect:help_me";
+	     }
 
 
 	     @RequestMapping(value="/helpme_del", method=RequestMethod.GET)
@@ -115,7 +190,8 @@ public class BoardController {
 	    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
 	   	String re_comment=req.getParameter("re_comment");
 	   	System.out.println("서비스");
-	   	service.re_write(re_comment,help_post_id );
+	   	service.re_write(re_comment,help_post_id );   	
+	
 	   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
 	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	   }
@@ -123,7 +199,6 @@ public class BoardController {
 		@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
 		public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
 			System.out.println("help_reply_del 실행");
-			
 			int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
 			System.out.println("help_reply_del 1");
 			service.re_delete(help_reply_id);
@@ -133,31 +208,19 @@ public class BoardController {
 			System.out.println("help_reply_del 종료");
 			return "redirect:helpme_write_view?help_post_id="+help_post_id;
 		}
-	
-		@RequestMapping(value="/help_reply_edit", method=RequestMethod.POST)
-		public String help_reply_edit(HttpServletRequest req, Model model) throws Exception{
-			System.out.println("helpme_reply_edit작동");
-			  int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-			  int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-			  Dto_help_post read = service.read(help_post_id);      
-			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
-			  Dto_help_reply re_read = service.re_read(help_reply_id);
-			  model.addAttribute("read", read);
-			  model.addAttribute("re_list",re_list);
-			  model.addAttribute("re_read",re_read);
-			return "help_reply_edit";
-		}
 		
-		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
-	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
-	   	System.out.println("help_reply_edit_go 작동");
-	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-	   	String re_comment=req.getParameter("re_comment");
-	   	service.re_edit(re_comment,help_reply_id );
-	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
-	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
-	   }
+//		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+//	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
+//	   	System.out.println("help_reply_edit_go 작동");
+//	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+//	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+//	   	String re_comment=req.getParameter("re_comment");
+//	   	service.re_edit(re_comment,help_reply_id );
+//	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
+//	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+//	   }
+		
+		
 		
 	// helpyou
     @RequestMapping(value = "/help_you")
@@ -176,9 +239,18 @@ public class BoardController {
 		if(!file.isEmpty()) {
 			file_up=FileuploadServlet.restore(file);
 		}
-		String gender=req.getParameter("gender");
+
+		String gender=null;
+		if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+			gender="a";
+		}else if(req.getParameter("female")!=null) {
+			gender="f";
+		}else if(req.getParameter("male")!=null) {
+			gender="m";
+		}
 		int price=Integer.parseInt(req.getParameter("price"));
-		String payment=req.getParameter("payment");
+		String[] paymentList=req.getParameterValues("payment");
+		String payment=String.join(", ", paymentList);
 		String user_id="a";
 		service.helpyou_submit(area,title,job,txtarea,file_up,gender,price,payment,user_id);
         return "redirect:help_you";
@@ -193,10 +265,20 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_write_view")
 	public String helpyou_write_view(HttpServletRequest req, Model model) {
+		System.out.println("start helpyouview");
 		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-		Dto_help_post dto=service.helpyou_write_view(help_post_id);
-		System.out.println(dto);
-		model.addAttribute("read",dto);
+		Dto_help_post read=service.helpyou_write_view(help_post_id);
+		System.out.println("gender: "+read.getGender());
+		  if(read.getGender().equals("a")) {
+			  read.setGender("상관없음");
+		  }else if(read.getGender().equals("f")) {
+			  read.setGender("여성");
+		  }else if(read.getGender().equals("m")) {
+			  read.setGender("남성");
+		  }
+		System.out.println(read.getGender());
+		model.addAttribute("read",read);
+		System.out.println("end helpyouview");
 		return "helpyou_write_view";
 	}
 	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
@@ -208,7 +290,7 @@ public class BoardController {
 	@RequestMapping(value="/helpyou_reply_done", method = {RequestMethod.POST,RequestMethod.GET})
 	public String helpyou_reply_done(HttpServletRequest req, Model model) {
 		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
-		String comment=req.getParameter("comment-input");
+		String comment=req.getParameter("re_comment");
 		String user_id="b";
 		service.helpyou_reply_submit(comment, help_post_id, user_id);
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
@@ -229,6 +311,10 @@ public class BoardController {
 		String post_id=req.getParameter("post_id");
 		service.helpyou_reply_delete(help_reply_id);
     	return "redirect:helpyou_write_view?help_post_id="+post_id;
+	}
+	@RequestMapping(value="/helpyou_write")
+	public String helpyou_write() {
+		return "helpyou_write";
 	}
 	
 	
@@ -483,12 +569,8 @@ public class BoardController {
 				if(req.getParameter("post_id").equals("")) {
 					return "redirect:freeboard";
 				}
-				int post_id=Integer.parseInt(req.getParameter("post_id"));
-				
+				int post_id=Integer.parseInt(req.getParameter("post_id"));				
 				List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
-				
-				System.out.println("test :"+ freeboard);
-				
 				model.addAttribute("freeboard",freeboard);
 				
 				return "freeboard_write_view";
@@ -496,33 +578,71 @@ public class BoardController {
 			
 			  @RequestMapping(value = "/freeboard_write_delete", method = RequestMethod.GET)
 			    public String freeboard_write_delete(HttpServletRequest req, Model model) throws Exception{
-
-			    	if(req.getParameter("post_id").equals("")) {
-						return "freeboard_write_view";
-					}
-
-			    	int post_id=Integer.parseInt(req.getParameter("post_id"));
-			    	
+				   System.out.println(req.getParameter("post_id"));
+			    	int post_id=Integer.parseInt(req.getParameter("post_id"));			    	
+			    	System.out.println("delete: "+post_id);
 			    	service.select_freeboard_delete(post_id);
-
 			    	return "redirect:freeboard";
 			    } //게시글 삭제
-			 
-			    
+			  
+			  @RequestMapping(value="freeboard_modify", method = RequestMethod.GET)
+				public String freeboard_modify(HttpServletRequest req, Model model) throws Exception{
+				  	String post_id=req.getParameter("post_id");
+			    	String title=req.getParameter("title");
+			    	String content=req.getParameter("content");
+			    	String board="1";
+			    	
+			    	System.out.println("to modify: "+post_id);
+			    	
+			    	model.addAttribute("title",title);
+			    	model.addAttribute("post_id",post_id);
+			    	model.addAttribute("content",content);
 
+			    	return "freeboard_modify";
+			    } //수정페이지로 이동
+			  @RequestMapping(value = "freeboard_update", method = RequestMethod.GET)
+			    public String freeboard_update(HttpServletRequest req, Model model) throws Exception{
+			    	
+			    	String post_id=req.getParameter("post_id");
+			    	String board="1";
+			    	String title=req.getParameter("title");
+			    	String content=req.getParameter("content");
+			    	
+			    	System.out.println("test : " +post_id);
+			    	System.out.println("test : " +title);
+			    	System.out.println("test : " +content);
+			    	
+			    	service.freeboard_update(post_id,board,title,content);
+
+			    	return "redirect:freeboard";
+			    } //게시물 수정
+			    	
 			@RequestMapping(value="/freeboard_submit", method = RequestMethod.GET)
 			public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
 				String post_id="10";
 		    	String board="1";
 		    	String title=req.getParameter("title");
 		    	String operator=null;
-		    	
+
 		    	String content=req.getParameter("content");
 				String user_user_id="b";
-
-				service.freeboard_write(post_id, board, title, operator, content,user_user_id);
+				
+				System.out.println("test : " +title);
+				
+				service.freeboard_write(post_id, board, title, content,user_user_id);
 				
 				return "redirect:freeboard";
 			} //게시글 작성
+			
+			 @RequestMapping(value = "/free_write_reply", method = RequestMethod.GET)
+			    public String free_write_comment(HttpServletRequest req, Model model) throws Exception {
+			    	
+			    	String post_post_id=req.getParameter("post_post_id");
+			    	String re_comment=req.getParameter("re_comment");
+
+			    	service.free_write_reply(post_post_id, re_comment);
+
+			    	return "redirect:freeboard_write_view";
+			    } //댓글 작성
 	
 }

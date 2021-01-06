@@ -53,8 +53,8 @@
 	                    <td>${dto.nick}</td>
 	                    <td>${dto.operator}</td>
 	                    <td>${dto.content}</td>
-	                    <td><input type=hidden>${dto.post_id}</td>
-            			<td><input type=hidden>${dto.board}</td><br>
+	                    <td><input type="hidden">${dto.post_id}</td>
+            			<td><input type="hidden">${dto.board}</td><br>
 	                
 	                </tr>
 	                </c:forEach>

@@ -28,14 +28,23 @@
 		values(#{tag_area},1,#{title},"hi",#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"1")
 	</select>
 	<!-- help_me 게시글 수정 -->
-	
+	<select id="edit" resultType="dto_p">
+		update help_post set title=#{title}, tag_area=#{tag_area}, tag_job=#{tag_job},
+		content=#{content}, gender=#{gender}, min_price=#{min_price}, payment=#{payment}
+ 		where board=1 and help_post_id=#{help_post_id};
+	</select>
 	<!-- help_me 게시글 삭제 -->
 	<select id="delete" resultType="dto_p">
 		delete from help_post where help_post_id=#{help_post_id} 
 	</select>
+	<!-- help_me 게시글, 댓글 삭제 -->
+	<select id='delete_re' resultType="dto_p">
+		delete from help_reply where help_post_post_id=#{help_post_id} 
+	</select>
+		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply where help_post_post_id=#{help_post_id}
+	 	select * from help_reply where help_post_post_id=#{help_post_id};
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
@@ -45,7 +54,7 @@
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
 		update help_reply setre_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
-	</select>		
+	</select>
 	<!-- help_me댓글 삭제 -->
 	<select id="re_delete" resultType="dto_pr">
 		delete from help_reply where help_reply_id=#{help_reply_id} 
@@ -59,7 +68,7 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select * from help_post where board=0
+		select * from help_post where board=0 order by help_post_id desc
 	</select>
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
@@ -73,6 +82,10 @@
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
 		delete from help_post where help_post_id=#{help_post_id}
+	</delete>
+	<!-- helpyou postre delete -->
+	<delete id="helpyou_repost_delete" parameterType="int">
+		delete from help_reply where help_post_post_id=#{help_post_id}
 	</delete>
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
@@ -194,11 +207,23 @@
     </select>
     <!-- 댓글 삭제 -->
     
-    
-    <select id="freeboard_write" parameterType="dto_freeboard">
-    	insert into post(post_id, board, title, content,user_user_id) 
-    		values (10,1,#{title},#{content},"b");
+       
+    <select id="freeboard_update" resultType="dto_freeboard"> 
+    	update post set title=#{title}, content=#{content}
+    	where post_id=#{post_id} and board=1;
     </select>
-
+    <!-- 게시물 수정 -->
+ 
+    <insert id="freeboard_write" parameterType="dto_freeboard">
+    	insert into post(board, title, content, user_user_id) 
+    		values (1, #{title}, #{content}, "b");
+    </insert>
+	<!-- 게시물 등록 -->
+	
+	<select id="free_write_comment" parameterType="dto_free_reply"> 
+    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
+		values(1,0,#{re_comment},#{post_post_id},'b');	
+    </select>
+    <!-- 댓글 쓰기 -->
 
 </mapper>

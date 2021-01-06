@@ -31,6 +31,8 @@
             <typeAlias type="com.javalec.holo.dto.Dto_help_reply" alias="dto_pr"/>
             <!-- freeboard -->
             <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="dto_freeboard"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="freeboard_update"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="dto_free_reply"/>
 
         </typeAliases>
 

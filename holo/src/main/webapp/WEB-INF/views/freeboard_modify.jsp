@@ -33,22 +33,23 @@
             <div id="wrap">
                 <h3>자유게시판</h3>
                 <!-- <span>제목</span>  -->
-                <form action="freeboard_submit" method="get" enctype="multipart/form-data">
-                <div id="title">
-                <input type="text" id="title" class="title" name="title" placeholder="제목을 입력하세요.">
-                </div>
+                
+                <!-- insert -->
+                <form action="freeboard_update" method="get">
+             		<input type="text" id="title" class="title" name="title" value="${title}">
+             		<input type="hidden" name="post_id" value="${post_id}">
                 <div id="content">
                     <!-- <p>글내용</p>  -->
-                <textarea id="txtarea" cols="60" rows="40" name="content" placeholder="내용을 입력하세요."></textarea>
+                    <textarea id="txtarea" name="content" cols="60" rows="40">${content}</textarea>
                 </div>
                 <div id="img_up">
                     <span>이미지첨부 </span><input type="file" id="file_up">
                 </div>
                 <div id="btn">
-                    <input type="button" id="cancel" value="취소">
+                    <a href="freeboard"><input type="button" id="cancel" value="취소"></a>
                     <input type="submit" id="submit" value="등록">
                 </div>
-               </form>
+                </form>
             </div>
         </div>
     </section>
@@ -57,4 +58,11 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+
+
+<script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+$(document)
+//Delete post and comments
+
 </html>
