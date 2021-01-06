@@ -130,6 +130,11 @@
     	select * from post where board=0 and post_id=#{post_id}; 
     </select>
     
+    <!-- notice_write_view -->
+    <select id="uphit" resultType="dto_post_view"> 
+    	update post set hit = hit +1 where post_id=#{post_id};
+    </select>
+    
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_post_reply"> 
     	select * from reply where board=0 and post_post_id=#{post_id}
@@ -201,13 +206,7 @@
     	delete from post where post_id=#{post_id} and board=1;
     </select>
     <!-- 게시글 삭제 -->
-    
-    <select id="select_freeboard_reply_delete" resultType="dto_freeboard"> 
-    	delete from reply where post_post_id=#{post_id} and board=1;
-    </select>
-    <!-- 댓글 삭제 -->
-    
-       
+ 
     <select id="freeboard_update" resultType="dto_freeboard"> 
     	update post set title=#{title}, content=#{content}
     	where post_id=#{post_id} and board=1;
@@ -218,12 +217,37 @@
     	insert into post(board, title, content, user_user_id) 
     		values (1, #{title}, #{content}, "b");
     </insert>
-	<!-- 게시물 등록 -->
-	
-	<select id="free_write_comment" parameterType="dto_free_reply"> 
+	<!-- 게시물 등록 -->	
+    
+    <select id="add_free_comment" parameterType="dto_free_reply"> 
     	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(1,0,#{re_comment},#{post_post_id},'b');	
+		values(1,0,#{re_comment},#{post_post_id},'a');	
     </select>
-    <!-- 댓글 쓰기 -->
+    <!-- 댓글 쓰기 -->   
+    
+    <select id="select_free_reply" resultType="dto_free_reply"> 
+    	select * from reply where board=1 and post_post_id=#{post_id}
+    	order by re_index, reply_id; 
+    </select>
+    <!-- 댓글 보여주기 -->
+    
+    <select id="delete_free_comment" resultType="dto_free_reply"> 
+    	delete from reply where reply_id=#{reply_id} and board=#{board} and
+    	post_post_id=#{post_post_id};
+    </select>
+    <!-- 댓글 삭제 -->
+    
+    <select id="update_free_comment" resultType="dto_free_reply"> 
+    	update reply set re_comment=#{re_comment}
+    	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
+    </select>
+    <!-- 댓글 수정 -->
+    
+    <select id="add_free_re_comment" parameterType="dto_free_reply"> 
+    	insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
+		values(1,#{re_index},#{re_comment},#{re_order},#{groupNum},#{post_post_id},'b');	
+    </select>
+    <!-- 대댓글 추가 -->
+    
 
 </mapper>

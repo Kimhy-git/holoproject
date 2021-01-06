@@ -54,6 +54,9 @@
                 <tr>
                     <td>작성날짜</td>
                     <td>${dto.operator}</td>
+                    
+                    <td>조회수</td>
+                    <td>${dto.hit}</td>
                 </tr>
                 <tr>
                     <td>글내용</td>
@@ -80,7 +83,7 @@
             <div id="form-commentInfo"> 
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
                 <div id=cc>
-                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
+                	<input id="comment-input" id="re_comment" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 	<button id="submit">등록</button> 
                 </div>
             </div> 
@@ -100,7 +103,7 @@
 		            <input type=hidden name="groupNum" value=${dto_reply.groupNum}>
 		            <div id="btn_reply">
 		                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-		                <input type="submit" id="edit_reply${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+		                <input type="submit" id="edit_reply" value="수정" data_r=${dto_reply.reply_id}>
 		                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 		                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
 		                <input type=textarea name="re_re_comment"> 
@@ -132,7 +135,7 @@ $(document)
 })
 
 //Delete ONLY comments
-.on('click','#remove_reply',function changeView(){
+.on('click','input[id^=remove_reply]',function changeView(){
 	var post_id=$('#post_id').val();
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");

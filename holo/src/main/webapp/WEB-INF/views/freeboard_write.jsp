@@ -42,10 +42,10 @@
                 <textarea id="txtarea" cols="60" rows="40" name="content" placeholder="내용을 입력하세요."></textarea>
                 </div>
                 <div id="img_up">
-                    <span>이미지첨부 </span><input type="file" id="file_up">
+                    <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
                 </div>
                 <div id="btn">
-                    <input type="button" id="cancel" value="취소">
+                    <a href="freeboard"><input type="button" id="cancel" value="취소"></a>
                     <input type="submit" id="submit" value="등록">
                 </div>
                </form>
