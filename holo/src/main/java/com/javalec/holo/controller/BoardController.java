@@ -134,6 +134,42 @@ public class BoardController {
 		   
 		   return "helpme_write_edit";
 	   }
+	   
+	   @RequestMapping(value="/helpme_edit_go", method = RequestMethod.POST)
+       public String helpme_edit_go(HttpServletRequest req, Model model)throws Exception {
+		    	  
+			 System.out.println("helpme_edit_go작동");
+
+			  String title=req.getParameter("title");
+			  String content=req.getParameter("content"); 
+			  String tag_area=req.getParameter("tag_area");
+			  System.out.println("가져요?");
+			  String tag_job=req.getParameter("tag_job");
+			  String gender=req.getParameter("gender");
+			  int min_price=Integer.parseInt(req.getParameter("min_price"));
+			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+			  System.out.println("가져요2?");
+			  String[] paymentList =req.getParameterValues("payment");
+			  String payment=String.join(", ",paymentList);
+
+			  	gender=null;
+			  	
+				System.out.println(req.getParameter("female"));
+				System.out.println(req.getParameter("male"));
+				if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+					gender="a";
+				}else if(req.getParameter("female")!=null) {
+					gender="f";
+				}else if(req.getParameter("male")!=null) {
+					gender="m";
+				}
+				
+			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
+														+gender+","+min_price+","+payment);
+			  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+			  System.out.println("가져요?3");
+	   	  return "redirect:help_me";
+	     }
 
 
 	     @RequestMapping(value="/helpme_del", method=RequestMethod.GET)

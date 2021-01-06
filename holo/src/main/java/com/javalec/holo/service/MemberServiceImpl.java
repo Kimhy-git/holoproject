@@ -59,9 +59,11 @@ public class MemberServiceImpl implements MemberService {
 		}
 		//help_me게시글 수정
 		@Override
-		public void edit(Dto_help_post dto_p) throws Exception {
-			// TODO Auto-generated method stub
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
 			
+			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id);
+		
 		}
 		//help_me게시글 삭제
 		@Override

@@ -33,8 +33,8 @@
         
         <!-- <span>제목</span> -->
             <h3>도움받기 수정</h3>
-            <form method='post' action='helpme_write_go' name="write_go">
-            
+            <form method='post' action='helpme_edit_go' name="write_go">
+            <input type="hidden" value='${read.help_post_id}' name="help_post_id">
             <div id="choice">
                 <!-- <span>태그</span>  -->
                 <select id="area" name="tag_area">
@@ -86,7 +86,7 @@
             </div>
             <div id="btn">
                 <a href="help_me"><input type="button" id="cancel" value="취소"></a>
-                <input type="submit" id="submit" value="등록" >
+                <input type="submit" id="submit" value="수정" >
             </div>
         </form>   
         </div>

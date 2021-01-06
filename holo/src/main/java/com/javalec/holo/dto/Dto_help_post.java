@@ -63,6 +63,18 @@ public class Dto_help_post {
 		this.user_user_id = user_user_id;
 	}
 
+	public Dto_help_post(String title, String content, String gender, String tag_area, String tag_job, String payment,
+			int min_price, int help_post_id) {
+		this.tag_area = tag_area;
+		this.title = title;
+		this.tag_job = tag_job;
+		this.content = content;
+		this.gender = gender;
+		this.min_price = min_price;
+		this.payment = payment;
+		this.help_post_id = help_post_id;
+	}
+
 	public int getHelp_post_id() {
 		return help_post_id;
 	}

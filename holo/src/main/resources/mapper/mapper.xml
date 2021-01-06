@@ -29,7 +29,9 @@
 	</select>
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
-		select * from help_post where help_post_id = #{help_post_id}
+		update help_post set title=#{title}, tag_area=#{tag_area}, tag_job=#{tag_job},
+		content=#{content}, gender=#{gender}, min_price=#{min_price}, payment=#{payment}
+ 		where board=1 and help_post_id=#{help_post_id};
 	</select>
 	<!-- help_me 게시글 삭제 -->
 	<select id="delete" resultType="dto_p">
@@ -39,7 +41,7 @@
 	<select id='delete_re' resultType="dto_p">
 		delete from help_reply where help_post_post_id=#{help_post_id} 
 	</select>
-	
+		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
 	 	select * from help_reply where help_post_post_id=#{help_post_id};
