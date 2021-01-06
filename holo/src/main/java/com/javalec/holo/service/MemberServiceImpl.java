@@ -267,30 +267,25 @@ public class MemberServiceImpl implements MemberService {
 			dao.freeboard_write(post_id, board, title, content, user_user_id);
 		} // 게시글 작성
 		
+		@Override 
+		public List<Dto_free_reply> select_free_reply(int post_id) throws Exception {
+			return dao.select_free_reply(post_id);
+		} // 댓글 보여주기
 		@Override
-		public void free_write_reply(String post_post_id, String re_comment) throws Exception {
-					dao.free_write_reply(post_post_id, re_comment);
-		} //댓글 쓰기
-
+			public void add_free_comment(String post_post_id, String re_comment) {
+				dao.add_free_comment(post_post_id, re_comment);
+		} // 댓글 작성
 		@Override
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-
+		public void delete_free_comment(String reply_id, String board, String post_post_id) {
+			dao.delete_free_comment(reply_id,board,post_post_id);
+		} // 댓글 삭제
 		@Override
-		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
-				String content, String img, String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
-
+		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+			dao.update_free_comment(reply_id,re_comment,post_post_id,board);
+		} // 댓글 수정
 		@Override
-		public void freeboard_write(String post_id, String board, String title, String operator, String content,
-				String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
 
+		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		} // 대댓글 작성	
 }

@@ -84,12 +84,19 @@
             
             <form action="add_comment" method="post">
             <div id="form-commentInfo"> 
+<<<<<<< HEAD
             	<c:forEach var="dto" items="${notice}">
                 	<div id="comment-count">댓글 <span id="count">${dto.reply_cnt}</span></div> 
                 	<div id=cc>
                 		<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 		<td><input type=hidden name=post_post_id value=${dto.post_id}></td>
                 		<button id="submit">등록</button> 
+=======
+                <div id="comment-count">댓글 <span id="count">0</span></div> 
+                <div id=cc>
+                	<input id="comment-input" id="re_comment" name="re_comment" placeholder="댓글을 입력해 주세요." > 
+                	<button id="submit">등록</button> 
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
                 </div>
                 </c:forEach>
             </div>

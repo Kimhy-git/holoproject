@@ -563,7 +563,7 @@ public class BoardController {
 		    
 	    
 	    //freeboard
-		    @RequestMapping(value="freeboard", method = RequestMethod.GET)
+		    @RequestMapping(value="freeboard", method = {RequestMethod.POST,RequestMethod.GET})
 			public String freeboard(HttpServletRequest req, Model model) throws Exception{
 				
 				List<Dto_freeboard> freeboard = service.select_freeboard();
@@ -571,12 +571,12 @@ public class BoardController {
 				return "freeboard";
 			} // 자유게시판 리스트 보여주기
 			
-		    @RequestMapping(value="freeboard_write", method = RequestMethod.GET)
+		    @RequestMapping(value="freeboard_write", method = {RequestMethod.POST,RequestMethod.GET})
 			public String freeboard_write(HttpServletRequest req, Model model) throws Exception{
 				return "freeboard_write";
-			}
+			} // 자유게시판 글쓰기 페이지
 		    
-			@RequestMapping(value="/freeboard_write_view", method = RequestMethod.GET)
+			@RequestMapping(value="/freeboard_write_view", method = {RequestMethod.POST,RequestMethod.GET})
 			public String freeboard_write_view(HttpServletRequest req, Model model) throws Exception{
 				
 				if(req.getParameter("post_id").equals("")) {
@@ -584,12 +584,14 @@ public class BoardController {
 				}
 				int post_id=Integer.parseInt(req.getParameter("post_id"));				
 				List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
+				List<Dto_free_reply> free_reply = service.select_free_reply(post_id);
 				model.addAttribute("freeboard",freeboard);
-				
+		        model.addAttribute("free_reply", free_reply);
+		    	
 				return "freeboard_write_view";
-			} //게시글 보기
+			} //게시글 + 댓글 보기
 			
-			  @RequestMapping(value = "/freeboard_write_delete", method = RequestMethod.GET)
+			  @RequestMapping(value = "/freeboard_write_delete", method = {RequestMethod.POST,RequestMethod.GET})
 			    public String freeboard_write_delete(HttpServletRequest req, Model model) throws Exception{
 				   System.out.println(req.getParameter("post_id"));
 			    	int post_id=Integer.parseInt(req.getParameter("post_id"));			    	
@@ -598,7 +600,7 @@ public class BoardController {
 			    	return "redirect:freeboard";
 			    } //게시글 삭제
 			  
-			  @RequestMapping(value="freeboard_modify", method = RequestMethod.GET)
+			  @RequestMapping(value="freeboard_modify", method = {RequestMethod.POST,RequestMethod.GET})
 				public String freeboard_modify(HttpServletRequest req, Model model) throws Exception{
 				  	String post_id=req.getParameter("post_id");
 			    	String title=req.getParameter("title");
@@ -613,7 +615,7 @@ public class BoardController {
 
 			    	return "freeboard_modify";
 			    } //수정페이지로 이동
-			  @RequestMapping(value = "freeboard_update", method = RequestMethod.GET)
+			  @RequestMapping(value = "freeboard_update", method = {RequestMethod.POST,RequestMethod.GET})
 			    public String freeboard_update(HttpServletRequest req, Model model) throws Exception{
 			    	
 			    	String post_id=req.getParameter("post_id");
@@ -630,32 +632,87 @@ public class BoardController {
 			    	return "redirect:freeboard";
 			    } //게시물 수정
 			    	
-			@RequestMapping(value="/freeboard_submit", method = RequestMethod.GET)
+			@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
 			public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
 				String post_id="10";
 		    	String board="1";
 		    	String title=req.getParameter("title");
 		    	String operator=null;
-
 		    	String content=req.getParameter("content");
 				String user_user_id="b";
 				
 				System.out.println("test : " +title);
-				
 				service.freeboard_write(post_id, board, title, content,user_user_id);
-				
 				return "redirect:freeboard";
 			} //게시글 작성
 			
-			 @RequestMapping(value = "/free_write_reply", method = RequestMethod.GET)
-			    public String free_write_comment(HttpServletRequest req, Model model) throws Exception {
+			@RequestMapping(value = "add_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
+		    public String add_free_comment(HttpServletRequest req, Model model) throws Exception {
+		    	
+		    	String post_post_id=req.getParameter("post_post_id");
+		    	String re_comment=req.getParameter("re_comment");
+		    	service.add_free_comment(post_post_id, re_comment);
+		    	
+		    	return "redirect:freeboard_write_view?post_id="+post_post_id;
+		    } //댓글 작성
+			 
+			 @RequestMapping(value = "delete_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
+			    public String delete_free_comment(HttpServletRequest req, Model model) throws Exception{
+			    	
+			    	String reply_id=req.getParameter("reply_id");
+			    	String board="1";
+				    String post_post_id=req.getParameter("post_id");
+
+					service.delete_free_comment(reply_id,board,post_post_id);
+
+			    	return "redirect:freeboard";
+			    } //댓글 삭제
+			 
+			 @RequestMapping(value = "update_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
+			    public String update_free_comment(HttpServletRequest req, Model model) throws Exception{
 			    	
 			    	String post_post_id=req.getParameter("post_post_id");
 			    	String re_comment=req.getParameter("re_comment");
+			    	String reply_id=req.getParameter("reply_id");
 
-			    	service.free_write_reply(post_post_id, re_comment);
+			    	model.addAttribute("post_post_id",post_post_id);
+			    	model.addAttribute("re_comment",re_comment);
+			    	model.addAttribute("reply_id",reply_id);
+			    	
+			    	return "free_write_edit_reply";
+			    } // 댓글 수정 페이지로
+			 
+			    @RequestMapping(value = "update_free_comment_now", method = {RequestMethod.POST,RequestMethod.GET})
+			    public String update_free_comment_now(HttpServletRequest req, Model model) throws Exception{
+			    	
+			    	String post_post_id=req.getParameter("post_post_id");
+			    	String re_comment=req.getParameter("re_comment");
+			    	String reply_id=req.getParameter("reply_id");
+			    	String board="1";
 
-			    	return "redirect:freeboard_write_view";
-			    } //댓글 작성
+			    	service.update_comment(reply_id,re_comment,post_post_id,board);
+
+			    	return "redirect:freeboard";
+			    } // 댓글 수정
+			    
+			    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
+			    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
+
+			    	String re_index=req.getParameter("reply_id");
+			    	String re_comment=req.getParameter("re_re_comment");
+			    	int order_i=Integer.parseInt(req.getParameter("re_order"));
+			    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+			    	String post_post_id=req.getParameter("post_post_id");
+			    	
+			    	order_i+=1;
+			    	groupNum_i+=1;
+			    	
+			    	String re_order=String.valueOf(order_i);
+			    	String groupNum=String.valueOf(groupNum_i);
+
+			    	service.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+
+			    	return "redirect:freeboard";
+			    } // 대댓글 작성
 	
 }

@@ -34,6 +34,9 @@
             <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="dto_freeboard"/>
             <typeAlias type="com.javalec.holo.dto.Dto_freeboard" alias="freeboard_update"/>
             <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="dto_free_reply"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="add_free_re_comment"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="delete_free_comment"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="update_free_comment"/>
 
         </typeAliases>
 

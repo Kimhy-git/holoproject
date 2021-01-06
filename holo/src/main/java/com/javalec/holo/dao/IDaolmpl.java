@@ -299,17 +299,29 @@ public class IDaolmpl implements IDao {
 			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 		}// 게시물 달기
+		@Override 
+		public List<Dto_free_reply> select_free_reply(int post_id) {
+			return sqlSession.selectList(Namespace+".select_free_reply",post_id);
+		}// 댓글 보여주기
 		@Override
-		public void free_write_reply(String post_post_id, String re_comment) {
-			Dto_free_reply Dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
-			sqlSession.insert(Namespace+".free_write_reply",Dto_free_reply);
-
-		}// 댓글 쓰기
-
+		public void add_free_comment(String post_post_id, String re_comment) {
+			Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+			sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
+		} //댓글 달기
 		@Override
-		public void freeboard_write(String post_id, String board, String title, String operator, String content,
-				String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
+		public void delete_free_comment(String reply_id, String board, String post_post_id) {
+			Dto_free_reply delete_free_comment=new Dto_free_reply(reply_id, board, post_post_id);			
+			sqlSession.insert(Namespace+".delete_free_comment",delete_free_comment);
+		} // 댓글 삭제
+		@Override
+		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+			Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,board,re_comment,post_post_id);
+			sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
+		} //댓글 수정
+		@Override
+		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+			sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
+		} //대댓글 작성
+		
 }
