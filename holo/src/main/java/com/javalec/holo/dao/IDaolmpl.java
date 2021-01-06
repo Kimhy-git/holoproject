@@ -136,6 +136,15 @@ public class IDaolmpl implements IDao {
 	}
 	
 	@Override
+	public void helpyou_edit(int help_post_id,String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
+		Dto_help_post helpDto=new Dto_help_post(help_post_id,tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);
+		System.out.println("idao help edit");
+		System.out.println(helpDto.getTitle());
+		System.out.println(helpDto.getHelp_post_id());
+		sqlSession.update(Namespace+".helpyou_edit",helpDto);
+	}
+	
+	@Override
 	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id) {
 		Dto_help_reply helpreplyDto=new Dto_help_reply(comment,help_post_post_id,user_user_id);
 		sqlSession.insert(Namespace+".helpyou_reply_submit",helpreplyDto);
@@ -151,6 +160,13 @@ public class IDaolmpl implements IDao {
 		System.out.println("IDaoImpl: "+help_reply_id);
 		sqlSession.delete(Namespace+".helpyou_reply_delete",help_reply_id);
 	}
+	
+	@Override
+	public void helpyou_reply_edit(int help_reply_id,String comment) {
+		Dto_help_reply helpreplyDto=new Dto_help_reply(help_reply_id,comment);
+		sqlSession.update(Namespace+".helpyou_reply_edit",helpreplyDto);
+	}
+	
 	
 	
 	

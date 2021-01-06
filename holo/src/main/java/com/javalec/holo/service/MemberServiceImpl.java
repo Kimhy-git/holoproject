@@ -125,6 +125,15 @@ public class MemberServiceImpl implements MemberService {
 	public void helpyou_reply_delete(int help_reply_id) {
 		dao.helpyou_reply_delete(help_reply_id);
 	}
+	@Override
+	public void helpyou_edit(int help_post_id,String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
+		dao.helpyou_edit(help_post_id,tag_area, title, tag_job, content, img, gender, min_price, payment, user_user_id);
+	}
+	@Override
+	public void helpyou_reply_edit(int help_reply_id, String re_comment) {
+		dao.helpyou_reply_edit(help_reply_id, re_comment);
+	}
+	
 	
 	
 	

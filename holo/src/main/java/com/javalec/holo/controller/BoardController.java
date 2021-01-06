@@ -179,19 +179,19 @@ public class BoardController {
     public String help_you(Model model) {
        return "help_you";
     }
-	@RequestMapping(value = "/helpyou_done", method = RequestMethod.POST)
+	@RequestMapping(value = "/helpyou_done", method = {RequestMethod.POST,RequestMethod.GET})
     public String helpyou_done(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
     					Model model){
-		String area=req.getParameter("area");
+		String area=req.getParameter("tag_area");
 		String title=req.getParameter("title");
-		String job=req.getParameter("job");
-		String txtarea=req.getParameter("txtarea");
+		String job=req.getParameter("tag_job");
+		String txtarea=req.getParameter("content");
 		System.out.println(file);
 		String file_up=null;
 		if(!file.isEmpty()) {
 			file_up=FileuploadServlet.restore(file);
 		}
-
+		
 		String gender=null;
 		if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
 			gender="a";
@@ -200,7 +200,7 @@ public class BoardController {
 		}else if(req.getParameter("male")!=null) {
 			gender="m";
 		}
-		int price=Integer.parseInt(req.getParameter("price"));
+		int price=Integer.parseInt(req.getParameter("min_price"));
 		String[] paymentList=req.getParameterValues("payment");
 		String payment=String.join(", ", paymentList);
 		String user_id="a";
@@ -217,10 +217,8 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_write_view")
 	public String helpyou_write_view(HttpServletRequest req, Model model) {
-		System.out.println("start helpyouview");
 		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 		Dto_help_post read=service.helpyou_write_view(help_post_id);
-		System.out.println("gender: "+read.getGender());
 		  if(read.getGender().equals("a")) {
 			  read.setGender("상관없음");
 		  }else if(read.getGender().equals("f")) {
@@ -228,11 +226,51 @@ public class BoardController {
 		  }else if(read.getGender().equals("m")) {
 			  read.setGender("남성");
 		  }
-		System.out.println(read.getGender());
 		model.addAttribute("read",read);
-		System.out.println("end helpyouview");
 		return "helpyou_write_view";
 	}
+	@RequestMapping(value="/helpyou_write_edit")
+	public String helpyou_write_edit(HttpServletRequest req, Model model) {
+		String post_id=req.getParameter("help_post_id");
+		model.addAttribute("post_id",post_id);
+		return "helpyou_write_edit";
+	}
+	@RequestMapping(value="helpyou_edit_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public @ResponseBody String helpyou_edit_list(@RequestParam("post_id") int help_post_id) {
+		Dto_help_post dto=service.helpyou_write_view(help_post_id);
+		Gson gson = new Gson();
+		String json = gson.toJson(dto);
+		return json;
+	}
+	@RequestMapping(value = "/helpyou_edit_done", method = {RequestMethod.POST,RequestMethod.GET})
+    public String helpyou_edit_done(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
+    					Model model){
+		int post_id=Integer.parseInt(req.getParameter("post_id"));
+		String area=req.getParameter("tag_area");
+		String title=req.getParameter("title");
+		String job=req.getParameter("tag_job");
+		String txtarea=req.getParameter("content");
+		String file_up=null;
+		if(!file.isEmpty()) {
+			file_up=FileuploadServlet.restore(file);
+		}
+
+		String gender=null;
+		if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+			gender="a";
+		}else if(req.getParameter("female")!=null) {
+			gender="f";
+		}else if(req.getParameter("male")!=null) {
+			gender="m";
+		}
+		int price=Integer.parseInt(req.getParameter("min_price"));
+		String[] paymentList=req.getParameterValues("payment");
+		String payment=String.join(", ", paymentList);
+		String user_id="a";
+		System.out.println(post_id+","+area+","+title+","+job+","+txtarea+","+file_up+","+gender+","+price+","+payment+","+user_id);
+		service.helpyou_edit(post_id,area,title,job,txtarea,file_up,gender,price,payment,user_id);
+        return "redirect:help_you";
+    }
 	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public String helpyou_delete(HttpServletRequest req) {
     	int help_post_id=Integer.parseInt(req.getParameter("post_id"));
@@ -249,12 +287,9 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_reply_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public @ResponseBody String helpyou_reply_list(@RequestParam("post_id") int post_id) {
-    	System.out.println("start helpyou_reply_list");
 		List<Dto_help_reply> dto=service.helpyou_reply_list(post_id);
 		Gson gson = new Gson();
 		String json = gson.toJson(dto);
-		System.out.println(json);
-		System.out.println("end helpyou_reply_list");
 		return json;
 	}
 	@RequestMapping(value="/helpyou_reply_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
@@ -263,6 +298,17 @@ public class BoardController {
 		String post_id=req.getParameter("post_id");
 		service.helpyou_reply_delete(help_reply_id);
     	return "redirect:helpyou_write_view?help_post_id="+post_id;
+	}
+	@RequestMapping(value="/helpyou_reply_edit", method = {RequestMethod.POST,RequestMethod.GET})
+	public String helpyou_reply_edit(HttpServletRequest req, Model model) {
+		System.out.println("start reply_edit");
+		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
+		int help_reply_id=Integer.parseInt(req.getParameter("reply_id"));
+		String re_comment=req.getParameter("re_comment");
+		System.out.println("edit: "+help_post_id+","+help_reply_id+","+re_comment);
+		service.helpyou_reply_edit(help_reply_id, re_comment);
+		System.out.println("end reply_edit");
+		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
 	@RequestMapping(value="/helpyou_write")
 	public String helpyou_write() {

@@ -108,7 +108,7 @@ $(document)
 									'<input type="hidden" id=user_user_id value='+value['user_user_id']+'>'+
                         			'<img class="thumbnail" src="resources/img/test1.jpg" onclick="location.href=\'holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
                     				'<p class=title onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'"><span class="address">['+value['tag_area']+']['+value['tag_job']+']</span>'+value['title']+'</p>'+
-                    				'<p>'+value['nick']+'<span class="like"> ♥ 5</span></p>'+
+                    				'<p>'+value['nick']+'<span class="like"> ♥ '+value['likes']+'</span></p>'+
                     				'<p class="price">최소금액 : '+value['min_price']+'원</p>'+
                     				'<p>'+value['operator']+'</p>'+
                 				'</li>';

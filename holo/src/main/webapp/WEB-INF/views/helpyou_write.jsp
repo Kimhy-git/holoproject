@@ -33,7 +33,7 @@
         
         <!-- <span>제목</span> -->
             <h3>도움주기</h3>
-            <form method='post' action='helpyou_done' name="write_go">
+            <form method='post' action='helpyou_done' name="write_go"  enctype="multipart/form-data">
             
             <div id="choice">
                 <!-- <span>태그</span>  -->
@@ -81,7 +81,7 @@
                 <textarea id="txtarea" name="content" cols="60" rows="40" placeholder="내용을 입력하세요."></textarea>
             </div>
             <div id="img_up">
-                <span>이미지첨부 </span><input type="file" id="file_up">
+                <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
             </div>
             <div id="btn">
                 <a href="help_you"><input type="button" id="cancel" value="취소"></a>

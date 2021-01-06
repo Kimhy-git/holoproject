@@ -64,7 +64,7 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select * from help_post where board=0 order by help_post_id desc
+		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
 	</select>
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
@@ -79,6 +79,12 @@
 	<delete id="helpyou_delete" parameterType="int">
 		delete from help_post where help_post_id=#{help_post_id}
 	</delete>
+	<!-- helpyou edit update -->
+	<update id="helpyou_edit">
+		update help_post set 
+		 tag_area=#{tag_area}, title=#{title}, tag_job=#{tag_job}, content=#{content}, img=#{img}, gender=#{gender}, min_price=#{min_price}, payment=#{payment}
+		 where help_post_id=#{help_post_id}
+	</update>
 	<!-- helpyou postre delete -->
 	<delete id="helpyou_repost_delete" parameterType="int">
 		delete from help_reply where help_post_post_id=#{help_post_id}
@@ -92,9 +98,16 @@
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		select * from help_reply where board=0 and help_post_post_id=#{help_post_post_id}
 	</select>
+	<!-- helpyou reply del -->
 	<delete id="helpyou_reply_delete" parameterType="int">
 		delete from help_reply where help_reply_id=#{help_post_post_id}
 	</delete>
+	<!-- helpyou reply update -->
+	<update id="helpyou_reply_edit">
+		update help_reply set
+		 re_comment=#{re_comment}
+		 where help_reply_id=#{help_reply_id}
+	</update>
 
 
 
