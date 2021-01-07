@@ -258,6 +258,22 @@ public class MemberServiceImpl implements MemberService {
 //		dao.num_of_comments(post_id);
 //	}
 		
+	//login
+    @Override
+	public Dto_user login(Dto_user dto) throws Exception {
+		return dao.login(dto);
+	}
+
+    //sign in
+	@Override
+	public void sign_in(Dto_user dto) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
 		
 	
 

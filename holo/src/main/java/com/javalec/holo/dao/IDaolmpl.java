@@ -302,6 +302,20 @@ public class IDaolmpl implements IDao {
 				sqlSession.insert(Namespace+".update_post_content",update_post);
 			}
 			
+
+			//sign in
+			@Override
+			public void sign_in() throws Exception {
+				// TODO Auto-generated method stub
+				
+			}
+
+			//log in
+			@Override
+			public Dto_user login(Dto_user dto) throws Exception {
+				return sqlSession.selectOne(Namespace+".login",dto);
+			}
+			
 			
 	
 		

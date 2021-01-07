@@ -194,6 +194,22 @@
     	update reply set re_comment=#{re_comment}
     	where board=0 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
+    
+    
+    <!-- log in -->
+    <select id="login" resultType="dto_user">
+    	select user_id, user_pw from user 
+    	where user_id=#{user_id} and user_pw = #{user_pw}
+    </select>
+    
+    <!-- sign in -->
+    <insert id="sign_in">
+    	insert into user(user_id,user_pw,gender,nick,passwd_q,passwd_a,email,mobile,birth,address,likes,tag)
+    	values(#{user_id},#{user_pw},#{gender},#{nick},#{passwd_q},#{passwd_a},
+    	#{email},#{mobile},#{birth},#{address},#{likes},#{tag})
+    </insert>
+    
+    
   
 
     

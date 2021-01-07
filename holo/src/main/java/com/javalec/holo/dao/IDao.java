@@ -108,7 +108,13 @@ public interface IDao {
 	//the number of comments
 //	public void num_of_comments(String post_id);
 		
-			
+	//Sign in 
+	public void sign_in() throws Exception;
+	
+	//Login
+	public Dto_user login(Dto_user dto) throws Exception;
+	
+	
 			
 			
 			
@@ -145,13 +151,4 @@ public interface IDao {
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성
-
-		
-		
-		//Sign in 
-//		public void sign_in() throws Exception;
-//		
-//		//Login
-//		public login() throws Exception;
-
 }

@@ -41,8 +41,8 @@
             	${dto.user_pw}
             </c:forEach>
             <nav id="sub_menu">
-                <a href="freeboard">자유게시판</a> | 
-                <a href="mypage">마이페이지</a> | 
+                <a href="freeboard">자유게시판</a>  
+                <a href="mypage">마이페이지</a> 
                 <a href="notice">공지사항</a>
             </nav>
         </div>

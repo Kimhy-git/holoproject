@@ -69,7 +69,11 @@ public interface MemberService {
 	//the number of comments
 //	public void num_of_comments(String post_id);
 	
-	
+	//login
+	public Dto_user login(Dto_user dto) throws Exception;
+
+	//sign in
+	public void sign_in(Dto_user dto) throws Exception;
 	
 	
 	
