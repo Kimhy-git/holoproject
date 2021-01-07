@@ -17,11 +17,13 @@ public class Dto_help_post {
 	private String payment;
 	private int complete;
 	private String user_user_id;
+	private int hit;
+	private int likes;
 	
 	public Dto_help_post() {}
 	
 	public Dto_help_post(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price) {
+			int min_price,String img) {
 		super();
 		this.tag_area = tag_area;
 		this.title = title;
@@ -30,6 +32,7 @@ public class Dto_help_post {
 		this.gender = gender;
 		this.min_price = min_price;
 		this.payment = payment;
+		this.img=img;
 	}
 	
 	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
@@ -45,7 +48,7 @@ public class Dto_help_post {
 
 	public Dto_help_post(int help_post_id, String tag_area, int board, String title, Timestamp operator, String nick,
 			String tag_job, String content, String img, String gender, int min_price, String payment, int complete,
-			String user_user_id) {
+			String user_user_id,int hit,int likes) {
 		super();
 		this.help_post_id = help_post_id;
 		this.tag_area = tag_area;
@@ -61,6 +64,8 @@ public class Dto_help_post {
 		this.payment = payment;
 		this.complete = complete;
 		this.user_user_id = user_user_id;
+		this.hit=hit;
+		this.likes=likes;
 	}
 
 	public Dto_help_post(String title, String content, String gender, String tag_area, String tag_job, String payment,
@@ -130,6 +135,13 @@ public class Dto_help_post {
 	public String getUser_user_id() {
 		return user_user_id;
 	}
+	public int getHit() {
+		return hit;
+	}
+	
+	public int getlikes() {
+		return likes;
+	}
 
 	public void setHelp_post_id(int help_post_id) {
 		this.help_post_id = help_post_id;
@@ -185,6 +197,14 @@ public class Dto_help_post {
 
 	public void setUser_user_id(String user_user_id) {
 		this.user_user_id = user_user_id;
+	}
+	
+	public void setHit(int hit) {
+		this.hit=hit;
+	}
+	
+	public void setlikes(int likes) {
+		this.likes=likes;
 	}
 	
 	

@@ -92,7 +92,7 @@ public interface MemberService {
 
 			//help_me게시글 작성
 			public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-					int min_price) throws Exception;
+					int min_price, String img) throws Exception;
 
 			//help_me게시글 수정
 			public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
@@ -114,8 +114,10 @@ public interface MemberService {
 			public Dto_help_reply re_read(int help_reply_id)throws Exception;
 			
 			//help_me 댓글 수정
-			public void re_edit(String re_comment, int help_reply_id) throws Exception;
+			public void re_edit(int help_reply_id,String re_comment) throws Exception;
 			
+			//help_me hit
+			public void hit(int help_post_id) throws Exception;
 			
 			
 		// freeboard
@@ -136,7 +138,15 @@ public interface MemberService {
 		// 댓글 보기
 		public void add_free_comment(String post_post_id, String re_comment) throws Exception;
 		// 댓글 쓰기
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+		
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
 
 
 
@@ -150,12 +160,21 @@ public interface MemberService {
 				String content, String user_user_id) throws Exception;	
 
 
+>>>>>>> bda147b88957b7d3dfbc21512d33d91439b5ff6c
 		public void delete_free_comment(String reply_id, String board, String post_post_id);
 		// 댓글 삭제
 		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 		// 댓글 수정
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 		// 대댓글 작성	
+<<<<<<< HEAD
 
+=======
+
+<<<<<<< HEAD
+=======
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
+>>>>>>> bda147b88957b7d3dfbc21512d33d91439b5ff6c
+>>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
 }
 

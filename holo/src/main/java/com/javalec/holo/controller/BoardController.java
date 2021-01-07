@@ -62,7 +62,8 @@ public class BoardController {
 				
 
 		@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
-        public String helpme_write_go(HttpServletRequest req, Model model)throws Exception {
+        public String helpme_write_go(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
+        		Model model)throws Exception {
 		    	  
 			 System.out.println("helpme_write_go작동");
 
@@ -76,6 +77,10 @@ public class BoardController {
 
 			  String[] paymentList =req.getParameterValues("payment");
 			  
+			  String file_up=null;
+				if(!file.isEmpty()) {
+					file_up=FileuploadServlet.restore(file);
+				}
 			  
 			  String payment=String.join(", ",paymentList);
 			  System.out.println("결제방법은 바로바로"+payment);
@@ -94,7 +99,7 @@ public class BoardController {
 
 			  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 														+gender+","+min_price+","+payment);
-			  service.write(title,content,gender,tag_area,tag_job,payment, min_price);
+			  service.write(title,content,gender,tag_area,tag_job,payment, min_price,file_up);
 
 	   	  return "redirect:help_me";
 	     }
@@ -104,11 +109,15 @@ public class BoardController {
 	   @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
 	   public String helpme_write_view(HttpServletRequest req, Model model) throws Exception {
 			  System.out.println("helpme_write_view작동");
+			  
+			  
 			  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 			  System.out.println("help_post_id:"+help_post_id);
+			  service.hit(help_post_id);
 			  Dto_help_post read = service.read(help_post_id);
 			  List<Dto_help_reply> re_list=service.re_list(help_post_id);
 			  System.out.println("겟 젠더 : "+read.getGender());
+			  
 			  model.addAttribute("re_list",re_list);
 			  if(read.getGender().equals("a")) {
 				  read.setGender("상관없음");
@@ -136,7 +145,8 @@ public class BoardController {
 	   }
 	   
 	   @RequestMapping(value="/helpme_edit_go", method = RequestMethod.POST)
-       public String helpme_edit_go(HttpServletRequest req, Model model)throws Exception {
+       public String helpme_edit_go(HttpServletRequest req,@RequestParam("file_up") MultipartFile file,
+    		   Model model)throws Exception {
 		    	  
 			 System.out.println("helpme_edit_go작동");
 
@@ -152,6 +162,11 @@ public class BoardController {
 			  String[] paymentList =req.getParameterValues("payment");
 			  String payment=String.join(", ",paymentList);
 
+			  String file_up=null;
+				if(!file.isEmpty()) {
+					file_up=FileuploadServlet.restore(file);
+				}
+			  
 			  	gender=null;
 			  	
 				System.out.println(req.getParameter("female"));
@@ -184,7 +199,7 @@ public class BoardController {
 	     }
 
 
-		@RequestMapping(value="/help_reply_go", method=RequestMethod.GET)
+		@RequestMapping(value="/help_reply_go", method=RequestMethod.POST)
 	    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
 	   	System.out.println("help_reply go 작동");
 	    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
@@ -209,16 +224,18 @@ public class BoardController {
 			return "redirect:helpme_write_view?help_post_id="+help_post_id;
 		}
 		
-//		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
-//	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
-//	   	System.out.println("help_reply_edit_go 작동");
-//	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-//	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-//	   	String re_comment=req.getParameter("re_comment");
-//	   	service.re_edit(re_comment,help_reply_id );
-//	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
-//	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
-//	   }
+		@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+		    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
+		   	System.out.println("help_reply_edit_go 작동");
+		   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+		   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+		   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
+		   	String re_comment_edit=req.getParameter("re_comment_edit");
+		   	System.out.println(re_comment_edit);
+		   	service.re_edit(help_reply_id, re_comment_edit);
+		   	System.out.println("help_reply_edit_go 종료");
+		   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+	   }
 		
 		
 		
