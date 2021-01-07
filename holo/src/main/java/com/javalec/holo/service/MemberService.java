@@ -30,6 +30,9 @@ public interface MemberService {
 	
 	
 	
+	
+	
+	
 	//notice
 	public List<Dto_post> select_post() throws Exception;
 	
@@ -96,7 +99,7 @@ public interface MemberService {
 
 	//help_me게시글 수정
 	public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-			int min_price, int help_post_id) throws Exception;
+			int min_price, int help_post_id, String img) throws Exception;
 	
 	//help_me게시글 삭제
 	public void delete(int help_post_id) throws Exception;

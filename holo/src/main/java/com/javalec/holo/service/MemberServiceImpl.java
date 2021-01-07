@@ -65,9 +65,9 @@ public class MemberServiceImpl implements MemberService {
 		//help_me게시글 수정
 		@Override
 		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id)throws Exception {
+				int min_price, int help_post_id, String img)throws Exception {
 			
-			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id);
+			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id,img);
 		
 		}
 		//help_me게시글 삭제

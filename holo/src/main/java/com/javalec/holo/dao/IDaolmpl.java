@@ -64,9 +64,10 @@ public class IDaolmpl implements IDao {
   	//help_me게시글 수정
 		@Override
 		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id)throws Exception {
+				int min_price, int help_post_id,String img)throws Exception {
 		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
-		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
+				tag_job,payment, min_price,help_post_id,img);
   		sqlSession.insert(Namespace+".edit",Dto_p);
 		}
   	//help_me게시글 삭제

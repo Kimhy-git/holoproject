@@ -179,7 +179,7 @@ public class BoardController {
 					
 				  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 															+gender+","+min_price+","+payment);
-				  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+				  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id,file_up);
 				  System.out.println("가져요?3");
 		   	  return "redirect:help_me";
 		     }
