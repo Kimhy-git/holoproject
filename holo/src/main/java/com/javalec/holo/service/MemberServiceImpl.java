@@ -4,6 +4,8 @@ import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
@@ -259,17 +261,31 @@ public class MemberServiceImpl implements MemberService {
 //	}
 		
 	//login
-    @Override
-	public Dto_user login(Dto_user dto) throws Exception {
-		return dao.login(dto);
+	@Override
+	public boolean login(Dto_user dto, HttpSession session) {
+		boolean result = dao.login(dto);
+		if(result) {//true일 경우 session에 등록
+			Dto_user dto2 = viewMember(dto);
+			//세션 변수 등록
+			session.setAttribute("user_id", dto2.getUser_id());
+			session.setAttribute("user_pw", dto2.getUser_pw());
+		}
+		return result;
 	}
 
-    //sign in
+	//회원 로그인 정보
 	@Override
-	public void sign_in(Dto_user dto) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public Dto_user viewMember(Dto_user dto) {
+		return dao.viewMember(dto);
 	}
+
+	//log out
+	@Override
+	public void logout(HttpSession session) {
+		//세션 변수 삭제 및 정보 초기화
+		session.invalidate();
+	}
+	
 	
 	
 	

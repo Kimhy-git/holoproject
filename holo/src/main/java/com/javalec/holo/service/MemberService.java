@@ -3,6 +3,8 @@ package com.javalec.holo.service;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -70,13 +72,14 @@ public interface MemberService {
 //	public void num_of_comments(String post_id);
 	
 	//login
-	public Dto_user login(Dto_user dto) throws Exception;
+	public boolean login(Dto_user dto, HttpSession session);
+	
+	//회원 로그인 정보
+	public Dto_user viewMember(Dto_user dto);
 
-	//sign in
-	public void sign_in(Dto_user dto) throws Exception;
-	
-	
-	
+	//log out
+	public void logout(HttpSession session);
+
 
 	
 	

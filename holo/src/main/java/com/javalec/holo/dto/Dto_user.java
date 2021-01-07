@@ -21,6 +21,15 @@ public class Dto_user {
 	}
 
 
+	public Dto_user(String user_id, String nick, String email) {
+		super();
+		this.user_id = user_id;
+		this.nick = nick;
+		this.email = email;
+	}
+	
+
+
 	public Dto_user() {}
 
 	public Dto_user(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
@@ -109,6 +118,8 @@ public class Dto_user {
 	public String getTag() {
 		return tag;
 	}
+	
+	//toString??
 
 
 
@@ -181,6 +192,5 @@ public class Dto_user {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	
 	
 }

@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.javalec.holo.dto.Dto_user;
@@ -25,25 +27,31 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/do_login", method = RequestMethod.POST)
-    public String do_login(Dto_user dto, HttpServletRequest req, RedirectAttributes rttr) throws Exception {
+    public ModelAndView do_login(@ModelAttribute Dto_user dto, HttpSession session) throws Exception {
        
-    	HttpSession session = req.getSession();
-    	Dto_user login = service.login(dto);
-    	
-    	if(login==null) {
-    		session.setAttribute("member", null);
-    		rttr.addFlashAttribute("msg",false);
+    	boolean result = service.login(dto,session);
+    	ModelAndView mav = new ModelAndView();
+
+    	if(result==true) {
+    		mav.setViewName("main");
+    		mav.addObject("msg","success");
     	} else {
-    		session.setAttribute("member", login);
+    		mav.setViewName("login");
+    		mav.addObject("msg","fail");
     	}
     	
-       return "redirect:main";
+       return mav;
     }
 	
     @RequestMapping(value="logout", method=RequestMethod.POST)
-    public String logout(HttpSession session) throws Exception{
-    	session.invalidate();
-    	return "redirect:main";
+    public ModelAndView logout(HttpSession session) throws Exception{
+    	service.logout(session);
+    	
+    	ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("msg","logout");
+		
+    	return mav;
     }
     
 }

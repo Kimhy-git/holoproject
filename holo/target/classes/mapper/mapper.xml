@@ -140,7 +140,7 @@
     </select>
     
      <!-- notice_write : add posts -->
-    <select id="add_post" parameterType="Dto_post"> 
+    <select id="add_post" parameterType="dto_post"> 
     	insert into post(board, title, nick, content, img, user_user_id)
 		values(0,#{title},'One',#{content},#{img},'a');
     </select>
@@ -158,56 +158,55 @@
     </select>
     
     <!-- notice_write_view -->
-    <select id="select_post_view" resultType="dto_post_view"> 
+    <select id="select_post_view" resultType="dto_post"> 
     	select * from post where board=0 and post_id=#{post_id}; 
     </select>
     
     <!-- notice_write_view -->
-    <select id="uphit" resultType="dto_post_view"> 
+    <select id="uphit" resultType="dto_post"> 
     	update post set hit = hit +1 where post_id=#{post_id};
     </select>
     
     <!-- notice_write_view : comment -->
-    <select id="select_post_reply" resultType="dto_post_reply"> 
+    <select id="select_post_reply" resultType="dto_reply"> 
     	select * from reply where board=0 and post_post_id=#{post_id}
     	order by groupNum
     </select>
     
     <!-- notice_write_view : delete posts -->
-    <select id="select_post_delete" resultType="dto_post_delete"> 
+    <select id="select_post_delete" resultType="dto_post"> 
     	delete from post where post_id=#{post_id} and board=0;
     </select>
     
     <!-- notice_write_view : delete comments with a post -->
-    <select id="select_reply_delete" resultType="dto_reply_delete"> 
+    <select id="select_reply_delete" resultType="dto_reply"> 
     	delete from reply where post_post_id=#{post_post_id} and board=0;
     </select>
     
      <!-- notice_write_view : delete comments ONLY -->
-    <select id="delete_comment" resultType="delete_comment"> 
+    <select id="delete_comment" resultType="dto_reply"> 
     	delete from reply where reply_id=#{reply_id} and board=#{board} and
     	post_post_id=#{post_post_id};
     </select>
     
     <!-- update comments -->
-    <select id="update_comment" resultType="update_comment"> 
+    <select id="update_comment" resultType="dto_reply"> 
     	update reply set re_comment=#{re_comment}
     	where board=0 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     
     
     <!-- log in -->
-    <select id="login" resultType="dto_user">
-    	select user_id, user_pw from user 
-    	where user_id=#{user_id} and user_pw = #{user_pw}
+    <select id="login" resultType="String">
+    	select nick from user 
+    	where user_id=#{user_id} and user_pw=#{user_pw}
     </select>
     
-    <!-- sign in -->
-    <insert id="sign_in">
-    	insert into user(user_id,user_pw,gender,nick,passwd_q,passwd_a,email,mobile,birth,address,likes,tag)
-    	values(#{user_id},#{user_pw},#{gender},#{nick},#{passwd_q},#{passwd_a},
-    	#{email},#{mobile},#{birth},#{address},#{likes},#{tag})
-    </insert>
+    <select id="viewMember" resultType="dto_user">
+    	select user_id, email, nick from user
+    	where user_id=#{user_id} and user_pw=#{user_pw}
+    </select>
+    
     
     
   
