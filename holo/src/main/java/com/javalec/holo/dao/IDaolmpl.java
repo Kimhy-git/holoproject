@@ -32,6 +32,13 @@ public class IDaolmpl implements IDao {
 //	}
 	
     
+    //find_id
+    public String find_id(String email) throws Exception{
+		return sqlSession.selectOne(Namespace+".find_id", email);
+	}
+    
+    
+    
   //help_me게시글 리스트
   	@Override
   	public List<Dto_help_post> list() throws Exception {

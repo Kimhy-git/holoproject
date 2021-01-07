@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.io.ResolverUtil.Test;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.service.MemberService;
@@ -69,6 +71,14 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
          
          return "find_id";
       }
+      
+      @RequestMapping(value = "/find_id_go", method = RequestMethod.POST)
+      public String find_id_go(HttpServletResponse response, @RequestParam("email") String email, Model md) throws Exception{
+    	  md.addAttribute("id", service.find_id(response, email));
+  		
+         return "find_id_complete";
+      }
+      
       @RequestMapping(value = "/find_pw", method = RequestMethod.GET)
       public String find_pw() {
          

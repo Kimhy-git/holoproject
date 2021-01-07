@@ -3,6 +3,8 @@ package com.javalec.holo.service;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -79,8 +81,8 @@ public interface MemberService {
 
 	
 	
-	
-	
+	//find_id
+	public String find_id(HttpServletResponse response, String email) throws Exception;
 	
 	
 	
@@ -150,6 +152,7 @@ public interface MemberService {
 	// 댓글 수정
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성	
+	
 
 }
 

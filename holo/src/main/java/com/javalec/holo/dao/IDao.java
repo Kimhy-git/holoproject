@@ -15,6 +15,11 @@ import com.javalec.holo.dto.Help_postDto;
 
 public interface IDao {
 	
+	
+	//find_id
+	public String find_id(String email) throws Exception;
+	
+	
 	  //help_me게시글 리스트
 		public List<Dto_help_post> list()throws Exception;;
 		
@@ -145,6 +150,8 @@ public interface IDao {
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성
+
+	
 
 		
 		

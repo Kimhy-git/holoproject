@@ -8,6 +8,13 @@
         select * from user;
     </select>
     
+    <!-- find_id -->
+	<select id="find_id" parameterType="String" resultType="String">
+		select user_id from user where email = #{email}
+	</select>  
+	
+	
+	
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
 		select * from help_post, user where help_post.user_user_id=user.user_id and board=1 order by help_post_id desc;
@@ -32,7 +39,7 @@
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
 		update help_post set title=#{title}, tag_area=#{tag_area}, tag_job=#{tag_job},
-		content=#{content}, gender=#{gender}, min_price=#{min_price}, payment=#{payment}
+		content=#{content}, gender=#{gender}, min_price=#{min_price}, payment=#{payment}, img=#{img}
  		where board=1 and help_post_id=#{help_post_id};
 	</select>
 	<!-- help_me 게시글 삭제 -->
