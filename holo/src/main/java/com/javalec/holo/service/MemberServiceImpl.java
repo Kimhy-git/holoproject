@@ -290,10 +290,9 @@ public class MemberServiceImpl implements MemberService {
 	} // 게시글 수정
 	
 	@Override
-	public void freeboard_write(String post_id, String board, String title,
-			String content, String user_user_id) throws Exception
+	public void freeboard_write(String title, String content, String img) throws Exception
 			{
-		dao.freeboard_write(post_id, board, title, content, user_user_id);
+		dao.freeboard_write(title, content, img);
 	} // 게시글 작성
 	
 	@Override 
@@ -316,5 +315,9 @@ public class MemberServiceImpl implements MemberService {
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
 		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
-	} // 대댓글 작성	
+	} // 대댓글 작성
+	@Override
+	public void free_uphit(int post_id) throws Exception {
+		dao.free_uphit(post_id);
+	} // 조회수 올리기
 }

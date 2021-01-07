@@ -656,7 +656,8 @@ public class BoardController {
 		if(req.getParameter("post_id").equals("")) {
 			return "redirect:freeboard";
 		}
-		int post_id=Integer.parseInt(req.getParameter("post_id"));				
+		int post_id=Integer.parseInt(req.getParameter("post_id"));	
+		service.free_uphit(post_id);
 		List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
 		List<Dto_free_reply> free_reply = service.select_free_reply(post_id);
 		model.addAttribute("freeboard",freeboard);
@@ -709,16 +710,15 @@ public class BoardController {
 	    } //게시물 수정
 	    	
 	@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
-	public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
-		String post_id="10";
-    	String board="1";
-    	String title=req.getParameter("title");
-    	String operator=null;
-    	String content=req.getParameter("content");
-		String user_user_id="b";
+	public String freeboard_submit(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
 		
-		System.out.println("test : " +title);
-		service.freeboard_write(post_id, board, title, content,user_user_id);
+    	String title=req.getParameter("title");
+    	String content=req.getParameter("content");
+    	String file_up=null;
+		if(!file.isEmpty()) {
+			file_up=FileuploadServlet.restore(file);
+		}
+		service.freeboard_write(title, content,file_up);
 		return "redirect:freeboard";
 	} //게시글 작성
 	
@@ -741,7 +741,7 @@ public class BoardController {
 
 			service.delete_free_comment(reply_id,board,post_post_id);
 
-	    	return "redirect:freeboard";
+			return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } //댓글 삭제
 	 
 	 @RequestMapping(value = "update_free_comment", method = {RequestMethod.POST,RequestMethod.GET})

@@ -208,6 +208,10 @@
         select * from post where board=1 and post_id=#{post_id};
     </select>
     <!-- 게시글 보기 -->
+        <select id="free_uphit" resultType="dto_freeboard"> 
+    	update post set hit = hit +1 where post_id=#{post_id};
+    </select>
+    <!-- 조회수 +1 -->
     
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
     	delete from post where post_id=#{post_id} and board=1;
@@ -225,8 +229,8 @@
     <!-- 게시물 수정 -->
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
-    	insert into post(board, title, content, user_user_id) 
-    		values (1, #{title}, #{content}, "b");
+    	insert into post(board, title, nick, content, img, user_user_id) 
+    		values (1, #{title}, "se", #{content}, #{img}, "b");
     </insert>
 	<!-- 게시물 등록 -->	
     

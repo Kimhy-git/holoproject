@@ -9,6 +9,8 @@ public class Dto_freeboard {
 	private String img;
 	private String user_user_id;
 	private String nick;
+	private int hit;
+	private String reply_cnt;
 	
 	public Dto_freeboard() {}
 	
@@ -39,6 +41,42 @@ public class Dto_freeboard {
 		this.board = board;
 		this.title = title;
 		this.content = content;
+	}
+	
+	public Dto_freeboard(int hit) {
+		super();
+		this.hit = hit;
+	}
+
+	public Dto_freeboard(String title, String content, String img) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.img = img;
+	}
+	
+	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String img,
+			String user_user_id, String nick, int hit, String reply_cnt) {
+		super();
+		this.post_id = post_id;
+		this.board = board;
+		this.title = title;
+		this.operator = operator;
+		this.content = content;
+		this.img = img;
+		this.user_user_id = user_user_id;
+		this.nick = nick;
+		this.hit = hit;
+		this.reply_cnt = reply_cnt;
+	}
+
+	
+	public int getHit() {
+		return hit;
+	}
+
+	public void setHit(int hit) {
+		this.hit = hit;
 	}
 
 	public String getNick() {

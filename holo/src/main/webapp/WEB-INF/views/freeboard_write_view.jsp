@@ -57,8 +57,11 @@
 	                <tr>
                     <td>작성날짜</td>
                     <td>${dto.operator}</td>
+                    
+                    <td>조회수</td>
+                    <td>${dto.hit}</td>
                 	</tr>
-	           
+
 	                <tr>
                     <td>글내용</td>
                     <td></td>
@@ -68,7 +71,8 @@
             <table id="second">
             	<c:forEach var="dto" items="${freeboard}">
             	<tr>                
-                    <td><textarea id="content" cols="130" rows="40" name="content" readonly>${dto.content}</textarea></td>
+                    <td><textarea id="content" cols="130" rows="40" name="content" readonly>${dto.content} ${dto.img}</textarea></td>
+                <img src="http://localhost:8080/holo/img/${dto.img}"/>
                 </tr>
                 </c:forEach>
             </table>
@@ -101,8 +105,8 @@
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
 		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
 		            <div id="btn_reply">
-		                <input type="submit" id="remove_reply${dto_free_reply.reply_id}" name="remove_reply" value="삭제" data_r=${dto_free_reply.reply_id}>
-		                <input type="button" id="edit_reply${dto_free_reply.reply_id}" value="수정" data_r=${dto_free_reply.reply_id}>
+		                <input type="button" id="remove_reply${dto_free_reply.reply_id}" value="삭제" data_r=${dto_free_reply.reply_id}>
+		                <input type="submit" id="edit_reply${dto_free_reply.reply_id}" value="수정" data_r=${dto_free_reply.reply_id}>
 		                <input type="button" id="reply_again${dto_free_reply.reply_id}" value="답글달기" >
 		                <div id="reply_again_textarea${dto_free_reply.reply_id}" style="display:none">
 		                <input type=textarea name="re_re_comment"> 
@@ -144,16 +148,15 @@ $(document)
 })
 
 //Delete ONLY comments
-//.on('click','#remove_reply',function changeView(){
-//	var post_id=$('#post_id').val();
-//	var reply_id=$('#reply_id').val();
-//	console.log(post_id);
-//	var answer=confirm("삭제하시겠습니까?");
-//	if(answer==true){
-//		window.location.href="<c:url value='delete_free_comment'/>?post_id="
-//				+post_id+"&reply_id="+reply_id+"&board="+1;
-//	}
-//})
+.on('click','input[id^=remove_reply]',function changeView(){
+	var post_id=$('#post_id').val();
+	console.log(post_id);
+	var answer=confirm("삭제하시겠습니까?");
+	if(answer==true){
+		window.location.href="<c:url value='delete_free_comment'/>?post_id="
+				+post_id+"&reply_id="+$(this).attr("data_r");
+	}
+})
 
 //update comments
 //.on('click','#edit_reply',function changeView(){

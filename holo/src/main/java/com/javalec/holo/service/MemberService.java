@@ -133,8 +133,7 @@ public interface MemberService {
 
 	public void freeboard_update(String post_id, String board, String title, String content);
 	// 게시글 수정
-	public void freeboard_write(String post_id, String board, String title,
-			String content, String user_user_id)throws Exception;
+	public void freeboard_write(String title, String content, String file_up)throws Exception;
 	// 게시물 쓰기
 	public List<Dto_free_reply> select_free_reply(int post_id) throws Exception;
 	// 댓글 보기
@@ -147,6 +146,8 @@ public interface MemberService {
 	// 댓글 수정
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성	
+	public void free_uphit(int post_id) throws Exception;
+	// 조회수
 
 }
 
