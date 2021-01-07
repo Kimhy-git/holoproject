@@ -393,7 +393,7 @@ public class BoardController {
 		    	service.uphit(post_id);
 		    	
 		    	//the number of comments
-		    	service.num_of_comments(post_id);
+//		    	service.num_of_comments(post_id);
 		    	
 		    	List<Dto_reply> reply = service.select_post_reply(post_id);
 		    	List<Dto_post> notice = service.select_post_view(post_id); 

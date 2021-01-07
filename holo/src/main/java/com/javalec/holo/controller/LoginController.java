@@ -1,5 +1,61 @@
 package com.javalec.holo.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Blob;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.javalec.holo.service.MemberService;
+import com.javalec.holo.dto.Dto_user;
+
 public class LoginController {
 
+	@Inject
+    private MemberService service;
+	
+	//login
+	@RequestMapping(value = "do_login", method = {RequestMethod.POST,RequestMethod.GET})
+    public String login(Dto_user dto,HttpServletRequest req, RedirectAttributes rttr) throws Exception{
+    	
+    	System.out.println("login");
+    	System.out.println("login");
+    	System.out.println("login");
+    	
+    	HttpSession session = req.getSession();
+
+		Dto_user login = service.login(dto);
+    	
+    	if(login==null) {
+    		session.setAttribute("member", null);
+    		rttr.addFlashAttribute("msg",false);
+    	} else {
+    		session.setAttribute("member", login);
+    	}
+    	
+    	return "main";
+    }
+	
+	//log out
+	@RequestMapping(value = "logout", method = {RequestMethod.POST,RequestMethod.GET})
+    public String logout(HttpSession session) throws Exception{
+    	
+    	session.invalidate();
+    	
+    	return "redirect:main";
+    }
 }

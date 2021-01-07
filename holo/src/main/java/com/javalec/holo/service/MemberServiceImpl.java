@@ -13,6 +13,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 @Service
@@ -225,11 +226,27 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		//the number of comments
+//		@Override
+//		public void num_of_comments(String post_id) {
+//			System.out.println("MemberServiceImpl, post_id, number : "+post_id);
+//			dao.num_of_comments(post_id);
+//		}
+		
+		
+		
+		
+		//sign in
 		@Override
-		public void num_of_comments(String post_id) {
-			System.out.println("MemberServiceImpl, post_id, number : "+post_id);
-			dao.num_of_comments(post_id);
+		public void signin(Dto_user dto) throws Exception {
+			
 		}
+		
+		//log in
+		@Override
+		public Dto_user login(Dto_user dto) throws Exception {
+			return dao.login(dto);
+		}
+		
 		
 		
 		
@@ -288,4 +305,24 @@ public class MemberServiceImpl implements MemberService {
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
 			dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 		} // 대댓글 작성	
+
+		@Override
+		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
+				String content, String img, String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void freeboard_write(String post_id, String board, String title, String operator, String content,
+				String user_user_id) throws Exception {
+			// TODO Auto-generated method stub
+			
+		}
 }

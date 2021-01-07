@@ -15,8 +15,16 @@
 <body>
  <header>
         <nav>
+        <c:if test="${member==null }">
             <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
+        </c:if>
+        <c:if test="${member!=null }">
+            <a href="login" id=login>로그아웃</a>
+        </c:if>
+        <c:if test="${member!=null}">
+        	<p>${member.user_id}님 환영합니다</p>
+        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>

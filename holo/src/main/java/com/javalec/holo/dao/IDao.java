@@ -10,6 +10,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 public interface IDao {
@@ -98,9 +99,19 @@ public interface IDao {
 			public void uphit(String post_id); 
 			
 			//the number of comments
-			public void num_of_comments(String post_id);
+//			public void num_of_comments(String post_id);
+			
+		
 			
 			
+		
+			
+		//login
+		public Dto_user login(Dto_user dto) throws Exception;
+		
+		//sign in
+		public void signin(Dto_user dto) throws Exception;
+		
 			
 			
 			
@@ -118,21 +129,11 @@ public interface IDao {
 
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시물 수정
-<<<<<<< HEAD
-		public void freeboard_write(String post_id, String board, String title,
-
-				String content, String user_user_id) throws Exception;
-
-		public void freeboard_write(String post_id, String board, String title, String operator,
-				String content, String user_user_id) throws Exception;
 
 
-
-
-=======
 		public void freeboard_write(String post_id, String board, String title,
 				String content, String user_user_id) throws Exception;
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
+
 		//게시글 작성
 
 		public List<Dto_free_reply> select_free_reply(int post_id);
@@ -147,13 +148,27 @@ public interface IDao {
 		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 		// 댓글 수정
 
-<<<<<<< HEAD
+
 		public void free_write_reply(String post_post_id, String re_comment);
 
 
 		//게시글 작성
-=======
+
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 		// 대댓글 작성
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
+
+		
+		
+		
+		
+		
+		
+		
+		
+		//Sign in 
+//		public void sign_in() throws Exception;
+//		
+//		//Login
+//		public login() throws Exception;
+
 }

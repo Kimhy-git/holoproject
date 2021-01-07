@@ -15,6 +15,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 @Repository
@@ -247,11 +248,29 @@ public class IDaolmpl implements IDao {
 		}
 		
 		//the number of comments
+//		@Override
+//		public void num_of_comments(String post_id) {
+//			System.out.println("IdaoImpl, uphit, number : "+post_id);
+//			sqlSession.insert(Namespace+".num_of_comments",post_id);
+//		}
+
+
+		
+		
+		//login
 		@Override
-		public void num_of_comments(String post_id) {
-			System.out.println("IdaoImpl, uphit, number : "+post_id);
-			sqlSession.insert(Namespace+".num_of_comments",post_id);
+		public Dto_user login(Dto_user dto) throws Exception {
+			return sqlSession.selectOne(Namespace+".login",dto);
 		}
+
+		@Override
+		public void signin(Dto_user dto) throws Exception {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
+		
 		
 		
 		
@@ -323,5 +342,10 @@ public class IDaolmpl implements IDao {
 			Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
 			sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
 		} //대댓글 작성
-		
+
+		@Override
+		public void free_write_reply(String post_post_id, String re_comment) {
+			// TODO Auto-generated method stub
+			
+		}
 }

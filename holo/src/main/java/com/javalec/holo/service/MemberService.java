@@ -10,6 +10,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 public interface MemberService {
@@ -62,7 +63,17 @@ public interface MemberService {
 			public void uphit(String post_id);
 			
 			//the number of comments
-			public void num_of_comments(String post_id);
+//			public void num_of_comments(String post_id);
+			
+			
+			
+			
+			
+			//sign in
+			public void signin(Dto_user dto) throws Exception;
+			
+			//login
+			public Dto_user login(Dto_user dto) throws Exception;
 			
 			
 			
@@ -125,8 +136,7 @@ public interface MemberService {
 		// 댓글 보기
 		public void add_free_comment(String post_post_id, String re_comment) throws Exception;
 		// 댓글 쓰기
-<<<<<<< HEAD
-		
+
 
 
 
@@ -138,7 +148,7 @@ public interface MemberService {
 
 		public void freeboard_write(String post_id, String board, String title, String operator, 
 				String content, String user_user_id) throws Exception;	
-=======
+
 
 		public void delete_free_comment(String reply_id, String board, String post_post_id);
 		// 댓글 삭제
@@ -147,6 +157,5 @@ public interface MemberService {
 		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 		// 대댓글 작성	
 
->>>>>>> branch 'master' of https://github.com/Kimhy-git/holoproject
 }
 

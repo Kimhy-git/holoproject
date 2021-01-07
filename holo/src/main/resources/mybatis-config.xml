@@ -24,6 +24,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="dto_post_delete"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="add_post"/>
             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="update_post"/>
+             <typeAlias type="com.javalec.holo.dto.Dto_post" alias="dto_user"/>
             
             
             

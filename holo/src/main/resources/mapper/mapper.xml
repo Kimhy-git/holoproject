@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.mapper">
 
+
 	<!-- test -->
 	<select id="selectMember" resultType="dto">
         select * from user;
@@ -9,7 +10,7 @@
     
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
-		select * from help_post where board=1 order by help_post_id desc;
+		select * from help_post, user where help_post.user_user_id=user.user_id and board=1 order by help_post_id desc;
 	</select>
 	
 	<!-- help_me likes -->
@@ -19,13 +20,14 @@
 	
 	<!-- help_me 게시글 상세보기 -->
 	<select id="read" resultType="dto_p">
-		select * from help_post where help_post_id = #{help_post_id}
+		
+		select * from help_post, user where user.user_id = help_post.user_user_id and help_post.help_post_id = #{help_post_id};
 	</select>
 	
 	<!-- help_me 게시글 쓰기 -->
 	<select id="write" parameterType="dto_p">
-		insert into help_post (tag_area, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
-		values(#{tag_area},1,#{title},"hi",#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"1")
+		insert into help_post (tag_area,img, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
+		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id='b'),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"b")
 	</select>
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
@@ -44,7 +46,7 @@
 		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply where help_post_post_id=#{help_post_id};
+	 	select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
@@ -53,7 +55,7 @@
 	</select>
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
-		update help_reply setre_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
+		update help_reply set re_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
 	</select>
 	<!-- help_me댓글 삭제 -->
 	<select id="re_delete" resultType="dto_pr">
@@ -64,6 +66,10 @@
 		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
 	
+	<!-- help_me hit -->
+	<select id="hit" resultType="dto_p">
+		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
+	</select>
 	
 	
 	<!-- help_you -->
@@ -99,6 +105,23 @@
 	<delete id="helpyou_reply_delete" parameterType="int">
 		delete from help_reply where help_reply_id=#{help_post_post_id}
 	</delete>
+	
+		<!-- helpyou re_recommnet submit -->
+	<select id="helpyou_groupNum_select" resultType="int">
+		select count(a.re_index) from help_reply as a,help_reply as b where a.re_index=b.help_reply_id and b.help_reply_id=#{re_index};
+	</select>
+	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
+		insert into help_reply(board,re_index,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
+		 values(0, #{re_index}, #{re_comment}, #{re_order}, #{groupNum}, #{help_post_post_id}, #{user_user_id})
+	</insert>
+	
+	<!-- helpyou_reply_list -->
+	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
+		SELECT *
+		FROM help_reply
+		where board=0 and help_post_post_id=#{help_post_post_id}
+		ORDER BY IF(ISNULL(re_index), help_reply_id, re_index), groupNum;
+	</select>
 
 
 
@@ -114,10 +137,16 @@
 		values(0,#{title},'One',#{content},#{img},'a');
     </select>
     
-    <!-- notice_write_view : add comments --> //첫번째 댓글
+    <!-- notice_write_view : add comments --> 
     <select id="add_comment" parameterType="dto_reply"> 
-    	insert into reply(board,re_comment,post_post_id,user_user_id)
-		values(0,#{re_comment},#{post_post_id},'a');	
+    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
+		values(0,last_insert_id()+1,#{re_comment},#{post_post_id},'a');	
+    </select>
+    
+ 	<!-- notice_write_view : add re_comments -->
+    <select id="add_re_comment" parameterType="dto_reply"> 
+       insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
+      values(0,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');   
     </select>
     
     <!-- notice_write_view -->
@@ -133,7 +162,7 @@
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_post_reply"> 
     	select * from reply where board=0 and post_post_id=#{post_id}
-    	order by re_order, re_index, reply_id; 
+    	order by if(isnull(re_index),help_reply,re_index),groupNum
     </select>
     
     <!-- notice_write_view : delete posts -->
@@ -157,41 +186,8 @@
     	update reply set re_comment=#{re_comment}
     	where board=0 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
-    
-    <!-- update posts -->
-    <select id="update_post_title" resultType="update_post"> 
-    	update post set title=#{title}
-    	where board=#{board} and post_id=#{post_id};
-    </select>
-    
-    <!-- update posts -->
-    <select id="update_post_content" resultType="update_post"> 
-    	update post set content=#{content}
-    	where board=#{board} and post_id=#{post_id};
-    </select>
-    
-    <!-- notice_write_view : add re_comments -->//대댓글
-    <select id="add_re_comment" parameterType="dto_reply"> 
-    	insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
-		values(0,#{re_index},#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
-    </select>
-    
-    <!-- notice_write_view : the number of comments -->
-    <select id="num_of_comments" parameterType="dto_post_and_reply"> 
-    	select *,
-		(select count(*) from reply where reply.post_post_id=post_id) as reply_cnt
-		from post;
-    </select>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
+
     
     
     <!-- freeboard -->
@@ -252,5 +248,23 @@
     </select>
     <!-- 대댓글 추가 -->
     
+    
+    
+    
+    
+    
+    
+    <!-- Login -->
+    <select id="login" parameterType="dto_user"> 
+	   	select user_id, user_pw from user
+	   	where user_id=#{user_id} and user_pw=#{user_pw}	
+    </select>
+    
+    <!-- Sign in -->
+    <insert id="sign_in">
+    	insert into user(user_id,user_pw,gender,nick,passwd_q,passwd_a,email,mobile,birth,address,likes,tag)
+    	values(#{user_id},#{user_pw},#{gender},#{nick},#{passwd_q},#{passwd_a},
+    	#{email},#{mobile},#{birth},#{address},#{likes},#{tag})
+    </insert>
 
 </mapper>
