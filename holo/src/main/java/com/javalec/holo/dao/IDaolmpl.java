@@ -337,9 +337,9 @@ public class IDaolmpl implements IDao {
 				sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
 			}// 게시물 수정
 			@Override
-			public void freeboard_write(String title, String content, String img)
+			public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
 			throws Exception{
-				Dto_freeboard Dto_freeboard= new Dto_freeboard(title, content, img);
+				Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 				sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 			}// 게시물 달기
 			@Override 

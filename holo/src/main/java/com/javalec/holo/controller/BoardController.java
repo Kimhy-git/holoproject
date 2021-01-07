@@ -709,18 +709,19 @@ public class BoardController {
 	    	return "redirect:freeboard";
 	    } //게시물 수정
 	    	
-	@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
-	public String freeboard_submit(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
-		
-    	String title=req.getParameter("title");
-    	String content=req.getParameter("content");
-    	String file_up=null;
-		if(!file.isEmpty()) {
-			file_up=FileuploadServlet.restore(file);
-		}
-		service.freeboard_write(title, content,file_up);
-		return "redirect:freeboard";
-	} //게시글 작성
+		@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
+		public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
+			String post_id="10";
+	    	String board="1";
+	    	String title=req.getParameter("title");
+	    	String operator=null;
+	    	String content=req.getParameter("content");
+			String user_user_id="b";
+			
+			System.out.println("test : " +title);
+			service.freeboard_write(post_id, board, title, content,user_user_id);
+			return "redirect:freeboard";
+		} //게시글 작성
 	
 	@RequestMapping(value = "add_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
     public String add_free_comment(HttpServletRequest req, Model model) throws Exception {

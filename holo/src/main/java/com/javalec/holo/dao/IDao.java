@@ -127,7 +127,8 @@ public interface IDao {
 	public void freeboard_update(String post_id, String board, String title, String content);
 	// 게시물 수정
 
-	public void freeboard_write(String title, String content, String img) throws Exception;
+	public void freeboard_write(String post_id, String board, String title,
+			String content, String user_user_id) throws Exception;
 	//게시글 작성
 
 	public List<Dto_free_reply> select_free_reply(int post_id);

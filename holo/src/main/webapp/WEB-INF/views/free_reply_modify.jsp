@@ -40,7 +40,7 @@
             <form action="update_free_comment_now" method=post>
             	<input type=hidden name="reply_id" value=${reply_id}>
             	<input type=hidden name="post_post_id" value=${post_post_id}>
-                <div id=cc><input id="comment-input" name="re_comment" placeholder="${re_comment}"></div>
+                <div id=cc><input id="comment-input" name="re_comment" value="${re_comment}"></div>
             	<a href="freeboard"><input type="button" id="cancel" value="취소"></a>
             	<input type="submit" value="등록">
             </form>

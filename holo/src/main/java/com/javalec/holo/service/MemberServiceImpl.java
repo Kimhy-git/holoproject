@@ -290,9 +290,10 @@ public class MemberServiceImpl implements MemberService {
 	} // 게시글 수정
 	
 	@Override
-	public void freeboard_write(String title, String content, String img) throws Exception
+	public void freeboard_write(String post_id, String board, String title,
+			String content, String user_user_id) throws Exception
 			{
-		dao.freeboard_write(title, content, img);
+		dao.freeboard_write(post_id, board, title, content, user_user_id);
 	} // 게시글 작성
 	
 	@Override 
