@@ -773,7 +773,7 @@ public class BoardController {
 	    
 	    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
-	    	//test
+	    	//test_2
 	    	String re_index=req.getParameter("reply_id");
 	    	String re_comment=req.getParameter("re_re_comment");
 	    	int order_i=Integer.parseInt(req.getParameter("re_order"));
