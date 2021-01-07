@@ -64,7 +64,7 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
+		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc;
 	</select>
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
@@ -91,12 +91,15 @@
 	</delete>
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
-		insert into help_reply(board, re_index, re_comment, re_class, re_order, groupNum, help_post_post_id, user_user_id)
-		 values(0, 0, #{re_comment}, 0, 0, 1, #{help_post_post_id}, #{user_user_id})
+		insert into help_reply(board,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
+		 values(0, #{re_comment}, 0, 0, #{help_post_post_id}, #{user_user_id})
 	</insert>
 	<!-- helpyou_reply_list -->
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
-		select * from help_reply where board=0 and help_post_post_id=#{help_post_post_id}
+		SELECT *
+		FROM help_reply
+		where board=0 and help_post_post_id=#{help_post_post_id}
+		ORDER BY IF(ISNULL(re_index), help_reply_id, re_index), groupNum;
 	</select>
 	<!-- helpyou reply del -->
 	<delete id="helpyou_reply_delete" parameterType="int">
@@ -108,6 +111,14 @@
 		 re_comment=#{re_comment}
 		 where help_reply_id=#{help_reply_id}
 	</update>
+	<!-- helpyou re_recommnet submit -->
+	<select id="helpyou_groupNum_select" resultType="int">
+		select count(a.re_index) from help_reply as a,help_reply as b where a.re_index=b.help_reply_id and b.help_reply_id=#{re_index};
+	</select>
+	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
+		insert into help_reply(board,re_index,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
+		 values(0, #{re_index}, #{re_comment}, #{re_order}, #{groupNum}, #{help_post_post_id}, #{user_user_id})
+	</insert>
 
 
 

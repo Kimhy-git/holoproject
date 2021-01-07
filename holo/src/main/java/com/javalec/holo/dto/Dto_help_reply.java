@@ -20,6 +20,19 @@ public class Dto_help_reply {
 
 
 
+	public Dto_help_reply(int re_index, String re_comment, int re_order, int groupNum, int help_post_post_id,
+			String user_user_id) {
+		super();
+		this.re_index = re_index;
+		this.re_comment = re_comment;
+		this.re_order = re_order;
+		this.groupNum = groupNum;
+		this.help_post_post_id = help_post_post_id;
+		this.user_user_id = user_user_id;
+	}
+
+
+
 	public Dto_help_reply(int help_reply_id, String re_comment) {
 		super();
 		this.help_reply_id = help_reply_id;

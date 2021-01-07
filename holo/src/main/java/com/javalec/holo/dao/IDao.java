@@ -60,7 +60,7 @@ public interface IDao {
 	public void helpyou_reply_delete(int help_reply_id);
 	public void helpyou_edit(int help_post_id,String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public void helpyou_reply_edit(int help_reply_id,String comment);
-	
+	public void helpyou_re_recomment_submit(int re_index, String comment, int re_order, int help_post_post_id, String user_user_id);
 	
 	
 	//NOTICE

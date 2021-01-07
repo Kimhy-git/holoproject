@@ -149,15 +149,26 @@ $(document)
 			function(data){
 				console.log(data);
 				$.each(data,function(ndx,value){
-					console.log("each: "+value['help_post_post_id']);
+					console.log(value['re_comment']);
 					var content='<div id=comments'+value['help_reply_id']+'>'+
-								   '<input type="hidden" class="reply_id" value="'+value['help_reply_id']+'">'+
-						           '<p class="reply_user">'+value['user_user_id']+'</p>'+
-						           '<p class="reply_comment">'+value['re_comment']+'</p>'+
-						           '<p class="reply_date">'+value['operator']+'</p>'+
-						           '<a href="helpyou_reply_delete?post_id='+value['help_post_post_id']+'&reply_id='+value['help_reply_id']+'"><input type="button" value="삭제"></a> '+
-						           '<input type="button" id="reply_btn'+value['help_reply_id']+'" value="수정">'+
-					            '</div>'+
+								    '<input type="hidden" class="reply_id" value="'+value['help_reply_id']+'">'+
+						            '<p class="reply_user">'+value['user_user_id']+'</p>'+
+						            '<p class="reply_comment">'+value['re_comment']+'</p>'+
+						            '<p class="reply_date">'+value['operator']+'</p>'+
+						            '<a href="helpyou_reply_delete?post_id='+value['help_post_post_id']+'&reply_id='+value['help_reply_id']+'"><input type="button" value="삭제"></a> '+
+						            '<input type="button" id="reply_btn'+value['help_reply_id']+'" value="수정"> '+
+						            '<input type="button" id="reply_again'+value['help_reply_id']+'" value="답글달기">'+
+						            '<form method="post" action="helpyou_re_recomment_submit" id="reply_recomment'+value['help_reply_id']+'" style="display:none;">'+
+						            	'<div>'+
+						            	'<input type="hidden" name="parent_id" value="'+value['help_reply_id']+'">'+
+						            	'<input type="hidden" name="re_order" value="'+value['re_order']+'">'+
+						            	'<input type="hidden" name="groupNum" value="'+value['groupNum']+'">'+
+						            	'<input type="hidden" name="re_post_id" value="'+value['help_post_post_id']+'">'+
+					                	'<input type=textarea name="re_re_comment">'+
+					                	'<input type=submit value="등록">'+ 
+					                	'</div>'+
+					                '</form>'+
+						        '</div>'+
 					            '<form method="post" action="helpyou_reply_edit" id="reply_edit'+value['help_reply_id']+'" style="display:none;">'+
 	                				'<div id=cc>'+
 	                				'<input type="hidden" name="post_id" value="'+value['help_post_post_id']+'">'+
@@ -167,7 +178,6 @@ $(document)
 	                				'<input type=submit value="등록">'+
 	                				'</div>'+
             					'</form>';
-                	console.log("content: "+content);
                 	$('#comments').append(content); 
 				})
 		},'json')
@@ -201,6 +211,14 @@ $(document)
 	}else{
 		$('#comments'+n).hide();
 		$('#reply_edit'+n).show();
+	}
+}).on('click','input[id^=reply_again]',function(){
+	var n=(this.id).substr(11); 
+	console.log($('#reply_recomment'+n).css("display"));
+	if($('#reply_recomment'+n).css("display")=="none"){
+			$('#reply_recomment'+n).show();
+	}else{
+		$('#reply_recomment'+n).hide();
 	}
 })
 </script>

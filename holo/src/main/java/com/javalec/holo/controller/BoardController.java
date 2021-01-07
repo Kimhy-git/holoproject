@@ -285,6 +285,20 @@ public class BoardController {
 		service.helpyou_reply_submit(comment, help_post_id, user_id);
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
+	@RequestMapping(value="/helpyou_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
+	public String helpyou_re_recomment_submit(HttpServletRequest req, Model model) {
+		System.out.println("start re_recomment");
+		int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
+		int re_index=Integer.parseInt(req.getParameter("parent_id"));
+		String comment=req.getParameter("re_re_comment");
+		int re_order=Integer.parseInt(req.getParameter("re_order"));
+		re_order=re_order+1;
+		String user_id="a";
+		System.out.println(re_index+","+comment+","+re_order+","+help_post_id+","+user_id);
+		service.helpyou_re_recomment_submit(re_index, comment, re_order, help_post_id, user_id);
+		System.out.println("end re_recomment");
+		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
+	}
 	@RequestMapping(value="/helpyou_reply_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public @ResponseBody String helpyou_reply_list(@RequestParam("post_id") int post_id) {
 		List<Dto_help_reply> dto=service.helpyou_reply_list(post_id);
