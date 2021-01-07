@@ -99,7 +99,8 @@
 		SELECT *
 		FROM help_reply
 		where board=0 and help_post_post_id=#{help_post_post_id}
-		ORDER BY IF(ISNULL(re_index), help_reply_id, re_index), groupNum;
+		ORDER BY IF(re_index=0
+		, help_reply_id, re_index), groupNum;
 	</select>
 	<!-- helpyou reply del -->
 	<delete id="helpyou_reply_delete" parameterType="int">
