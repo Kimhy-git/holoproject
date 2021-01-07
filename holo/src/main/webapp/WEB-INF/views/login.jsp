@@ -29,9 +29,9 @@
     </header>
     <section>
         <div id="wrap">
-        <form method="post" action="do_login">
             <table id="info">
             <c:if test="${member ==null}">
+                <form method="post" action="do_login">
                 <tr>
                     <td>아이디</td><td><input type="text" id="id"></td>
                      <td rowspan="2"><input type="submit" id="log_btn" value="로그인"></td>   
@@ -39,8 +39,8 @@
                 <tr>
                     <td>비밀번호</td><td><input type="password" id="passcode"></td>
                 </tr>
+                </form>
       		</c:if>
-      		</form>
       		<c:if test="${member!=null }">
 	            <p>${member.user_id}님 환영합니다</p>
 	            <input type="button" id="logout" value="로그아웃">
