@@ -27,6 +27,10 @@ public class MemberServiceImpl implements MemberService {
 //		return dao.list();
 //	}
 
+
+	
+	
+	
 		//help_me게시글 리스트
 		@Override
 		public List<Dto_help_post> list() throws Exception {
@@ -98,6 +102,11 @@ public class MemberServiceImpl implements MemberService {
 		dao.re_delete(help_reply_id);
 		}
 		
+		//help_me hit
+		public void hit(int help_post_id) throws Exception{
+			dao.hit(help_post_id);
+		}
+		
 		
 		
 	
@@ -149,148 +158,163 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	//NOTICE 
-		@Override //notice
-		public List<Dto_post> select_post() throws Exception {
-			return dao.select_post();
-		}
+	@Override //notice
+	public List<Dto_post> select_post() throws Exception {
+		return dao.select_post();
+	}
 
-		@Override //notice_write_view
-		public List<Dto_post> select_post_view(String post_id) throws Exception {
-			return dao.select_post_view(post_id);
-		}
+	@Override //notice_write_view
+	public List<Dto_post> select_post_view(String post_id) throws Exception {
+		return dao.select_post_view(post_id);
+	}
 
-		@Override //notice_write_view : comments
-		public List<Dto_reply> select_post_reply(String post_id) throws Exception {
-			return dao.select_post_reply(post_id);
-		}
+	@Override //notice_write_view : comments
+	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
+		return dao.select_post_reply(post_id);
+	}
 
-		@Override //delete posts
-		public List<Dto_post> select_post_delete(String post_id) throws Exception {
-			return dao.select_post_delete(post_id);
-		}
+	@Override //delete posts
+	public List<Dto_post> select_post_delete(String post_id) throws Exception {
+		return dao.select_post_delete(post_id);
+	}
+	
+	@Override //delete comments with a post
+	public List<Dto_reply> select_reply_delete(String post_id) throws Exception {
+		return dao.select_reply_delete(post_id);
+	}
+	
+	//add posts
+
+	@Override
+	public void add_post(String title, String content, String img) {
+	System.out.println("MemberServiceImpl, content : "+content);
+		dao.add_post(title,content,img);
+	}
+
+	
+
+	
+	//add comments
+	@Override
+	public void add_comment(String post_post_id, String re_comment) {
+		System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
+		System.out.println("MemberServiceImpl, re_comment : "+re_comment);
+		dao.add_comment(post_post_id, re_comment);
+	}
+	
+	//delete comments ONLY
+	@Override
+	public void delete_comment(String reply_id, String board, String post_post_id) {
 		
-		@Override //delete comments with a post
-		public List<Dto_reply> select_reply_delete(String post_id) throws Exception {
-			return dao.select_reply_delete(post_id);
-		}
+		System.out.println("MemberServiceImpl, reply_id : "+reply_id);
+		System.out.println("MemberServiceImpl, board : "+board);
+		System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
 		
-		//add posts
+		dao.delete_comment(reply_id,board,post_post_id);
+	}
+	
+	//update comments
+	@Override
+	public void update_comment(String reply_id, String re_comment, String post_post_id, String board) {
+		
+		System.out.println("MemberServiceImpl, reply_id : "+reply_id);
+		System.out.println("MemberServiceImpl, re_comment : "+re_comment);
+		System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
+		
+		dao.update_comment(reply_id,re_comment,post_post_id,board);
+	}
 
-		@Override
-		public void add_post(String title, String content, String img) {
+	@Override
+	public void update_post(String post_id, String board, String title, String content) {
+
+		System.out.println("MemberServiceImpl, post_id : "+post_id);
+		System.out.println("MemberServiceImpl, title : "+title);
 		System.out.println("MemberServiceImpl, content : "+content);
-			dao.add_post(title,content,img);
-		}
+		
+		dao.update_post(post_id,board,title,content);
+		
+	}
+	
+	//add re_comments
+	@Override
+	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+		
+		System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+		dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		
+	}	
 
-		
-
-		
-		//add comments
-		@Override
-		public void add_comment(String post_post_id, String re_comment) {
-			System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
-			System.out.println("MemberServiceImpl, re_comment : "+re_comment);
-			dao.add_comment(post_post_id, re_comment);
-		}
-		
-		//delete comments ONLY
-		@Override
-		public void delete_comment(String reply_id, String board, String post_post_id) {
-			
-			System.out.println("MemberServiceImpl, reply_id : "+reply_id);
-			System.out.println("MemberServiceImpl, board : "+board);
-			System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
-			
-			dao.delete_comment(reply_id,board,post_post_id);
-		}
-		
-		//update comments
-		@Override
-		public void update_comment(String reply_id, String re_comment, String post_post_id, String board) {
-			
-			System.out.println("MemberServiceImpl, reply_id : "+reply_id);
-			System.out.println("MemberServiceImpl, re_comment : "+re_comment);
-			System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
-			
-			dao.update_comment(reply_id,re_comment,post_post_id,board);
-		}
-
-		@Override
-		public void update_post(String post_id, String board, String title, String content) {
-
-			System.out.println("MemberServiceImpl, post_id : "+post_id);
-			System.out.println("MemberServiceImpl, title : "+title);
-			System.out.println("MemberServiceImpl, content : "+content);
-			
-			dao.update_post(post_id,board,title,content);
-			
-		}
-		
-		//add re_comments
-		@Override
-		public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
-			
-			System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
-			dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
-			
-		}	
+	//hits
+	@Override
+	public void uphit(String post_id) {
+		System.out.println("MemberServiceImpl, post_id : "+post_id);
+		dao.uphit(post_id);
+	}
+	
+	//the number of comments
+//	@Override
+//	public void num_of_comments(String post_id) {
+//		System.out.println("MemberServiceImpl, post_id, number : "+post_id);
+//		dao.num_of_comments(post_id);
+//	}
 		
 		
 	
 
-		@Override
-		public List<Dto_freeboard> select_freeboard() throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard();
-		} //리스트 보기
-		@Override
-		public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.select_freeboard_view(post_id);
-		} // 게시글 보기
+	@Override
+	public List<Dto_freeboard> select_freeboard() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.select_freeboard();
+	} //리스트 보기
+	@Override
+	public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.select_freeboard_view(post_id);
+	} // 게시글 보기
 
-		@Override
-		public void select_freeboard_delete(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			dao.select_freeboard_delete(post_id);
-		} //게시글 삭제
-		
-		@Override
-		public void freeboard_update(String post_id, String board, String title, String content) {
+	@Override
+	public void select_freeboard_delete(String post_id) throws Exception {
+		// TODO Auto-generated method stub
+		dao.select_freeboard_delete(post_id);
+	} //게시글 삭제
+	
+	@Override 
+	public List<Dto_free_reply> select_free_reply_delete(String post_id) throws Exception {
+		return dao.select_free_reply_delete(post_id);
+	} //게시글 + 댓글 삭제
+	
+	@Override
+	public void freeboard_update(String post_id, String board, String title, String content) {
 
-			dao.freeboard_update(post_id,board,title,content);			
-		} // 게시글 수정
-		
-		@Override
-		public void freeboard_write(String post_id, String board, String title,
-				String content, String user_user_id) throws Exception
-				{
-			dao.freeboard_write(post_id, board, title, content, user_user_id);
-		} // 게시글 작성
-		
-		@Override 
-		public List<Dto_free_reply> select_free_reply(int post_id) throws Exception {
-			return dao.select_free_reply(post_id);
-		} // 댓글 보여주기
-		@Override
-			public void add_free_comment(String post_post_id, String re_comment) {
-				dao.add_free_comment(post_post_id, re_comment);
-		} // 댓글 작성
-		@Override
-		public void delete_free_comment(String reply_id, String board, String post_post_id) {
-			dao.delete_free_comment(reply_id,board,post_post_id);
-		} // 댓글 삭제
-		@Override
-		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
-			dao.update_free_comment(reply_id,re_comment,post_post_id,board);
-		} // 댓글 수정
-		@Override
+		dao.freeboard_update(post_id,board,title,content);			
+	} // 게시글 수정
+	
+	@Override
+	public void freeboard_write(String post_id, String board, String title,
+			String content, String user_user_id) throws Exception
+			{
+		dao.freeboard_write(post_id, board, title, content, user_user_id);
+	} // 게시글 작성
+	
+	@Override 
+	public List<Dto_free_reply> select_free_reply(int post_id) throws Exception {
+		return dao.select_free_reply(post_id);
+	} // 댓글 보여주기
+	@Override
+		public void add_free_comment(String post_post_id, String re_comment) {
+			dao.add_free_comment(post_post_id, re_comment);
+	} // 댓글 작성
+	@Override
+	public void delete_free_comment(String reply_id, String board, String post_post_id) {
+		dao.delete_free_comment(reply_id,board,post_post_id);
+	} // 댓글 삭제
+	@Override
+	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+		dao.update_free_comment(reply_id,re_comment,post_post_id,board);
+	} // 댓글 수정
+	@Override
 
-		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
-			dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
-		} // 대댓글 작성	
-
-
-
-
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+	} // 대댓글 작성	
 }

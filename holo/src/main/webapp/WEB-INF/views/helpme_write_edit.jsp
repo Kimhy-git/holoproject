@@ -33,7 +33,7 @@
         
         <!-- <span>제목</span> -->
             <h3>도움받기 수정</h3>
-            <form method='post' action='helpme_edit_go' name="write_go">
+            <form method='post' action='helpme_edit_go' name="write_go" enctype="multipart/form-data">
             <input type="hidden" value='${read.help_post_id}' name="help_post_id">
             <div id="choice">
                 <!-- <span>태그</span>  -->

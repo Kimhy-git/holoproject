@@ -50,8 +50,8 @@
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
-		insert into help_reply (board,re_index, re_comment, re_class, re_order, groupNum, help_post_post_id, 
-		user_user_id) values(1,1,#{re_comment},1,1,1,#{help_post_post_id},'abc123') ;
+		insert into help_reply (board,re_index, re_comment, re_order, groupNum, help_post_post_id, 
+		user_user_id) values(1,1,#{re_comment},1,1,#{help_post_post_id},'a') ;
 	</select>
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
@@ -104,7 +104,7 @@
 		insert into help_reply(board,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
 		 values(0, #{re_comment}, 0, 0, #{help_post_post_id}, #{user_user_id})
 	</insert>
-	<!-- helpyou_reply_list -->
+	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		SELECT *
 		FROM help_reply
@@ -131,24 +131,6 @@
 		 values(0, #{re_index}, #{re_comment}, #{re_order}, #{groupNum}, #{help_post_post_id}, #{user_user_id})
 	</insert>
 
-	
-		<!-- helpyou re_recommnet submit -->
-	<select id="helpyou_groupNum_select" resultType="int">
-		select count(a.re_index) from help_reply as a,help_reply as b where a.re_index=b.help_reply_id and b.help_reply_id=#{re_index};
-	</select>
-	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
-		insert into help_reply(board,re_index,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
-		 values(0, #{re_index}, #{re_comment}, #{re_order}, #{groupNum}, #{help_post_post_id}, #{user_user_id})
-	</insert>
-	
-	<!-- helpyou_reply_list -->
-	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
-		SELECT *
-		FROM help_reply
-		where board=0 and help_post_post_id=#{help_post_post_id}
-		ORDER BY IF(ISNULL(re_index), help_reply_id, re_index), groupNum;
-	</select>
-
 
 
 	<!-- notice -->
@@ -165,8 +147,8 @@
     
     <!-- notice_write_view : add comments --> 
     <select id="add_comment" parameterType="dto_reply"> 
-    	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(0,last_insert_id()+1,#{re_comment},#{post_post_id},'a');	
+    	insert into reply(board,re_comment,post_post_id,user_user_id)
+		values(0,#{re_comment},#{post_post_id},'a');	
     </select>
     
  	<!-- notice_write_view : add re_comments -->
@@ -188,7 +170,7 @@
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_post_reply"> 
     	select * from reply where board=0 and post_post_id=#{post_id}
-    	order by if(isnull(re_index),help_reply,re_index),groupNum
+    	order by groupNum
     </select>
     
     <!-- notice_write_view : delete posts -->
@@ -231,7 +213,11 @@
     	delete from post where post_id=#{post_id} and board=1;
     </select>
     <!-- 게시글 삭제 -->
- 
+ 	
+ 	<select id="select_free_reply_delete" resultType="dto_free_reply_delete"> 
+    	delete from reply where post_post_id=#{post_post_id} and board=1;
+    </select>
+    <!-- 게시글+댓글 삭제 -->
     <select id="freeboard_update" resultType="dto_freeboard"> 
     	update post set title=#{title}, content=#{content}
     	where post_id=#{post_id} and board=1;
@@ -274,23 +260,5 @@
     </select>
     <!-- 대댓글 추가 -->
     
-    
-    
-    
-    
-    
-    
-    <!-- Login -->
-    <select id="login" parameterType="dto_user"> 
-	   	select user_id, user_pw from user
-	   	where user_id=#{user_id} and user_pw=#{user_pw}	
-    </select>
-    
-    <!-- Sign in -->
-    <insert id="sign_in">
-    	insert into user(user_id,user_pw,gender,nick,passwd_q,passwd_a,email,mobile,birth,address,likes,tag)
-    	values(#{user_id},#{user_pw},#{gender},#{nick},#{passwd_q},#{passwd_a},
-    	#{email},#{mobile},#{birth},#{address},#{likes},#{tag})
-    </insert>
 
 </mapper>

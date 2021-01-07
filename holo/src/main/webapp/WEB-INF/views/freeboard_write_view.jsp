@@ -84,7 +84,7 @@
                 <div id="comment-count">댓글 <span id="count">0</span></div> 
                 <div id=cc>
                 	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
-                	<input type="button" id="submit" name="submit" value="등록">
+                	<button id="submit">등록</button>
                 </div>
 
             </div> 
@@ -93,7 +93,7 @@
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
 	            <c:forEach var="dto_free_reply" items="${free_reply}">
-	            <form action="update_free_comment" method=post>
+	            <form action="update_free_comment" method=get>
 		            ${dto_free_reply.user_user_id}<br>
 		            ${dto_free_reply.re_comment}<br>
 		            <input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
@@ -101,8 +101,8 @@
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
 		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
 		            <div id="btn_reply">
-		                <input type="button" id="remove_reply${dto_free_reply.reply_id}" value="삭제" data_r=${dto_free_reply.reply_id}>
-		                <input type="submit" id="edit_reply${dto_free_reply.reply_id}" value="수정" data_r=${dto_free_reply.reply_id}>
+		                <input type="submit" id="remove_reply${dto_free_reply.reply_id}" name="remove_reply" value="삭제" data_r=${dto_free_reply.reply_id}>
+		                <input type="button" id="edit_reply${dto_free_reply.reply_id}" value="수정" data_r=${dto_free_reply.reply_id}>
 		                <input type="button" id="reply_again${dto_free_reply.reply_id}" value="답글달기" >
 		                <div id="reply_again_textarea${dto_free_reply.reply_id}" style="display:none">
 		                <input type=textarea name="re_re_comment"> 
@@ -133,25 +133,27 @@ $(document)
 	}
 })
 .on('click','#submit',function changeView(){
-	var re_comment=$('#comment_input').val();
+	var re_comment=$('#comment-input').val();
 	var post_id=$('#post_id').val();
 	console.log(post_id);
+	console.log(re_comment);
 	var answer=confirm("댓글을 등록하시겠습니까?");
 	if(answer==true){		
-		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id;
+		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment;
 	}
 })
 
 //Delete ONLY comments
-.on('click','#remove_reply',function changeView(){
-	var post_id=$('#post_id').val();
-	console.log(post_id);
-	var answer=confirm("삭제하시겠습니까?");
-	if(answer==true){
-		window.location.href="<c:url value='delete_free_comment'/>?post_id="
-				+post_id+"&reply_id="+$(this).attr("data_r");
-	}
-})
+//.on('click','#remove_reply',function changeView(){
+//	var post_id=$('#post_id').val();
+//	var reply_id=$('#reply_id').val();
+//	console.log(post_id);
+//	var answer=confirm("삭제하시겠습니까?");
+//	if(answer==true){
+//		window.location.href="<c:url value='delete_free_comment'/>?post_id="
+//				+post_id+"&reply_id="+reply_id+"&board="+1;
+//	}
+//})
 
 //update comments
 //.on('click','#edit_reply',function changeView(){

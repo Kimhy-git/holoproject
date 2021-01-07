@@ -17,9 +17,7 @@ public class Dto_help_post {
 	private String payment;
 	private int complete;
 	private String user_user_id;
-
 	private int hit;
-
 	private int likes;
 	
 	public Dto_help_post() {}
@@ -37,19 +35,22 @@ public class Dto_help_post {
 		this.img=img;
 	}
 	
-	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
+	public Dto_help_post(int help_post_id, String tag_area, String title, String tag_job, String content, String img,
+			String gender, int min_price, String payment, String user_user_id) {
+		super();
+		this.help_post_id = help_post_id;
 		this.tag_area = tag_area;
 		this.title = title;
 		this.tag_job = tag_job;
 		this.content = content;
+		this.img = img;
 		this.gender = gender;
 		this.min_price = min_price;
 		this.payment = payment;
 		this.user_user_id = user_user_id;
 	}
-	
-	public Dto_help_post(int help_post_id,String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
-		this.help_post_id = help_post_id;
+
+	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
 		this.tag_area = tag_area;
 		this.title = title;
 		this.tag_job = tag_job;
@@ -155,14 +156,6 @@ public class Dto_help_post {
 	
 	public int getlikes() {
 		return likes;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
 	}
 
 	public void setHelp_post_id(int help_post_id) {
