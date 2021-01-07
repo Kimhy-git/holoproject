@@ -13,6 +13,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 @Service
@@ -52,16 +53,18 @@ public class MemberServiceImpl implements MemberService {
 
 		@Override
 		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price )throws Exception {
+				int min_price, String img )throws Exception {
 			
-			dao.write(title,content,gender,tag_area,tag_job,payment,min_price);
+			dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img);
 		
 		}
 		//help_me게시글 수정
 		@Override
-		public void edit(Dto_help_post dto_p) throws Exception {
-			// TODO Auto-generated method stub
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
 			
+			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id);
+		
 		}
 		//help_me게시글 삭제
 		@Override
@@ -86,13 +89,17 @@ public class MemberServiceImpl implements MemberService {
 			return dao.re_read(help_reply_id);
 		};
 		//help_me 댓글 수정
-		public void re_edit(String re_comment, int help_reply_id)throws Exception {
-			dao.re_edit(re_comment,help_reply_id);
+		public void re_edit(int help_reply_id, String re_comment)throws Exception {
+			System.out.println("멤버 서비스에서 리코멘트 수정한거 ~~:"+re_comment);
+			dao.re_edit(help_reply_id,re_comment);
 		}
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception{
 		dao.re_delete(help_reply_id);
 		}
+		
+		
+		
 	
 	@Override // help_you_write
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id) {
@@ -229,11 +236,8 @@ public class MemberServiceImpl implements MemberService {
 		}	
 		
 		
-		
-		
-		
-		
 	
+
 		@Override
 		public List<Dto_freeboard> select_freeboard() throws Exception {
 			// TODO Auto-generated method stub
@@ -264,30 +268,29 @@ public class MemberServiceImpl implements MemberService {
 			dao.freeboard_write(post_id, board, title, content, user_user_id);
 		} // 게시글 작성
 		
+		@Override 
+		public List<Dto_free_reply> select_free_reply(int post_id) throws Exception {
+			return dao.select_free_reply(post_id);
+		} // 댓글 보여주기
 		@Override
-		public void free_write_reply(String post_post_id, String re_comment) throws Exception {
-					dao.free_write_reply(post_post_id, re_comment);
-		} //댓글 쓰기
-
+			public void add_free_comment(String post_post_id, String re_comment) {
+				dao.add_free_comment(post_post_id, re_comment);
+		} // 댓글 작성
 		@Override
-		public List<Dto_reply> select_freeboard_reply_delete(int post_id) throws Exception {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-
+		public void delete_free_comment(String reply_id, String board, String post_post_id) {
+			dao.delete_free_comment(reply_id,board,post_post_id);
+		} // 댓글 삭제
 		@Override
-		public void freeboard_submit(String post_id, String board, String title, String operator, String nick,
-				String content, String img, String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
-
+		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+			dao.update_free_comment(reply_id,re_comment,post_post_id,board);
+		} // 댓글 수정
 		@Override
-		public void freeboard_write(String post_id, String board, String title, String operator, String content,
-				String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
+
+		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		} // 대댓글 작성	
+
+
+
 
 }

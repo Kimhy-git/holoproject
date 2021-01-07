@@ -13,6 +13,7 @@ public class Dto_help_reply {
 	private int groupNum;
 	private int help_post_post_id;
 	private String user_user_id;
+	private String nick;
 	
 	public Dto_help_reply() {
 	
@@ -42,7 +43,7 @@ public class Dto_help_reply {
 
 
 	public Dto_help_reply(int help_reply_id, Timestamp operator, int board, int re_index, String re_comment, int re_class,
-			int re_order, int groupNum, int help_post_post_id, String user_user_id) {
+			int re_order, int groupNum, int help_post_post_id, String user_user_id, String nick) {
 		super();
 		this.help_reply_id = help_reply_id;
 		this.operator = operator;
@@ -54,6 +55,7 @@ public class Dto_help_reply {
 		this.groupNum = groupNum;
 		this.help_post_post_id = help_post_post_id;
 		this.user_user_id = user_user_id;
+		this.nick = nick;
 	}
 
 
@@ -134,6 +136,10 @@ public class Dto_help_reply {
 	}
 
 
+	public String getNick() {
+		return nick;
+	}
+	
 
 	public void setHelp_reply_id(int help_reply_id) {
 		this.help_reply_id = help_reply_id;
@@ -191,6 +197,10 @@ public class Dto_help_reply {
 
 	public void setUser_user_id(String user_user_id) {
 		this.user_user_id = user_user_id;
+	}
+	
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 	
 	

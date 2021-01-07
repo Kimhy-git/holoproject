@@ -60,6 +60,11 @@ public class Dto_reply {
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
 	}
+
+	public void setRe_order(String re_order) {
+		this.re_order = re_order;
+	}
+
 	public String getUser_user_id() {
 		return user_user_id;
 	}

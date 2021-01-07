@@ -41,13 +41,21 @@ textarea::placeholder{
     border-bottom: 1px solid #ccc;
     font-size: 18px;
     font-weight: 400;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
 }
 #choice{
     width: 80%;
     text-align: left;
     margin: 20px auto;
     /* font-size: 14px; */
+}
+.bold{
+	font-weight:400;
+	color:#222;
+}
+.overlap{
+	font-size:13px;
+	color:#aaa;
 }
 #area,
 #job{
@@ -70,9 +78,10 @@ textarea::placeholder{
     border-radius: 3px;
     padding: 20px 2%;
     width: 76%;
-    margin-top: 10px;
+
     resize: none;
     outline: none;
+    height:350px;
 }
 
 #img_up{
@@ -109,4 +118,18 @@ h2{
 	/* padding: 5px 0 5px 0;
 	margin: 0;
 	padding: 20px; */
+}
+
+#gender{
+	margin-top:20px;
+	margin-bottom:2px
+}
+
+#payment{
+	margin-bottom:5px
+}
+
+#min{
+	border:1px solid #bbb;
+	border-radius: 3px;
 }

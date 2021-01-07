@@ -33,7 +33,7 @@
         
         <!-- <span>제목</span> -->
             <h3>도움받기</h3>
-            <form method='post' action='helpme_write_go' name="write_go">
+            <form method='post' action='helpme_write_go' name="write_go" enctype="multipart/form-data">
             
             <div id="choice">
                 <!-- <span>태그</span>  -->
@@ -70,10 +70,11 @@
 					<option value="기타">기타
                 </select>
                 <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
-                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남</div>
-                <div id="payment" >결제 방법 
+                <div id="gender"><span class="bold">지원자 성별 </span><input type="checkbox" name="female" id="female">여 
+                <input type="checkbox" name="male" id="male">남 <sapn class="overlap">※중복 선택 가능</sapn></div>
+                <div id="payment" ><span class="bold">결제 방법</span>
                 <input type="checkbox" value="현금" name="payment" id="cash">현금 
-                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>
+                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체 <sapn class="overlap">※중복 선택 가능</sapn> </div>
             	<div><input type="text" id="min" name="min_price" size=9 placeholder="최소(보장) 금액">원</div>
             </div>
             <div id="content">
@@ -81,7 +82,7 @@
                 <textarea id="txtarea" name="content" cols="60" rows="40" placeholder="내용을 입력하세요."></textarea>
             </div>
             <div id="img_up">
-                <span>이미지첨부 </span><input type="file" id="file_up">
+                <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
             </div>
             <div id="btn">
                 <a href="help_me"><input type="button" id="cancel" value="취소"></a>

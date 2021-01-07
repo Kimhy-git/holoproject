@@ -35,10 +35,11 @@
 	            <input type="button" id="search_btn" value="검색">
 	        </div>
 
+            
+        <div>
+        <c:forEach var="dto" items="${notice}">
+        <form action="update_post" method="post">
             <table id="first">
-            <div>
-            <c:forEach var="dto" items="${notice}">
-            <form action="update_post" method="post">
                 <tr>
                 <td><input type=hidden id=post_id name=post_id value=${dto.post_id}></td>
             	<td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
@@ -54,6 +55,9 @@
                 <tr>
                     <td>작성날짜</td>
                     <td>${dto.operator}</td>
+                    
+                    <td>조회수</td>
+                    <td>${dto.hit}</td>
                 </tr>
                 <tr>
                     <td>글내용</td>
@@ -67,23 +71,29 @@
                     </td>
                     <img src="http://localhost:8080/holo/img/${dto.img}"/>
                 </tr>
-                </c:forEach>   
             </table>
+        </form>
+        </c:forEach>
+        </div>
             
             <div id="btn">
 	                <input type="button" id="remove" value="삭제">
 	                <input type="submit" id="edit" value="수정">
                 <a href="notice"><input type="button" id="list" value="목록보기"></a>
-            	</div>
-            </form>
+            </div>
             
+            <form action="add_comment" method="post">
             <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">0</span></div> 
+            	<c:forEach var="dto" items="${notice}">
+                	<div id="comment-count">댓글 <span id="count">${dto.reply_cnt}</span></div> 
+                	<input type=hidden name="post_post_id" value="${dto.post_id}"> 
                 <div id=cc>
-                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
+                	<input id="comment-input" id="re_comment" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 	<button id="submit">등록</button> 
                 </div>
-            </div> 
+                </c:forEach>
+            </div>
+            </form>
             
             <br><br><br>
             <!-- DB에서 reply 가져오기 -->
@@ -96,11 +106,12 @@
 		            ${dto_reply.reply_id}<br>
 		            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 		            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
+		            <input type=hidden name="re_index" value=${dto_reply.re_index}>
 		            <input type=hidden name="re_order" value=${dto_reply.re_order}>
 		            <input type=hidden name="groupNum" value=${dto_reply.groupNum}>
 		            <div id="btn_reply">
 		                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-		                <input type="submit" id="edit_reply${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+		                <input type="submit" id="edit_reply" value="수정" data_r=${dto_reply.reply_id}>
 		                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 		                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
 		                <input type=textarea name="re_re_comment"> 
@@ -132,7 +143,7 @@ $(document)
 })
 
 //Delete ONLY comments
-.on('click','#remove_reply',function changeView(){
+.on('click','input[id^=remove_reply]',function changeView(){
 	var post_id=$('#post_id').val();
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");

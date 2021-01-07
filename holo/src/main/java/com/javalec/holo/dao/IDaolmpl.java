@@ -15,6 +15,7 @@ import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 
 @Repository
@@ -51,21 +52,22 @@ public class IDaolmpl implements IDao {
 		}
 		
   	//help_me게시글 쓰기
-
 		@Override
-  	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price)throws Exception {
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+			int min_price,String img)throws Exception {
 		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
-				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price);
-		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price);
-  		sqlSession.insert(Namespace+".write",Dto_p);
-  	}
-  	//help_me게시글 수정
-  	@Override
-  	public void edit(Dto_help_post dto_p) throws Exception {
-  		sqlSession.update(Namespace+".edit");
-  		
-  	}
+				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img);
+		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img);
+  		sqlSession.insert(Namespace+".write",Dto_p);}
+  	
+  		//help_me게시글 수정
+		@Override
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id)throws Exception {
+		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+  		sqlSession.insert(Namespace+".edit",Dto_p);
+		}
   	//help_me게시글 삭제
   	@Override
   	public void delete(int help_post_id) throws Exception {
@@ -93,8 +95,10 @@ public class IDaolmpl implements IDao {
   	};
   	//help_me 댓글 수정
   	@Override
-  	public void re_edit(String re_comment, int help_reply_id)throws Exception {
-  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_reply_id);
+  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
+  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
+  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
   		sqlSession.insert(Namespace+".re_edit",Dto_pr);
   	}
   	//help_me 댓글 삭제
@@ -262,12 +266,6 @@ public class IDaolmpl implements IDao {
 			Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
 			sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
 		}
-		
-		
-		
-		
-		
-		
 
 		@Override
 		public void update_post(String post_id, String board, String title, String content) {
@@ -282,6 +280,11 @@ public class IDaolmpl implements IDao {
 			sqlSession.insert(Namespace+".update_post_content",update_post);
 		}
 	
+		
+		
+		
+		
+		
 		@Override
 		public List<Dto_freeboard> select_freeboard() {
 			// TODO Auto-generated method stub
@@ -309,17 +312,31 @@ public class IDaolmpl implements IDao {
 			Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 			sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 		}// 게시물 달기
+		@Override 
+		public List<Dto_free_reply> select_free_reply(int post_id) {
+			return sqlSession.selectList(Namespace+".select_free_reply",post_id);
+		}// 댓글 보여주기
 		@Override
-		public void free_write_reply(String post_post_id, String re_comment) {
-			Dto_free_reply Dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
-			sqlSession.insert(Namespace+".free_write_reply",Dto_free_reply);
-
-		}// 댓글 쓰기
-
+		public void add_free_comment(String post_post_id, String re_comment) {
+			Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+			sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
+		} //댓글 달기
 		@Override
-		public void freeboard_write(String post_id, String board, String title, String operator, String content,
-				String user_user_id) throws Exception {
-			// TODO Auto-generated method stub
-			
-		}
+		public void delete_free_comment(String reply_id, String board, String post_post_id) {
+			Dto_free_reply delete_free_comment=new Dto_free_reply(reply_id, board, post_post_id);			
+			sqlSession.insert(Namespace+".delete_free_comment",delete_free_comment);
+		} // 댓글 삭제
+		@Override
+		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+			Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,board,re_comment,post_post_id);
+			sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
+		} //댓글 수정
+		@Override
+		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+			sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
+		} //대댓글 작성
+
+
+
 }
