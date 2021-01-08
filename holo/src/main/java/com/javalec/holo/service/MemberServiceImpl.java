@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
@@ -50,6 +52,27 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			return id;
 		}
+	}
+	
+	//아이디 중복 체크
+	
+	@Override
+	public void check_id(String user_id, HttpServletResponse response) throws Exception {
+		
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_id(user_id));
+		out.close();
+		
+	}
+
+	//이메일 중복 체크
+
+	@Override
+	public void check_email(String email, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_email(email));
+		out.close();
 	}
 	
 	
@@ -281,6 +304,36 @@ public class MemberServiceImpl implements MemberService {
 //		dao.num_of_comments(post_id);
 //	}
 		
+	//login
+	@Override
+	public boolean login(Dto_user dto, HttpSession session) {
+		boolean result = dao.login(dto);
+		if(result) {//true일 경우 session에 등록
+			Dto_user dto2 = viewMember(dto);
+			//세션 변수 등록
+			session.setAttribute("user_id", dto2.getUser_id());
+			session.setAttribute("user_pw", dto2.getUser_pw());
+		}
+		return result;
+	}
+
+	//회원 로그인 정보
+	@Override
+	public Dto_user viewMember(Dto_user dto) {
+		return dao.viewMember(dto);
+	}
+
+	//log out
+	@Override
+	public void logout(HttpSession session) {
+		//세션 변수 삭제 및 정보 초기화
+		session.invalidate();
+	}
+	
+	
+	
+	
+	
 		
 	
 
@@ -340,4 +393,8 @@ public class MemberServiceImpl implements MemberService {
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
 		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
 	} // 대댓글 작성	
+
+
+
+	
 }

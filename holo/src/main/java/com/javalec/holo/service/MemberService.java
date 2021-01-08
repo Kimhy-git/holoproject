@@ -2,8 +2,8 @@ package com.javalec.holo.service;
 
 import java.sql.Blob;
 import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
@@ -74,17 +74,26 @@ public interface MemberService {
 	//the number of comments
 //	public void num_of_comments(String post_id);
 	
+	//login
+	public boolean login(Dto_user dto, HttpSession session);
 	
-	
-	
-	
+	//회원 로그인 정보
+	public Dto_user viewMember(Dto_user dto);
+
+	//log out
+	public void logout(HttpSession session);
+
 
 	
 	
 	//find_id
 	public String find_id(HttpServletResponse response, String email) throws Exception;
 	
-	
+	//아이디 중복 체크
+	public void check_id(String user_id, HttpServletResponse response) throws Exception;
+	//이메일 중복 체크
+	public void check_email(String email, HttpServletResponse response) throws Exception;
+	//회원가입
 	
 	
 	

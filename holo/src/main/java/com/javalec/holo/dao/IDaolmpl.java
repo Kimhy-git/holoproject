@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -32,10 +33,23 @@ public class IDaolmpl implements IDao {
 //	}
 	
     
+    
     //find_id
     public String find_id(String email) throws Exception{
 		return sqlSession.selectOne(Namespace+".find_id", email);
 	}
+    
+    //아이디 중복 검사
+    public int check_id(String user_id) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_id", user_id);
+	}
+    //이메일 중복 검사
+    public int check_email(String email) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_email", email);
+	}
+    
+    //회원 가입
+ 
     
     
     
@@ -309,6 +323,28 @@ public class IDaolmpl implements IDao {
 				sqlSession.insert(Namespace+".update_post_title",update_post);
 				sqlSession.insert(Namespace+".update_post_content",update_post);
 			}
+
+
+			//log in
+			@Override
+			public boolean login(Dto_user dto) {
+				String name = sqlSession.selectOne(Namespace+".login",dto);
+				return (name==null) ? false : true;
+			}
+
+			//회원 로그인 정보
+			@Override
+			public Dto_user viewMember(Dto_user dto) {
+				return sqlSession.selectOne(Namespace+".viewMember",dto);
+			}
+
+			//log out
+			@Override
+			public void logout(HttpSession session) {
+				
+			}
+			
+			
 			
 			
 	
@@ -374,5 +410,4 @@ public class IDaolmpl implements IDao {
 				Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
 				sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
 			} //대댓글 작성
-			
 	}
