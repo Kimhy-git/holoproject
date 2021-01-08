@@ -56,7 +56,7 @@
             </div>
         </div>
     </section>
-
+	<div id="test"></div>
     <footer>
         <p>&copy;copyright 홀로서기 
             alone@alone.co.kr</p>
