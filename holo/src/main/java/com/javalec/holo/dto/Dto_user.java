@@ -14,7 +14,40 @@ public class Dto_user {
 	private String likes;
 	private String tag;
 	
+	public Dto_user(String user_id, String user_pw) {
+		super();
+		this.user_id = user_id;
+		this.user_pw = user_pw;
+	}
+
+
+	public Dto_user(String user_id, String nick, String email) {
+		super();
+		this.user_id = user_id;
+		this.nick = nick;
+		this.email = email;
+	}
 	
+
+
+	public Dto_user() {}
+
+	public Dto_user(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+			String email, String mobile, String birth, String address, String likes, String tag) {
+		super();
+		this.user_id = user_id;
+		this.user_pw = user_pw;
+		this.gender = gender;
+		this.nick = nick;
+		this.passwd_q = passwd_q;
+		this.passwd_a = passwd_a;
+		this.email = email;
+		this.mobile = mobile;
+		this.birth = birth;
+		this.address = address;
+		this.likes = likes;
+		this.tag = tag;
+	}
 	
 	public String getUser_id() {
 		return user_id;
@@ -85,6 +118,8 @@ public class Dto_user {
 	public String getTag() {
 		return tag;
 	}
+	
+	//toString??
 
 
 
@@ -157,33 +192,5 @@ public class Dto_user {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-
-
-
-	public Dto_user(String user_id, String user_pw) {
-		super();
-		this.user_id = user_id;
-		this.user_pw = user_pw;
-	}
-
-
-
-	public Dto_user(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
-			String email, String mobile, String birth, String address, String likes, String tag) {
-		super();
-		this.user_id = user_id;
-		this.user_pw = user_pw;
-		this.gender = gender;
-		this.nick = nick;
-		this.passwd_q = passwd_q;
-		this.passwd_a = passwd_a;
-		this.email = email;
-		this.mobile = mobile;
-		this.birth = birth;
-		this.address = address;
-		this.likes = likes;
-		this.tag = tag;
-	}
-	
 	
 }

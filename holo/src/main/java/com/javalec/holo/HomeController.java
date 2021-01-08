@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.io.ResolverUtil.Test;
@@ -54,11 +55,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
     	  
           return "main";
       }
-      @RequestMapping(value = "/login", method = RequestMethod.GET)
-      public String login() {
-         
-         return "login";
-      }
+
       @RequestMapping(value = "/join", method = RequestMethod.GET)
       public String join() {
          
@@ -69,9 +66,17 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
          
          return "find_id";
       }
-      @RequestMapping(value = "/find_pw", method = RequestMethod.GET)
-      public String find_pw() {
-         
+      @RequestMapping(value = "/try_find_pw", method = RequestMethod.GET)
+      public String find_pw(HttpServletRequest req, Model model)throws Exception  {
+
+			String user_id=req.getParameter("user_id");
+			String passwd_q=req.getParameter("passwd_q");
+	    	String passwd_a=req.getParameter("passwd_a");
+
+			service.find_pw(user_id, passwd_q, passwd_a);
+			
+			
+
          return "find_pw";
       }
       @RequestMapping(value = "/mypage", method = RequestMethod.GET)

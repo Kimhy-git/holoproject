@@ -751,7 +751,8 @@ public class BoardController {
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
-
+	    	String board="1";
+	    	
 	    	model.addAttribute("post_post_id",post_post_id);
 	    	model.addAttribute("re_comment",re_comment);
 	    	model.addAttribute("reply_id",reply_id);
@@ -766,30 +767,50 @@ public class BoardController {
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
 	    	String board="1";
+	    	
+	    	service.update_free_comment(reply_id,re_comment,post_post_id,board);
 
-	    	service.update_comment(reply_id,re_comment,post_post_id,board);
-
-	    	return "redirect:freeboard";
+	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 댓글 수정
 	    
 	    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
-
+	    	//test
 	    	String re_index=req.getParameter("reply_id");
 	    	String re_comment=req.getParameter("re_re_comment");
 	    	int order_i=Integer.parseInt(req.getParameter("re_order"));
 	    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
 	    	String post_post_id=req.getParameter("post_post_id");
-	    	
+	    	System.out.println("re_re_comment: "+re_comment);
+	    	String board="1";
 	    	order_i+=1;
 	    	groupNum_i+=1;
 	    	
 	    	String re_order=String.valueOf(order_i);
 	    	String groupNum=String.valueOf(groupNum_i);
 
-	    	service.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+	    	service.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+
+	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
+	    } // 대댓글 작성
+	    @RequestMapping(value = "edit_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
+	    public String edit_free_re_comment(HttpServletRequest req, Model model) throws Exception{
+	    	//test
+	    	String re_index=req.getParameter("reply_id");
+	    	String re_comment=req.getParameter("re_re_comment");
+	    	int order_i=Integer.parseInt(req.getParameter("re_order"));
+	    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+	    	String post_post_id=req.getParameter("post_post_id");
+	    	System.out.println("re_re_comment: "+re_comment);
+	    	String board="1";
+	    	order_i+=1;
+	    	groupNum_i+=1;
+	    	
+	    	String re_order=String.valueOf(order_i);
+	    	String groupNum=String.valueOf(groupNum_i);
+
+	    	service.edit_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
 
 	    	return "redirect:freeboard";
-	    } // 대댓글 작성
-
+	    }
 }

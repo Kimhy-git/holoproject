@@ -4,6 +4,8 @@ import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
@@ -258,6 +260,36 @@ public class MemberServiceImpl implements MemberService {
 //		dao.num_of_comments(post_id);
 //	}
 		
+	//login
+	@Override
+	public boolean login(Dto_user dto, HttpSession session) {
+		boolean result = dao.login(dto);
+		if(result) {//true일 경우 session에 등록
+			Dto_user dto2 = viewMember(dto);
+			//세션 변수 등록
+			session.setAttribute("user_id", dto2.getUser_id());
+			session.setAttribute("user_pw", dto2.getUser_pw());
+		}
+		return result;
+	}
+
+	//회원 로그인 정보
+	@Override
+	public Dto_user viewMember(Dto_user dto) {
+		return dao.viewMember(dto);
+	}
+
+	//log out
+	@Override
+	public void logout(HttpSession session) {
+		//세션 변수 삭제 및 정보 초기화
+		session.invalidate();
+	}
+	
+	
+	
+	
+	
 		
 	
 
@@ -314,11 +346,19 @@ public class MemberServiceImpl implements MemberService {
 	} // 댓글 수정
 	@Override
 
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
-		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
 	} // 대댓글 작성
 	@Override
 	public void free_uphit(int post_id) throws Exception {
 		dao.free_uphit(post_id);
 	} // 조회수 올리기
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		dao.edit_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+	}
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception {
+		dao.find_pw(user_id, passwd_q, passwd_a);
+	}
 }

@@ -97,23 +97,42 @@
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
 	            <c:forEach var="dto_free_reply" items="${free_reply}">
-	            <form action="update_free_comment" method=get>
+	            
 		            ${dto_free_reply.user_user_id}<br>
-		            ${dto_free_reply.re_comment}<br>
+		            ${dto_free_reply.re_comment} ${dto_free_reply.operator}<br>
 		            <input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
 		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
 		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
+		            
 		            <div id="btn_reply">
 		                <input type="button" id="remove_reply${dto_free_reply.reply_id}" value="삭제" data_r=${dto_free_reply.reply_id}>
-		                <input type="submit" id="edit_reply${dto_free_reply.reply_id}" value="수정" data_r=${dto_free_reply.reply_id}>
+		                <input type="button" id="edit_reply${dto_free_reply.reply_id}" value="수정">
 		                <input type="button" id="reply_again${dto_free_reply.reply_id}" value="답글달기" >
-		                <div id="reply_again_textarea${dto_free_reply.reply_id}" style="display:none">
-		                <input type=textarea name="re_re_comment"> 
-		                <input type=submit value="등록" onclick="javascript: form.action='add_free_re_comment';"/> 
-		                </div>
 		            </div>
-	            </form>
+
+	            <div id="reply_again_textarea${dto_free_reply.reply_id}" style="display:none">
+	            	<form action="add_free_re_comment" method="post">
+	            	<input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
+		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
+		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
+		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
+		            <input type="hidden" name="board" value="${dto_free_reply.board}">
+		            <input type="text" name="re_re_comment"> 
+		            <input type="submit" value="등록"> 
+		        	</form>		        	
+		        </div>
+		        <div id="edit_reply_textarea${dto_free_reply.reply_id}" style="display:none">
+	            	<form action="update_free_comment_now" method="post">
+	            	<input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
+		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
+		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
+		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
+		            <input type="hidden" name="board" value="${dto_free_reply.board}">
+		            <input type="text" name="re_re_comment"> 
+		            <input type="submit" value="등록"> 
+		        	</form>		        	
+		        </div>
 	            </c:forEach>
             </div>
         </div>
@@ -181,8 +200,16 @@ $(document)
 		$('#reply_again_textarea'+n).hide();
 	}
 })
+.on('click','input[id^=edit_reply]',function(){ //input[id가 edit_reply으로 시작하는 버튼]
+	var n=(this.id).substr(11); 
+	console.log($('#reply_again_textarea'+n).css("display"));
+	if($('#reply_again_textarea'+n).css("display")=="none"){
+			$('#reply_again_textarea'+n).show();
+	}else{
+		$('#reply_again_textarea'+n).hide();
+	}
+})
 
-//add re_comments
 
 </script>
 </html>

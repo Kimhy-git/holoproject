@@ -29,25 +29,25 @@
     </header>
     <section>
         <div id="wrap">
-        <form method="post" action="do_login">
             <table id="info">
-            <c:if test="${member ==null}">
+                <form method="post" action="do_login">
                 <tr>
-                    <td>아이디</td><td><input type="text" id="id"></td>
+                    <td>아이디</td><td><input type="text" id="id" name="user_id"></td>
                      <td rowspan="2"><input type="submit" id="log_btn" value="로그인"></td>   
                 </tr>
                 <tr>
-                    <td>비밀번호</td><td><input type="password" id="passcode"></td>
+                    <td>비밀번호</td><td><input type="password" id="passcode" name="user_pw"></td>
                 </tr>
-      		</c:if>
-      		</form>
-      		<c:if test="${member!=null }">
-	            <p>${member.user_id}님 환영합니다</p>
-	            <input type="button" id="logout" value="로그아웃">
-        	</c:if>
-       		<c:if test="${msg==false}">
+                </form>
+
+       		<c:if test="${msg=='fail'}">
             	<h1>로그인 실패 : 아이디와 비밀번호를 확인해주세요</h1>
         	</c:if>
+        	
+        	<c:if test="${msg=='logout'}">
+            	<h1>로그아웃 되었습니다</h1>
+        	</c:if>
+        	
             </table>
             <br>
             <div id="bottom">
@@ -58,7 +58,7 @@
     </section>
 
     <footer>
-        <p>&copy;copyright 홀로서기
+        <p>&copy;copyright 홀로서기 
             alone@alone.co.kr</p>
     </footer>
 </body>
