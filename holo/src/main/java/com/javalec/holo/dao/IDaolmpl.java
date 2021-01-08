@@ -34,6 +34,27 @@ public class IDaolmpl implements IDao {
 //	}
 	
     
+  //아이디 중복 검사
+    public int check_id(String user_id) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_id", user_id);
+	}
+    //이메일 중복 검사
+    public int check_email(String email) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_email", email);
+	}
+    //회원 가입 submit
+    public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+			String email, String mobile, String birth, String address, String tag, String cv) {
+    	System.out.println("start idao join");
+    	Dto_user dto_user=new Dto_user();
+    	dto_user.Dto_user_submit(user_id, user_pw, gender, nick, passwd_q, passwd_a, email, mobile, birth, address, tag, cv);
+    	sqlSession.insert(Namespace+".join",dto_user);
+    }
+    
+    
+    
+    
+    
   //help_me게시글 리스트
   	@Override
   	public List<Dto_help_post> list() throws Exception {
@@ -167,11 +188,13 @@ public class IDaolmpl implements IDao {
 	@Override
 	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception {
 		System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
-//		int groupNum=sqlSession.selectOne(Namespace+".helpyou_groupNum_select",re_index);
-//		groupNum=groupNum+1;
-		System.out.println("groupNum: "+groupNum);
-		Dto_help_reply recomment=new Dto_help_reply(re_index,re_comment,re_order,groupNum,help_post_post_id,user_user_id);
+		int re_groupNum=sqlSession.selectOne(Namespace+".helpyou_groupNum_select",groupNum);
+		re_index=re_groupNum+1;
+		Dto_help_reply recomment=new Dto_help_reply();
+		recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+		System.out.println(recomment.getRe_index());
 		sqlSession.insert(Namespace+".helpyou_re_recommnet_submit",recomment);
+		
 	}
 	
 	@Override

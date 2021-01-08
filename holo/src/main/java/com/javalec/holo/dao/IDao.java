@@ -17,6 +17,20 @@ import com.javalec.holo.dto.Help_postDto;
 
 public interface IDao {
 	
+	//회원가입
+		//아이디 중복 체크
+		public int check_id(String user_id) throws Exception;
+		//이메일 중복 체크
+		public int check_email(String email) throws Exception;	
+		//회원가입 submit
+		public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+				String email, String mobile, String birth, String address, String tag, String cv);
+		
+		
+		
+		
+		
+
 	  //help_me게시글 리스트
 		public List<Dto_help_post> list()throws Exception;;
 		

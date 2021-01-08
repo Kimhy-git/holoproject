@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.io.ResolverUtil.Test;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.service.MemberService;
@@ -45,6 +47,19 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
     }
 
    
+       // 아이디 중복 검사(AJAX)
+      @RequestMapping(value = "/check_id_go", method = RequestMethod.POST)
+		public void check_id(@RequestParam("id") String id, HttpServletResponse response) throws Exception{
+		service.check_id(id, response);
+	  }
+    
+	   // 이메일 중복 검사(AJAX)
+	  @RequestMapping(value = "/check_email_go", method = RequestMethod.POST)
+	  	public void check_email(@RequestParam("email") String email, HttpServletResponse response) throws Exception{
+	  	service.check_email(email, response);
+	  }
+	  
+    
    
       @RequestMapping(value = "/main", method = RequestMethod.GET)
       public String main(Model model) throws Exception{
@@ -57,7 +72,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 
       @RequestMapping(value = "/join", method = RequestMethod.GET)
       public String join() {
-         
+         System.out.println("join 호출");
          return "join";
       }
       @RequestMapping(value = "/find_id", method = RequestMethod.GET)
@@ -115,5 +130,11 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
          
          return "apply";
       }
+      @RequestMapping(value="/jusoPopup", method = {RequestMethod.POST,RequestMethod.GET})
+      public String jusoPopup() {
+    	  System.out.println("juso호출");
+    	  return "jusoPopup";
+      }
+      
    
 }

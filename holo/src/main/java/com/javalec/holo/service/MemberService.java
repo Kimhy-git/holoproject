@@ -3,6 +3,7 @@ package com.javalec.holo.service;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.javalec.holo.dto.Dto;
@@ -17,6 +18,14 @@ import com.javalec.holo.dto.Help_postDto;
 
 public interface MemberService {
 //	public List<Dto> selectMember() throws Exception;
+	
+	
+	//join
+	public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+			String email, String mobile, String birth, String address, String tag, String cv);
+	
+	
+	
 	
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
@@ -126,6 +135,15 @@ public interface MemberService {
 	//help_me hit
 	public void hit(int help_post_id) throws Exception;
 			
+	//아이디 중복 체크
+		public void check_id(String user_id, HttpServletResponse response) throws Exception;
+		//이메일 중복 체크
+		public void check_email(String email, HttpServletResponse response) throws Exception;
+		//회원가입
+	
+	
+	
+	
 			
 			
 	// freeboard

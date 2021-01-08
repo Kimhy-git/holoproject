@@ -8,6 +8,25 @@
         select * from user;
     </select>
     
+    <!-- 아이디 중복검사 -->
+	<select id="check_id" parameterType="String" resultType="int">
+		select count(*) from user where user_id = #{user_id}
+	</select>
+	
+	<!-- 이메일 중복검사 -->
+	<select id="check_email" parameterType="String" resultType="int">
+		select count(*) from user where email = #{email}
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="dto_user">
+		insert into user
+		(user_id, user_pw, gender, nick, passwd_q, passwd_a, email, mobile, birth, address, tag, cv) 
+		values
+		(#{user_id}, #{user_pw}, #{gender}, #{nick}, #{passwd_q}, #{passwd_a}, #{email},
+		#{mobile}, #{birth}, #{address},#{tag},#{cv});
+	</insert>
+    
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
 		select * from help_post, user where help_post.user_user_id=user.user_id and board=1 order by help_post_id desc;
@@ -122,15 +141,14 @@
 		 where help_reply_id=#{help_reply_id}
 	</update>
 	
-	<!-- helpyou re_recommnet submit -->
-	<select id="helpyou_groupNum_select" resultType="int">
-		select count(a.re_class) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{re_index};
+	<!-- helpyou re_recommnet submit --> 
+	<select id="helpyou_groupNum_select" parameterType="int" resultType="int">
+		select count(a.re_index) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{groupNum};
 	</select>
 	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
 		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
  		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
 	</insert>
-
 
 
 	<!-- notice -->

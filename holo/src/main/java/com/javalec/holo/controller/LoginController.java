@@ -1,13 +1,17 @@
 package com.javalec.holo.controller;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,5 +57,31 @@ public class LoginController {
 		
     	return mav;
     }
+    
+    
+    
+    // Join
+    @RequestMapping(value="join_submit", method = {RequestMethod.POST,RequestMethod.GET})
+    public String join_submit(HttpServletRequest req,Model model) {
+    	String user_id=req.getParameter("user_id");
+    	String user_pw=req.getParameter("passcode");
+    	String gender=req.getParameter("gender");
+    	String nick=req.getParameter("nick");
+    	String passwd_q=req.getParameter("passwd_q");
+    	String passwd_a=req.getParameter("passwd_a");
+    	String email=req.getParameter("email");
+    	String mobile=req.getParameter("mobile");
+    	String birth=req.getParameter("birth");
+    	String[] ptag=req.getParameterValues("ptag");
+		String tag=String.join(",", ptag);
+		String cv=req.getParameter("cv");
+		String address=req.getParameter("address01")+" "+req.getParameter("address02");
+		System.out.println(address);
+		System.out.println(user_id+", "+gender+", "+nick+", "+user_pw+", "+passwd_q+", "+passwd_a+", "+email+", birth: "+birth+", "+tag+", "+cv);
+    	service.join_submit(user_id, user_pw, gender, nick, passwd_q, passwd_a, email, mobile, birth, address, tag, cv);
+		return "login";
+    }
+    
+    
     
 }

@@ -1,9 +1,11 @@
 package com.javalec.holo.service;
 
+import java.io.PrintWriter;
 import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
@@ -29,7 +31,14 @@ public class MemberServiceImpl implements MemberService {
 //		return dao.list();
 //	}
 
-
+		
+		//join
+		public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+				String email, String mobile, String birth, String address, String tag, String cv) {
+			dao.join_submit(user_id, user_pw, gender, nick, passwd_q, passwd_a, email, mobile, birth, address, tag, cv);
+		}
+	
+	
 	
 	
 	
@@ -107,6 +116,27 @@ public class MemberServiceImpl implements MemberService {
 		//help_me hit
 		public void hit(int help_post_id) throws Exception{
 			dao.hit(help_post_id);
+		}
+		
+		//아이디 중복 체크
+		
+		@Override
+		public void check_id(String user_id, HttpServletResponse response) throws Exception {
+			
+			PrintWriter out = response.getWriter();
+			out.println(dao.check_id(user_id));
+			out.close();
+			
+		}
+
+		//이메일 중복 체크
+
+		@Override
+		public void check_email(String email, HttpServletResponse response) throws Exception {
+			// TODO Auto-generated method stub
+			PrintWriter out = response.getWriter();
+			out.println(dao.check_email(email));
+			out.close();
 		}
 		
 		

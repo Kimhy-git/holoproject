@@ -77,9 +77,8 @@ public class Dto_help_reply {
 
 
 
-	public void Dto_help_re_reply(int board, int re_index, String re_comment, int re_class, int re_order, int groupNum,
+	public void Dto_help_re_reply(int re_index, String re_comment, int re_order, int re_class, int groupNum,
 			int help_post_post_id, String user_user_id) {
-		this.board = board;
 		this.re_index = re_index;
 		this.re_comment = re_comment;
 		this.re_class = re_class;

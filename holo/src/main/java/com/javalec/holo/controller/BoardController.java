@@ -354,13 +354,16 @@ public class BoardController {
 		int re_order=Integer.parseInt(req.getParameter("parent_id"));
 		System.out.println("parent_id: "+re_order);
 		int re_class=Integer.parseInt(req.getParameter("re_class"));
-		re_class=re_class+1;
+		if(re_class==0) {
+			re_class=re_class+1;
+		}
 		int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+		int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
 		int groupNum=0;
 		if(parent_re_order==0) {
 			groupNum=re_order;
 		}else {
-			groupNum=parent_re_order;
+			groupNum=parent_groupNum;
 		}
 		System.out.println("groupNum: "+groupNum);
 		String comment=req.getParameter("re_re_comment");		

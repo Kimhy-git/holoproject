@@ -13,6 +13,7 @@ public class Dto_user {
 	private String address;
 	private String likes;
 	private String tag;
+	private String cv;
 	
 	public Dto_user(String user_id, String user_pw) {
 		super();
@@ -27,7 +28,6 @@ public class Dto_user {
 		this.nick = nick;
 		this.email = email;
 	}
-	
 
 
 	public Dto_user() {}
@@ -48,6 +48,25 @@ public class Dto_user {
 		this.likes = likes;
 		this.tag = tag;
 	}
+	
+	
+	public void Dto_user_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
+			String email, String mobile, String birth, String address, String tag, String cv) {
+		this.user_id = user_id;
+		this.user_pw = user_pw;
+		this.gender = gender;
+		this.nick = nick;
+		this.passwd_q = passwd_q;
+		this.passwd_a = passwd_a;
+		this.email = email;
+		this.mobile = mobile;
+		this.birth = birth;
+		this.address = address;
+		this.tag = tag;
+		this.cv = cv;
+	}
+	
+	
 	
 	public String getUser_id() {
 		return user_id;
@@ -127,6 +146,16 @@ public class Dto_user {
 		this.user_id = user_id;
 	}
 
+
+
+	public String getCv() {
+		return cv;
+	}
+
+
+	public void setCv(String cv) {
+		this.cv = cv;
+	}
 
 
 	public void setUser_pw(String user_pw) {
