@@ -86,6 +86,8 @@ public interface MemberService {
 	
 	
 	
+	
+	
 	//help_me게시글 상세보기
 	public Dto_help_post read(int help_post_id) throws Exception;
 	
@@ -152,6 +154,7 @@ public interface MemberService {
 	// 댓글 수정
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성	
+	
 	
 
 }

@@ -116,4 +116,21 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+.on('click','#overlap',function(){
+	$.ajax({
+		url : "idCheck",
+		type : "post", dataType : "json",
+		data : "user_id" : $('#id').val()},
+		success : function(data){
+			if(data==1){
+				alert("중복된 아이디입니다");
+			}else if(data==0){
+				alert("사용 가능한 아이디입니다");
+			}
+		})
+})
+//https://melonpeach.tistory.com/45
+</script>
 </html>

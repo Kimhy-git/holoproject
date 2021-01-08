@@ -47,11 +47,3 @@
 
 
 </html>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script>
-$(document)
-.ready(function(){
-	console.log(${ id })
-})
-
-</script>
