@@ -348,16 +348,26 @@ public class BoardController {
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
 	@RequestMapping(value="/helpyou_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
-	public String helpyou_re_recomment_submit(HttpServletRequest req, Model model) {
+	public String helpyou_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
 		System.out.println("start re_recomment");
 		int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
-		int re_index=Integer.parseInt(req.getParameter("parent_id"));
-		String comment=req.getParameter("re_re_comment");
-		int re_order=Integer.parseInt(req.getParameter("re_order"));
-		re_order=re_order+1;
+		int re_order=Integer.parseInt(req.getParameter("parent_id"));
+		System.out.println("parent_id: "+re_order);
+		int re_class=Integer.parseInt(req.getParameter("re_class"));
+		re_class=re_class+1;
+		int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+		int groupNum=0;
+		if(parent_re_order==0) {
+			groupNum=re_order;
+		}else {
+			groupNum=parent_re_order;
+		}
+		System.out.println("groupNum: "+groupNum);
+		String comment=req.getParameter("re_re_comment");		
 		String user_id="a";
-		System.out.println(re_index+","+comment+","+re_order+","+help_post_id+","+user_id);
-		service.helpyou_re_recomment_submit(re_index, comment, re_order, help_post_id, user_id);
+		int re_index=Integer.parseInt(req.getParameter("re_index"));
+		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
+		service.helpyou_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
 		System.out.println("end re_recomment");
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}

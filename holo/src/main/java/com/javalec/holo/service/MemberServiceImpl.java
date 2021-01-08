@@ -134,8 +134,8 @@ public class MemberServiceImpl implements MemberService {
 		dao.helpyou_reply_submit(comment, help_post_post_id, user_user_id);
 	}
 	@Override
-	public void helpyou_re_recomment_submit(int re_index, String comment, int re_order, int help_post_post_id, String user_user_id) {
-		dao.helpyou_re_recomment_submit(re_index, comment, re_order, help_post_post_id, user_user_id);
+	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception {
+		dao.helpyou_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
 	}
 	@Override
 	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){

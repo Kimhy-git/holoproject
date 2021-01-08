@@ -1,6 +1,7 @@
 package com.javalec.holo.dao;
 
 import java.sql.Blob;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -163,10 +164,10 @@ public class IDaolmpl implements IDao {
 	}
 	
 	@Override
-	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int help_post_post_id, String user_user_id) {
+	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception {
 		System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
-		int groupNum=sqlSession.selectOne(Namespace+".helpyou_groupNum_select",re_index);
-		groupNum=groupNum+1;
+//		int groupNum=sqlSession.selectOne(Namespace+".helpyou_groupNum_select",re_index);
+//		groupNum=groupNum+1;
 		System.out.println("groupNum: "+groupNum);
 		Dto_help_reply recomment=new Dto_help_reply(re_index,re_comment,re_order,groupNum,help_post_post_id,user_user_id);
 		sqlSession.insert(Namespace+".helpyou_re_recommnet_submit",recomment);

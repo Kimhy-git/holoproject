@@ -152,6 +152,7 @@ $(document)
 					console.log(value['re_comment']);
 					var content='<div id=comments'+value['help_reply_id']+'>'+
 								    '<input type="hidden" class="reply_id" value="'+value['help_reply_id']+'">'+
+								    '<input type="hidden" class="re_index" value="'+value['re_index']+'">'+
 						            '<p class="reply_user">'+value['user_user_id']+'</p>'+
 						            '<p class="reply_comment">'+value['re_comment']+'</p>'+
 						            '<p class="reply_date">'+value['operator']+'</p>'+
@@ -161,7 +162,9 @@ $(document)
 						            '<form method="post" action="helpyou_re_recomment_submit" id="reply_recomment'+value['help_reply_id']+'" style="display:none;">'+
 						            	'<div>'+
 						            	'<input type="hidden" name="parent_id" value="'+value['help_reply_id']+'">'+
+						            	'<input type="hidden" name="re_index" value="'+value['re_index']+'">'+
 						            	'<input type="hidden" name="re_order" value="'+value['re_order']+'">'+
+						            	'<input type="hidden" name="re_class" value="'+value['re_class']+'">'+
 						            	'<input type="hidden" name="groupNum" value="'+value['groupNum']+'">'+
 						            	'<input type="hidden" name="re_post_id" value="'+value['help_post_post_id']+'">'+
 					                	'<input type=textarea name="re_re_comment">'+

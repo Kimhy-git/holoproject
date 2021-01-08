@@ -101,16 +101,15 @@
 	</delete>
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
-		insert into help_reply(board,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
-		 values(0, #{re_comment}, 0, 0, #{help_post_post_id}, #{user_user_id})
+		insert into help_reply(board,re_comment, help_post_post_id, user_user_id)
+		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id})
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		SELECT *
 		FROM help_reply
 		where board=0 and help_post_post_id=#{help_post_post_id}
-		ORDER BY IF(re_index=0
-		, help_reply_id, re_index), groupNum;
+		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
 	</select>
 	<!-- helpyou reply del -->
 	<delete id="helpyou_reply_delete" parameterType="int">
@@ -122,13 +121,14 @@
 		 re_comment=#{re_comment}
 		 where help_reply_id=#{help_reply_id}
 	</update>
+	
 	<!-- helpyou re_recommnet submit -->
 	<select id="helpyou_groupNum_select" resultType="int">
-		select count(a.re_index) from help_reply as a,help_reply as b where a.re_index=b.help_reply_id and b.help_reply_id=#{re_index};
+		select count(a.re_class) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{re_index};
 	</select>
 	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
-		insert into help_reply(board,re_index,re_comment, re_order, groupNum, help_post_post_id, user_user_id)
-		 values(0, #{re_index}, #{re_comment}, #{re_order}, #{groupNum}, #{help_post_post_id}, #{user_user_id})
+		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
+ 		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
 	</insert>
 
 
