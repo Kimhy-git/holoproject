@@ -15,15 +15,15 @@
 <body>
  <header>
         <nav>
-        <c:if test="${member==null }">
+        <c:if test="${msg!='success' && msg!='fail'}">
             <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
         </c:if>
-        <c:if test="${member!=null }">
-            <a href="login" id=login>로그아웃</a>
+        <c:if test="${msg=='success'}">
+            <a href="logout" id=login>로그아웃</a>
         </c:if>
-        <c:if test="${member!=null}">
-        	<p>${member.user_id}님 환영합니다</p>
+        <c:if test="${msg=='success'}">
+        	<h1>${sessionScope.nick} (${sessionScope.user_id})님 환영합니다</h1>
         </c:if>
         </nav>
         <div id="logo">
@@ -41,8 +41,8 @@
             	${dto.user_pw}
             </c:forEach>
             <nav id="sub_menu">
-                <a href="freeboard">자유게시판</a> | 
-                <a href="mypage">마이페이지</a> | 
+                <a href="freeboard">자유게시판</a>  
+                <a href="mypage">마이페이지</a> 
                 <a href="notice">공지사항</a>
             </nav>
         </div>

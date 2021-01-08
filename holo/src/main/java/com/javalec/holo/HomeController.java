@@ -54,11 +54,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
     	  
           return "main";
       }
-      @RequestMapping(value = "/login", method = RequestMethod.GET)
-      public String login() {
-         
-         return "login";
-      }
+
       @RequestMapping(value = "/join", method = RequestMethod.GET)
       public String join() {
          

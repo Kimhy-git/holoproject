@@ -3,6 +3,8 @@ package com.javalec.holo.dao;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -108,7 +110,18 @@ public interface IDao {
 	//the number of comments
 //	public void num_of_comments(String post_id);
 		
-			
+
+	
+	//login
+	public boolean login(Dto_user dto);
+	
+	//회원 로그인 정보
+	public Dto_user viewMember(Dto_user dto);
+	
+	//log out
+	public void logout(HttpSession session);
+	
+	
 			
 			
 			
@@ -145,13 +158,4 @@ public interface IDao {
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
 	// 대댓글 작성
-
-		
-		
-		//Sign in 
-//		public void sign_in() throws Exception;
-//		
-//		//Login
-//		public login() throws Exception;
-
 }
