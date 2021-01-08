@@ -58,7 +58,7 @@
     </section>
 
     <footer>
-        <p>&copy;copyright 홀로서기
+        <p>&copy;copyright 홀로서기 
             alone@alone.co.kr</p>
     </footer>
 </body>
