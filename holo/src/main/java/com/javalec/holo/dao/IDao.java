@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -166,7 +168,32 @@ public interface IDao {
 	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 	// 댓글 수정
 
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String board);
 	// 대댓글 작성
+
+
+	public void free_uphit(int post_id) throws Exception; 
+	// 조회수
+
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board);
+
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception;
+	// 비밀번호 찾기
+
+	public void update_free_comment_now(@Param("reply_id") String reply_id, @Param("re_comment") String re_comment, @Param("post_post_id")String post_post_id, @Param("board") String board);
+
+	public int checkQueestionPw(String user_id, String passwd_q, String passwd_a);
+	// 비밀번호 문답
+		//Sign in 
+//		public void sign_in() throws Exception;
+//		
+//		//Login
+//		public login() throws Exception;
+
+	public int checkQueestionPw2(Dto_user user);
+
+	public Dto_user getUserByUserId(String user_id);
+
 
 }

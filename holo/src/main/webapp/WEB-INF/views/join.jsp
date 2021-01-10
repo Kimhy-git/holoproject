@@ -139,8 +139,8 @@ $(document)
 	var pwJ = /^[A-Za-z0-9]{4,12}$/; 
 
 })
-.on('click','#empty',function(){
-	location.reload();
+.on('click','#overlap',function(){
+	alert($("#id").val().length+","+$('#birth').val());
 })
 .on('keyup','#id',function(){
 	var engNum = /^[a-zA-Z0-9]*$/;
@@ -318,8 +318,6 @@ $(document)
 		alert("자기소개가 100자를 초과합니다.");
 		
 		return false;
-	}else{
-		alert("회원가입이 완료되었습니다.")
 	}
 	
 	

@@ -64,6 +64,10 @@ public class Dto_free_reply {
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
 	}
+	public Dto_free_reply(int reply_id, String re_comment, int post_post_id, String board) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getUser_user_id() {
 		return user_user_id;
 	}
