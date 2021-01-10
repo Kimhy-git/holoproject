@@ -100,9 +100,9 @@
             <div id=comments> 
 	            <c:forEach var="dto_reply" items="${reply}">
 	            <form action="update_comment" method=post>
-		            ${dto_reply.operator}<br>
 		            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
-		            ${dto_reply.user_user_id}<br>
+		            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
+		            
 		            ${dto_reply.reply_id}<br>
 		            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 		            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
@@ -176,6 +176,8 @@ $(document)
 		$('#reply_again_textarea'+n).hide();
 	}
 })
+
+
 
 //add re_comments
 

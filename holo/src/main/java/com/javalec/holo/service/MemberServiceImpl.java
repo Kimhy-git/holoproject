@@ -376,7 +376,41 @@ public class MemberServiceImpl implements MemberService {
 	} // 댓글 수정
 	@Override
 
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
-		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
-	} // 대댓글 작성	
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+	} // 대댓글 작성
+	@Override
+	public void free_uphit(int post_id) throws Exception {
+		dao.free_uphit(post_id);
+	} // 조회수 올리기
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		dao.edit_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+	}
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception {
+		dao.find_pw(user_id, passwd_q, passwd_a);
+	}
+
+	@Override
+	public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
+		dao.update_free_comment_now(reply_id,re_comment,post_post_id,board);
+		
+	}
+
+	@Override
+	public void checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
+		dao.checkQueestionPw(user_id, passwd_q, passwd_a);
+		
+	}
+
+	@Override
+	public int checkQueestionPw2(Dto_user user) {
+		return dao.checkQueestionPw2(user);
+	}
+
+	@Override
+	public Dto_user getUserByUserId(String user_id) {
+		return dao.getUserByUserId(user_id);
+	}
 }

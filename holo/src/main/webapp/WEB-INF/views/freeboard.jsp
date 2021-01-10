@@ -52,9 +52,11 @@
 	                    <td><a href="freeboard_write_view?post_id=${dto.post_id}">${dto.title}</a></td>
 	                    <td>${dto.nick}</td>
 	                    <td>${dto.operator}</td>
-	                    <td>${dto.content}</td>
-	                    <td><input type="hidden">${dto.post_id}</td>
-            			<td><input type="hidden">${dto.board}</td><br>
+	                    <td>${dto.hit}</td>
+	                    
+	                    
+	                    <td><input type="hidden" value="${dto.post_id}"></td>
+            			<td><input type="hidden" value="${dto.board}"></td><br>
 	                
 	                </tr>
 	                </c:forEach>

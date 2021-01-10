@@ -1,26 +1,24 @@
 package com.javalec.holo;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import org.apache.ibatis.io.ResolverUtil.Test;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.service.MemberService;
 
 
@@ -40,8 +38,8 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Locale locale, Model model){
- 
-        logger.info("home");
+
+    	logger.info("home");
  
         return "home";
     }
@@ -80,11 +78,35 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
          
          return "find_id";
       }
-      @RequestMapping(value = "/find_pw", method = RequestMethod.GET)
-      public String find_pw() {
-         
+      @RequestMapping(value = "find_pw", method = RequestMethod.GET)
+      public String find_pw(HttpServletRequest req, Model model)throws Exception  {
+
+			//service.checkQueestionPw(user_id, passwd_q, passwd_a);
+	
          return "find_pw";
       }
+      @RequestMapping(value = "/find_pw", method = RequestMethod.POST)
+      @ResponseBody
+      public String find_pw2(HttpServletRequest req, Model model, Dto_user user)throws Exception  {
+    	  
+    	  String user_id=req.getParameter("user_id");
+    	  String passwd_q=req.getParameter("passwd_q");
+    	  String passwd_a=req.getParameter("passwd_a");
+    	  String responseResult = null;
+    	 // service.checkQueestionPw(user_id, passwd_q, passwd_a);
+    	int checkedUserResult =  service.checkQueestionPw2(user);
+    	
+    	if(0 < checkedUserResult) {
+    		responseResult = "";
+    		Dto_user resUser = service.getUserByUserId(user.getUser_id());
+    		responseResult  = "Your password is ("+resUser.getUser_pw()+") .";    		
+    	}else {
+    		responseResult = "Fail to find password. please try again";
+    	}  	  
+    	  return responseResult;
+      } //비밀번호 찾기 작동
+      
+      
       @RequestMapping(value = "/mypage", method = RequestMethod.GET)
       public String mypage() {
          

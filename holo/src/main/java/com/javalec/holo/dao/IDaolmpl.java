@@ -389,6 +389,7 @@ public class IDaolmpl implements IDao {
 				Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
 				sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 			}// 게시물 달기
+			
 			@Override 
 			public List<Dto_free_reply> select_free_reply(int post_id) {
 				return sqlSession.selectList(Namespace+".select_free_reply",post_id);
@@ -405,12 +406,57 @@ public class IDaolmpl implements IDao {
 			} // 댓글 삭제
 			@Override
 			public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
-				Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,board,re_comment,post_post_id);
+				Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,re_comment,post_post_id,board);
 				sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
 			} //댓글 수정
 			@Override
-			public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+					String post_post_id, String board) {
+				System.out.println("idao re_re_comment: "+re_comment);
 				Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+				System.out.println("get comment"+add_free_re_comment.getRe_comment());
 				sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
 			} //대댓글 작성
-	}
+
+			public void free_uphit(int post_id) throws Exception {
+				sqlSession.insert(Namespace+".free_uphit",post_id);
+			} // 조회수
+			@Override
+			public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+					String post_post_id, String board) {
+				System.out.println("idao re_re_comment: "+re_comment);
+				Dto_free_reply edit_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+				System.out.println("get comment"+edit_free_re_comment.getRe_comment());
+				sqlSession.insert(Namespace+".edit_free_re_comment",edit_free_re_comment);
+			}
+			@Override
+			public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception{
+				Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
+				sqlSession.insert(Namespace+".find_pw",Dto_user);
+			}// 게시물 달기
+
+			@Override
+			public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
+				Dto_free_reply update_free_comment_now=new Dto_free_reply(reply_id,board, re_comment, post_post_id);
+				sqlSession.insert(Namespace+".update_free_comment_now",update_free_comment_now);
+			}
+
+			@Override
+			public int checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
+				Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
+				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw",Dto_user);
+				return (Integer)selRes;
+			}
+
+			@Override
+			public int checkQueestionPw2(Dto_user user) {
+				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw2",user);
+				return (Integer)selRes;
+			}
+
+			@Override
+			public Dto_user getUserByUserId(String user_id) {
+				return sqlSession.selectOne(Namespace+".getUserByUserId",user_id);
+			}
+
+}

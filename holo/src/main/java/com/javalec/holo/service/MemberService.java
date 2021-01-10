@@ -165,13 +165,28 @@ public interface MemberService {
 	// 댓글 보기
 	public void add_free_comment(String post_post_id, String re_comment) throws Exception;
 	// 댓글 쓰기
-
+ 
 	public void delete_free_comment(String reply_id, String board, String post_post_id);
 	// 댓글 삭제
 	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 	// 댓글 수정
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board);
 	// 대댓글 작성	
-
+	public void free_uphit(int post_id) throws Exception;
+	// 조회수
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board);
+	
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception;
+	// 비밀번호 찾기 입력
+	public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board);
+	
+	public void checkQueestionPw(String user_id, String passwd_q, String passwd_a);
+	//비밀번호 찾기 문답
+	public int checkQueestionPw2(Dto_user user);
+	
+	public Dto_user getUserByUserId(String user_id);
+	// 유저아이디로 유저 정보 조회
 }
 

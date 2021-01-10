@@ -241,6 +241,10 @@
         select * from post where board=1 and post_id=#{post_id};
     </select>
     <!-- 게시글 보기 -->
+        <select id="free_uphit" resultType="dto_freeboard"> 
+    	update post set hit = hit +1 where post_id=#{post_id};
+    </select>
+    <!-- 조회수 +1 -->
     
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
     	delete from post where post_id=#{post_id} and board=1;
@@ -258,8 +262,8 @@
     <!-- 게시물 수정 -->
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
-    	insert into post(board, title, content, user_user_id) 
-    		values (1, #{title}, #{content}, "b");
+    	insert into post(board, title, nick, content, img, user_user_id) 
+    		values (1, #{title}, "se", #{content}, #{img}, "b");
     </insert>
 	<!-- 게시물 등록 -->	
     
@@ -281,17 +285,42 @@
     </select>
     <!-- 댓글 삭제 -->
     
-    <select id="update_free_comment" resultType="dto_free_reply"> 
+    <select id="update_free_comment_now" resultType="dto_free_reply" parameterType="com.javalec.holo.dto.Dto_free_reply"> 
     	update reply set re_comment=#{re_comment}
     	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 수정 -->
     
     <select id="add_free_re_comment" parameterType="dto_free_reply"> 
-    	insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
-		values(1,#{re_index},#{re_comment},#{re_order},#{groupNum},#{post_post_id},'b');	
+    	     insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
+      values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
     </select>
     <!-- 대댓글 추가 -->
+    
+    <select id="checkQueestionPw" parameterType="dto_user" resultType="int"> 
+    	    select count(*)
+    	    from user 
+    	    where user_id = #{user_id} 
+    	    and passwd_q = #{passwd_q}
+    	    and passwd_a = #{passwd_a}	
+    </select>
+    <!-- 대댓글 추가 -->
+    
+    <select id="checkQueestionPw2" parameterType="com.javalec.holo.dto.Dto_user" resultType="int"> 
+    	    select count(*)
+    	    from user 
+    	    where user_id = #{user_id} 
+    	    and passwd_q = #{passwd_q}
+    	    and passwd_a = #{passwd_a}	
+    </select>
+    <!-- 비밀번호 체크 -->
+    
+     <select id="getUserByUserId" parameterType="string" resultType="com.javalec.holo.dto.Dto_user"> 
+    	    select user_id, user_pw, email, mobile, birth
+    	    from user 
+    	    where user_id = #{user_id} 	
+    </select>
+    <!-- 비밀번호 체크 -->
     
 
 </mapper>
