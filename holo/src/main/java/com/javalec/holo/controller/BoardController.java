@@ -768,7 +768,7 @@ public class BoardController {
 	    	String reply_id=req.getParameter("reply_id");
 	    	String board="1";
 	    	
-	    	service.update_free_comment(reply_id,re_comment,post_post_id,board);
+	    	service.update_free_comment_now(reply_id,re_comment,post_post_id,board);
 
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 댓글 수정
@@ -793,24 +793,5 @@ public class BoardController {
 
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
-	    @RequestMapping(value = "edit_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
-	    public String edit_free_re_comment(HttpServletRequest req, Model model) throws Exception{
-	    	//test
-	    	String re_index=req.getParameter("reply_id");
-	    	String re_comment=req.getParameter("re_re_comment");
-	    	int order_i=Integer.parseInt(req.getParameter("re_order"));
-	    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
-	    	String post_post_id=req.getParameter("post_post_id");
-	    	System.out.println("re_re_comment: "+re_comment);
-	    	String board="1";
-	    	order_i+=1;
-	    	groupNum_i+=1;
-	    	
-	    	String re_order=String.valueOf(order_i);
-	    	String groupNum=String.valueOf(groupNum_i);
 
-	    	service.edit_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
-
-	    	return "redirect:freeboard";
-	    }
 }

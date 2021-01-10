@@ -28,6 +28,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="add_free_re_comment"/>
             <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="delete_free_comment"/>
             <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="update_free_comment"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="update_free_comment_now"/>
             <typeAlias type="com.javalec.holo.dto.Dto_free_reply" alias="dto_free_reply_delete"/>
 			<typeAlias type="com.javalec.holo.dto.Dto_user" alias="dto_user"/>
         </typeAliases>

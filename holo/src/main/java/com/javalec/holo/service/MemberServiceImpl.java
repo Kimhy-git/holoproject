@@ -361,4 +361,26 @@ public class MemberServiceImpl implements MemberService {
 	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception {
 		dao.find_pw(user_id, passwd_q, passwd_a);
 	}
+
+	@Override
+	public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
+		dao.update_free_comment_now(reply_id,re_comment,post_post_id,board);
+		
+	}
+
+	@Override
+	public void checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
+		dao.checkQueestionPw(user_id, passwd_q, passwd_a);
+		
+	}
+
+	@Override
+	public int checkQueestionPw2(Dto_user user) {
+		return dao.checkQueestionPw2(user);
+	}
+
+	@Override
+	public Dto_user getUserByUserId(String user_id) {
+		return dao.getUserByUserId(user_id);
+	}
 }

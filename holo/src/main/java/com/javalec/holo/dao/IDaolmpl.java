@@ -411,4 +411,28 @@ public class IDaolmpl implements IDao {
 				sqlSession.insert(Namespace+".find_pw",Dto_user);
 			}// 게시물 달기
 
+			@Override
+			public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
+				Dto_free_reply update_free_comment_now=new Dto_free_reply(reply_id,board, re_comment, post_post_id);
+				sqlSession.insert(Namespace+".update_free_comment_now",update_free_comment_now);
+			}
+
+			@Override
+			public int checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
+				Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
+				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw",Dto_user);
+				return (Integer)selRes;
+			}
+
+			@Override
+			public int checkQueestionPw2(Dto_user user) {
+				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw2",user);
+				return (Integer)selRes;
+			}
+
+			@Override
+			public Dto_user getUserByUserId(String user_id) {
+				return sqlSession.selectOne(Namespace+".getUserByUserId",user_id);
+			}
+
 }

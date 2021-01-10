@@ -123,14 +123,16 @@
 		        	</form>		        	
 		        </div>
 		        <div id="edit_reply_textarea${dto_free_reply.reply_id}" style="display:none">
-	            	<form action="update_free_comment_now" method="post">
-	            	<input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
-		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
-		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
-		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
-		            <input type="hidden" name="board" value="${dto_free_reply.board}">
-		            <input type="text" name="re_re_comment"> 
-		            <input type="submit" value="등록"> 
+		            <form action="update_free_comment_now" method="post">
+		            	<input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
+			            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
+			            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
+			            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
+			            <input type="hidden" name="board" value="${dto_free_reply.board}">
+			            <div id=cc>
+	                	<input id="comment-input" name="re_comment" value="${dto_free_reply.re_comment}" > 
+	                	<button id="submit">등록</button>
+                		</div>
 		        	</form>		        	
 		        </div>
 	            </c:forEach>
@@ -201,12 +203,12 @@ $(document)
 	}
 })
 .on('click','input[id^=edit_reply]',function(){ //input[id가 edit_reply으로 시작하는 버튼]
-	var n=(this.id).substr(11); 
-	console.log($('#reply_again_textarea'+n).css("display"));
-	if($('#reply_again_textarea'+n).css("display")=="none"){
-			$('#reply_again_textarea'+n).show();
+	var n=(this.id).substr(10); 
+	console.log($('#edit_reply_textarea'+n).css("display"));
+	if($('#edit_reply_textarea'+n).css("display")=="none"){
+			$('#edit_reply_textarea'+n).show();
 	}else{
-		$('#reply_again_textarea'+n).hide();
+		$('#edit_reply_textarea'+n).hide();
 	}
 })
 

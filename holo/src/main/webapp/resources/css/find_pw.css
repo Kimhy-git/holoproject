@@ -12,16 +12,16 @@ input, select{
     margin-right: 30px;
     outline:none;
 }
-#id{
+#user_id{
     margin-top: 200px;
     margin-right: 119px;
     margin-left: 5px;
     margin-bottom: 5px;
 }
-#choice{
+#passwd_q{
     margin-bottom: 5px;
 }
-#answer{
+#passwd_a{
     margin-bottom: 20px;
 }
 #find{

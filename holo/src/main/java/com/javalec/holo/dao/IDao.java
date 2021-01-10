@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -168,10 +170,18 @@ public interface IDao {
 	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception;
 	// 비밀번호 찾기
 
+	public void update_free_comment_now(@Param("reply_id") String reply_id, @Param("re_comment") String re_comment, @Param("post_post_id")String post_post_id, @Param("board") String board);
+
+	public int checkQueestionPw(String user_id, String passwd_q, String passwd_a);
+	// 비밀번호 문답
 		//Sign in 
 //		public void sign_in() throws Exception;
 //		
 //		//Login
 //		public login() throws Exception;
+
+	public int checkQueestionPw2(Dto_user user);
+
+	public Dto_user getUserByUserId(String user_id);
 
 }

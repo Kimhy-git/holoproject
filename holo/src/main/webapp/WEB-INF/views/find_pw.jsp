@@ -29,18 +29,16 @@
     <section>
         <div id="wrap">
         	<h2>비밀번호 찾기</h2>
-        	 <form action="try_find_pw" method="post" enctype="multipart/form-data">
-            아이디<input type="text" id="user_id"><br>
+            아이디<input type="text" id="user_id" name="user_id"><br>
             비밀번호 질문
-            <select id="passwd_q"><br>
-                <option id="q1">처음 키운 강아지 이름은?</option>
-                <option id="q2">아버지 성함은?</option>
-                <option id="q3">출신 초등학교 이름은?</option>
+            <select id="passwd_q" name="passwd_q"><br>
+                <option id="q1" value="q1">처음 키운 강아지 이름은?</option>
+                <option id="q2" value="q2">아버지 성함은?</option>
+                <option id="q3" value="q3">출신 초등학교 이름은?</option>
             </select><br>
-            비밀번호 답변 <input type="text" id="passwd_a"><br>
-            <input type="submit" id="find" value="찾기">
+            비밀번호 답변 <input type="text" id="passwd_a" name="passwd_a"><br>
+            <input type="button" id="find" value="찾기">
             <a href="find_id">취소</a>
-            </form>
         </div>
     </section>
     <footer>
@@ -49,3 +47,45 @@
     </footer>
 </body>
 </html>
+
+
+<script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+
+$(document).ready(function(){
+	
+	$("#find").on("click", function(){
+		$.ajax({
+
+		      type: 'POST',
+
+		      url: "/holo/find_pw",
+
+		      data: {"user_id":$("#user_id").val(),
+		    	  "passwd_q":$("#passwd_q").val(),
+		    	  "passwd_a":$("#passwd_a").val(),
+		    	  },
+
+		      success: function(data, status){
+		    	  console.log("data");
+		    	  console.log(data);
+		    	  
+		    	  alert(data);
+		      },
+		 	  complete : function(data){
+		 		 console.log("data");
+		    	  console.log(data);
+		    	  
+		    	  alert(data.responseText);
+		    	  
+		 	  },
+
+		      dataType: "application/text"
+
+		});
+	});
+	
+	
+});
+
+</script>

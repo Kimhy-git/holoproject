@@ -267,17 +267,42 @@
     </select>
     <!-- 댓글 삭제 -->
     
-    <select id="update_free_comment" resultType="dto_free_reply"> 
+    <select id="update_free_comment_now" resultType="dto_free_reply" parameterType="com.javalec.holo.dto.Dto_free_reply"> 
     	update reply set re_comment=#{re_comment}
     	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 수정 -->
     
     <select id="add_free_re_comment" parameterType="dto_free_reply"> 
-    	       insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
+    	     insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
       values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
     </select>
     <!-- 대댓글 추가 -->
+    
+    <select id="checkQueestionPw" parameterType="dto_user" resultType="int"> 
+    	    select count(*)
+    	    from user 
+    	    where user_id = #{user_id} 
+    	    and passwd_q = #{passwd_q}
+    	    and passwd_a = #{passwd_a}	
+    </select>
+    <!-- 대댓글 추가 -->
+    
+    <select id="checkQueestionPw2" parameterType="com.javalec.holo.dto.Dto_user" resultType="int"> 
+    	    select count(*)
+    	    from user 
+    	    where user_id = #{user_id} 
+    	    and passwd_q = #{passwd_q}
+    	    and passwd_a = #{passwd_a}	
+    </select>
+    <!-- 비밀번호 체크 -->
+    
+     <select id="getUserByUserId" parameterType="string" resultType="com.javalec.holo.dto.Dto_user"> 
+    	    select user_id, user_pw, email, mobile, birth
+    	    from user 
+    	    where user_id = #{user_id} 	
+    </select>
+    <!-- 비밀번호 체크 -->
     
 
 </mapper>
