@@ -28,13 +28,12 @@
     <section>
     	
         <div id="wrap">
-        <form method="post" action="join_submit">
+        <form method="post" action="join_submit" id="join_form">
         <h2>회원가입</h2>
             <table>
                 <tr>
                     <td>아이디</td>
                     <td><input type="text" id="id" name="user_id">
-                    	<input type="button" id="overlap" value="중복확인">
                     </td>
                 </tr>
                 <tr><td></td><td colspan=3><span id="id_check" class="w3-text-red"></span><td></tr>
@@ -88,30 +87,30 @@
                 <tr>
                 	<td>성격 태그</td>
                 	<td>
-						<input type="checkbox" value="성실해요" name="ptag"> 성실해요 
-						<input type="checkbox" value="친절해요" name="ptag"> 친절해요 
-						<input type="checkbox" value="책임감" name="ptag"> 책임감 
-						<input type="checkbox" value="적극적" name="ptag"> 적극적 
-						<input type="checkbox" value="세심해요" name="ptag"> 세심해요 
-						<input type="checkbox" value="지각안해요" name="ptag"> 지각안해요 
-						<input type="checkbox" value="정리정돈" name="ptag"> 정리정돈 
-						<input type="checkbox" value="체력좋아요" name="ptag"> 체력좋아요 
+						<label for="c1"><input type="checkbox" value="성실해요" name="ptag" id="c1">성실해요</label> 
+						<label for="c2"><input type="checkbox" value="친절해요" name="ptag" id="c2"> 친절해요</label> 
+						<label for="c3"><input type="checkbox" value="책임감" name="ptag" id="c3"> 책임감</label>  
+						<label for="c4"><input type="checkbox" value="적극적" name="ptag" id="c4"> 적극적</label><br>  
+						<label for="c5"><input type="checkbox" value="세심해요" name="ptag" id="c5"> 세심해요</label>  
+						<label for="c6"><input type="checkbox" value="지각안해요" name="ptag" id="c6"> 지각안해요</label>  
+						<label for="c7"><input type="checkbox" value="정리정돈" name="ptag" id="c7"> 정리정돈</label>  
+						<label for="c8"><input type="checkbox" value="체력좋아요" name="ptag" id="c8"> 체력좋아요</label>  
 					</td>
                 </tr>
                 <tr>
                 	<td>자기소개</td>
-                	<td><textarea id="cv" name="cv"></textarea></td>
+                	<td><textarea id="cv" name="cv" placeholder="100자 이하로 입력해 주세요"></textarea></td>
                 </tr>
                 <tr>
                 	<td>주소</td>
                 	<td>
 						<input type="text" id="sample4_postcode" placeholder="우편번호">
 						<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" id="sample4_roadAddress" placeholder="도로명주소">
+						<input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="address01">
 						<input type="text" id="sample4_jibunAddress" placeholder="지번주소">
 						<span id="guide" style="color:#999;display:none"></span>
 						<br>
-						<input type="text" id="sample4_detailAddress" placeholder="상세주소">
+						<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="address02">
 					</td>
                 </tr>
                 
@@ -119,7 +118,7 @@
                     <td colspan="3" id="btn">
                         <input type="button" id="cancel" value="취소">
                         <input type="reset" id="empty" value="비우기">
-                        <input type="button" id="submit" value="확인">
+                        <input type="submit" id="submit" value="확인">
                     </td>
                 </tr>
             </table>
@@ -140,8 +139,8 @@ $(document)
 	var pwJ = /^[A-Za-z0-9]{4,12}$/; 
 
 })
-.on('click','#overlap',function(){
-	alert($("#id").val().length+","+$('#birth').val());
+.on('click','#empty',function(){
+	location.reload();
 })
 .on('keyup','#id',function(){
 	var engNum = /^[a-zA-Z0-9]*$/;
@@ -319,9 +318,11 @@ $(document)
 		alert("자기소개가 100자를 초과합니다.");
 		
 		return false;
+	}else{
+		alert("회원가입이 완료되었습니다.")
 	}
 	
-	document.form.submit();
+	
 })	
 .on('click','#cancel',function(){
 	window.history.back();
