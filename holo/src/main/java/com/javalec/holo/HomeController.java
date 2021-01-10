@@ -30,54 +30,68 @@ public class HomeController {
    
 private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
     
-    @Inject
-    private MemberService service;
-    
-    /**
-     * Simply selects the home view to render by returning its name.
-     */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Locale locale, Model model){
+@Inject
+private MemberService service;
 
-    	logger.info("home");
- 
-        return "home";
-    }
-
-   
-       // 아이디 중복 검사(AJAX)
-      @RequestMapping(value = "/check_id_go", method = RequestMethod.POST)
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model){
+	
+		logger.info("home");
+	
+	    return "home";
+	}
+	
+	
+	  @RequestMapping(value = "/main", method = RequestMethod.GET)
+	  public String main(Model model) throws Exception{
+	     
+	// 	  List<Dto> memberList = service.selectMember();      
+	//      model.addAttribute("memberList", memberList);
+		  
+	      return "main";
+	  }
+	
+	  @RequestMapping(value = "/address", method = RequestMethod.GET)
+	  public String address() {
+	     
+	     return "address";
+	  }
+	
+	  @RequestMapping(value = "/join", method = RequestMethod.GET)
+	  public String join(Dto_user dto) throws Exception {
+	     
+	     return "join";
+	  }
+	  @RequestMapping(value = "/find_id", method = RequestMethod.GET)
+	  public String find_id() {
+	     
+	     return "find_id";
+	  }
+	
+	  
+	  @RequestMapping(value = "/find_id_go", method = RequestMethod.POST)
+	  public String find_id_go(HttpServletResponse response, @RequestParam("email") String email, Model md) throws Exception{
+		  md.addAttribute("id", service.find_id(response, email));
+			
+	     return "find_id_complete";
+	  }
+	  
+	  // 아이디 중복 검사(AJAX)
+	  @RequestMapping(value = "/check_id_go", method = RequestMethod.POST)
 		public void check_id(@RequestParam("id") String id, HttpServletResponse response) throws Exception{
 		service.check_id(id, response);
 	  }
-    
+	  
 	   // 이메일 중복 검사(AJAX)
 	  @RequestMapping(value = "/check_email_go", method = RequestMethod.POST)
 	  	public void check_email(@RequestParam("email") String email, HttpServletResponse response) throws Exception{
 	  	service.check_email(email, response);
 	  }
-	  
-    
-   
-      @RequestMapping(value = "/main", method = RequestMethod.GET)
-      public String main(Model model) throws Exception{
-         
-//     	  List<Dto> memberList = service.selectMember();      
-//          model.addAttribute("memberList", memberList);
-    	  
-          return "main";
-      }
-
-      @RequestMapping(value = "/join", method = RequestMethod.GET)
-      public String join() {
-         System.out.println("join 호출");
-         return "join";
-      }
-      @RequestMapping(value = "/find_id", method = RequestMethod.GET)
-      public String find_id() {
-         
-         return "find_id";
-      }
+	
+  
       @RequestMapping(value = "find_pw", method = RequestMethod.GET)
       public String find_pw(HttpServletRequest req, Model model)throws Exception  {
 
