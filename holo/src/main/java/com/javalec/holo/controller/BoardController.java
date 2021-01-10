@@ -135,14 +135,14 @@ public class BoardController {
 			   System.out.println("helpme_write_eidt 작동");
 			   
 			   int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-			   System.out.println("help_post_id 모디파이 에서...:"+help_post_id);
+			   System.out.println("헬프미 롸잇 에딧 포스트 아이디 :"+help_post_id);
 			   Dto_help_post read = service.read(help_post_id);
 			   model.addAttribute("read", read);
 			   
 			   return "helpme_write_edit";
 		   }
 		   
-		   @RequestMapping(value="/helpme_edit_go", method = RequestMethod.POST)
+		   @RequestMapping(value="/helpme_edit_go", method = {RequestMethod.POST,RequestMethod.GET})
 	       public String helpme_edit_go(HttpServletRequest req,@RequestParam("file_up") MultipartFile file,
 	    		   Model model)throws Exception {
 			    	  
@@ -179,7 +179,7 @@ public class BoardController {
 					
 				  System.out.println(title+","+content+","+tag_area+","+tag_job+","
 															+gender+","+min_price+","+payment);
-				  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+				  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id,file_up);
 				  System.out.println("가져요?3");
 		   	  return "redirect:help_me";
 		     }

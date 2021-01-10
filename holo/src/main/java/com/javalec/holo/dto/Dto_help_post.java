@@ -84,7 +84,7 @@ public class Dto_help_post {
 	}
 
 	public Dto_help_post(String title, String content, String gender, String tag_area, String tag_job, String payment,
-			int min_price, int help_post_id) {
+			int min_price, int help_post_id, String img) {
 		this.tag_area = tag_area;
 		this.title = title;
 		this.tag_job = tag_job;
@@ -93,7 +93,9 @@ public class Dto_help_post {
 		this.min_price = min_price;
 		this.payment = payment;
 		this.help_post_id = help_post_id;
+		this.img=img;
 	}
+
 
 	public int getHelp_post_id() {
 		return help_post_id;

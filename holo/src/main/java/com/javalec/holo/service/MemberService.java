@@ -41,6 +41,9 @@ public interface MemberService {
 	
 	
 	
+	
+	
+	
 	//notice
 	public List<Dto_post> select_post() throws Exception;
 	
@@ -92,8 +95,14 @@ public interface MemberService {
 
 	
 	
+	//find_id
+	public String find_id(HttpServletResponse response, String email) throws Exception;
 	
-	
+	//아이디 중복 체크
+	public void check_id(String user_id, HttpServletResponse response) throws Exception;
+	//이메일 중복 체크
+	public void check_email(String email, HttpServletResponse response) throws Exception;
+	//회원가입
 	
 	
 	
@@ -112,7 +121,7 @@ public interface MemberService {
 
 	//help_me게시글 수정
 	public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-			int min_price, int help_post_id) throws Exception;
+			int min_price, int help_post_id, String img) throws Exception;
 	
 	//help_me게시글 삭제
 	public void delete(int help_post_id) throws Exception;
@@ -135,13 +144,7 @@ public interface MemberService {
 	//help_me hit
 	public void hit(int help_post_id) throws Exception;
 			
-	//아이디 중복 체크
-		public void check_id(String user_id, HttpServletResponse response) throws Exception;
-		//이메일 중복 체크
-		public void check_email(String email, HttpServletResponse response) throws Exception;
-		//회원가입
-	
-	
+
 	
 	
 			
@@ -173,6 +176,7 @@ public interface MemberService {
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
 			String post_post_id, String board);
 	// 대댓글 작성	
+
 	public void free_uphit(int post_id) throws Exception;
 	// 조회수
 	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
@@ -188,5 +192,6 @@ public interface MemberService {
 	
 	public Dto_user getUserByUserId(String user_id);
 	// 유저아이디로 유저 정보 조회
+
 }
 

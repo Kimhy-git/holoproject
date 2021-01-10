@@ -27,19 +27,23 @@
     </header>
     <div class="clear"></div>
     <section>
-        <div id="wrap">
-        	<h2>아이디 찾기</h2>
-            이메일<input type="text" id="email">
-            <input type="button" id="find" value="찾기">
-            <div>
-                <a href="find_pw">비밀번호 찾기</a>
-                <a href="login">취소</a>
-            </div>
-        </div>
+    	<form method="POST" action="find_id_go">
+	        <div id="wrap">
+	        	<h2>아이디 찾기</h2>
+	            이메일<input type="text" id="email" name="email" required>
+	            <input type="submit" id="find" value="찾기">
+	            <div>
+	                <a href="find_pw">비밀번호 찾기</a>
+	                <a href="login">취소</a>
+	            </div>
+	        </div>
+        </form>
     </section>
     <footer>
         <p>copyright 홀로서기
             alone@alone.co.kr</p>
     </footer>
 </body>
+
+
 </html>

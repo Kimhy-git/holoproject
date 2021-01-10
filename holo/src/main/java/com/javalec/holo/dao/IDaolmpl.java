@@ -34,14 +34,8 @@ public class IDaolmpl implements IDao {
 //	}
 	
     
-  //아이디 중복 검사
-    public int check_id(String user_id) throws Exception{
-		return sqlSession.selectOne(Namespace+".check_id", user_id);
-	}
-    //이메일 중복 검사
-    public int check_email(String email) throws Exception{
-		return sqlSession.selectOne(Namespace+".check_email", email);
-	}
+
+
     //회원 가입 submit
     public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
 			String email, String mobile, String birth, String address, String tag, String cv) {
@@ -52,6 +46,23 @@ public class IDaolmpl implements IDao {
     }
     
     
+
+    
+    //find_id
+    public String find_id(String email) throws Exception{
+		return sqlSession.selectOne(Namespace+".find_id", email);
+	}
+    
+    //아이디 중복 검사
+    public int check_id(String user_id) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_id", user_id);
+	}
+    //이메일 중복 검사
+    public int check_email(String email) throws Exception{
+		return sqlSession.selectOne(Namespace+".check_email", email);
+	}
+    
+
     
     
     
@@ -87,9 +98,10 @@ public class IDaolmpl implements IDao {
   	//help_me게시글 수정
 		@Override
 		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id)throws Exception {
+				int min_price, int help_post_id,String img)throws Exception {
 		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
-		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
+				tag_job,payment, min_price,help_post_id,img);
   		sqlSession.insert(Namespace+".edit",Dto_p);
 		}
   	//help_me게시글 삭제

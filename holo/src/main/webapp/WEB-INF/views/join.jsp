@@ -139,6 +139,7 @@ $(document)
 	var pwJ = /^[A-Za-z0-9]{4,12}$/; 
 
 })
+<<<<<<< HEAD
 .on('click','#empty',function(){
 	location.reload();
 })
@@ -320,6 +321,187 @@ $(document)
 		return false;
 	}else{
 		alert("회원가입이 완료되었습니다.")
+=======
+.on('click','#overlap',function(){
+	alert($("#id").val().length+","+$('#birth').val());
+})
+.on('keyup','#id',function(){
+	var engNum = /^[a-zA-Z0-9]*$/;
+	$.ajax({
+		url : "check_id_go",
+		type : "POST",
+		data : {
+		id : $("#id").val()
+		},
+		success : function(result) {
+			if ($("#id").val().length<5 ){
+				$("#id_check").css("color","rgb(223, 64, 43)")
+				$("#id_check").html("아이디는 5~20자 사이로 입력해 주세요.")
+				//$("#submit").attr("disabled", "disabled");
+			}else if($("#id").val().length>21){
+				$("#id_check").css("color","rgb(223, 64, 43)")
+				$("#id_check").html("아이디가 20자를 초과하였습니다.")
+				//$("#submit").attr("disabled", "disabled");
+			}else if (result == 1) {
+				$("#id_check").css("color","rgb(223, 64, 43)")
+				$("#id_check").html("중복된 아이디가 있습니다.");
+				//$("#submit").attr("disabled", "disabled"); //중복된 아이디가 있으면 전송하지 못하게 하는 것 같음..
+			}else {
+				$("#id_check").css("color","rgb(22, 97, 182)")
+				$("#id_check").html("사용가능한 아이디 입니다.");
+				//$("#submit").removeAttr("disabled"); 
+			}
+			
+			if(!engNum.test($("#id").val())){
+				$("#id_check").css("color","rgb(223, 64, 43)")
+				$("#id_check").html("아이디는 영어와 숫자로만 입력해 주세요.")
+				
+			}
+		},
+	})
+})
+.on('keyup','#email',function(){
+		var email = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		$.ajax({
+				url : "check_email_go",
+				type : "POST",
+				data : {
+				email : $("#email").val()
+				},
+				success : function(result) {
+					if (result == 1) {
+						$("#email_check").css("color","rgb(223, 64, 43)")
+						$("#email_check").html("중복된 이메일이 있습니다.");
+						//$("#submit").attr("disabled", "disabled");
+					} else {
+						$("#email_check").css("color","rgb(22, 97, 182)")
+						$("#email_check").html("사용 가능한 이메일 입니다.");
+						//$("#submit").removeAttr("disabled");
+					}
+					
+					if (!email.test($("#email").val())){
+						$("#email_check").css("color","rgb(223, 64, 43)")
+						$("#email_check").html("잘못된 이메일 형식입니다.");
+						//$("#submit").attr("disabled", "disabled");
+					}
+				},
+			})
+			
+})
+
+.on('keyup','#mobile',function(){
+	var phone = /^01[0179][0-9]{7,8}$/;
+	if(!phone.test($('#mobile').val())){
+		$("#mobile_check").css("color","rgb(223, 64, 43)")
+		$("#mobile_check").html("잘못된 모바일 번호 형식입니다.");
+	}else{
+		$("#mobile_check").html("");
+	}
+})		
+
+.on('keyup','#passcode1',function(){
+	if ($("#passcode1").val().length < 6) { 
+		$("#pw_check").css("color","rgb(223, 64, 43)")
+		$("#pw_check").html("비밀번호는 6-30자 사이로 입력해 합니다.");
+
+	}else if($("#passcode1").val().length > 30){
+		$("#pw_check").css("color","rgb(223, 64, 43)")
+		$("#pw_check").html("비밀번호가 30자를 초과하였습니다.");
+
+	}else{
+		$("#pw_check").html("");
+	}
+})
+.on('keyup','#passcode2',function(){
+
+	console.log($("#passcode1"))
+	if($("#passcode1").val() !== $("#passcode2").val()){
+		$("#pw_check").css("color","rgb(223, 64, 43)")
+		$("#pw_check").html("비밀번호가 다릅니다.");
+		//$("#passcode1").val("").focus();
+		//$("#pwsscode2").val("");
+		return false;
+	}else {
+		$("#pw_check").css("color","rgb(22, 97, 182)")
+		$("#pw_check").html("비밀번호가 일치합니다.");
+	}
+})
+.on('click','input:checkbox[name=ptag]',function(){
+	console.log($("input:checkbox[name='ptag']:checked").length)
+	if($("input:checkbox[name='ptag']:checked").length>3){
+		alert("3개까지 선택할 수 있습니다.");
+		return false;
+	};
+})
+.on('keyup','#cv',function(){
+	
+	if($("#cv").val().length>100){
+		alert("자기소개는 100자 이하로 입력해 주세요");
+		return false;
+	}
+})
+
+.on('click','#submit',function(){
+	var maxChecked = 3;   //선택가능한 체크박스 갯수
+	var totalChecked = 0;
+	
+	console.log($("input:checkbox[name='ptag']").is(':checked'))
+	console.log($("#cv").val().length)
+	if($("#id_check").html()!="사용가능한 아이디 입니다."){
+		alert("아이디를 확인해 주세요")
+		$("#id").focus();
+		return false;
+	}else if($("#female").is(':checked')==false && $("#male").is(':checked')==false){
+		alert("성별을 선택해 주세요.")
+		return false;
+	}else if($("#nick").val()==""){
+		alert("닉네임을 입력해 주세요.")
+		$("#nick").focus();
+		return false;
+	}else if($("#nick").val().length<3){
+		alert("닉네임은 2글자 이상이어야 합니다.")
+		$("#nick").focus();
+		return false;
+	}else if($("#pw_check").html()!="비밀번호가 일치합니다."){
+		alert("비밀번호를 확인해 주세요");
+		$("#passcode1").focus();
+		return false;
+	}else if($("#choice").val()=="질문을 선택해 주세요"){
+		alert("비밀번호 질문을 선택해 주세요");
+		$("#choice").focus();
+		return false;
+	}else if($("#answer").val()==""){
+		alert("비밀번호 질문 답변을 작성해 주세요");
+		$("#answer").focus();
+		return false;
+	}else if($("#email_check").html()!="사용 가능한 이메일 입니다."){
+		alert("이메일을 확인해 주세요");
+		$("#email").focus();
+		return false;
+	}else if($("#mobile").val()==""){
+		alert("모바일 번호를 입력해 주세요");
+		$("#mobile").focus();
+		return false;
+	}else if($("#mobile_check").html()=="잘못된 모바일 번호 형식입니다."){
+		alert("모바일 번호을 확인해 주세요")
+		$("#mobile").focus();
+		return false;
+	}else if($("#birth").val()==""){
+		alert("생년월일을 입력해 주세요")
+		$("#birth").focus();
+		return false;
+	}else if($("#birth").val()==""){
+		alert("생년월일을 입력해 주세요")
+		$("#birth").focus();
+		return false;
+	}else if($("input:checkbox[name='ptag']").is(':checked')==false){
+		alert("성격 태그를 선택해 주세요")
+		return false;
+	}else if($("#cv").val().length>100){
+		alert("자기소개가 100자를 초과합니다.");
+		
+		return false;
+>>>>>>> branch 'WSY' of https://github.com/Kimhy-git/holoproject
 	}
 	
 	

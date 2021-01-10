@@ -3,6 +3,7 @@ package com.javalec.holo.dao;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +20,7 @@ import com.javalec.holo.dto.Help_postDto;
 
 public interface IDao {
 	
+
 	//회원가입
 		//아이디 중복 체크
 		public int check_id(String user_id) throws Exception;
@@ -27,11 +29,11 @@ public interface IDao {
 		//회원가입 submit
 		public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
 				String email, String mobile, String birth, String address, String tag, String cv);
-		
-		
-		
-		
-		
+	//find_id
+	public String find_id(String email) throws Exception;
+
+	
+	
 
 	  //help_me게시글 리스트
 		public List<Dto_help_post> list()throws Exception;;
@@ -46,7 +48,7 @@ public interface IDao {
 
 		//help_me게시글 수정
 		void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id)throws Exception;
+				int min_price, int help_post_id, String img)throws Exception;
 		//help_me게시글 삭제
 		public void delete(int help_post_id) throws Exception;
 
@@ -174,6 +176,7 @@ public interface IDao {
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String board);
 	// 대댓글 작성
+
 
 	public void free_uphit(int post_id) throws Exception; 
 	// 조회수

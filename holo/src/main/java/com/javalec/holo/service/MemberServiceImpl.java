@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
@@ -39,6 +40,47 @@ public class MemberServiceImpl implements MemberService {
 		}
 	
 	
+	
+		//find_id
+
+	@Override
+	public String find_id(HttpServletResponse response, String email) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String id = dao.find_id(email);
+		
+		if (id == null) {
+			out.println("<script>");
+			out.println("alert('가입된 아이디가 없습니다.');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;
+		} else {
+			return id;
+		}
+	}
+	
+	//아이디 중복 체크
+	
+	@Override
+	public void check_id(String user_id, HttpServletResponse response) throws Exception {
+		
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_id(user_id));
+		out.close();
+		
+	}
+
+	//이메일 중복 체크
+
+	@Override
+	public void check_email(String email, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_email(email));
+		out.close();
+	}
 	
 	
 	
@@ -76,9 +118,9 @@ public class MemberServiceImpl implements MemberService {
 		//help_me게시글 수정
 		@Override
 		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id)throws Exception {
+				int min_price, int help_post_id, String img)throws Exception {
 			
-			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id);
+			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id,img);
 		
 		}
 		//help_me게시글 삭제
@@ -118,28 +160,7 @@ public class MemberServiceImpl implements MemberService {
 			dao.hit(help_post_id);
 		}
 		
-		//아이디 중복 체크
-		
-		@Override
-		public void check_id(String user_id, HttpServletResponse response) throws Exception {
-			
-			PrintWriter out = response.getWriter();
-			out.println(dao.check_id(user_id));
-			out.close();
-			
-		}
 
-		//이메일 중복 체크
-
-		@Override
-		public void check_email(String email, HttpServletResponse response) throws Exception {
-			// TODO Auto-generated method stub
-			PrintWriter out = response.getWriter();
-			out.println(dao.check_email(email));
-			out.close();
-		}
-		
-		
 		
 	
 	@Override // help_you_write
@@ -376,6 +397,7 @@ public class MemberServiceImpl implements MemberService {
 	} // 댓글 수정
 	@Override
 
+
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
 			String post_post_id, String board) {
 		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
@@ -413,4 +435,5 @@ public class MemberServiceImpl implements MemberService {
 	public Dto_user getUserByUserId(String user_id) {
 		return dao.getUserByUserId(user_id);
 	}
+
 }
