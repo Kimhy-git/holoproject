@@ -15,6 +15,7 @@ import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
@@ -23,7 +24,7 @@ import com.javalec.holo.dto.Help_postDto;
 @Repository
 public class IDaolmpl implements IDao {
 	
-	@Inject
+	@Inject//@Autowired
     private SqlSession sqlSession;
     
     private static final String Namespace = "mapper.mapper";
@@ -304,11 +305,11 @@ public class IDaolmpl implements IDao {
 			
 			//add re_comments
 			@Override
-			public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+			public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, String groupNum,String post_post_id) {
 				
 				System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
 				
-				Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+				Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
 				sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
 			}
 
@@ -342,21 +343,16 @@ public class IDaolmpl implements IDao {
 
 			//log in
 			@Override
-			public boolean login(Dto_user dto) {
-				String name = sqlSession.selectOne(Namespace+".login",dto);
-				return (name==null) ? false : true;
+			public Dto_login login(Dto_login dto) {
+				System.out.println("login process");
+				return sqlSession.selectOne(Namespace+".login",dto);
 			}
-
-			//회원 로그인 정보
-			@Override
-			public Dto_user viewMember(Dto_user dto) {
-				return sqlSession.selectOne(Namespace+".viewMember",dto);
-			}
-
+			
 			//log out
 			@Override
 			public void logout(HttpSession session) {
-				
+				System.out.println("logout process");
+				session.invalidate();
 			}
 			
 			

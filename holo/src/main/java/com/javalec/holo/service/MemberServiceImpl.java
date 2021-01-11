@@ -16,6 +16,7 @@ import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
@@ -24,7 +25,7 @@ import com.javalec.holo.dto.Help_postDto;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	@Inject
+	@Inject //@Autowired
     private IDao dao;
 
 //	@Override
@@ -290,10 +291,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	//add re_comments
 	@Override
-	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+	public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, String groupNum, String post_post_id) {
 		
 		System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
-		dao.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+		dao.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
 		
 	}	
 
@@ -313,28 +314,15 @@ public class MemberServiceImpl implements MemberService {
 		
 	//login
 	@Override
-	public boolean login(Dto_user dto, HttpSession session) {
-		boolean result = dao.login(dto);
-		if(result) {//true일 경우 session에 등록
-			Dto_user dto2 = viewMember(dto);
-			//세션 변수 등록
-			session.setAttribute("user_id", dto2.getUser_id());
-			session.setAttribute("user_pw", dto2.getUser_pw());
-		}
-		return result;
-	}
-
-	//회원 로그인 정보
-	@Override
-	public Dto_user viewMember(Dto_user dto) {
-		return dao.viewMember(dto);
+	public Dto_login login(Dto_login dto) {
+		return dao.login(dto);
 	}
 
 	//log out
 	@Override
 	public void logout(HttpSession session) {
 		//세션 변수 삭제 및 정보 초기화
-		session.invalidate();
+		dao.logout(session);
 	}
 	
 	

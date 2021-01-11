@@ -22,12 +22,13 @@ public class Dto_reply {
 		this.post_post_id = post_post_id;
 	}
 
-	public Dto_reply(String re_index, String re_comment, String re_order, String groupNum, String post_post_id) {
+	public Dto_reply(String re_index, String re_comment, String re_order, String re_class, String groupNum, String post_post_id) {
 		super();
 		this.re_index = re_index;
 		this.re_comment = re_comment;
 		this.re_order = re_order;
 		this.groupNum = groupNum;
+		this.re_class = re_class;
 		this.post_post_id = post_post_id;
 	}
 

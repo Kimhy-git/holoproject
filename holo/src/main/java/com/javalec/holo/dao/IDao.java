@@ -13,6 +13,7 @@ import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
@@ -120,7 +121,7 @@ public interface IDao {
 	public void update_post(String post_id, String board, String title, String content);
 
 	//add re_comments
-	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id);
+	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String post_post_id2);
 	
 	//hits
 	public void uphit(String post_id); 
@@ -131,10 +132,7 @@ public interface IDao {
 
 	
 	//login
-	public boolean login(Dto_user dto);
-	
-	//회원 로그인 정보
-	public Dto_user viewMember(Dto_user dto);
+	public Dto_login login(Dto_login dto);
 	
 	//log out
 	public void logout(HttpSession session);

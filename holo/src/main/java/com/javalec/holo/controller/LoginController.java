@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.service.MemberService;
 
 @Controller
 public class LoginController {
 
-	@Inject
+	@Inject //@Autowired??
     private MemberService service;
 	
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -31,31 +32,29 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/do_login", method = RequestMethod.POST)
-    public ModelAndView do_login(@ModelAttribute Dto_user dto, HttpSession session) throws Exception {
+    public String do_login(HttpSession session, Dto_login dto) throws Exception {
        
-    	boolean result = service.login(dto,session);
-    	ModelAndView mav = new ModelAndView();
+    	String returnURL = "";
 
-    	if(result==true) {
-    		mav.setViewName("main");
-    		mav.addObject("msg","success");
+    	if(session.getAttribute("login")!=null) {//if there is login session, remove it
+    		session.removeAttribute("login");
+    	}
+    	Dto_login login=service.login(dto);
+    	
+    	if(login!=null) {//login success
+    		session.setAttribute("login", login);
+    		returnURL = "redirect:main"; //로그인 성공시 메인으로 이동
     	} else {
-    		mav.setViewName("login");
-    		mav.addObject("msg","fail");
+    		returnURL = "redirect:login";
     	}
     	
-       return mav;
+       return returnURL;
     }
 	
-    @RequestMapping(value="logout", method=RequestMethod.POST)
-    public ModelAndView logout(HttpSession session) throws Exception{
-    	service.logout(session);
-    	
-    	ModelAndView mav = new ModelAndView();
-		mav.setViewName("main");
-		mav.addObject("msg","logout");
-		
-    	return mav;
+    @RequestMapping(value="logout")
+    public String logout(HttpSession session) throws Exception{
+    	session.invalidate();
+    	return "redirect:main";
     }
     
     

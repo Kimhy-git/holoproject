@@ -81,47 +81,61 @@
 	                <input type="submit" id="edit" value="수정">
                 <a href="notice"><input type="button" id="list" value="목록보기"></a>
             </div>
-            
-            <form action="add_comment" method="post">
+
             <div id="form-commentInfo"> 
-            	<c:forEach var="dto" items="${notice}">
-                	<div id="comment-count">댓글 <span id="count">${dto.reply_cnt}</span></div> 
-                	<input type=hidden name="post_post_id" value="${dto.post_id}"> 
-                <div id=cc>
-                	<input id="comment-input" id="re_comment" name="re_comment" placeholder="댓글을 입력해 주세요." > 
-                	<button id="submit">등록</button> 
-                </div>
-                </c:forEach>
-            </div>
-            </form>
+                <div id="comment-count">댓글 <span id="count">0</span></div> 
+                <form method="post" action="add_comment">
+	                <div id=cc>
+	                <c:forEach var="dto" items="${notice}">
+	                	<input type=hidden value="${dto.post_id}" name="post_post_id">
+	                </c:forEach>
+	                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+	                <input type=submit value="등록">
+	                </div>
+            	</form>
+            </div> 
             
             <br><br><br>
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
-	            <c:forEach var="dto_reply" items="${reply}">
-	            <form action="update_comment" method=post>
-		            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
-		            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
-		            
-		            ${dto_reply.reply_id}<br>
-		            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
-		            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
-		            <input type=hidden name="re_index" value=${dto_reply.re_index}>
-		            <input type=hidden name="re_order" value=${dto_reply.re_order}>
-		            <input type=hidden name="groupNum" value=${dto_reply.groupNum}>
-		            <div id="btn_reply">
-		                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-		                <input type="submit" id="edit_reply" value="수정" data_r=${dto_reply.reply_id}>
-		                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
-		                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
-		                <input type=textarea name="re_re_comment"> 
-		                <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';"/> 
-		                </div>
-		            </div>
-	            </form>
-	            </c:forEach>
+            <c:forEach var="dto_reply" items="${reply}">
+            <form action="update_comment" method=post>
+	            <div id="comments${dto_reply.reply_id}">
+			            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
+			            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
+			            
+			            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
+			            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
+			            <input type=hidden name="re_index" value=${dto_reply.re_index}>
+			            <input type=hidden name="re_order" value=${dto_reply.re_order}>
+			            <input type=hidden name="re_class" value=${dto_reply.re_class}>
+			            <input type=hidden name="groupNum" value=${dto_reply.reply_id}>
+			            
+			   </div>
+			            <div id="btn_reply">
+			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
+			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
+			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+			                
+			                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
+			                <input id="comment-input" name="re_re_comment">
+			                <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';">
+			                <input type="button" value="취소" id="rere_cancel${dto_reply.reply_id}">
+			                </div>
+			                
+			                <div id="reply_update_textarea${dto_reply.reply_id}" style="display:none">
+			                <input id="comment-input" name="update_comment" placeholder="${dto_reply.re_comment}">
+			                <input type=submit value="등록" onclick="javascript: form.action='update_comment';"/>
+			                <input type="button" value="취소" id="edit_cancel${dto_reply.reply_id}">
+			                </div>
+			         	</div>
+			</form>
+			</c:forEach>  
+			     
+		        
+		        </div>
+	               
             </div>
-        </div>
     </section>
     <footer>
         <p>copyright 홀로서기 
@@ -153,18 +167,6 @@ $(document)
 	}
 })
 
-//update comments
-//.on('click','#edit_reply',function changeView(){
-//	var re_comment=$('#re_comment').val();
-//	console.log(re_comment);
-//	$.get("update_comment", //URL
-//			 {post_post_id:$('input[name=post_id]').val(),
-//			 re_comment:$('#re_comment').val(),
-//			 reply_id:$(this).attr("data_r")}, //data
-//			 function(txt){ 
-//		 }, //function
-//		'text'); //dataType
-//})
 
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
@@ -177,6 +179,47 @@ $(document)
 	}
 })
 
+//show re_reply update textarea
+.on('click','input[id^=reply_update]',function(){ //input[id가 reply_update으로 시작하는 버튼]
+	var n=(this.id).substr(12); 
+	console.log($('#reply_update_textarea'+n).css("display"));
+	if($('#reply_update_textarea'+n).css("display")=="none"){
+			$('#reply_update_textarea'+n).show();
+			$('#comments'+n).hide();
+			$('#reply_update'+n).hide();
+	}else{
+		$('#reply_update_textarea'+n).hide();
+		$('#comments'+n).show()
+	}
+})
+
+//cancel
+.on('click','input[id^=edit_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+   var n=(this.id).substr(11); 
+   console.log(n)
+   console.log($('#comments'+n).css("display"));
+   if($('#comments'+n).css("display")=="none"){
+       $('#comments'+n).show()
+	   $('#reply_update_textarea'+n).hide();
+         
+   }else{
+	  $('#comments'+n).hide()
+      $('#reply_update_textarea'+n).show();
+   }
+})
+
+//cancel
+.on('click','input[id^=rere_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+   var n=(this.id).substr(11); 
+   console.log(n)
+   console.log($('#comments'+n).css("display"));
+   if($('#reply_again_textarea'+n).css("display")=="none"){
+	   $('#reply_again_textarea'+n).show();
+         
+   }else{
+      $('#reply_again_textarea'+n).hide();
+   }
+})
 
 
 //add re_comments

@@ -465,7 +465,7 @@ public class BoardController {
 //    	service.set_re_index//그 댓글의 re_index에 reply_id를 넣음
     	
     	System.out.println("The end of add_comment");
-    	return "redirect:notice";
+    	return "redirect:notice_write_view?post_id="+post_post_id;
     }
     
     //notice_write_view + comments
@@ -478,9 +478,6 @@ public class BoardController {
     	
     	//hits
     	service.uphit(post_id);
-    	
-    	//the number of comments
-//    	service.num_of_comments(post_id);
     	
     	List<Dto_reply> reply = service.select_post_reply(post_id);
     	List<Dto_post> notice = service.select_post_view(post_id); 
@@ -523,46 +520,22 @@ public class BoardController {
     	
     	System.out.println("The end of delete_comment");
     	
-    	return "redirect:notice";
+    	return "redirect:notice_write_view?post_id="+post_post_id;
     }
     
     //notice_write_edit_reply
     @RequestMapping(value = "update_comment", method = {RequestMethod.POST,RequestMethod.GET})
     public String update_comment(HttpServletRequest req, Model model) throws Exception{
     	
-    	String post_post_id=req.getParameter("post_post_id");
-    	String re_comment=req.getParameter("re_comment");
-    	String reply_id=req.getParameter("reply_id");
+		System.out.println("start reply_edit");
+		String post_post_id=req.getParameter("post_post_id");
+		String reply_id=req.getParameter("reply_id");
+		String re_comment=req.getParameter("update_comment");
+		String board="0";
 
-    	System.out.println("this is post_post_id : " +post_post_id);
-    	System.out.println("this is re_comment : " +re_comment);
-    	System.out.println("this is reply_id : " +reply_id);
-    	
-    	model.addAttribute("post_post_id",post_post_id);
-    	model.addAttribute("re_comment",re_comment);
-    	model.addAttribute("reply_id",reply_id);
-    	
-    	return "notice_write_edit_reply";
-    }
-    
-    //update comments
-    @RequestMapping(value = "update_comment_now", method = {RequestMethod.POST,RequestMethod.GET})
-    public String update_comment_now(HttpServletRequest req, Model model) throws Exception{
-    	
-    	String post_post_id=req.getParameter("post_post_id");
-    	String re_comment=req.getParameter("re_comment");
-    	String reply_id=req.getParameter("reply_id");
-    	String board="0";
-
-    	System.out.println("this is post_post_id : " +post_post_id);
-    	System.out.println("this is re_comment : " +re_comment);
-    	System.out.println("this is reply_id : " +reply_id);
-    	
-    	service.update_comment(reply_id,re_comment,post_post_id,board);
-    	
-    	System.out.println("The end of update_comment_now");
-    	
-    	return "redirect:notice";
+		service.update_comment(reply_id, re_comment, post_post_id, board);
+		System.out.println("end reply_edit");
+		return "redirect:notice_write_view?post_id="+post_post_id;
     }
     
     //update posts
@@ -616,15 +589,16 @@ public class BoardController {
     	String re_index=req.getParameter("reply_id");
     	String re_comment=req.getParameter("re_re_comment");
     	int order=Integer.parseInt(req.getParameter("re_order"));
-    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+    	int class_re=Integer.parseInt(req.getParameter("re_class"));
+    	String groupNum=req.getParameter("groupNum");
     	String post_post_id=req.getParameter("post_post_id");
     	
     	order+=1;
-    	groupNum_i+=1;
+    	class_re+=1;
 
     	
     	String re_order=String.valueOf(order);
-    	String groupNum=String.valueOf(groupNum_i);
+    	String re_class=String.valueOf(class_re);
 
     	System.out.println("this is re_index : " +re_index);
     	System.out.println("this is re_comment : " +re_comment);
@@ -632,12 +606,12 @@ public class BoardController {
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,groupNum,post_post_id);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
     	
     	
     	System.out.println("The end of update_post_now");
 
-    	return "redirect:notice";
+    	return "redirect:notice_write_view?post_id="+post_post_id;
     }
 		    
 		    

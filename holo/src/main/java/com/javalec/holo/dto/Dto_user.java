@@ -14,12 +14,6 @@ public class Dto_user {
 	private String likes;
 	private String tag;
 	private String cv;
-	
-	public Dto_user(String user_id, String user_pw) {
-		super();
-		this.user_id = user_id;
-		this.user_pw = user_pw;
-	}
 
 
 	public Dto_user(String user_id, String nick, String email) {
