@@ -13,6 +13,16 @@ public class Dto_login {
 		this.nick = nick;
 	}
 	
+	
+	
+	public Dto_login(String user_id, String user_pw) {
+		super();
+		this.user_id = user_id;
+		this.user_pw = user_pw;
+	}
+
+
+
 	public Dto_login() {}
 
 	

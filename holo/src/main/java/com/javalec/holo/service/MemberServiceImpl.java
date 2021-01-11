@@ -5,6 +5,7 @@ import java.sql.Blob;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -311,19 +312,27 @@ public class MemberServiceImpl implements MemberService {
 //		System.out.println("MemberServiceImpl, post_id, number : "+post_id);
 //		dao.num_of_comments(post_id);
 //	}
-		
+
 	//login
 	@Override
-	public Dto_login login(Dto_login dto) {
-		return dao.login(dto);
-	}
+	public String login(HttpServletRequest request) {
+		String user_id=request.getParameter("user_id");
+		String user_pw=request.getParameter("user_pw");
+		
+		String login = dao.login(user_id,user_pw);
+		
+		System.out.println("ServiceImpl id, pw : "+user_id+" ,"+user_pw);
 
+		return login;
+	}
+	
 	//log out
 	@Override
 	public void logout(HttpSession session) {
 		//세션 변수 삭제 및 정보 초기화
-		dao.logout(session);
+		session.invalidate();
 	}
+	
 	
 	
 	
@@ -423,5 +432,4 @@ public class MemberServiceImpl implements MemberService {
 	public Dto_user getUserByUserId(String user_id) {
 		return dao.getUserByUserId(user_id);
 	}
-
 }

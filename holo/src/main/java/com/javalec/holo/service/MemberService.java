@@ -3,6 +3,7 @@ package com.javalec.holo.service;
 import java.sql.Blob;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -85,8 +86,8 @@ public interface MemberService {
 //	public void num_of_comments(String post_id);
 	
 	//login
-	public Dto_login login(Dto_login dto);
-
+	public String login(HttpServletRequest request);
+	
 	//log out
 	public void logout(HttpSession session);
 

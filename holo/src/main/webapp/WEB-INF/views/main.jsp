@@ -15,19 +15,16 @@
 <body>
  <header>
         <nav>
-        	<c:choose>
-	        	<c:when test="${empty sessionScope.user_id}">
-		        	<!-- 로그인 안됨 -->
-		            <a href="login" id=login>로그인</a>
-		            <a href="join" id="join">회원가입</a>
-	            </c:when>
-	        </c:choose>
-			        <c:if test="${msg=='success'}">
-			            <a href="logout" id=login>로그아웃</a>
-			        </c:if>
-			        <c:if test="${msg=='success'}">
-			        	<h1>${sessionScope.nick} (${sessionScope.user_id})님 환영합니다</h1>
-			        </c:if>
+        <c:if test="${login==null}">
+            <a href="login" id=login>로그인</a>
+            <a href="join" id="join">회원가입</a>
+        </c:if>
+        <c:if test="${login!=null}">
+            <a href="logout" id=login>로그아웃</a>
+        </c:if>
+        <c:if test="${login!=null}">
+        	<h1>${login}님 환영합니다</h1>
+        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>

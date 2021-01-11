@@ -130,10 +130,9 @@ public interface IDao {
 //	public void num_of_comments(String post_id);
 		
 
-	
 	//login
-	public Dto_login login(Dto_login dto);
-	
+	public String login(String user_id, String user_pw);
+
 	//log out
 	public void logout(HttpSession session);
 	
@@ -198,5 +197,6 @@ public interface IDao {
 	public int checkQueestionPw2(Dto_user user);
 
 	public Dto_user getUserByUserId(String user_id);
+	
 
 }

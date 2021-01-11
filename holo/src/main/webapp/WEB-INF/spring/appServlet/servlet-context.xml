@@ -27,8 +27,8 @@
        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <beans:property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
         <beans:property name="url"
-            value="jdbc:log4jdbc:mysql://127.0.0.1:3306/holo?useSSL=false&amp;serverTimezone=UTC" />
-        <beans:property name="username" value="root" />
+            value="jdbc:log4jdbc:mysql://3.140.161.238:3306/holo?useSSL=false&amp;serverTimezone=UTC" />
+        <beans:property name="username" value="holo" />
         <beans:property name="password" value="human123" />
     </beans:bean>
  
@@ -58,19 +58,5 @@
          <!-- defaultEncoding -->
          <beans:property name="defaultEncoding" value="utf-8" />
 	</beans:bean>
-	
-	    <!-- 인터셉터 객체 생성 -->
-    <beans:bean id="authenticationInterceptor" class="com.javalec.holo.interceptor.AuthenticationInterceptor">
-    </beans:bean>
-    <!-- Interceptor 설정 -->
-    <interceptors>
-        <interceptor>
-            <mapping path="/**"/>
-            <beans:ref bean="authenticationInterceptor"/>
-        </interceptor>
-    </interceptors>
-     
-    <context:component-scan base-package="com.javalec.holo.interceptor" />
-    <context:component-scan base-package="com.javalec.holo.controller" />
 	
 </beans:beans>

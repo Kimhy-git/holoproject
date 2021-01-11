@@ -32,29 +32,32 @@ public class LoginController {
     }
     
     @RequestMapping(value = "/do_login", method = RequestMethod.POST)
-    public String do_login(HttpSession session, Dto_login dto) throws Exception {
-       
-    	String returnURL = "";
+    public String do_login(HttpServletRequest request,
+    		HttpSession session, RedirectAttributes attr) throws Exception {
 
-    	if(session.getAttribute("login")!=null) {//if there is login session, remove it
-    		session.removeAttribute("login");
-    	}
-    	Dto_login login=service.login(dto);
-    	
-    	if(login!=null) {//login success
-    		session.setAttribute("login", login);
-    		returnURL = "redirect:main"; //로그인 성공시 메인으로 이동
-    	} else {
-    		returnURL = "redirect:login";
-    	}
-    	
-       return returnURL;
+        String nick = service.login(request);
+        
+        System.out.println("THIS IS dto : "+nick);
+        
+        if(nick==null) {
+        	session.setAttribute("login",null);
+        	attr.addFlashAttribute("msg","없는 아이디거나 잘못된 비밀번호 입니다");
+        	return "redirect:login";
+        } else {
+        	session.setAttribute("login", nick);
+        	return "redirect:main";
+        }
     }
 	
-    @RequestMapping(value="logout")
-    public String logout(HttpSession session) throws Exception{
-    	session.invalidate();
-    	return "redirect:main";
+    @RequestMapping(value="logout", method=RequestMethod.POST)
+    public ModelAndView logout(HttpSession session) throws Exception{
+    	service.logout(session);
+    	
+    	ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("msg","logout");
+		
+    	return mav;
     }
     
     

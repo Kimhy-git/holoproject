@@ -340,21 +340,20 @@ public class IDaolmpl implements IDao {
 				sqlSession.insert(Namespace+".update_post_content",update_post);
 			}
 
-
 			//log in
 			@Override
-			public Dto_login login(Dto_login dto) {
-				System.out.println("login process");
-				return sqlSession.selectOne(Namespace+".login",dto);
+			public String login(String user_id, String user_pw) {
+				Dto_login dto = new Dto_login(user_id, user_pw);
+				System.out.println("IDaoImpl dto : "+dto);
+				String login= sqlSession.selectOne(Namespace+".login",dto);
+				return login;
 			}
 			
 			//log out
 			@Override
 			public void logout(HttpSession session) {
-				System.out.println("logout process");
-				session.invalidate();
+				
 			}
-			
 			
 			
 			

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.javalec.holo.dto.Dto;
@@ -22,6 +24,7 @@ import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_help_reply;
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Help_postDto;
@@ -36,20 +39,24 @@ public class BoardController {
 	
 	//helpme
 			@RequestMapping(value = "/help_me", method = RequestMethod.GET)
-		    public String help_me(HttpServletRequest req,Model model) throws Exception {
-				 System.out.println("help_me작동");
+		    public String help_me(HttpServletRequest req, Model model) throws Exception {
 				 
-//				 String user_id=req.getParameter("user_id");
-//				 System.out.println("user_id : "+user_id);
-				 //service.list(user_id);
-//				 List<Dto_help_post> likes = service.likes();
-//				 model.addAttribute("likes", likes);
+				System.out.println("help_me작동");
+
 				 List<Dto_help_post> list = service.list();      
 				 model.addAttribute("list", list);
-				 //System.out.println(list);
-				 System.out.println("help_me 종료");
-		      	 return "help_me";
-		      	 
+				 
+				 HttpSession session = req.getSession();
+				 String dto=(String)session.getAttribute("login");
+			        
+			        System.out.println("THIS IS dto : "+dto);
+			        
+			        if(dto==null) {
+			        	session.setAttribute("login",null);
+			        } else {
+			        	session.setAttribute("login", dto);
+			        }
+			        return "help_me";
 		    }
 					
 			@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
