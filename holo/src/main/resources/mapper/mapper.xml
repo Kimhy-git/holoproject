@@ -58,7 +58,7 @@
 	<!-- help_me 게시글 쓰기 -->
 	<select id="write" parameterType="dto_p">
 		insert into help_post (tag_area,img, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
-		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id='b'),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"b")
+		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"a")
 	</select>
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
@@ -74,15 +74,17 @@
 	<select id='delete_re' resultType="dto_p">
 		delete from help_reply where help_post_post_id=#{help_post_id} 
 	</select>
-		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};
+	 	SELECT * FROM help_reply, user where board=1 and help_post_post_id=#{help_post_id}
+	 	 and user.user_id = help_reply.user_user_id ORDER BY IF
+	 	 (groupNum=0, help_reply_id, groupNum),re_index;
+	 	<!--select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id}; -->
 	</select>
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
-		insert into help_reply (board,re_index, re_comment, re_order, groupNum, help_post_post_id, 
-		user_user_id) values(1,1,#{re_comment},1,1,#{help_post_post_id},'a') ;
+		insert into help_reply (board, re_comment, help_post_post_id, 
+		user_user_id) values(1,#{re_comment},#{help_post_post_id},'a') ;
 	</select>
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
@@ -96,12 +98,22 @@
 	<select id="re_edit_view" resultType="dto_pr">
 		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
+	<!-- help_me 대댓글 작성  -->
+	<select id="helpme_groupNum_select" parameterType="int" resultType="int">
+		select count(a.re_index) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{groupNum};
+	</select>
+	<insert id="helpme_re_recommnet_submit" parameterType="dto_pr">
+		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
+ 		values(1,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
+	</insert>
 	
 	<!-- help_me hit -->
 	<select id="hit" resultType="dto_p">
 		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
 	</select>
 	
+	
+
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">

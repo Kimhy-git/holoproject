@@ -263,7 +263,7 @@ $(document)
 	var totalChecked = 0;
 	
 	console.log($("input:checkbox[name='ptag']").is(':checked'))
-	console.log($("#cv").val().length)
+	console.log($("#nick").val().length)
 	if($("#id_check").html()!="사용가능한 아이디 입니다."){
 		alert("아이디를 확인해 주세요")
 		$("#id").focus();
@@ -277,6 +277,10 @@ $(document)
 		return false;
 	}else if($("#nick").val().length<2){
 		alert("닉네임은 2글자 이상이어야 합니다.")
+		$("#nick").focus();
+		return false;
+	}else if($("#nick").val().length>20){
+		alert("닉네임은 20자를 넘을 수 없습니다.")
 		$("#nick").focus();
 		return false;
 	}else if($("#pw_check").html()!="비밀번호가 일치합니다."){

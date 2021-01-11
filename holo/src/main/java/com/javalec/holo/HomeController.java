@@ -171,6 +171,16 @@ private MemberService service;
     	  System.out.println("juso호출");
     	  return "jusoPopup";
       }
+      @RequestMapping(value = "/apply_popup", method = RequestMethod.GET)
+      public String apply_popup() {
+         
+         return "apply_popup";
+      }
+      @RequestMapping(value = "/apply_go", method = RequestMethod.POST)
+      public String apply_go() {
+         
+         return "apply_go";
+      }
       
    
 }

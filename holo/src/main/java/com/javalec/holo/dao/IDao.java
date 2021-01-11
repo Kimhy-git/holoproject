@@ -70,6 +70,10 @@ public interface IDao {
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception;
 	
+		//help_me 대댓글 작성
+		void helpme_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum,
+				int help_post_post_id, String user_user_id) throws Exception;
+		
 		//help_hit 
 		public void hit(int help_post_id) throws Exception;
 		
@@ -149,6 +153,7 @@ public interface IDao {
 	//리스트 보여주기
 
 	public List<Dto_freeboard> select_freeboard_view(int post_id);
+	
 	//게시글 상세 보기
 	
 	public void select_freeboard_delete(String post_id);
@@ -200,5 +205,6 @@ public interface IDao {
 	public int checkQueestionPw2(Dto_user user);
 
 	public Dto_user getUserByUserId(String user_id);
+	
 
 }

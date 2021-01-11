@@ -154,7 +154,13 @@ public class MemberServiceImpl implements MemberService {
 		public void re_delete(int help_reply_id) throws Exception{
 		dao.re_delete(help_reply_id);
 		}
-		
+		//help_me 대댓글 작성
+		@Override
+		public void helpme_re_recomment_submit(int re_index, String re_comment, 
+				int re_order, int re_class, int groupNum, int help_post_post_id,
+				String user_user_id) throws Exception {
+			dao.helpme_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+		}
 		//help_me hit
 		public void hit(int help_post_id) throws Exception{
 			dao.hit(help_post_id);

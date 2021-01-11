@@ -113,8 +113,10 @@
 	            <c:forEach var="list" items="${re_list}">
 
 		            <form method="post" >
-		            	<div id=comments>
-				            <div id="comments${list.help_reply_id}">
+		            		
+		            	<div class=comments value="${list.re_class}">
+		            	<input type="hidden" class="re_class" value="${list.re_class}">	     
+				            <div id="comments${list.help_reply_id}" >
 				               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 					           <p class="reply_user">${list.nick}</p>
 					           <p class="reply_comment">${list.re_comment}</p>
@@ -134,8 +136,14 @@
 				           
 				          
 	                      <div id="reply_again_textarea${list.help_reply_id}" style="display:none">
+		                      <input type="hidden" name="parent_id" value="${list.help_reply_id}">
+						      <input type="hidden" name="re_index" value="${list.re_index}">
+						      <input type="hidden" name="re_order" value="${list.re_order}">
+						      <input type="hidden" name="re_class" value="${list.re_class}">
+						      <input type="hidden" name="groupNum" value="${list.groupNum}">
+						      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
 		                      <input type=textarea name="re_re_comment" size=100> 
-		                      <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';"/> 
+		                      <input type=submit value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
 	                      </div>
 				        </div>
 			            
@@ -159,6 +167,19 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
+.on('click','#sub_btn',function(){
+	window.open("apply_popup","applyPop",'width=470, height=580, left=400, top=200, resizable=no');
+})
+
 .on('click','#remove',function(){
 	if(confirm('삭제하시겠습니까?')){	
 	}else{
@@ -203,6 +224,7 @@ $(document)
       $('#re_edit_txt'+n).show();
    }
 })  
+
 
 
 </script>

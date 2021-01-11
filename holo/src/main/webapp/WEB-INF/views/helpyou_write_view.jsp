@@ -171,16 +171,16 @@ $(document)
 					                	'<input type=submit value="등록">'+ 
 					                	'</div>'+
 					                '</form>'+
-						                '<form method="post" action="helpyou_reply_edit" id="reply_edit'+value['help_reply_id']+'" style="display:none;">'+
-		                				'<div id=cc>'+
-		                				'<input type="hidden" name="post_id" value="'+value['help_post_post_id']+'">'+
-		                				'<input type="hidden" name="reply_id" value="'+value['help_reply_id']+'">'+
-		                				'<input id="comment-input" name="re_comment" value='+value['re_comment']+'>'+
-		                				'<input type=button id="reply_edit_cancle'+value['help_reply_id']+'" value="취소">'+
-		                				'<input type=submit value="등록">'+
-		                				'</div>'+
-            						'</form>'+
-						        '</div>';
+						        '</div>'+
+				                '<form method="post" action="helpyou_reply_edit" id="reply_edit'+value['help_reply_id']+'" style="display:none;">'+
+	                				'<div id=cc>'+
+	                				'<input type="hidden" name="post_id" value="'+value['help_post_post_id']+'">'+
+	                				'<input type="hidden" name="reply_id" value="'+value['help_reply_id']+'">'+
+	                				'<input id="comment-input" name="re_comment" value='+value['re_comment']+'>'+
+	                				'<input type=button id="reply_edit_cancle'+value['help_reply_id']+'" value="취소">'+
+	                				'<input type=submit value="등록">'+
+	                				'</div>'+
+    							'</form>';
 					            
                 	$('#comments').append(content); 
 				})

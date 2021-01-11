@@ -234,7 +234,36 @@ public class BoardController {
 			   	System.out.println("help_reply_edit_go 종료");
 			   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 		   }
-		
+			
+			@RequestMapping(value="/helpme_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
+			public String helpme_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
+				System.out.println("start re_recomment");
+				int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
+				int re_order=Integer.parseInt(req.getParameter("parent_id"));
+				System.out.println("parent_id: "+re_order);
+				int re_class=Integer.parseInt(req.getParameter("re_class"));
+				if(re_class==0) {
+					re_class=re_class+1;
+				}
+				int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+				int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+				int groupNum=0;
+				if(parent_re_order==0) {
+					groupNum=re_order;
+				}else {
+					groupNum=parent_groupNum;
+				}
+				System.out.println("groupNum: "+groupNum);
+				String comment=req.getParameter("re_re_comment");		
+				String user_id="a";
+				int re_index=Integer.parseInt(req.getParameter("re_index"));
+				System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
+				service.helpme_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
+				System.out.println("end re_recomment");
+				return "redirect:helpme_write_view?help_post_id="+help_post_id;
+			}
+			
+			
 		
 		
 	// helpyou
