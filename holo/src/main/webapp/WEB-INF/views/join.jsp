@@ -219,7 +219,7 @@ $(document)
 .on('keyup','#passcode1',function(){
 	if ($("#passcode1").val().length < 6) { 
 		$("#pw_check").css("color","rgb(223, 64, 43)")
-		$("#pw_check").html("비밀번호는 6-30자 사이로 입력해 합니다.");
+		$("#pw_check").html("비밀번호는 6-30자 사이로 입력해야 합니다.");
 
 	}else if($("#passcode1").val().length > 30){
 		$("#pw_check").css("color","rgb(223, 64, 43)")
@@ -276,7 +276,7 @@ $(document)
 		$("#nick").focus();
 		return false;
 	}else if($("#nick").val().length<2){
-		alert("닉네임은 2글자 이상이어야 합니다.")
+		alert("닉네임은 2-20자 사이로 입력해 주세요.")
 		$("#nick").focus();
 		return false;
 	}else if($("#nick").val().length>20){

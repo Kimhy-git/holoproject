@@ -52,6 +52,7 @@ h3{
 	font-size:17px;
 	font-weight:500;
 	color:#777;
+
 }
 #submit{
 	background-color: rgb(107, 156, 230);
