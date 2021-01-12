@@ -127,8 +127,11 @@
 					           <p class="reply_comment">${list.re_comment}</p>
 					           <p class="reply_date">${list.operator}</p>
 					           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
+					           
+					        <c:if test="${login.user_id==read.user_user_id}">
 					           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
 					           <input type=button id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
+					        </c:if>
 					           <input type="button" id="reply_again${list.help_reply_id}" value="답글달기" >
 					         </div>
 				           
@@ -168,16 +171,20 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
-
-
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-   var n=(this.id).substr(11); 
-   console.log($('#reply_again_textarea'+n).css("display"));
-   if($('#reply_again_textarea'+n).css("display")=="none"){
-         $('#reply_again_textarea'+n).show();
+   var login_user_id=$('#login_user_id').val();
+   if(login_user_id==null || login_user_id==""){
+		alert("로그인 해주세요");
+		window.location.href="<c:url value='login'/>"
    }else{
-      $('#reply_again_textarea'+n).hide();
+	   var n=(this.id).substr(11); 
+	   console.log($('#reply_again_textarea'+n).css("display"));
+	   if($('#reply_again_textarea'+n).css("display")=="none"){
+	         $('#reply_again_textarea'+n).show();
+	   }else{
+	      $('#reply_again_textarea'+n).hide();
+	   } 
    }
 })     
 
