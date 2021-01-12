@@ -341,6 +341,10 @@ public class BoardController {
 		  }else if(read.getGender().equals("m")) {
 			  read.setGender("남성");
 		  }
+		if(read.getImg()!=null) {
+			String image=read.getImg();
+			read.setImg("http://localhost:8080/holo/img/"+image);
+		}
 		model.addAttribute("read",read);
 		return "helpyou_write_view";
 	}
