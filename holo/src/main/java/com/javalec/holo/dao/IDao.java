@@ -71,6 +71,10 @@ public interface IDao {
 		//help_me 댓글 삭제
 		public void re_delete(int help_reply_id) throws Exception;
 	
+		//help_me 대댓글 작성
+		void helpme_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum,
+				int help_post_post_id, String user_user_id) throws Exception;
+
 		//help_hit 
 		public void hit(int help_post_id) throws Exception;
 		

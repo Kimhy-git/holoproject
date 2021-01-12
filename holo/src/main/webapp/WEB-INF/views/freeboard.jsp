@@ -13,8 +13,15 @@
 <body>
      <header>
         <nav>
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -36,7 +43,7 @@
 			            <input type="text" id="search_txt">
 			            <input type="button" id="search_btn" value="검색">
 			        </div>
-		        <a href="freeboard_write" class="write">글쓰기</a>
+		        <div class="write" id="writing">글쓰기</div>
 	        </div>
 	        <div id=tablediv>
 	            <table>
@@ -73,5 +80,19 @@
         <p>copyright 홀로서기
             alone@alone.co.kr</p>
     </footer>
-</body>
+</body>   
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+$(document)
+.on('click','#writing',function(){
+	var user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인하세요");
+		window.location.href="<c:url value='login'/>"
+	}else{
+		window.location.href="<c:url value='freeboard_write'/>"
+	}
+})
+</script>
 </html>

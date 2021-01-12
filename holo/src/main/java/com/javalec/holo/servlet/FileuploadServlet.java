@@ -14,13 +14,13 @@ public class FileuploadServlet {
 		String url = null;
 		
 		try {
-			// 파일 정보
+			// ?? ??
 			String originFilename = multipartFile.getOriginalFilename();
 			String extName
 				= originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
 			Long size = multipartFile.getSize();
 			
-			// 서버에서 저장 할 파일 이름
+			// ???? ?? ? ?? ??
 			String saveFileName = genSaveFileName(extName);
 			
 			System.out.println("originFilename : " + originFilename);
@@ -32,8 +32,8 @@ public class FileuploadServlet {
 			url = saveFileName;
 		}
 		catch (IOException e) {
-			// 원래라면 RuntimeException 을 상속받은 예외가 처리되어야 하지만
-			// 편의상 RuntimeException을 던진다.
+			// ???? RuntimeException ? ???? ??? ????? ???
+			// ??? RuntimeException? ???.
 			// throw new FileUploadException();	
 			throw new RuntimeException(e);
 		}
@@ -41,7 +41,7 @@ public class FileuploadServlet {
 	}
 	
 	
-	// 현재 시간을 기준으로 파일 이름 생성
+	// ?? ??? ???? ?? ?? ??
 	private static String genSaveFileName(String extName) {
 		String fileName = "";
 		
@@ -59,7 +59,7 @@ public class FileuploadServlet {
 	}
 	
 	
-	// 파일을 실제로 write 하는 메서드
+	// ??? ??? write ?? ???
 	private static boolean writeFile(MultipartFile multipartFile, String saveFileName)
 								throws IOException{
 		boolean result = false;

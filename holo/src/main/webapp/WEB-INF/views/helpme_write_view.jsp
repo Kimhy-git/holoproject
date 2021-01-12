@@ -12,15 +12,16 @@
 <link rel="stylesheet" href="resources/css/helpme_write_view.css">
 <body>
  <header>
-        <nav>
-        <c:if test="${login.nick==null}">
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
-        </c:if>
-        <c:if test="${login.nick!=null}">
-            <a href="logout" id=login>로그아웃</a>
-        </c:if>
-        <input type="hidden" value="${login.user_id}" id="login_user_id">
+       <nav>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -61,7 +62,6 @@
                 <tr>
                     <td>제목</td>
                     <input type="hidden" value="${read.user_user_id}" id="user_user_id">
-                    
                     <td>${read.title}</td>
                 </tr>
                 <tr>
@@ -120,15 +120,17 @@
 	            <c:forEach var="list" items="${re_list}">
 
 		            <form method="post" >
-		            	<div id=comments>
-				            <div id="comments${list.help_reply_id}">
+		            		
+		            	<div class=comments value="${list.re_class}">
+		            	<input type="hidden" class="re_class" value="${list.re_class}">	     
+				            <div id="comments${list.help_reply_id}" >
 				               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 					           <p class="reply_user">${list.nick}</p>
 					           <p class="reply_comment">${list.re_comment}</p>
 					           <p class="reply_date">${list.operator}</p>
 					           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
 					           
-					        <c:if test="${login.user_id==read.user_user_id}">
+					        <c:if test="${login.user_id==list.user_user_id}">
 					           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
 					           <input type=button id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
 					        </c:if>
@@ -144,8 +146,14 @@
 				           
 				          
 	                      <div id="reply_again_textarea${list.help_reply_id}" style="display:none">
+		                      <input type="hidden" name="parent_id" value="${list.help_reply_id}">
+						      <input type="hidden" name="re_index" value="${list.re_index}">
+						      <input type="hidden" name="re_order" value="${list.re_order}">
+						      <input type="hidden" name="re_class" value="${list.re_class}">
+						      <input type="hidden" name="groupNum" value="${list.groupNum}">
+						      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
 		                      <input type=textarea name="re_re_comment" size=100> 
-		                      <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';"/> 
+		                      <input type=submit value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
 	                      </div>
 				        </div>
 			            
@@ -153,10 +161,10 @@
 				</c:forEach>
 			
 	            <div id="btn">
-	            <c:if test="${login.user_id==read.user_user_id}">
-	                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
-	                <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
-	            </c:if>    
+	                <c:if test="${login.user_id==read.user_user_id}">
+		                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
+		                <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+	            	</c:if>
 	                <a href="help_me"><input type="button" id="list" value="목록보기"></a>
 	            </div>
                      
@@ -171,21 +179,47 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
+.on('click','#sub_btn',function(){
+	var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
+	   }else{
+		   window.open("apply_popup","applyPop",'width=470, height=580, left=400, top=200, resizable=no');
+	   }
+})
+
+.on('click','#remove',function(){
+	if(confirm('삭제하시겠습니까?')){	
+	}else{
+		return false;
+	}
+})
+
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-   var login_user_id=$('#login_user_id').val();
-   if(login_user_id==null || login_user_id==""){
-		alert("로그인 해주세요");
-		window.location.href="<c:url value='login'/>"
-   }else{
-	   var n=(this.id).substr(11); 
-	   console.log($('#reply_again_textarea'+n).css("display"));
-	   if($('#reply_again_textarea'+n).css("display")=="none"){
-	         $('#reply_again_textarea'+n).show();
+	   var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
 	   }else{
-	      $('#reply_again_textarea'+n).hide();
-	   } 
-   }
+		   var n=(this.id).substr(11); 
+		   console.log($('#reply_again_textarea'+n).css("display"));
+		   if($('#reply_again_textarea'+n).css("display")=="none"){
+		         $('#reply_again_textarea'+n).show();
+		   }else{
+		      $('#reply_again_textarea'+n).hide();
+		   } 
+	   }
 })     
 
 .on('click','input[id^=re_edit]',function(){ //input[id가 reply_again으로 시작하는 버튼]
@@ -214,6 +248,7 @@ $(document)
       $('#re_edit_txt'+n).show();
    }
 })  
+
 
 
 </script>

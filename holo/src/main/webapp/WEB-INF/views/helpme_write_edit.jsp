@@ -13,8 +13,14 @@
 <body>
  <header>
         <nav>
-           <a href="login" id=login>로그인</a>
+        <input type=hidden value="${login.user_id}" id="user_id_login">
+        <c:if test="${login.nick==null}">
+            <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
+        </c:if>
+        <c:if test="${login.nick!=null}">
+            <a href="logout" id=login>로그아웃</a>
+        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>

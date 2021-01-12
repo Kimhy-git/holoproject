@@ -139,6 +139,10 @@ public interface MemberService {
 	
 	//help_me 댓글 수정
 	public void re_edit(int help_reply_id,String re_comment) throws Exception;
+
+	//help_me 대댓글 작성
+	void helpme_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum,
+			int help_post_post_id, String user_user_id) throws Exception;
 	
 	//help_me hit
 	public void hit(int help_post_id) throws Exception;

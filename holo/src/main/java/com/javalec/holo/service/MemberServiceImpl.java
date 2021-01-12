@@ -156,6 +156,14 @@ public class MemberServiceImpl implements MemberService {
 		public void re_delete(int help_reply_id) throws Exception{
 		dao.re_delete(help_reply_id);
 		}
+	
+		//help_me 대댓글 작성
+		@Override
+		public void helpme_re_recomment_submit(int re_index, String re_comment, 
+				int re_order, int re_class, int groupNum, int help_post_post_id,
+				String user_user_id) throws Exception {
+			dao.helpme_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+		}
 		
 		//help_me hit
 		public void hit(int help_post_id) throws Exception{
@@ -174,7 +182,16 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override // help_you
 	public List<Dto_help_post> helpyou_list(){
-		return dao.helpyou_list();
+		List<Dto_help_post> list=dao.helpyou_list();
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getImg()==null) {
+				list.get(i).setImg("resources/img/test1.jpg");
+			}else {
+				String image=list.get(i).getImg();
+				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
+			}
+		}
+		return list;
 	}
 	@Override // helpyou_write_view
 	public Dto_help_post helpyou_write_view(int help_post_id) {

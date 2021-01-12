@@ -79,11 +79,11 @@
                         	<input type="hidden" value="${list.user_user_id}" name="user_id">
                         	<input type="hidden" value="${list.help_post_id}">
                             <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}
+                            <p class="title" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}
                             <!--<span class="hit">${list.hit}</span> --></p>
-                            <p class="writer">${list.nick} <span class="like"> ♥ ${list.likes}</span>
-                            <p class="price">최소금액 : ${list.min_price}원</p>
-                            <p class="date">${list.operator}</p>
+                            <p class="writer" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.nick} <span class="like"> ♥ ${list.likes}</span>
+                            <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
+                            <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
                         </li> 
                     
                     </c:forEach>                

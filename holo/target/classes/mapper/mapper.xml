@@ -96,7 +96,14 @@
 	<select id="re_edit_view" resultType="dto_pr">
 		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
-	
+	<!-- help_me 대댓글 작성  -->
+	<select id="helpme_groupNum_select" parameterType="int" resultType="int">
+		select count(a.re_index) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{groupNum};
+	</select>
+	<insert id="helpme_re_recommnet_submit" parameterType="dto_pr">
+		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
+ 		values(1,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
+	</insert>
 	<!-- help_me hit -->
 	<select id="hit" resultType="dto_p">
 		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
@@ -133,7 +140,7 @@
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
 		insert into help_reply(board,re_comment, help_post_post_id, user_user_id)
-		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id})
+		 values(0, #{re_comment}, #{help_post_post_id}, 'a')
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">

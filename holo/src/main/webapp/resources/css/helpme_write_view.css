@@ -22,7 +22,7 @@ table tr td{
 #form-commentInfo{
 	margin-top:30px;
 }
-#form-commentInfo, #btn, #comments{
+#form-commentInfo, #btn, .comments{
 	width:300px;
 	padding-left:35px;
 	padding-bottom:5px;

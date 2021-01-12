@@ -13,8 +13,15 @@
 <body>
  <header>
         <nav>
-           <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -77,8 +84,10 @@
         </div>
             
             <div id="btn">
+            <c:if test="${login.user_id}==${dto.user_user_id}">
 	                <input type="button" id="remove" value="삭제">
 	                <input type="submit" id="edit" value="수정">
+	        </c:if>
                 <a href="notice"><input type="button" id="list" value="목록보기"></a>
             </div>
 
@@ -113,9 +122,11 @@
 			            
 			   </div>
 			            <div id="btn_reply">
+			            <c:if test="${login.user_id}==${dto_reply.user_user_id}">
 			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+			            </c:if>
+			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 			                
 			                <br><br><br>
 			                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
@@ -179,13 +190,19 @@ $(document)
 
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-	var n=(this.id).substr(11); 
-	console.log($('#reply_again_textarea'+n).css("display"));
-	if($('#reply_again_textarea'+n).css("display")=="none"){
-			$('#reply_again_textarea'+n).show();
-	}else{
-		$('#reply_again_textarea'+n).hide();
-	}
+	 var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
+	   }else{
+		   var n=(this.id).substr(11); 
+		   console.log($('#reply_again_textarea'+n).css("display"));
+		   if($('#reply_again_textarea'+n).css("display")=="none"){
+		         $('#reply_again_textarea'+n).show();
+		   }else{
+		      $('#reply_again_textarea'+n).hide();
+		   } 
+	   }
 })
 
 //show re_reply update textarea

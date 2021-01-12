@@ -219,7 +219,7 @@ $(document)
 .on('keyup','#passcode1',function(){
 	if ($("#passcode1").val().length < 6) { 
 		$("#pw_check").css("color","rgb(223, 64, 43)")
-		$("#pw_check").html("비밀번호는 6-30자 사이로 입력해 합니다.");
+		$("#pw_check").html("비밀번호는 6-30자 사이로 입력해야 합니다.");
 
 	}else if($("#passcode1").val().length > 30){
 		$("#pw_check").css("color","rgb(223, 64, 43)")
@@ -263,7 +263,7 @@ $(document)
 	var totalChecked = 0;
 	
 	console.log($("input:checkbox[name='ptag']").is(':checked'))
-	console.log($("#cv").val().length)
+	console.log($("#nick").val().length)
 	if($("#id_check").html()!="사용가능한 아이디 입니다."){
 		alert("아이디를 확인해 주세요")
 		$("#id").focus();
@@ -276,7 +276,11 @@ $(document)
 		$("#nick").focus();
 		return false;
 	}else if($("#nick").val().length<2){
-		alert("닉네임은 2글자 이상이어야 합니다.")
+		alert("닉네임은 2-20자 사이로 입력해 주세요.")
+		$("#nick").focus();
+		return false;
+	}else if($("#nick").val().length>20){
+		alert("닉네임은 20자를 넘을 수 없습니다.")
 		$("#nick").focus();
 		return false;
 	}else if($("#pw_check").html()!="비밀번호가 일치합니다."){

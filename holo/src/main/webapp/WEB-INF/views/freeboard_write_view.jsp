@@ -13,8 +13,15 @@
 <body>
  <header>
         <nav>
-           <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -34,7 +41,6 @@
 	            <input type="text" id="search_txt">
 	            <input type="button" id="search_btn" value="검색">
 	        </div>
-	        <div id=write><a href="freeboard_write">글쓰기</a></div>
             <table id="first">
                
                <c:forEach var="dto" items="${freeboard}">
@@ -77,8 +83,10 @@
                 </c:forEach>
             </table>
               <div id="btn">
-                <input type="button" id="remove" name="remove" value="삭제">
-                <input type="submit" id="edit" value="수정">
+	            <c:if test="${login.user_id}==${dto.user_user_id}">
+		                <input type="button" id="remove" value="삭제">
+		                <input type="submit" id="edit" value="수정">
+		        </c:if>
                 <a href="freeboard"><input type="button" id="list" value="목록보기"></a>
             </div>
             </form>
@@ -106,8 +114,10 @@
 		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
 		            
 		            <div id="btn_reply">
-		                <input type="button" id="remove_reply${dto_free_reply.reply_id}" value="삭제" data_r=${dto_free_reply.reply_id}>
-		                <input type="button" id="edit_reply${dto_free_reply.reply_id}" value="수정">
+			            <c:if test="${login.user_id}==${dto_reply.user_user_id}">
+			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
+			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+			            </c:if>
 		                <input type="button" id="reply_again${dto_free_reply.reply_id}" value="답글달기" >
 		            </div>
 
@@ -148,6 +158,15 @@
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
 //Delete post and comments
 .on('click','#remove',function changeView(){
 	var post_id=$('#post_id').val();
@@ -157,16 +176,6 @@ $(document)
 		window.location.href="<c:url value='freeboard_write_delete'/>?post_id="+post_id;
 	}
 })
-.on('click','#submit',function changeView(){
-	var re_comment=$('#comment-input').val();
-	var post_id=$('#post_id').val();
-	console.log(post_id);
-	console.log(re_comment);
-	var answer=confirm("댓글을 등록하시겠습니까?");
-	if(answer==true){		
-		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment;
-	}
-})
 
 //Delete ONLY comments
 .on('click','input[id^=remove_reply]',function changeView(){
@@ -174,43 +183,71 @@ $(document)
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
-		window.location.href="<c:url value='delete_free_comment'/>?post_id="
+		window.location.href="<c:url value='delete_comment'/>?post_id="
 				+post_id+"&reply_id="+$(this).attr("data_r");
 	}
 })
 
-//update comments
-//.on('click','#edit_reply',function changeView(){
-//	var re_comment=$('#re_comment').val();
-//	console.log(re_comment);
-//	$.get("update_comment", //URL
-//			 {post_post_id:$('input[name=post_id]').val(),
-//			 re_comment:$('#re_comment').val(),
-//			 reply_id:$(this).attr("data_r")}, //data
-//			 function(txt){ 
-//		 }, //function
-//		'text'); //dataType
-//})
 
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-	var n=(this.id).substr(11); 
-	console.log($('#reply_again_textarea'+n).css("display"));
-	if($('#reply_again_textarea'+n).css("display")=="none"){
-			$('#reply_again_textarea'+n).show();
+	 var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
+	   }else{
+		   var n=(this.id).substr(11); 
+		   console.log($('#reply_again_textarea'+n).css("display"));
+		   if($('#reply_again_textarea'+n).css("display")=="none"){
+		         $('#reply_again_textarea'+n).show();
+		   }else{
+		      $('#reply_again_textarea'+n).hide();
+		   } 
+	   }
+})
+
+//show re_reply update textarea
+.on('click','input[id^=reply_update]',function(){ //input[id가 reply_update으로 시작하는 버튼]
+	var n=(this.id).substr(12); 
+	console.log($('#reply_update_textarea'+n).css("display"));
+	if($('#reply_update_textarea'+n).css("display")=="none"){
+			$('#reply_update_textarea'+n).show();
+			$('#comments'+n).hide();
+			$('#reply_update'+n).hide();
 	}else{
-		$('#reply_again_textarea'+n).hide();
+		$('#reply_update_textarea'+n).hide();
+		$('#comments'+n).show()
 	}
 })
-.on('click','input[id^=edit_reply]',function(){ //input[id가 edit_reply으로 시작하는 버튼]
-	var n=(this.id).substr(10); 
-	console.log($('#edit_reply_textarea'+n).css("display"));
-	if($('#edit_reply_textarea'+n).css("display")=="none"){
-			$('#edit_reply_textarea'+n).show();
-	}else{
-		$('#edit_reply_textarea'+n).hide();
-	}
+
+//cancel
+.on('click','input[id^=edit_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+   var n=(this.id).substr(11); 
+   console.log(n)
+   console.log($('#comments'+n).css("display"));
+   if($('#comments'+n).css("display")=="none"){
+       $('#comments'+n).show()
+	   $('#reply_update_textarea'+n).hide();
+         
+   }else{
+	  $('#comments'+n).hide()
+      $('#reply_update_textarea'+n).show();
+   }
 })
+
+//cancel
+.on('click','input[id^=rere_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+   var n=(this.id).substr(11); 
+   console.log(n)
+   console.log($('#comments'+n).css("display"));
+   if($('#reply_again_textarea'+n).css("display")=="none"){
+	   $('#reply_again_textarea'+n).show();
+         
+   }else{
+      $('#reply_again_textarea'+n).hide();
+   }
+})
+
 
 
 </script>

@@ -57,7 +57,14 @@ public class BoardController {
 		    }
 					
 			@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
-		    public String helpme_write() {
+		    public String helpme_write(HttpServletRequest req) {
+			
+				 Dto_login dto = new Dto_login();
+				 
+				 HttpSession session = req.getSession();
+				 dto=(Dto_login)session.getAttribute("login");
+				 
+				 System.out.println("BoardController DTO : "+dto);
 				 
 		   	 return "helpme_write";
 		    }
@@ -147,6 +154,11 @@ public class BoardController {
 			   System.out.println("헬프미 롸잇 에딧 포스트 아이디 :"+help_post_id);
 			   Dto_help_post read = service.read(help_post_id);
 			   model.addAttribute("read", read);
+			   
+				  Dto_login dto = new Dto_login();
+					 
+				  HttpSession session = req.getSession();
+				  dto=(Dto_login)session.getAttribute("login");
 			   
 			   return "helpme_write_edit";
 		   }
@@ -244,11 +256,43 @@ public class BoardController {
 			   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
 		   }
 		
-		
+			@RequestMapping(value="/helpme_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
+			public String helpme_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
+				System.out.println("start re_recomment");
+				int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
+				int re_order=Integer.parseInt(req.getParameter("parent_id"));
+				System.out.println("parent_id: "+re_order);
+				int re_class=Integer.parseInt(req.getParameter("re_class"));
+				if(re_class==0) {
+					re_class=re_class+1;
+				}
+				int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+				int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+				int groupNum=0;
+				if(parent_re_order==0) {
+					groupNum=re_order;
+				}else {
+					groupNum=parent_groupNum;
+				}
+				System.out.println("groupNum: "+groupNum);
+				String comment=req.getParameter("re_re_comment");		
+				String user_id="a";
+				int re_index=Integer.parseInt(req.getParameter("re_index"));
+				System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
+				service.helpme_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
+				System.out.println("end re_recomment");
+				return "redirect:helpme_write_view?help_post_id="+help_post_id;
+			}
+					
 		
 	// helpyou
     @RequestMapping(value = "/help_you")
-    public String help_you(Model model) {
+    public String help_you(HttpServletRequest req, Model model) {
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+    	
        return "help_you";
     }
 	@RequestMapping(value = "/helpyou_done", method = {RequestMethod.POST,RequestMethod.GET})
@@ -304,6 +348,11 @@ public class BoardController {
 	public String helpyou_write_edit(HttpServletRequest req, Model model) {
 		String post_id=req.getParameter("help_post_id");
 		model.addAttribute("post_id",post_id);
+		
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
 		return "helpyou_write_edit";
 	}
 	@RequestMapping(value="helpyou_edit_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
@@ -409,7 +458,12 @@ public class BoardController {
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
 	@RequestMapping(value="/helpyou_write")
-	public String helpyou_write() {
+	public String helpyou_write(HttpServletRequest req) {
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		
 		return "helpyou_write";
 	}
 	
@@ -421,24 +475,34 @@ public class BoardController {
 	
 	
 	//notice
-	@RequestMapping(value = "notice", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/notice", method = {RequestMethod.POST,RequestMethod.GET})
     public String notice(HttpServletRequest req, Model model) throws Exception{
         
 		List<Dto_post> notice = service.select_post(); 
         model.addAttribute("notice", notice);
+        
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
 
         return "notice";
     }
 	
 	//notice_write
-    @RequestMapping(value = "notice_write", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/notice_write", method = {RequestMethod.POST, RequestMethod.GET})
     public String notice_write(HttpServletRequest req, Model model) {
        
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		 
        return "notice_write";
     }
     
     //notice_write_add
-    @RequestMapping(value = "notice_write_add", method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/notice_write_add", method = {RequestMethod.POST,RequestMethod.GET})
     public String notice_write_add(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
         System.out.println("Start : notice_write_add");
 
@@ -493,6 +557,11 @@ public class BoardController {
     	
         model.addAttribute("notice", notice);
         model.addAttribute("reply", reply);
+        
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
     	
        return "notice_write_view";
     }
@@ -566,6 +635,11 @@ public class BoardController {
     	
     	System.out.println("The end of update_post");
     	
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+    	
     	return "notice_write_edit";
     }
     
@@ -638,12 +712,23 @@ public class BoardController {
 		
 		List<Dto_freeboard> freeboard = service.select_freeboard();
 		model.addAttribute("freeboard",freeboard);
+		
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
 		return "freeboard";
 	} // 자유게시판 리스트 보여주기
 	
     @RequestMapping(value="freeboard_write", method = {RequestMethod.POST,RequestMethod.GET})
 	public String freeboard_write(HttpServletRequest req, Model model) throws Exception{
-		return "freeboard_write";
+		
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+    	
+    	return "freeboard_write";
 	} // 자유게시판 글쓰기 페이지
     
 	@RequestMapping(value="/freeboard_write_view", method = {RequestMethod.POST,RequestMethod.GET})
@@ -658,6 +743,11 @@ public class BoardController {
 		List<Dto_free_reply> free_reply = service.select_free_reply(post_id);
 		model.addAttribute("freeboard",freeboard);
         model.addAttribute("free_reply", free_reply);
+        
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
     	
 		return "freeboard_write_view";
 	} //게시글 + 댓글 보기
@@ -701,6 +791,11 @@ public class BoardController {
 	    	System.out.println("test : " +content);
 	    	
 	    	service.freeboard_update(post_id,board,title,content);
+	    	
+			 Dto_login dto = new Dto_login();
+			 
+			 HttpSession session = req.getSession();
+			 dto=(Dto_login)session.getAttribute("login");
 
 	    	return "redirect:freeboard";
 	    } //게시물 수정

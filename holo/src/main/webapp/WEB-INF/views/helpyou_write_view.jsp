@@ -13,8 +13,14 @@
 <body>
  <header>
         <nav>
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -25,108 +31,103 @@
             <a href="freeboard">자유게시판</a>
             <a href="mypage">마이페이지</a>
         </div>
+        <div class="clear"></div>
     </header>
     <div class="clear"></div>
     <section>
-        <div id="center">
-            <div id="wrap">
-                <div id="section_h">
-                    <h2>도움 주기</h2>
-                    <div id="search">
-                        <select id="area">
-                            <option value="서울">서울</option>
-                            <option value="경기">경기</option>
-                            <option value="인천">인천</option>
-                            <option value="대전">대전</option>
-                            <option value="대구">대구</option>
-                            <option value="부산">부산</option>
-                            <option value="강원">강원</option>
-                            <option value="경남">경남</option>
-                            <option value="경북">경북</option>
-                            <option value="울산">울산</option>
-                            <option value="광주">광주</option>
-                            <option value="전남">전남</option>
-                            <option value="전북">전북</option>
-                            <option value="세종">세종</option>
-                            <option value="충남">충남</option>
-                            <option value="충북">충북</option>
-                            <option value="제주">제주</option>
-                        </select>
-                        <input type="text" id="search_txt">
-                        <input type="button" id="search_btn" value="검색">
-                    </div>
-                    <a href="helpyou_write" class="write">글쓰기</a>
-                </div>
-    <section>
-   
-    	<input type=hidden id=pId value="${read.help_post_id}">
-    	<input type=hidden id=userId value="${read.user_user_id}">
-        <div id="wrap">
-            <table id="first">
-                <tr>
-                    <td>제목</td>
-                    
-                    <td>${read.title}</td>
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td>${read.nick}</td>
-                </tr>
-                <tr>
-                    <td>작성날짜</td>
-                    <td>${read.operator}</td>
-                </tr>
-                <tr>
-                    <td>태그</td>
-                    <td>${read.tag_job}<td> 
-                </tr>
-            </table>
-            <table id="second">
-            	<tr>
-            		<td>최소 금액</td>
-            		<td>${read.min_price}</td>
-            	</tr>
-            	<tr>
-            		<td>지원 가능 성별</td>
-            		<td>${read.gender}</td>
-            	</tr>
-            	<tr>
-            		<td>작성자 추천수</td>
-            		<td>1</td>
-            	</tr>
-            	<tr>
-            		<td>결제 방법</td>
-            		<td>${read.payment}</td>
-            	</tr>
-            </table>
-            <input type="button" id="sub_btn"  value="지원하기">
-            <table id="third">
-            	<tr>                
-                    <td><textarea id="content" cols="130" rows="40" readonly>${read.content}</textarea></td>
-                </tr>
-            </table>
-            <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">0</span></div> 
-                <form method="post" action="helpyou_reply_done">
-	                <div id=cc>
-	                <input type=hidden name="post_id" value="${read.help_post_id}">
-	                <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-	                <input type=submit value="등록">
-	                </div>
-            	</form>
-            </div> 
-            <div id=comments>
+        <div id="section_h">
+            <h2>도움 주기</h2>
+            <div id="search">
+                <select id="area">
+                    <option value="서울">서울</option>
+                    <option value="경기">경기</option>
+                    <option value="인천">인천</option>
+                    <option value="대전">대전</option>
+                    <option value="대구">대구</option>
+                    <option value="부산">부산</option>
+                    <option value="강원">강원</option>
+                    <option value="경남">경남</option>
+                    <option value="경북">경북</option>
+                    <option value="울산">울산</option>
+                    <option value="광주">광주</option>
+                    <option value="전남">전남</option>
+                    <option value="전북">전북</option>
+                    <option value="세종">세종</option>
+                    <option value="충남">충남</option>
+                    <option value="충북">충북</option>
+                    <option value="제주">제주</option>
+                </select>
+                <input type="text" id="search_txt">
+                <input type="button" id="search_btn" value="검색">
             </div>
-
-            <div id="btn">
-                <input type="button" id="remove" value="삭제">
-                <a href="helpyou_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
-                <a href="help_you"><input type="button" id="list" value="목록보기"></a>
-            </div>
-        </div>
-        </section>
-        </div>
-        </div>
+            <a href="helpyou_write" class="write">글쓰기</a>
+       </div>
+       <div id="wrap">
+			<div id="center">   
+		    	<input type=hidden id=pId value="${read.help_post_id}">
+		    	<input type=hidden id=userId value="${read.user_user_id}">
+		        
+		            <div id="first">
+		                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
+		                    <div id="nick">${read.nick}</div>
+		                    <div id="date">${read.operator}</div>
+		            </div>
+		            <input type="button" id="sub_btn"  value="요청하기">
+		            <div id="second">
+		            	<table>
+		            		<tr>
+		            			<td>최소 금액</td>
+		            			<td>${read.min_price}</td>
+			            	</tr>
+			            	<tr>
+			            		<td>요청 가능 성별</td>
+			            		<td>${read.gender}</td>
+			            	</tr>
+			            	<tr>
+			            		<td>작성자 추천수</td>
+			            		<td>1</td>
+			            	</tr>
+			            	<tr>
+			            		<td>결제 방법</td>
+			            		<td>${read.payment}</td>
+			            	</tr>
+		            	</table>
+					</div>
+					
+		            <table id="third">
+		            	<tr>                
+		                    <td>
+		                    <div id="content">
+		                    	<c:if test="${read.img!=null}">
+		                    		<img src="${read.img}"/><br><br>
+		                    	</c:if>
+		                    	${read.content}</div>
+		                    </td>
+		                </tr>
+		            </table>
+		            <div id="form-commentInfo"> 
+		                <div id="comment-count">댓글 <span id="count">0</span></div> 
+		                <form method="post" action="helpyou_reply_done">
+			                <div id=cc>
+			                <input type=hidden name="post_id" value="${read.help_post_id}">
+			                <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+			                <input type=submit value="등록">
+			                </div>
+		            	</form>
+		            </div> 
+		            <div id=comments>
+		            </div>
+		
+		            <div id="btn">
+		            <c:if test="${login.user_id==read.user_user_id || login.user_id=='admin'}">
+		                <input type="button" id="remove" value="삭제">
+		                <a href="helpyou_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+		            </c:if>
+		                <a href="help_you"><input type="button" id="list" value="목록보기"></a>
+		            </div>
+		        </div>
+        	</div>
+       
     </section>
     <footer>
         <p>copyright 홀로서기
@@ -186,6 +187,8 @@ $(document)
 				})
 		},'json')
 })
+
+
 .on('click','#remove',function(){
 	var post_id=$('#pId').val();
 	console.log(post_id);
@@ -206,6 +209,18 @@ $(document)
 		$('#comments'+n).show();
 	}
 })
+
+.on('click','#sub_btn',function(){
+	var login_user_id=$('#login_user_id').val();
+	console.log(login_user_id);
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
+	   }else{
+		   window.open("request_popup","requestPop",'width=470, height=580, left=400, top=200, resizable=no');
+	   }
+})
+
 .on('click','input[id^=reply_edit_cancle]',function(){
 	var n=(this.id).substr(17); 
 	console.log($('#comments'+n).css("display"));

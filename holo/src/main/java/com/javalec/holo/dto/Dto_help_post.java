@@ -95,7 +95,18 @@ public class Dto_help_post {
 		this.help_post_id = help_post_id;
 		this.img=img;
 	}
-
+	
+	public void Dto_helpyou_list(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
+		this.tag_area = tag_area;
+		this.title = title;
+		this.tag_job = tag_job;
+		this.content = content;
+		this.img = img;
+		this.gender = gender;
+		this.min_price = min_price;
+		this.payment = payment;
+		this.user_user_id = user_user_id;
+	}
 
 	public int getHelp_post_id() {
 		return help_post_id;

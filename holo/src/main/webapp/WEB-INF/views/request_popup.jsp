@@ -35,13 +35,13 @@ h3{
 #txt{
 	border:1px solid #ddd;	
 	border-radius:5px;
-	background-color:rgb(225, 238, 250);
+	background-color:rgb(245, 232, 255);
 	width:300px;
 	text-align:left; font-size:15px;
 	outline:none;
 }
 #who{
-	color: #6085b6;
+	color: #9660b6;
 	font-weight:700;
 
 }
@@ -55,7 +55,7 @@ h3{
 
 }
 #submit{
-	background-color: rgb(107, 156, 230);
+	background-color: rgb(175, 107, 230);
 	color:white;
 	margin-left:50px;
 	border:1px solid #fff;
@@ -71,9 +71,9 @@ div{
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <body>
-<h3>'<span id="who">청소박사</span>' 님의 글에 지원합니다.</h3>
+<h3>'<span id="who">청소박사</span>' 님의 도움을 요청합니다.</h3>
 
-<form method="post" action="apply_go">
+<form method="post" action="request_go">
 	<div>
 		<table>
 			
@@ -83,21 +83,21 @@ div{
 			</tr>
 			<tr>
 				<td class="bold">이름 </td>
-				<td>지원자 이름</td>
+				<td>요청자 이름</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
 				<td class="bold">성별</td>
-				<td>지원자 성별</td>
+				<td>요청자 성별</td>
 			</tr>
 			<tr>
-				<td class="bold">신청일</td>
+				<td class="bold">요청일</td>
 				<td>2021-01-11 14:37</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
 				<td class="bold">성격태그</td>
-				<td>지원자 성격</td>
+				<td>요청자 성격</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
