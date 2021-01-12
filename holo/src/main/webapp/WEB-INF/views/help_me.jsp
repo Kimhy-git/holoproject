@@ -13,11 +13,12 @@
 <body>
     <header>
         <nav>
-        <c:if test="${login==null}">
+        <input type=hidden value="${login.user_id}" id="user_id_login">
+        <c:if test="${login.nick==null}">
             <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
         </c:if>
-        <c:if test="${login!=null}">
+        <c:if test="${login.nick!=null}">
             <a href="logout" id=login>로그아웃</a>
         </c:if>
         </nav>
@@ -60,7 +61,8 @@
                         <input type="text" id="search_txt">
                         <input type="button" id="search_btn" value="검색">
                     </div>
-                    <a href="helpme_write" class="write">글쓰기</a>
+                    
+                    <div class="write" id="writing">글쓰기</div>
                 </div>
                 <div id="category">
                     <a href="#">전체</a>
@@ -105,6 +107,17 @@ $(document)
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul li:eq("+count+")").css("margin-left","0");
 		console.log(count)
+	}
+})
+
+.on('click','#writing',function(){
+	user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인하세요");
+		window.location.href="<c:url value='login'/>"
+	}else{
+		window.location.href="<c:url value='helpme_write'/>"
 	}
 })
 </script>

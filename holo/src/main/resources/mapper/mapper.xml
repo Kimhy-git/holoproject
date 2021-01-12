@@ -221,8 +221,8 @@
     </select>
     
     <!-- log in -->
-    <select id="login" resultType="String">
-    	select nick from user 
+    <select id="login" resultType="dto_login">
+    	select nick, user_id from user 
     	where user_id=#{user_id} and user_pw=#{user_pw}
     </select>
     

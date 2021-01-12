@@ -35,21 +35,21 @@ public class LoginController {
     public String do_login(HttpServletRequest request,
     		HttpSession session, RedirectAttributes attr) throws Exception {
 
-        String nick = service.login(request);
+    	Dto_login dto=new Dto_login();
+    	
+        dto = service.login(request);
         
-        System.out.println("THIS IS dto : "+nick);
-        
-        if(nick==null) {
+        if(dto.getNick()==null || dto.getUser_id()==null) {
         	session.setAttribute("login",null);
         	attr.addFlashAttribute("msg","없는 아이디거나 잘못된 비밀번호 입니다");
         	return "redirect:login";
         } else {
-        	session.setAttribute("login", nick);
+        	session.setAttribute("login", dto);
         	return "redirect:main";
         }
     }
 	
-    @RequestMapping(value="logout", method=RequestMethod.POST)
+    @RequestMapping(value="logout", method={RequestMethod.POST,RequestMethod.GET})
     public ModelAndView logout(HttpSession session) throws Exception{
     	service.logout(session);
     	

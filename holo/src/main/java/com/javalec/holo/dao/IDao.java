@@ -131,7 +131,7 @@ public interface IDao {
 		
 
 	//login
-	public String login(String user_id, String user_pw);
+	public Dto_login login(String user_id, String user_pw);
 
 	//log out
 	public void logout(HttpSession session);

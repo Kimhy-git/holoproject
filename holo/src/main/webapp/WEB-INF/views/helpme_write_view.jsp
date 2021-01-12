@@ -13,8 +13,14 @@
 <body>
  <header>
         <nav>
+        <c:if test="${login.nick==null}">
             <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
+        </c:if>
+        <c:if test="${login.nick!=null}">
+            <a href="logout" id=login>로그아웃</a>
+        </c:if>
+        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -54,6 +60,7 @@
             <table id="first">
                 <tr>
                     <td>제목</td>
+                    <input type="hidden" value="${read.user_user_id}" id="user_user_id">
                     
                     <td>${read.title}</td>
                 </tr>
@@ -143,8 +150,10 @@
 				</c:forEach>
 			
 	            <div id="btn">
+	            <c:if test="${login.user_id==read.user_user_id}">
 	                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
 	                <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+	            </c:if>    
 	                <a href="help_me"><input type="button" id="list" value="목록보기"></a>
 	            </div>
                      
@@ -159,12 +168,7 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
-.on('click','#remove',function(){
-	if(confirm('삭제하시겠습니까?')){	
-	}else{
-		return false;
-	}
-})
+
 
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]

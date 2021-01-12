@@ -86,7 +86,7 @@ public interface MemberService {
 //	public void num_of_comments(String post_id);
 	
 	//login
-	public String login(HttpServletRequest request);
+	public Dto_login login(HttpServletRequest request);
 	
 	//log out
 	public void logout(HttpSession session);

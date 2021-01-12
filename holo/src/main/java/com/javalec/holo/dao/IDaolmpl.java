@@ -342,11 +342,10 @@ public class IDaolmpl implements IDao {
 
 			//log in
 			@Override
-			public String login(String user_id, String user_pw) {
+			public Dto_login login(String user_id, String user_pw) {
 				Dto_login dto = new Dto_login(user_id, user_pw);
 				System.out.println("IDaoImpl dto : "+dto);
-				String login= sqlSession.selectOne(Namespace+".login",dto);
-				return login;
+				return sqlSession.selectOne(Namespace+".login",dto);
 			}
 			
 			//log out

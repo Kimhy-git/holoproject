@@ -315,15 +315,17 @@ public class MemberServiceImpl implements MemberService {
 
 	//login
 	@Override
-	public String login(HttpServletRequest request) {
+	public Dto_login login(HttpServletRequest request) {
 		String user_id=request.getParameter("user_id");
 		String user_pw=request.getParameter("user_pw");
 		
-		String login = dao.login(user_id,user_pw);
+		Dto_login dto = new Dto_login();
+		
+		dto = dao.login(user_id,user_pw);
 		
 		System.out.println("ServiceImpl id, pw : "+user_id+" ,"+user_pw);
 
-		return login;
+		return dto;
 	}
 	
 	//log out

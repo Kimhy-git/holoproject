@@ -15,15 +15,15 @@
 <body>
  <header>
         <nav>
-        <c:if test="${login==null}">
+        <c:if test="${login.nick==null}">
             <a href="login" id=login>로그인</a>
             <a href="join" id="join">회원가입</a>
         </c:if>
-        <c:if test="${login!=null}">
+        <c:if test="${login.nick!=null}">
             <a href="logout" id=login>로그아웃</a>
         </c:if>
-        <c:if test="${login!=null}">
-        	<h1>${login}님 환영합니다</h1>
+        <c:if test="${login.nick!=null}">
+        	<h1>${login.nick}님 환영합니다</h1>
         </c:if>
         </nav>
         <div id="logo">

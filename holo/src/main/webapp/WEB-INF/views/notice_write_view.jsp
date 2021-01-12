@@ -99,7 +99,7 @@
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
             <c:forEach var="dto_reply" items="${reply}">
-            <form action="update_comment" method=post>
+            <form action="update_comment" method=post class="comments" value="${dto_reply.re_class}">
 	            <div id="comments${dto_reply.reply_id}">
 			            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
 			            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
@@ -117,6 +117,7 @@
 			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
 			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
 			                
+			                <br><br><br>
 			                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
 			                <input id="comment-input" name="re_re_comment">
 			                <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';">
@@ -132,8 +133,7 @@
 			</form>
 			</c:forEach>  
 			     
-		        
-		        </div>
+		</div>
 	               
             </div>
     </section>
@@ -146,6 +146,15 @@
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
 //Delete post and comments
 .on('click','#remove',function changeView(){
 	var post_id=$('#post_id').val();

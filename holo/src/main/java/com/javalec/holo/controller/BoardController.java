@@ -46,16 +46,13 @@ public class BoardController {
 				 List<Dto_help_post> list = service.list();      
 				 model.addAttribute("list", list);
 				 
+				 Dto_login dto = new Dto_login();
+				 
 				 HttpSession session = req.getSession();
-				 String dto=(String)session.getAttribute("login");
-			        
-			        System.out.println("THIS IS dto : "+dto);
-			        
-			        if(dto==null) {
-			        	session.setAttribute("login",null);
-			        } else {
-			        	session.setAttribute("login", dto);
-			        }
+				 dto=(Dto_login)session.getAttribute("login");
+				 
+				 System.out.println("BoardController DTO : "+dto);
+
 			        return "help_me";
 		    }
 					
@@ -132,6 +129,11 @@ public class BoardController {
 					  read.setGender("남성");
 				  }
 				  model.addAttribute("read", read);
+				  
+				  Dto_login dto = new Dto_login();
+					 
+				  HttpSession session = req.getSession();
+				  dto=(Dto_login)session.getAttribute("login");
 				  
 				  System.out.println("helpme_write_view종료");
 			      return "helpme_write_view";
