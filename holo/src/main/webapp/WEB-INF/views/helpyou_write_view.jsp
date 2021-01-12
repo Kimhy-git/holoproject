@@ -186,6 +186,10 @@ $(document)
 				})
 		},'json')
 })
+.on('click','#sub_btn',function(){
+	window.open("request_popup","requestPop",'width=470, height=580, left=400, top=200, resizable=no');
+})
+
 .on('click','#remove',function(){
 	var post_id=$('#pId').val();
 	console.log(post_id);

@@ -182,5 +182,21 @@ private MemberService service;
          return "apply_go";
       }
       
+      @RequestMapping(value = "/request_popup", method = RequestMethod.GET)
+      public String request_popup() {
+         
+         return "request_popup";
+      }
+      @RequestMapping(value = "/request_go", method = RequestMethod.POST)
+      public String request_go() {
+         
+         return "request_go";
+      }
+      
+      @RequestMapping(value = "/search", method = RequestMethod.GET)
+	  public String search() {
+	     
+	     return "search";
+	  }
    
 }

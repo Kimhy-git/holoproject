@@ -101,6 +101,7 @@
 <script>
 
 $(document)
+
 .on('click','#submit',function(){
 	console.log($.isNumeric($('#min').val()));
 	//console.log($('#min').isNumeric());
@@ -129,7 +130,6 @@ $(document)
 	else{
 		
 	}
-	
 	
 })
 </script>
