@@ -723,6 +723,7 @@ public class BoardController {
 		  dto=(Dto_login)session.getAttribute("login");
 		return "freeboard";
 	} // 자유게시판 리스트 보여주기
+
 	
     @RequestMapping(value="freeboard_write", method = {RequestMethod.POST,RequestMethod.GET})
 	public String freeboard_write(HttpServletRequest req, Model model) throws Exception{
@@ -888,5 +889,14 @@ public class BoardController {
 
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
+	    @RequestMapping(value="mypage", method = {RequestMethod.POST,RequestMethod.GET})
+		public String mypage(HttpServletRequest req, Model model) throws Exception{
+	    	String user_user_id=req.getParameter("user_user_id");
+			List<Dto_freeboard> mylist = service.mylist(user_user_id);
+			List<Dto_free_reply> myreply = service.myreply(user_user_id);
+			model.addAttribute("mylist",mylist);
+			model.addAttribute("myreply",myreply);
+			return "mypage";
+		} // 내가 쓴 글 보여주기
 
 }

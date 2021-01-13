@@ -10,8 +10,16 @@ public class Dto_freeboard {
 	private String user_user_id;
 	private String nick;
 	private int hit;
-	private String reply_cnt;
+	private int replyCnt;
 	
+	public int getReplyCnt() {
+		return replyCnt;
+	}
+
+	public void setReplyCnt(int replyCnt) {
+		this.replyCnt = replyCnt;
+	}
+
 	public Dto_freeboard() {}
 	
 	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String img,
@@ -56,7 +64,7 @@ public class Dto_freeboard {
 	}
 	
 	public Dto_freeboard(String post_id, String board, String title, String operator, String content, String img,
-			String user_user_id, String nick, int hit, String reply_cnt) {
+			String user_user_id, String nick, int hit, int replyCnt) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
@@ -67,7 +75,7 @@ public class Dto_freeboard {
 		this.user_user_id = user_user_id;
 		this.nick = nick;
 		this.hit = hit;
-		this.reply_cnt = reply_cnt;
+		this.replyCnt = replyCnt;
 	}
 
 	

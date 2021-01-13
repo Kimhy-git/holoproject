@@ -195,6 +195,12 @@ public interface MemberService {
 	
 	public Dto_user getUserByUserId(String user_id);
 	// 유저아이디로 유저 정보 조회
+	public int selectCount (int post_id) throws Exception;
+	// 댓글 갯수 세기
+	public List<Dto_freeboard> mylist(String user_id) throws Exception;
+	// 내가 쓴 글 조회
+	public List<Dto_free_reply> myreply(String user_user_id)throws Exception;
+	// 내가 쓴 댓글 조회
 
 }
 

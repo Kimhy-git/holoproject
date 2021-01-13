@@ -112,9 +112,8 @@
 		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
 		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
-		            
 		            <div id="btn_reply">
-			            <c:if test="${login.user_id}==${dto_reply.user_user_id}">
+			            <c:if test="${login.user_id==dto_free_reply.user_user_id}">
 			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
 			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
 			            </c:if>
@@ -187,7 +186,16 @@ $(document)
 				+post_id+"&reply_id="+$(this).attr("data_r");
 	}
 })
-
+.on('click','#submit',function changeView(){
+	var re_comment=$('#comment-input').val();
+	var post_id=$('#post_id').val();
+	console.log(post_id);
+	console.log(re_comment);
+	var answer=confirm("댓글을 등록하시겠습니까?");
+	if(answer==true){		
+		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment;
+	}
+})
 
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]

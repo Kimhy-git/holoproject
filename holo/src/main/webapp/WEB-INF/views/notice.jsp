@@ -83,11 +83,11 @@ $(document)
 .on('click','#writing',function(){
 	var user_id=$('#user_id_login').val();
 	console.log(user_id);
-	if(user_id==null || user_id=="" || user_id=="admin"){
+	if(user_id==null || user_id=="" || user_id!="admin"){
 		alert("관리자 로그인 해주세요");
 		window.location.href="<c:url value='login'/>"
 	}else{
-		window.location.href="<c:url value='freeboard_write'/>"
+		window.location.href="<c:url value='notice_write'/>"
 	}
 })
 </script>

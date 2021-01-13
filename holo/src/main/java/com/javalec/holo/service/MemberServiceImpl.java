@@ -451,4 +451,16 @@ public class MemberServiceImpl implements MemberService {
 	public Dto_user getUserByUserId(String user_id) {
 		return dao.getUserByUserId(user_id);
 	}
+	@Override
+	public int selectCount (int post_id) throws Exception {
+		return dao.selectCount(post_id);
+	} // 댓글 갯수 세기
+	@Override
+	public List<Dto_freeboard> mylist(String user_id) throws Exception{
+		return dao.mylist(user_id);
+	} // 내가 쓴 글 가져오기
+	@Override
+	public List<Dto_free_reply> myreply(String user_id) throws Exception{
+		return dao.myreply(user_id);
+	} // 내가 쓴 댓글 가져오기
 }

@@ -480,5 +480,18 @@ public class IDaolmpl implements IDao {
 			public Dto_user getUserByUserId(String user_id) {
 				return sqlSession.selectOne(Namespace+".getUserByUserId",user_id);
 			}
+			@Override
+			public int selectCount (int post_id) {
+				Object selectCount = sqlSession.selectList(Namespace+".selectCount",post_id);
+				return (Integer) selectCount;
+			} // 댓글 갯수 세기
+			@Override
+			public List<Dto_freeboard> mylist(String user_user_id) throws Exception{
+				return sqlSession.selectList(Namespace+".mylist",user_user_id);
+			}// 내가 쓴 글 조회
+			@Override
+			public List<Dto_free_reply> myreply(String user_user_id) throws Exception{
+				return sqlSession.selectList(Namespace+".myreply",user_user_id);
+			}// 내가 쓴 댓글 조회
 
 }

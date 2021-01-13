@@ -157,8 +157,11 @@ $(document)
 						            '<p class="reply_user">'+value['user_user_id']+'</p>'+
 						            '<p class="reply_comment">'+value['re_comment']+'</p>'+
 						            '<p class="reply_date">'+value['operator']+'</p>'+
+						            '${login.user_id}'+
+						            '<c:if test="${login.user_id=='+value['user_user_id']+'}">'+
 						            '<a href="helpyou_reply_delete?post_id='+value['help_post_post_id']+'&reply_id='+value['help_reply_id']+'"><input type="button" value="삭제"></a> '+
 						            '<input type="button" id="reply_btn'+value['help_reply_id']+'" value="수정"> '+
+						            '</c:if>'+
 						            '<input type="button" id="reply_again'+value['help_reply_id']+'" value="답글달기">'+
 						            '<form method="post" action="helpyou_re_recomment_submit" id="reply_recomment'+value['help_reply_id']+'" style="display:none;">'+
 						            	'<div>'+
@@ -182,7 +185,7 @@ $(document)
 		                				'</div>'+
             						'</form>'+
 						        '</div>';
-					            
+					console.log(content);
                 	$('#comments').append(content); 
 				})
 		},'json')

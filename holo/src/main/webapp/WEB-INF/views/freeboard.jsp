@@ -51,7 +51,7 @@
 	                    <td>제목</td>
 	                    <td>작성자</td>
 	                    <td>날짜</td>
-	                    <td>조회수</td>
+	                    <td>조회수(댓글수)</td>
 	                </tr>
 	                <c:forEach var="dto" items="${freeboard}">
 	                <tr>
@@ -59,11 +59,11 @@
 	                    <td><a href="freeboard_write_view?post_id=${dto.post_id}">${dto.title}</a></td>
 	                    <td>${dto.nick}</td>
 	                    <td>${dto.operator}</td>
-	                    <td>${dto.hit}</td>
+	                    <td>${dto.hit}(${dto.replyCnt})</td>
 	                    
 	                    
 	                    <td><input type="hidden" value="${dto.post_id}"></td>
-            			<td><input type="hidden" value="${dto.board}"></td><br>
+            			<td><input type="hidden" value="${dto.board}"></td>
 	                
 	                </tr>
 	                </c:forEach>

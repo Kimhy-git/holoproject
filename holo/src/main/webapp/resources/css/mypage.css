@@ -9,10 +9,20 @@ section{
 	margin-top: 10px;
 	margin-bottom: 30px;
 	width : 700px;
+
+}
+.tabMenu{
+	list-style : none;
+	float: left;
 }
 #mine a{
 	margin-left: 10px;
     text-decoration: none;
+}
+
+#tossJsp{
+	float: left;
+	margin-bottom:30px;
 }
 
 table{

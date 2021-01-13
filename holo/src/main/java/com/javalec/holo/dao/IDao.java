@@ -201,6 +201,11 @@ public interface IDao {
 	public int checkQueestionPw2(Dto_user user);
 
 	public Dto_user getUserByUserId(String user_id);
-	
+	public int selectCount(int post_id);
+	// 댓글 갯수 세기
+	public List<Dto_freeboard> mylist(String user_user_id) throws Exception;
+	// 내가 쓴 글 조회
+	public List<Dto_free_reply> myreply(String user_id) throws Exception;
+	// 내가 쓴 댓글 조회
 
 }
