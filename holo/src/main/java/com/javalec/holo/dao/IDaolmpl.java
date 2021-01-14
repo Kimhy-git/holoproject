@@ -20,6 +20,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination_help;
 
 @Repository
 public class IDaolmpl implements IDao {
@@ -171,9 +172,12 @@ public class IDaolmpl implements IDao {
 		
 	//help_you
 	@Override
-	public List<Dto_help_post> helpyou_list() {
+	public List<Dto_help_post> helpyou_list(Pagination_help pagination) {
 		System.out.println("helpyou_list");
-		return sqlSession.selectList(Namespace+".helpyou_list");
+		return sqlSession.selectList(Namespace+".helpyou_list",pagination);
+	}
+	public int count_helpyou() throws Exception{
+		return sqlSession.selectOne(Namespace+".count_helpyou");
 	}
 		
   	//helpyou_write

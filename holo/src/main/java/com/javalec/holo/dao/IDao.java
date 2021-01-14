@@ -18,6 +18,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination_help;
 
 public interface IDao {
 	
@@ -32,6 +33,8 @@ public interface IDao {
 				String email, String mobile, String birth, String address, String tag, String cv);
 	//find_id
 	public String find_id(String email) throws Exception;
+
+
 
 	
 	
@@ -82,7 +85,8 @@ public interface IDao {
 		
 	//help_you
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
-	public List<Dto_help_post> helpyou_list();
+	public List<Dto_help_post> helpyou_list(Pagination_help pagination);
+	public int count_helpyou() throws Exception;
 	public Dto_help_post helpyou_write_view(int help_post_id);
 	public void helpyou_delete(int help_post_id);
 	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);

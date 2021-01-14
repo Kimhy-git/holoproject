@@ -28,6 +28,7 @@ import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination_help;
 import com.javalec.holo.service.MemberService;
 import com.javalec.holo.servlet.FileuploadServlet;
 
@@ -286,15 +287,7 @@ public class BoardController {
 					
 		
 	// helpyou
-    @RequestMapping(value = "/help_you")
-    public String help_you(HttpServletRequest req, Model model) {
-		  Dto_login dto = new Dto_login();
-			 
-		  HttpSession session = req.getSession();
-		  dto=(Dto_login)session.getAttribute("login");
-    	
-       return "help_you";
-    }
+	// 글쓰기 완료
 	@RequestMapping(value = "/helpyou_done", method = {RequestMethod.POST,RequestMethod.GET})
     public String helpyou_done(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
     					Model model){
@@ -322,17 +315,50 @@ public class BoardController {
 		service.helpyou_submit(area,title,job,txtarea,file_up,gender,price,payment,user_id);
         return "redirect:help_you";
     }
+	// 게시글 불러오기1
+	@RequestMapping(value="/help_you", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+	public String helpyou_list(HttpServletRequest req, Model model,
+											@RequestParam(required = false, defaultValue = "1") int page, 
+    										@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
+		
+		//전체 게시글 수
+		int listCnt = service.count_helpyou();
+		System.out.println("listCnt: "+listCnt);
+		//Pagination 객제 생성
+		Pagination_help pagination = new Pagination_help();
+		pagination.pageInfo(page, range, listCnt);
+		System.out.println("controller endpage: "+pagination.getEndPage());
+		List<Dto_help_post> dto_list=service.helpyou_list(pagination);
+		System.out.println(dto_list);
+		
+		System.out.println("the number of pages : "+pagination.getPageCnt());
+		model.addAttribute("list",dto_list);
+		model.addAttribute("pagination", pagination);
+		return "help_you";
+	}
+	// 게시글 불러오기2
 	@RequestMapping(value="/helpyou_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
-	public @ResponseBody String helpyou_list() {
-		List<Dto_help_post> dto=service.helpyou_list();
-		System.out.println(dto);
+	public @ResponseBody String helpyou_list(@RequestParam(required = false, defaultValue = "1") int page, 
+											@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+		//전체 게시글 수
+		int listCnt = service.count_helpyou();
+		System.out.println("json listCnt: "+listCnt);
+		//Pagination 객제 생성
+		Pagination_help pagination = new Pagination_help();
+		pagination.pageInfo(page, range, listCnt);
+		System.out.println("json page: "+page);
+		List<Dto_help_post> dto=service.helpyou_list(pagination);
 		Gson gson = new Gson();
 		String json = gson.toJson(dto);
 		return json;
 	}
 	@RequestMapping(value="/helpyou_write_view")
-	public String helpyou_write_view(HttpServletRequest req, Model model) {
+	public String helpyou_write_view(HttpServletRequest req, Model model) throws Exception {
 		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+		service.hit(help_post_id);
 		Dto_help_post read=service.helpyou_write_view(help_post_id);
 		  if(read.getGender().equals("a")) {
 			  read.setGender("상관없음");
@@ -345,7 +371,9 @@ public class BoardController {
 			String image=read.getImg();
 			read.setImg("http://localhost:8080/holo/img/"+image);
 		}
+		List<Dto_help_reply> reply_list=service.helpyou_reply_list(help_post_id);
 		model.addAttribute("read",read);
+		model.addAttribute("reply",reply_list);
 		return "helpyou_write_view";
 	}
 	@RequestMapping(value="/helpyou_write_edit")
@@ -436,13 +464,13 @@ public class BoardController {
 		System.out.println("end re_recomment");
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
-	@RequestMapping(value="/helpyou_reply_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
-	public @ResponseBody String helpyou_reply_list(@RequestParam("post_id") int post_id) {
-		List<Dto_help_reply> dto=service.helpyou_reply_list(post_id);
-		Gson gson = new Gson();
-		String json = gson.toJson(dto);
-		return json;
-	}
+//	@RequestMapping(value="/helpyou_reply_list", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+//	public @ResponseBody String helpyou_reply_list(@RequestParam("post_id") int post_id) {
+//		List<Dto_help_reply> dto=service.helpyou_reply_list(post_id);
+//		Gson gson = new Gson();
+//		String json = gson.toJson(dto);
+//		return json;
+//	}
 	@RequestMapping(value="/helpyou_reply_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public String helpyou_reply_delete(HttpServletRequest req) {
 		int help_reply_id=Integer.parseInt(req.getParameter("reply_id"));
@@ -889,14 +917,5 @@ public class BoardController {
 
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
-	    @RequestMapping(value="mypage", method = {RequestMethod.POST,RequestMethod.GET})
-		public String mypage(HttpServletRequest req, Model model) throws Exception{
-	    	String user_user_id=req.getParameter("user_user_id");
-			List<Dto_freeboard> mylist = service.mylist(user_user_id);
-			List<Dto_free_reply> myreply = service.myreply(user_user_id);
-			model.addAttribute("mylist",mylist);
-			model.addAttribute("myreply",myreply);
-			return "mypage";
-		} // 내가 쓴 글 보여주기
 
 }

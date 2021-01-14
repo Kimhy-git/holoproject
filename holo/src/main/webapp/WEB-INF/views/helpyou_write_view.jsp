@@ -91,6 +91,10 @@
 			            		<td>결제 방법</td>
 			            		<td>${read.payment}</td>
 			            	</tr>
+			            	<tr>
+			            		<td>조회수</td>
+			            		<td>${read.hit}</td>
+			            	</tr>
 		            	</table>
 					</div>
 					
@@ -111,11 +115,46 @@
 			                <div id=cc>
 			                <input type=hidden name="post_id" value="${read.help_post_id}">
 			                <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-			                <input type=submit value="등록">
+			                <input type="submit" id="submit" value="등록">
 			                </div>
 		            	</form>
 		            </div> 
 		            <div id=comments>
+		            <c:forEach var="reply" items="${reply}">
+		            	<div id="comments${reply.help_reply_id}" class="comments" value="${reply.re_class}">
+						    <input type="hidden" class="reply_id" value="${reply.help_reply_id}">
+						    <input type="hidden" class="re_index" value="${reply.re_index}">
+				            <p class="reply_user">${reply.user_user_id}</p>
+				            <p class="reply_comment">${reply.re_comment}</p>
+				            <p class="reply_date">${reply.operator}</p>
+				            <c:if test="${login.user_id==reply.user_user_id}">
+				            <a href="helpyou_reply_delete?post_id=${reply.help_post_post_id}&reply_id=${reply.help_reply_id}"><input type="button" value="삭제"></a> 
+				            <input type="button" id="reply_btn${reply.help_reply_id}" value="수정"> 
+				            </c:if>
+				            <input type="button" id="reply_again${reply.help_reply_id}" value="답글달기">
+				            <form method="post" action="helpyou_re_recomment_submit" id="reply_recomment${reply.help_reply_id}" style="display:none;">
+				            	<div>
+				            	<input type="hidden" name="parent_id" value="${reply.help_reply_id}">
+				            	<input type="hidden" name="re_index" value="${reply.re_index}">
+				            	<input type="hidden" name="re_order" value="${reply.re_order}">
+				            	<input type="hidden" name="re_class" value="${reply.re_class}">
+				            	<input type="hidden" name="groupNum" value="${reply.groupNum}">
+				            	<input type="hidden" name="re_post_id" value="${reply.help_post_post_id}">
+			                	<input type=textarea name="re_re_comment">
+			                	<input type=submit value="등록">
+			                	</div>
+			                </form>
+		                </div>
+		                <div id="reply_edit${reply.help_reply_id}" style="display:none;">
+			            <form method="post" action="helpyou_reply_edit">
+               				<input type="hidden" name="post_id" value="${reply.help_post_post_id }">
+               				<input type="hidden" name="reply_id" value="${reply.help_reply_id }">
+               				<input id="comment-input" name="re_comment" value="${reply.re_comment }">
+               				<input type=button id="reply_edit_cancle${reply.help_reply_id }" value="취소">
+               				<input type=submit value="등록">
+         					</form>
+       					</div>
+					</c:forEach>
 		            </div>
 		
 		            <div id="btn">
@@ -136,13 +175,15 @@
 </body>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+/*
 function getContextPath() {
     var hostIndex = location.href.indexOf( location.host ) + location.host.length;
     console.log("location: "+location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) ));
     return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
 }
 var ip='http://localhost:8080';
-$(document)
+*/
+/*
 .ready(function(){
 	console.log($('#pId').val());
 	$.post(ip+getContextPath()+'/helpyou_reply_list',
@@ -158,10 +199,8 @@ $(document)
 						            '<p class="reply_comment">'+value['re_comment']+'</p>'+
 						            '<p class="reply_date">'+value['operator']+'</p>'+
 						            '${login.user_id}'+
-						            '<c:if test="${login.user_id=='+value['user_user_id']+'}">'+
 						            '<a href="helpyou_reply_delete?post_id='+value['help_post_post_id']+'&reply_id='+value['help_reply_id']+'"><input type="button" value="삭제"></a> '+
 						            '<input type="button" id="reply_btn'+value['help_reply_id']+'" value="수정"> '+
-						            '</c:if>'+
 						            '<input type="button" id="reply_again'+value['help_reply_id']+'" value="답글달기">'+
 						            '<form method="post" action="helpyou_re_recomment_submit" id="reply_recomment'+value['help_reply_id']+'" style="display:none;">'+
 						            	'<div>'+
@@ -190,8 +229,17 @@ $(document)
 				})
 		},'json')
 })
-
-
+*/
+$(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
 .on('click','#remove',function(){
 	var post_id=$('#pId').val();
 	console.log(post_id);
@@ -202,7 +250,8 @@ $(document)
 	}
 })
 .on('click','input[id^=reply_btn]',function(){
-	var n=(this.id).substr(9); 
+	var n=(this.id).substr(9);
+	console.log("reply: "+n);
 	console.log($('#reply_edit'+n).css("display"));
 	if($('#reply_edit'+n).css("display")=="none"){
 			$('#reply_edit'+n).show();
@@ -223,7 +272,6 @@ $(document)
 		   window.open("request_popup","requestPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
-
 .on('click','input[id^=reply_edit_cancle]',function(){
 	var n=(this.id).substr(17); 
 	console.log($('#comments'+n).css("display"));
@@ -234,7 +282,8 @@ $(document)
 		$('#comments'+n).hide();
 		$('#reply_edit'+n).show();
 	}
-}).on('click','input[id^=reply_again]',function(){
+})
+.on('click','input[id^=reply_again]',function(){
 	var n=(this.id).substr(11); 
 	console.log($('#reply_recomment'+n).css("display"));
 	if($('#reply_recomment'+n).css("display")=="none"){

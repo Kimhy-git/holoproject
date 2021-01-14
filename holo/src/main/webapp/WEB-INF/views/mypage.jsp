@@ -15,8 +15,15 @@
 <body>
     <header>
         <nav>
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+            <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	        </c:if>
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -41,7 +48,7 @@
             </ul>
             <div id="tossJsp" class="tossJsp">
                 <a href="apply_you">지원자 목록</a> | 
-                <a href="apply_me">지원자 목록</a> |
+                <a href="apply_me">지원 목록</a> |
                 <a href="edit_mp">내 정보 수정</a>
             </div>
             </nav>

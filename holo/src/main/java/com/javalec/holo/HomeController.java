@@ -121,16 +121,8 @@ private MemberService service;
       } //비밀번호 찾기 작동
       
       
-      @RequestMapping(value = "/mypage", method = RequestMethod.GET)
-      public String mypage() {
-         
-         return "mypage";
-      }
-      @RequestMapping(value = "/edit_mp", method = RequestMethod.GET)
-      public String edit_mp() {
-         
-         return "edit_mp";
-      }
+      
+
 //      @RequestMapping(value = "/help_me", method = RequestMethod.GET)
 //      public String help_me() {
 //         
@@ -150,16 +142,6 @@ private MemberService service;
       public String admin() {
          
          return "admin";
-      }
-      @RequestMapping(value = "/apply_you", method = RequestMethod.GET)
-      public String apply_you() {
-         
-         return "apply_you";
-      }
-      @RequestMapping(value = "/apply_me", method = RequestMethod.GET)
-      public String apply_me() {
-         
-         return "apply_me";
       }
       @RequestMapping(value = "/apply", method = RequestMethod.GET)
       public String apply() {

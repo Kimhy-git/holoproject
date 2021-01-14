@@ -101,13 +101,13 @@ h2{
 	padding:5px;
 }
 #comment-input{
-	width:790px;
+	width:670px;
 	height:100px;
 }
 #submit{
 	height:112px;
 	width:112px;
-	float:right;
+	margin-left:5px;
 }
 #cc{
 	width:930px;

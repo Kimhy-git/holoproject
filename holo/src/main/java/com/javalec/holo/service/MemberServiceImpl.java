@@ -22,6 +22,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination_help;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -181,8 +182,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override // help_you
-	public List<Dto_help_post> helpyou_list(){
-		List<Dto_help_post> list=dao.helpyou_list();
+	public List<Dto_help_post> helpyou_list(Pagination_help pagination){
+		List<Dto_help_post> list=dao.helpyou_list(pagination);
+		System.out.println("pagination_EndPage: "+pagination.getEndPage());
+		System.out.println("pagination_PageCnt"+pagination.getPageCnt());
 		for(int i=0;i<list.size();i++) {
 			if(list.get(i).getImg()==null) {
 				list.get(i).setImg("resources/img/test1.jpg");
@@ -192,6 +195,10 @@ public class MemberServiceImpl implements MemberService {
 			}
 		}
 		return list;
+	}
+	@Override
+	public int count_helpyou() throws Exception{
+		return dao.count_helpyou();
 	}
 	@Override // helpyou_write_view
 	public Dto_help_post helpyou_write_view(int help_post_id) {

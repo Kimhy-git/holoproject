@@ -112,8 +112,15 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc;
+		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user 
+		where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
+		limit #{startList}, #{listSize};
 	</select>
+	<!-- counting -->
+    <select id="count_helpyou" resultType="int">
+    	select count(*) from help_post where board=0
+    </select>
+    
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
