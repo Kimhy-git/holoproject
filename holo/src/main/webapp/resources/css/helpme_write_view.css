@@ -1,30 +1,97 @@
 @charset "ISO-8859-1";
+section{
+	overflow-y:300px;
+	padding-bottom: 80px;
+	padding-top: 10px;
+}
+h2{
+	float: left;
+	padding: 5px 0 5px 0;
+	margin: 0;
+}
+.clear{
+	clear:both;
+}
+#move{
+	margin:0;
+	margin-bottom: 10px;
+	
+}
+#section_h{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 50px;
+	width: 1000px;
+	margin: 0 auto;
+}
+#search{
+	padding: 10px 0 10px 0;
+	width: 370px;
+	float: left;
+	margin-left: 220px;
+}
+.write{
+	float: right;
+}
 #content{
-    margin:0 auto;
-    width: 940px;
+    width: 740px;
     border: 1px solid #ccc;
     border-radius: 3px;
     margin-top: 10px;
-    resize: none;
+    padding: 50px 30px;
 }
-table tr{
-	padding:5px;
-	padding-left:30px;
+#center{
+	width: 800px;
+	margin: 0 auto;
 }
-table tr td{
-	padding:5px;
-	padding-right:50px;
+#first{
+	float:left;
+	width: 600px;
+}
+#second{
+	float:left;
+	width: 600px;
+}
+#second table tr td{
+	margin:10px;
+}
+#title span{
+	background: #ccc;
+	border-radius: 10px;
+	color: #000;
+	padding: 5px;
+	margin-left: 10px;
+	font-size: 13px;
+}
+#title{
+    margin: 0 auto;
+    font-size: 26px;
+    text-align: left;
+    font-weight: 500;
+    padding-top: 40px;
+    color: #6085b6;
+}
+#sub_btn{
+	float:right;
+	background-color: rgb(95, 143, 214);
+	width: 150px;
+	height: 120px;
+	border: none;
+	border-radius: 15px;
+	color: #fff;
+	margin-top: 60px;
+	font-size: 20px;
 }
 #wrap{
     background-color: white;
     width:1000px;
+    padding-bottom: 30px;
 }
 #form-commentInfo{
 	margin-top:30px;
 }
-#form-commentInfo, #btn, .comments{
+#form-commentInfo, #btn, #comments{
 	width:300px;
-	padding-left:35px;
 	padding-bottom:5px;
 }
 #comment-count, #comment-input, #submit,
@@ -32,13 +99,13 @@ table tr td{
 	padding:5px;
 }
 #comment-input{
-	width:790px;
+	width:670px;
 	height:100px;
 }
 #submit{
 	height:112px;
 	width:112px;
-	float:right;
+	margin-left:5px;
 }
 #cc{
 	width:930px;
@@ -48,19 +115,8 @@ table tr td{
 }
 #btn{
 	padding-top:3px;
-	padding-left:670px;
+	padding-left:730px;
 }
-#first{
-	margin-left:30px;
-	width:700px;
-}
-#first tr td:first-child{
-	width:60px;
-}
-#second{
-	margin-left:30px;
-}
-
 #write{
 	padding:5px;
 	text-align:right;
@@ -68,4 +124,11 @@ table tr td{
 #write a{
 	font-size:12pt;
 	padding:5px;
+}
+
+#image{
+	max-width:740px;
+	margin:0 auto;
+	display:block;
+	text-align:center;
 }

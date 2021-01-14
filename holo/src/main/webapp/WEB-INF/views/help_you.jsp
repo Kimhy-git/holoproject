@@ -122,7 +122,26 @@ function fn_prev(page, range, rangeSize) {
                     </ul>
                 </div>
                 <div class="clear"></div>
-                
+                <!-- pagination{s} -->
+				<div id="paginationBox">
+					<ul class="pagination">
+						<c:if test="${pagination.prev}">
+							<a class="page-link" href="#" onClick="fn_prev
+							('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">Previous</a>
+						</c:if>
+			
+						<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+							<c:out value="${pagination.page == idx ? '' : ''}"/><a class="page-link" href="#" onClick="fn_pagination
+							('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a>
+						</c:forEach>			
+			
+						<c:if test="${pagination.next}">
+							<a class="page-link" href="#" onClick="fn_next('${pagination.range}', 
+							'${pagination.range}', '${pagination.rangeSize}')" >Next</a>
+						</c:if>
+					</ul>
+				</div>
+				<!-- pagination{e} -->
             </div>  
         </div>
       
@@ -135,100 +154,6 @@ function fn_prev(page, range, rangeSize) {
 </body>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script>
-/*
-        let currentPage = 1;
-        const DATA_PER_PAGE = 9,
-            lastPage = ${pagination.pageCnt}
-
-        const msgLoading = document.getElementById("msg-loading")
-
-
-        // 데이터 추가 함수
-        function addData(currentPage) {
-        	console.log("data add function");
-			console.log("currenPage: "+currentPage);
-			
-			for (let i = (currentPage - 1) * DATA_PER_PAGE + 1; i <= currentPage * DATA_PER_PAGE; i++){
-				$.post("${pageContext.request.contextPath}/helpyou_list",
-	        			{"page":i,"range":${pagination.range}},
-	        			function(data){
-	        				console.log("post");
-	        				console.log(data);
-	        				$.each(data,function(ndx,value){
-	        					console.log(value['img']);
-	        					var content='<li>'+
-	        						'<input type=hidden id=help_post_id value='+value['help_post_id']+'>'+
-	        						'<input type="hidden" id=user_user_id value='+value['user_user_id']+'>'+
-	        	        			'<img class="thumbnail" src="'+value['img']+'" onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'">'+
-	        	    				'<p class=title onclick="location.href=\'/holo/helpyou_write_view?help_post_id='+value['help_post_id']+'\'"><span class="address">['+value['tag_area']+']['+value['tag_job']+']</span>'+value['title']+'</p>'+
-	        	    				'<p>'+value['nick']+'<span class="like"> ♥ '+value['likes']+'</span></p>'+
-	        	    				'<p class="price">최소금액 : '+value['min_price']+'원</p>'+
-	        	    				'<p>'+value['operator']+'</p>'+
-	        						'</li>';
-	        					$('#content ul').append(content);
-	            				var count = 0;
-	                        	console.log($("#content ul li").length);
-	                        	for (count; count<=$("#content ul li").length; count=count+3){
-	                        		$("#content ul li:eq("+count+")").css("margin-left","0");
-	                        		console.log("count: "+count);
-	                        	}
-	         
-	        				})
-	        		},'json')	
-			}
-        	
-        }	
-
-        // IntersectionObserver 갱신 함수
-        function observeLastChild(intersectionObserver) {
-
-            const listChildren = document.querySelectorAll("#content ul li")
-            listChildren.forEach(el => {
-				console.log("observeLastChild currentPage: "+currentPage);
-                if (!el.nextSibling && currentPage < lastPage) {
-                    intersectionObserver.observe(el) // el에 대하여 관측 시작
-                } else if (currentPage >= lastPage) {
-                    intersectionObserver.disconnect()
-                    msgLoading.textContent = "페이지의 끝입니다."
-                }
-
-            })
-        }
-
-        // IntersectionObeserver 부분
-        const observerOption = {
-            root: null,
-            rootMargin: "0px 0px 0px 0px",
-            threshold: 0.2
-        }
-
-        // IntersectionObserver 인스턴스 생성
-        const io = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-				
-                // entry.isIntersecting: 특정 요소가 뷰포트와 50%(threshold 0.5) 교차되었으면
-                if (entry.isIntersecting) {
-                	
-                    msgLoading.classList.add("fade-in")
-                    // 다음 데이터 가져오기: 자연스러운 연출을 위해 setTimeout 사용
-                    setTimeout(() => {
-                        addData(++currentPage)
-                        observer.unobserve(entry.target)
-                        observeLastChild(observer)
-						console.log("IntersectionObserver currentPage: "+currentPage);
-                        msgLoading.classList.remove("fade-in")
-                    }, 1000)
-                }
-            })
-        }, observerOption)
-
-
-        // 초기 데이터 생성
-        addData(currentPage)
-        observeLastChild(io)
-*/      
-</script>
 <script>
 var count = 0;
 console.log($("#content ul li").length);
@@ -247,7 +172,7 @@ $(document)
 		window.location.href="<c:url value='helpyou_write'/>"
 	}
 })
-
+/*
 .scroll(function() {
     var maxHeight = $(document).height();
     var currentScroll = $(window).scrollTop() + $(window).height();
@@ -292,7 +217,7 @@ $(document)
     	}
     	
   });
-
+*/
 </script>
 
 </html>

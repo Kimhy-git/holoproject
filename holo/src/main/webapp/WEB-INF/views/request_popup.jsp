@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <style>
@@ -71,7 +72,7 @@ div{
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <body>
-<h3>'<span id="who">청소박사</span>' 님의 도움을 요청합니다.</h3>
+<h3><span id="who">${nick}</span> 님의 도움을 요청합니다.</h3>
 
 <form method="post" action="request_go">
 	<div>
@@ -79,30 +80,48 @@ div{
 			
 			<tr>
 				<td id="info" colspan=2>지원 정보</td>
-				
+				<input type="hidden" name="applier" value="${login.user_id}">
+				<input type="hidden" name="helpyou_id" value="${helpyou_id}">
+				<input type="hidden" name="help_post_help_post_id" value="${help_post_help_post_id}">
 			</tr>
 			<tr>
 				<td class="bold">이름 </td>
-				<td>요청자 이름</td>
+				<td>${login.nick}</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
 				<td class="bold">성별</td>
-				<td>요청자 성별</td>
+				<td>
+				<input type="hidden" value="${login.gender}" name="gender">
+					<c:if test="${login.gender=='f'}">
+						여성
+					</c:if>
+					<c:if test="${login.gender=='m'}">
+						남성
+					</c:if>
+				</td>
 			</tr>
 			<tr>
 				<td class="bold">요청일</td>
-				<td>2021-01-11 14:37</td>
+				<td>
+				<%@ page import="java.util.*, java.text.*"  %>
+				<%
+				 java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy.MM.dd.HH.mm");
+				 String today = formatter.format(new java.util.Date());
+				 out.println(today);
+				%>
+				</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
 				<td class="bold">성격태그</td>
-				<td>요청자 성격</td>
+				<input type="hidden" value="${login.tag}" name="tag">
+				<td>${login.tag}</td>
 				<td></td><td></td>
 			</tr>
 			<tr>
 				<td class="bold">희망금액</td>
-				<td><span id="hope">희망금액</span> 원</td>
+				<td><span id="hope"><input type="text" name="price"></span> 원</td>
 				
 			</tr>
 			<tr>
@@ -112,14 +131,15 @@ div{
 			</tr>	
 			<tr>
 				<td colspan=12>
-					<textarea placeholder="100자 이내로 입력하세요." id="txt"
-					rows="8" cols="30" style="resize: none">기본값으로 자기가 적은 자기소개가 뜹니다. 수정 가능 합니다.</textarea>
+					<textarea placeholder="100자 이내로 입력하세요." id="txt" name="cv"
+					rows="8" cols="30" style="resize: none">${login.cv}</textarea>
 				</td>
 				
 			</tr>
 			<tr>
 				<td colspan=12><input type=submit id="submit" value="제출">
-				<input type=button id="cancel" value="취소"></td>
+				<input type=button id="cancel" value="취소">
+				<input type="button" id="close" value="닫기"></td>
 			</tr>
 		</table>
 	</div>	
@@ -129,14 +149,16 @@ div{
 <script>
 $(document)
 .on('click','#submit',function(){
-	if(confirm('제출 하시겠습니까?')){	
-		alert("제출 되었습니다.")
-		window.close();
-	}else{
+	if(!confirm('제출 하시겠습니까?')){
 		return false;
+	}else{
+		alert("제출 되었습니다. 창을 닫으시려면 닫기 버튼을 클릭해주세요");
 	}
 })
 .on('click','#cancel',function(){
+	window.close();
+})
+.on('click','#close',function(){
 	window.close();
 })
 </script>

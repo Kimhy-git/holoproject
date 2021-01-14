@@ -36,7 +36,7 @@
     </header>
     <section>
 		<div id="wrap">
-		<h2>마이페이지</h2>
+		<h2>지원자 목록</h2>
          
             <nav id="mine">
             <ul class="tabs">

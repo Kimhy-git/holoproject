@@ -28,6 +28,7 @@ import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 import com.javalec.holo.service.MemberService;
 import com.javalec.holo.servlet.FileuploadServlet;
@@ -39,252 +40,253 @@ public class BoardController {
     private MemberService service;
 	
 	//helpme
-			@RequestMapping(value = "/help_me", method = RequestMethod.GET)
-		    public String help_me(HttpServletRequest req, Model model) throws Exception {
-				 
-				System.out.println("help_me작동");
+	@RequestMapping(value = "/help_me", method = RequestMethod.GET)
+    public String help_me(HttpServletRequest req, Model model) throws Exception {
+		 
+		System.out.println("help_me작동");
 
-				 List<Dto_help_post> list = service.list();      
-				 model.addAttribute("list", list);
-				 
-				 Dto_login dto = new Dto_login();
-				 
-				 HttpSession session = req.getSession();
-				 dto=(Dto_login)session.getAttribute("login");
-				 
-				 System.out.println("BoardController DTO : "+dto);
+		 List<Dto_help_post> list = service.list();      
+		 model.addAttribute("list", list);
+		 
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		 
+		 System.out.println("BoardController DTO : "+dto);
 
-			        return "help_me";
-		    }
-					
-			@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
-		    public String helpme_write(HttpServletRequest req) {
+	        return "help_me";
+    }
 			
-				 Dto_login dto = new Dto_login();
-				 
-				 HttpSession session = req.getSession();
-				 dto=(Dto_login)session.getAttribute("login");
-				 
-				 System.out.println("BoardController DTO : "+dto);
-				 
-		   	 return "helpme_write";
-		    }
-					
-
-			@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
-	        public String helpme_write_go(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
-	        		Model model)throws Exception {
-			    	  
-				 System.out.println("helpme_write_go작동");
-
-				  String title=req.getParameter("title");
-				  String content=req.getParameter("content"); 
-				  String tag_area=req.getParameter("tag_area");
-				  String tag_job=req.getParameter("tag_job");
-				  String gender=req.getParameter("gender");
-				  int min_price=Integer.parseInt(req.getParameter("min_price"));
-
-
-				  String[] paymentList =req.getParameterValues("payment");
-				  
-				  String file_up=null;
-					if(!file.isEmpty()) {
-						file_up=FileuploadServlet.restore(file);
-					}
-				  
-				  String payment=String.join(", ",paymentList);
-				  System.out.println("결제방법은 바로바로"+payment);
-				  	gender=null;
-				  	
-					System.out.println(req.getParameter("female"));
-					System.out.println(req.getParameter("male"));
-					if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
-						gender="a";
-					}else if(req.getParameter("female")!=null) {
-						gender="f";
-					}else if(req.getParameter("male")!=null) {
-						gender="m";
-					}
-					
-
-				  System.out.println(title+","+content+","+tag_area+","+tag_job+","
-															+gender+","+min_price+","+payment);
-				  service.write(title,content,gender,tag_area,tag_job,payment, min_price,file_up);
-
-		   	  return "redirect:help_me";
-		     }
-		     
-				 
-		     
-		   @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
-		   public String helpme_write_view(HttpServletRequest req, Model model) throws Exception {
-				  System.out.println("helpme_write_view작동");
-				  
-				  
-				  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-				  System.out.println("help_post_id:"+help_post_id);
-				  service.hit(help_post_id);
-				  Dto_help_post read = service.read(help_post_id);
-				  List<Dto_help_reply> re_list=service.re_list(help_post_id);
-				  System.out.println("겟 젠더 : "+read.getGender());
-				  
-				  model.addAttribute("re_list",re_list);
-				  if(read.getGender().equals("a")) {
-					  read.setGender("상관없음");
-				  }else if(read.getGender().equals("f")) {
-					  read.setGender("여성");
-				  }else if(read.getGender().equals("m")) {
-					  read.setGender("남성");
-				  }
-				  model.addAttribute("read", read);
-				  
-				  Dto_login dto = new Dto_login();
-					 
-				  HttpSession session = req.getSession();
-				  dto=(Dto_login)session.getAttribute("login");
-				  
-				  System.out.println("helpme_write_view종료");
-			      return "helpme_write_view";
-		   }
-		   
-		   @RequestMapping(value = "/helpme_write_edit", method = RequestMethod.GET)
-		   public String helpme_write_edit(HttpServletRequest req, Model model) throws Exception {
-			   System.out.println("helpme_write_eidt 작동");
-			   
-			   int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-			   System.out.println("헬프미 롸잇 에딧 포스트 아이디 :"+help_post_id);
-			   Dto_help_post read = service.read(help_post_id);
-			   model.addAttribute("read", read);
-			   
-				  Dto_login dto = new Dto_login();
-					 
-				  HttpSession session = req.getSession();
-				  dto=(Dto_login)session.getAttribute("login");
-			   
-			   return "helpme_write_edit";
-		   }
-		   
-		   @RequestMapping(value="/helpme_edit_go", method = {RequestMethod.POST,RequestMethod.GET})
-	       public String helpme_edit_go(HttpServletRequest req,@RequestParam("file_up") MultipartFile file,
-	    		   Model model)throws Exception {
-			    	  
-				 System.out.println("helpme_edit_go작동");
-
-				  String title=req.getParameter("title");
-				  String content=req.getParameter("content"); 
-				  String tag_area=req.getParameter("tag_area");
-				  System.out.println("가져요?");
-				  String tag_job=req.getParameter("tag_job");
-				  String gender=req.getParameter("gender");
-				  int min_price=Integer.parseInt(req.getParameter("min_price"));
-				  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-				  System.out.println("가져요2?");
-				  String[] paymentList =req.getParameterValues("payment");
-				  String payment=String.join(", ",paymentList);
-
-				  String file_up=null;
-					if(!file.isEmpty()) {
-						file_up=FileuploadServlet.restore(file);
-					}
-				  
-				  	gender=null;
-				  	
-					System.out.println(req.getParameter("female"));
-					System.out.println(req.getParameter("male"));
-					if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
-						gender="a";
-					}else if(req.getParameter("female")!=null) {
-						gender="f";
-					}else if(req.getParameter("male")!=null) {
-						gender="m";
-					}
-					
-				  System.out.println(title+","+content+","+tag_area+","+tag_job+","
-															+gender+","+min_price+","+payment);
-				  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id,file_up);
-				  System.out.println("가져요?3");
-		   	  return "redirect:help_me";
-		     }
-
-
-		     @RequestMapping(value="/helpme_del", method=RequestMethod.GET)
-		     public String helpme_del(HttpServletRequest req, Model model)throws Exception {
-		 	  System.out.println("helpme_del작동");
-		 	  
-		 	  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-		 	  System.out.println("del id="+help_post_id);
-		 	  service.delete(help_post_id);
-		   	  
-		 	  return "redirect:help_me";
-		     }
-
-
-			@RequestMapping(value="/help_reply_go", method=RequestMethod.POST)
-		    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
-		   	System.out.println("help_reply go 작동");
-		    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-		   	String re_comment=req.getParameter("re_comment");
-		   	System.out.println("서비스");
-		   	service.re_write(re_comment,help_post_id );   	
-		
-		   	System.out.println("help_reply 아이디 받아오기"+help_post_id);
-		   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
-		   }
+	@RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
+    public String helpme_write(HttpServletRequest req) {
+	
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		 
+		 System.out.println("BoardController DTO : "+dto);
+		 
+   	 return "helpme_write";
+    }
 			
-			@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
-			public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
-				System.out.println("help_reply_del 실행");
-				int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-				System.out.println("help_reply_del 1");
-				service.re_delete(help_reply_id);
-				System.out.println("help_reply_del 2:"+help_reply_id);
-				int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-				System.out.println("help_reply_del 3:"+help_post_id);
-				System.out.println("help_reply_del 종료");
-				return "redirect:helpme_write_view?help_post_id="+help_post_id;
+
+	@RequestMapping(value="/helpme_write_go", method = RequestMethod.POST)
+    public String helpme_write_go(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
+    		Model model)throws Exception {
+	    	  
+		 System.out.println("helpme_write_go작동");
+
+		  String title=req.getParameter("title");
+		  String content=req.getParameter("content"); 
+		  String tag_area=req.getParameter("tag_area");
+		  String tag_job=req.getParameter("tag_job");
+		  String gender=req.getParameter("gender");
+		  int min_price=Integer.parseInt(req.getParameter("min_price"));
+		  String user_id=req.getParameter("user_id");
+
+		  String[] paymentList =req.getParameterValues("payment");
+		  
+		  String file_up=null;
+			if(!file.isEmpty()) {
+				file_up=FileuploadServlet.restore(file);
+			}
+		  
+		  String payment=String.join(", ",paymentList);
+		  System.out.println("결제방법은 바로바로"+payment);
+		  	gender=null;
+		  	
+			System.out.println(req.getParameter("female"));
+			System.out.println(req.getParameter("male"));
+			if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+				gender="a";
+			}else if(req.getParameter("female")!=null) {
+				gender="f";
+			}else if(req.getParameter("male")!=null) {
+				gender="m";
 			}
 			
-			@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
-			    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
-			   	System.out.println("help_reply_edit_go 작동");
-			   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
-			   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
-			   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
-			   	String re_comment_edit=req.getParameter("re_comment_edit");
-			   	System.out.println(re_comment_edit);
-			   	service.re_edit(help_reply_id, re_comment_edit);
-			   	System.out.println("help_reply_edit_go 종료");
-			   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
-		   }
-		
-			@RequestMapping(value="/helpme_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
-			public String helpme_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
-				System.out.println("start re_recomment");
-				int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
-				int re_order=Integer.parseInt(req.getParameter("parent_id"));
-				System.out.println("parent_id: "+re_order);
-				int re_class=Integer.parseInt(req.getParameter("re_class"));
-				if(re_class==0) {
-					re_class=re_class+1;
-				}
-				int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
-				int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
-				int groupNum=0;
-				if(parent_re_order==0) {
-					groupNum=re_order;
-				}else {
-					groupNum=parent_groupNum;
-				}
-				System.out.println("groupNum: "+groupNum);
-				String comment=req.getParameter("re_re_comment");		
-				String user_id="a";
-				int re_index=Integer.parseInt(req.getParameter("re_index"));
-				System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
-				service.helpme_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
-				System.out.println("end re_recomment");
-				return "redirect:helpme_write_view?help_post_id="+help_post_id;
+
+		  System.out.println(title+","+content+","+tag_area+","+tag_job+","
+													+gender+","+min_price+","+payment+","+user_id);
+		  service.write(title,content,gender,tag_area,tag_job,payment, min_price,file_up,user_id);
+
+   	  return "redirect:help_me";
+     }
+     
+		 
+     
+   @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
+   public String helpme_write_view(HttpServletRequest req, Model model) throws Exception {
+		  System.out.println("helpme_write_view작동");
+		  
+		  
+		  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+		  System.out.println("help_post_id:"+help_post_id);
+		  service.hit(help_post_id);
+		  Dto_help_post read = service.read(help_post_id);
+		  List<Dto_help_reply> re_list=service.re_list(help_post_id);
+		  System.out.println("겟 젠더 : "+read.getGender());
+		  
+		  model.addAttribute("re_list",re_list);
+		  if(read.getGender().equals("a")) {
+			  read.setGender("상관없음");
+		  }else if(read.getGender().equals("f")) {
+			  read.setGender("여성");
+		  }else if(read.getGender().equals("m")) {
+			  read.setGender("남성");
+		  }
+		  model.addAttribute("read", read);
+		  
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+		  
+		  System.out.println("helpme_write_view종료");
+	      return "helpme_write_view";
+   }
+   
+   @RequestMapping(value = "/helpme_write_edit", method = RequestMethod.GET)
+   public String helpme_write_edit(HttpServletRequest req, Model model) throws Exception {
+	   System.out.println("helpme_write_eidt 작동");
+	   
+	   int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+	   System.out.println("헬프미 롸잇 에딧 포스트 아이디 :"+help_post_id);
+	   Dto_help_post read = service.read(help_post_id);
+	   model.addAttribute("read", read);
+	   
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+	   
+	   return "helpme_write_edit";
+   }
+   
+   @RequestMapping(value="/helpme_edit_go", method = {RequestMethod.POST,RequestMethod.GET})
+   public String helpme_edit_go(HttpServletRequest req,@RequestParam("file_up") MultipartFile file,
+		   Model model)throws Exception {
+	    	  
+		 System.out.println("helpme_edit_go작동");
+
+		  String title=req.getParameter("title");
+		  String content=req.getParameter("content"); 
+		  String tag_area=req.getParameter("tag_area");
+		  System.out.println("가져요?");
+		  String tag_job=req.getParameter("tag_job");
+		  String gender=req.getParameter("gender");
+		  int min_price=Integer.parseInt(req.getParameter("min_price"));
+		  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+		  System.out.println("가져요2?");
+		  String[] paymentList =req.getParameterValues("payment");
+		  String payment=String.join(", ",paymentList);
+
+		  String file_up=null;
+			if(!file.isEmpty()) {
+				file_up=FileuploadServlet.restore(file);
 			}
-					
+		  
+		  	gender=null;
+		  	
+			System.out.println(req.getParameter("female"));
+			System.out.println(req.getParameter("male"));
+			if(req.getParameter("male")!=null && req.getParameter("female")!=null) {
+				gender="a";
+			}else if(req.getParameter("female")!=null) {
+				gender="f";
+			}else if(req.getParameter("male")!=null) {
+				gender="m";
+			}
+			
+		  System.out.println(title+","+content+","+tag_area+","+tag_job+","
+													+gender+","+min_price+","+payment);
+		  service.edit(title,content,gender,tag_area,tag_job,payment, min_price,help_post_id,file_up);
+		  System.out.println("가져요?3");
+   	  return "redirect:help_me";
+     }
+
+
+     @RequestMapping(value="/helpme_del", method=RequestMethod.GET)
+     public String helpme_del(HttpServletRequest req, Model model)throws Exception {
+ 	  System.out.println("helpme_del작동");
+ 	  
+ 	  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+ 	  System.out.println("del id="+help_post_id);
+ 	  service.delete(help_post_id);
+   	  
+ 	  return "redirect:help_me";
+     }
+
+
+	@RequestMapping(value="/help_reply_go", method=RequestMethod.POST)
+    public String help_reply_go(HttpServletRequest req, Model model) throws Exception{
+   	System.out.println("help_reply go 작동");
+    int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+   	String re_comment=req.getParameter("re_comment");
+   	System.out.println("서비스");
+   	String user_id=req.getParameter("user_id");
+   	
+   	service.re_write(re_comment,help_post_id,user_id);   	
+   	
+   	System.out.println("help_reply 아이디 받아오기"+help_post_id+", 유저아이디: "+user_id);
+   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+   }
+	
+	@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
+	public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
+		System.out.println("help_reply_del 실행");
+		int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+		System.out.println("help_reply_del 1");
+		service.re_delete(help_reply_id);
+		System.out.println("help_reply_del 2:"+help_reply_id);
+		int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+		System.out.println("help_reply_del 3:"+help_post_id);
+		System.out.println("help_reply_del 종료");
+		return "redirect:helpme_write_view?help_post_id="+help_post_id;
+	}
+	
+	@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
+	   	System.out.println("help_reply_edit_go 작동");
+	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+	   	int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+	   	System.out.println("help_reply 아이디 받아오기"+help_reply_id);
+	   	String re_comment_edit=req.getParameter("re_comment_edit");
+	   	System.out.println(re_comment_edit);
+	   	service.re_edit(help_reply_id, re_comment_edit);
+	   	System.out.println("help_reply_edit_go 종료");
+	   	return "redirect:helpme_write_view?help_post_id="+help_post_id;
+   }
+
+	@RequestMapping(value="/helpme_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
+	public String helpme_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
+		System.out.println("start re_recomment");
+		int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
+		int re_order=Integer.parseInt(req.getParameter("parent_id"));
+		System.out.println("parent_id: "+re_order);
+		int re_class=Integer.parseInt(req.getParameter("re_class"));
+		if(re_class==0) {
+			re_class=re_class+1;
+		}
+		int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+		int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+		int groupNum=0;
+		if(parent_re_order==0) {
+			groupNum=re_order;
+		}else {
+			groupNum=parent_groupNum;
+		}
+		System.out.println("groupNum: "+groupNum);
+		String comment=req.getParameter("re_re_comment");		
+		String user_id=req.getParameter("user_id");;
+		int re_index=Integer.parseInt(req.getParameter("re_index"));
+		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
+		service.helpme_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
+		System.out.println("end re_recomment");
+		return "redirect:helpme_write_view?help_post_id="+help_post_id;
+	}			
 		
 	// helpyou
 	// 글쓰기 완료
@@ -508,11 +510,21 @@ public class BoardController {
 	
 	//notice
 	@RequestMapping(value = "/notice", method = {RequestMethod.POST,RequestMethod.GET})
-    public String notice(HttpServletRequest req, Model model) throws Exception{
+    public String notice(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception{
         
-		List<Dto_post> notice = service.select_post(); 
+  		//전체 게시글 수
+  		int listCnt = service.count();
+  		System.out.println("listCnt: "+listCnt);
+  		//Pagination 객제 생성
+  		Pagination pagination = new Pagination();
+  		pagination.pageInfo(page, range, listCnt);
+        model.addAttribute("pagination", pagination);
+		
+		List<Dto_post> notice = service.select_post(pagination); 
         model.addAttribute("notice", notice);
-        
+        System.out.println("startPage: "+pagination.getStartPage());
 		 Dto_login dto = new Dto_login();
 		 
 		 HttpSession session = req.getSession();

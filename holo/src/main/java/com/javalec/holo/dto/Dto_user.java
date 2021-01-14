@@ -25,7 +25,21 @@ public class Dto_user {
 
 
 	public Dto_user() {}
-
+	
+	public Dto_user(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
+			String tag, String cv ,String user_id) {
+		this.user_pw = user_pw;
+		this.nick = nick;
+		this.passwd_q = passwd_q;
+		this.passwd_a = passwd_a;
+		this.mobile = mobile;
+		this.address = address;
+		this.tag = tag;
+		this.cv = cv;
+		this.user_id = user_id;
+	}
+	
+	
 	public Dto_user(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
 			String email, String mobile, String birth, String address, String likes, String tag) {
 		super();

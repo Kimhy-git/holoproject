@@ -100,9 +100,17 @@ h2{
 #content ul li:nth-child(1){
 	margin-left:0;
 }
-#content ul li p.title{
+
+#content ul li .title{
 	font-weight: bolder;
+	float:left;
 }
+
+#content ul li .comments{
+	margin-left:5px;
+	color:#777;
+}
+
 #content ul li p.date{
 	color: #777;
 	font-size:14px;

@@ -26,9 +26,19 @@
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
         </div>
+        <div id="move">
+            <a href="help_me">도움받기</a>
+            <a href="help_you">도움주기</a>
+            <a href="freeboard">자유게시판</a>
+            <a href="mypage">마이페이지</a>
+        </div>
+        <div class="clear"></div>
+ </header> 
+ <div class="clear"></div>
+ <section>
+ 	 <div id="section_h">   
         <h2>도움받기</h2>
         <div id="search">
-        
             <select id="area">
                 <option value="서울">서울</option>
                 <option value="경기">경기</option>
@@ -51,125 +61,122 @@
             <input type="text" id="search_txt">
             <input type="button" id="search_btn" value="검색">
         </div>
-       <div id=write><a href="helpme_write">글쓰기</a></div>
-    </header>
-    <section>
-    
-    	
-        <div id="wrap">
-        	<input type=text value="${read.help_post_id}" name="help_post_post_id">
-            <table id="first">
-                <tr>
-                    <td>제목</td>
-                    <input type="hidden" value="${read.user_user_id}" id="user_user_id">
-                    <td>${read.title}</td>
-                </tr>
-                <tr>
-                    <td>조회수</td>
-                    
-                    <td>${read.hit}</td>
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td>${read.nick}</td>
-                </tr>
-                <tr>
-                    <td>작성날짜</td>
-                    <td>${read.operator}</td>
-                </tr>
-                <tr>
-                    <td>태그</td>
-                    <td>${read.tag_job}<td> 
-                </tr>
-            </table>
-            <table id="second">
-            	<tr>
-            		<td>최소 금액</td>
-            		<td>${read.min_price}</td>
-            	</tr>
-            	<tr>
-            		<td>지원 가능 성별</td>
-            		<td>${read.gender}</td>
-            	</tr>
-            	<tr>
-            		<td>작성자 추천수</td>
-            		<td>${read.likes}</td>
-            	</tr>
-            	<tr>
-            		<td>결제 방법</td>
-            		<td>${read.payment}</td>
-            	</tr>
-            </table>
-            <input type="button" id="sub_btn"  value="지원하기">
-            <table id="third">
-            	<tr>      
-                    <td><textarea id="content" cols="130" rows="40" readonly>
-                    <img src="http://localhost:8080/holo/img/${read.img}"/>
-                    ${read.content}</textarea></td>
-                </tr>
-            </table>
-            <form method="post" action="help_reply_go">
-	            <div id="form-commentInfo"> 
-	                <div id="comment-count">댓글 <span id="count">0</span></div> 
-	                <input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
-	                <div id=cc><input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-	                <input type=submit id="submit" value="등록"></div>  
-	            </div> 
-	        </form>	
-	        
-	            <c:forEach var="list" items="${re_list}">
+       <a href="helpme_write" class="write">글쓰기</a>
+    </div> 
+    <div id="wrap">
+   		<div id="center">   
+	    	<input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
+	    	<input type="hidden" value="${read.nick}" id="nick">
+	    	<input type=hidden id=userId value="${read.user_user_id}">
 
-		            <form method="post" >
-		            		
-		            	<div class=comments value="${list.re_class}">
-		            	<input type="hidden" class="re_class" value="${list.re_class}">	     
-				            <div id="comments${list.help_reply_id}" >
-				               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
-					           <p class="reply_user">${list.nick}</p>
-					           <p class="reply_comment">${list.re_comment}</p>
-					           <p class="reply_date">${list.operator}</p>
-					           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
-					           
-					        <c:if test="${login.user_id==list.user_user_id}">
-					           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
-					           <input type=button id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
-					        </c:if>
-					           <input type="button" id="reply_again${list.help_reply_id}" value="답글달기" >
-					         </div>
-				           
-				           
-				           <div id="re_edit_txt${list.help_reply_id}" style="display:none">
-					           <input id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
-		                	   <input type=submit id="edit_go${list.help_reply_id}" value="수정">
-		                	   <input type=button id="edit_cancel${list.help_reply_id}" value="취소">
-				           </div>
-				           
-				          
-	                      <div id="reply_again_textarea${list.help_reply_id}" style="display:none">
-		                      <input type="hidden" name="parent_id" value="${list.help_reply_id}">
-						      <input type="hidden" name="re_index" value="${list.re_index}">
-						      <input type="hidden" name="re_order" value="${list.re_order}">
-						      <input type="hidden" name="re_class" value="${list.re_class}">
-						      <input type="hidden" name="groupNum" value="${list.groupNum}">
-						      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
-		                      <input type=textarea name="re_re_comment" size=100> 
-		                      <input type=submit value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
-	                      </div>
-				        </div>
-			            
-		            </form>
-				</c:forEach>
-			
-	            <div id="btn">
-	                <c:if test="${login.user_id==read.user_user_id}">
-		                <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
-		                <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
-	            	</c:if>
-	                <a href="help_me"><input type="button" id="list" value="목록보기"></a>
-	            </div>
-                     
-        </div>
-    
+            	<div id="first">
+                   <div id="title">${read.title}<span>${read.tag_job}</span></div>
+                   <div id="nick">${read.nick}</div>
+                   <div id="date">${read.operator}</div>
+            	</div>
+           	<input type="button" id="sub_btn"  value="지원하기">
+            <div id="second">
+	           	<table>
+	           		<tr>
+	           			<td>최소 금액</td>
+	           			<td>${read.min_price}</td>
+	            	</tr>
+	            	<tr>
+	            		<td>요청 가능 성별</td>
+	            		<td>${read.gender}</td>
+	            	</tr>
+	            	<tr>
+	            		<td>작성자 추천수</td>
+	            		<td>1</td>
+	            	</tr>
+	            	<tr>
+	            		<td>결제 방법</td>
+	            		<td>${read.payment}</td>
+	            	</tr>
+	            	<tr>
+	            		<td>조회수</td>
+	            		<td>${read.hit}</td>
+	            	</tr>
+	           	</table>
+			</div>
+        <table id="third">
+        	<tr>                
+                <td>
+                <div id="content">
+                	<c:if test="${read.img!=null}">
+                		<img src="http://localhost:8080/holo/img/${read.img}" id="image"/><br><br>
+                	</c:if>
+                	${read.content}</div>
+                </td>
+            </tr>
+        </table>
+  
+        
+         <div id="form-commentInfo"> 
+             <div id="comment-count">댓글 <span id="count">(${read.replyCnt})</span></div> 
+             <form method="post" action="help_reply_go">
+	             <div id=cc>
+	             	 <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
+	             	 <input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
+		             <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+		             <input type=submit id="submit" value="등록">
+		         </div> 
+		     </form>    
+	     </div> 
+     		 	
+     
+         <c:forEach var="list" items="${re_list}">
+
+          <form method="post" >
+          		
+          	<div class=comments value="${list.re_class}">
+          	<input type="hidden" class="re_class" value="${list.re_class}">	     
+            <div id="comments${list.help_reply_id}" >
+               <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
+	           <p class="reply_user">${list.nick}</p>
+	           <p class="reply_comment">${list.re_comment}</p>
+	           <p class="reply_date">${list.operator}</p>
+	           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
+	           
+	        <c:if test="${login.user_id==list.user_user_id || login.user_id=='admin'}">
+	           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
+	           <input type=button id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
+	        </c:if>
+	           <input type="button" id="reply_again${list.help_reply_id}" value="답글달기" >
+	        </div>
+           
+           
+           <div id="re_edit_txt${list.help_reply_id}" style="display:none">
+	           <input id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
+           	   <input type=submit id="edit_go${list.help_reply_id}" value="수정">
+           	   <input type=button id="edit_cancel${list.help_reply_id}" value="취소">
+           </div>
+   					
+                   <div id="reply_again_textarea${list.help_reply_id}" style="display:none">
+                      <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
+                      <input type="hidden" name="parent_id" value="${list.help_reply_id}">
+				      <input type="hidden" name="re_index" value="${list.re_index}">
+				      <input type="hidden" name="re_order" value="${list.re_order}">
+				      <input type="hidden" name="re_class" value="${list.re_class}">
+				      <input type="hidden" name="groupNum" value="${list.groupNum}">
+				      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
+                      <input type=text name="re_re_comment" size=100> 
+                      <input type=submit value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
+                   </div>
+        	</div>
+           
+          </form>
+		</c:forEach>
+
+	         <div id="btn">
+	             <c:if test="${login.user_id==read.user_user_id || login.user_id=='admin'}">
+	              <a href="helpme_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
+	              <a href="helpme_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
+	         	</c:if>
+	             <a href="help_me"><input type="button" id="list" value="목록보기"></a>
+	         </div>      
+    	</div>
+    </div>
     </section>
     <footer>
         <p>copyright 홀로서기
@@ -194,7 +201,19 @@ $(document)
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
 	   }else{
-		   window.open("apply_popup","applyPop",'width=470, height=580, left=400, top=200, resizable=no');
+		   window.open("apply_popup?nick="+$('#nick').val()+
+			   "&post_id="+$('#pId').val()+
+			   "&user_id="+$('#userId').val(),
+			   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
+	   }
+})
+
+.on('click','#comment-input',function(){
+	   var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인이 필요한 서비스입니다.");
+			window.location.href="<c:url value='login'/>"
+	   }else{
 	   }
 })
 

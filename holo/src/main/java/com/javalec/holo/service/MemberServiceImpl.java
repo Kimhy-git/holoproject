@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
@@ -22,6 +23,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
 @Service
@@ -42,7 +44,12 @@ public class MemberServiceImpl implements MemberService {
 			dao.join_submit(user_id, user_pw, gender, nick, passwd_q, passwd_a, email, mobile, birth, address, tag, cv);
 		}
 	
-	
+		//회원탈퇴
+		
+		public void leave(String user_id) throws Exception {
+			dao.leave(user_id);
+		}
+		
 	
 		//find_id
 
@@ -86,12 +93,35 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
+	//마이페이지 유저정보 불러오기
+	@Override
+	public Dto_user mp_user(String user_id) throws Exception{
+	return dao.mp_user(user_id);
+	}
+	
+    //마이페이지 정보수정
+	@Override
+	public void mp_edit(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
+			String tag, String cv ,String user_id)throws Exception {
+	System.out.println("마이페이지 정보수정 서비스"+user_id);
+	dao.mp_edit(user_pw, nick, passwd_q, passwd_a, mobile, address,
+			tag, cv , user_id);
+	}
+	
 	
 		//help_me게시글 리스트
 		@Override
 		public List<Dto_help_post> list() throws Exception {
-
-			return dao.list();
+			List<Dto_help_post> list=dao.list();
+			for(int i=0;i<list.size();i++) {
+				if(list.get(i).getImg()==null) {
+					list.get(i).setImg("resources/img/test1.jpg");
+				}else {
+					String image=list.get(i).getImg();
+					list.get(i).setImg("http://localhost:8080/holo/img/"+image);
+				}
+			}
+			return list;
 		}
 		
 		//help_me게시글 상세보기(뷰어)
@@ -113,9 +143,9 @@ public class MemberServiceImpl implements MemberService {
 
 		@Override
 		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price, String img )throws Exception {
+				int min_price, String img ,String user_user_id)throws Exception {
 			
-			dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img);
+			dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img,user_user_id);
 		
 		}
 		//help_me게시글 수정
@@ -139,9 +169,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.re_list(help_post_id);
 		}
 		//help_me 댓글 작성
-		public void re_write(String re_comment,int help_post_id ) throws Exception {
+		public void re_write(String re_comment,int help_post_id ,String user_user_id) throws Exception {
 		System.out.println("멤버서비스 댓글보여주기 reply"+re_comment);
-			dao.re_write(re_comment,help_post_id);
+			dao.re_write(re_comment,help_post_id,user_user_id);
 		}
 		
 		//help_me  수정 댓글 보기
@@ -169,6 +199,12 @@ public class MemberServiceImpl implements MemberService {
 		//help_me hit
 		public void hit(int help_post_id) throws Exception{
 			dao.hit(help_post_id);
+		}
+		
+		//help_me 댓글 카운트
+		@Override
+		public int help_reply_count(int help_post_id) throws Exception{
+			return dao.help_reply_count(help_post_id);
 		}
 		
 
@@ -238,8 +274,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	//NOTICE 
 	@Override //notice
-	public List<Dto_post> select_post() throws Exception {
-		return dao.select_post();
+	public List<Dto_post> select_post(Pagination pagination) throws Exception {
+		return dao.select_post(pagination);
 	}
 
 	@Override //notice_write_view
@@ -359,6 +395,18 @@ public class MemberServiceImpl implements MemberService {
 		session.invalidate();
 	}
 	
+	//게시물 개수
+	@Override
+	public int count() throws Exception {
+		return dao.count();
+	}
+	
+	//댓글 개수
+	@Override
+	public int selectCount_notice(int post_id) throws Exception {
+		return dao.selectCount_notice(post_id);
+	}
+	
 	
 	
 	
@@ -470,4 +518,44 @@ public class MemberServiceImpl implements MemberService {
 	public List<Dto_free_reply> myreply(String user_id) throws Exception{
 		return dao.myreply(user_id);
 	} // 내가 쓴 댓글 가져오기
+	
+	
+	
+	
+	
+	
+	
+	
+	//help_me에 지원하기
+	@Override
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
+			String applier, String price) {
+		
+		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price);
+	}
+	//help_you에 지원하기
+	@Override
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
+			String gender, String applier, String price) {
+		System.out.println("member, helpyou_id : "+helpyou_id);
+		System.out.println("member, board : "+board);
+		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price);	
+	}
+
+
+
+	//apply_you
+
+	
+	//apply you paging
+	@Override
+	public int count_apply(String applier) {
+		return dao.count_apply(applier);
+	}
+
+	@Override
+	public Dto_apply apply_you_page(Pagination pagination) {
+		System.out.println("Service apply_you_page");
+		return dao.apply_you_page(pagination);
+	}
 }

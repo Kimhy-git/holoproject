@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
@@ -17,6 +18,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
 public interface MemberService {
@@ -28,6 +30,8 @@ public interface MemberService {
 			String email, String mobile, String birth, String address, String tag, String cv);
 	
 	
+	//회원탈퇴
+	public void leave(String user_id) throws Exception;
 	
 	
 	//help_you
@@ -49,7 +53,7 @@ public interface MemberService {
 	
 	
 	//notice
-	public List<Dto_post> select_post() throws Exception;
+	public List<Dto_post> select_post(Pagination pagination) throws Exception;
 	
 	//notice_write_view
 	public List<Dto_post> select_post_view(String post_id) throws Exception;
@@ -92,6 +96,12 @@ public interface MemberService {
 	
 	//log out
 	public void logout(HttpSession session);
+	
+	//게시물 개수
+	public int count() throws Exception;
+	
+	//댓글 수
+	public int selectCount_notice (int post_id) throws Exception;
 
 
 	
@@ -105,7 +115,11 @@ public interface MemberService {
 	public void check_email(String email, HttpServletResponse response) throws Exception;
 	//회원가입
 	
-	
+	//마이페이지 유저정보 불러오기
+	public Dto_user mp_user(String user_id) throws Exception;
+	//마이페이지 유저정보 수정
+	public void mp_edit(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
+			String tag, String cv, String user_id) throws Exception;
 	
 	//help_me게시글 상세보기
 	public Dto_help_post read(int help_post_id) throws Exception;
@@ -118,7 +132,7 @@ public interface MemberService {
 
 	//help_me게시글 작성
 	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price, String img) throws Exception;
+			int min_price, String img, String user_user_id) throws Exception;
 
 	//help_me게시글 수정
 	public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
@@ -131,7 +145,7 @@ public interface MemberService {
 	public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
 	
 	//help_me 댓글 쓰기
-	public void re_write(String re_comment,int help_post_id) throws Exception;
+	public void re_write(String re_comment,int help_post_id, String user_user_id) throws Exception;
 	
 	//help_me 댓글 삭제
 	public void re_delete(int help_reply_id) throws Exception;
@@ -148,6 +162,10 @@ public interface MemberService {
 	
 	//help_me hit
 	public void hit(int help_post_id) throws Exception;
+			
+	//help_me 댓글 카운트
+	public int help_reply_count(int help_post_id) throws Exception;
+	
 			
 
 	
@@ -204,5 +222,24 @@ public interface MemberService {
 	public List<Dto_free_reply> myreply(String user_user_id)throws Exception;
 	// 내가 쓴 댓글 조회
 
+	
+	
+	
+	
+	
+	
+	//help_me에 지원하기
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
+			String applier, String price);
+
+	//help_you에 지원하기
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
+			String gender, String applier, String price);
+
+	//apply_you page
+	public Dto_apply apply_you_page(Pagination pagination);
+
+	//apply_you paging
+	public int count_apply(String applier);
 }
 

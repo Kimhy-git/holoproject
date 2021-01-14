@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.holo.dto.Dto;
+import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
@@ -20,6 +21,7 @@ import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
+import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
 @Repository
@@ -47,6 +49,15 @@ public class IDaolmpl implements IDao {
     	sqlSession.insert(Namespace+".join",dto_user);
     }
     
+    //회원탈퇴
+  	@Override
+  	public void leave(String user_id) throws Exception {
+  		sqlSession.delete(Namespace+".user_del1",user_id);
+  		sqlSession.delete(Namespace+".user_del2",user_id);
+  		sqlSession.delete(Namespace+".user_del3",user_id);
+  		sqlSession.delete(Namespace+".user_del4",user_id);
+  		sqlSession.delete(Namespace+".leave",user_id);
+  	}
     
 
     
@@ -64,108 +75,130 @@ public class IDaolmpl implements IDao {
 		return sqlSession.selectOne(Namespace+".check_email", email);
 	}
     
-
-    
-    
-    
-  //help_me게시글 리스트
+    //마이페이지 유저정보 불러오기
   	@Override
-  	public List<Dto_help_post> list() throws Exception {
-  		// TODO Auto-generated method stub
-  		
-  		return sqlSession.selectList(Namespace+".list");
+  	public Dto_user mp_user(String user_id) throws Exception{
+  	return sqlSession.selectOne(Namespace+".mp_user",user_id);
   	}
-  	
-  	//help_me게시글 상세보기 (뷰어)
+      //마이페이지 정보수정
+  	@Override
+  	public void mp_edit(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
+  			String tag, String cv ,String user_id)throws Exception {
+  	System.out.println("마이페이지 정보수정 아이다오"+user_id);
+  	Dto_user Dto_user = new Dto_user(user_pw, nick, passwd_q, passwd_a, mobile, address,
+  			tag, cv , user_id);
+  		sqlSession.insert(Namespace+".mp_edit",Dto_user);
+  	}
+      
+    
+    
+	   
+	  //help_me게시글 리스트
+	  	@Override
+	  	public List<Dto_help_post> list() throws Exception {
+	  		// TODO Auto-generated method stub
+	  		
+	  		return sqlSession.selectList(Namespace+".list");
+	  	}
+	  	
+	  	//help_me게시글 상세보기 (뷰어)
+			@Override
+			public Dto_help_post read(int help_post_id) throws Exception{
+			return sqlSession.selectOne(Namespace+".read",help_post_id);
+			}
+	  	
+			@Override
+			public List<Dto_help_post> likes(){
+			return sqlSession.selectList(Namespace+".likes");
+			}
+			
+	  	//help_me게시글 쓰기
+
+			@Override
+			public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+				int min_price,String img, String user_user_id)throws Exception {
+			System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
+					"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img+" user_user_id : "+user_user_id);
+			Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img,user_user_id);
+	  		sqlSession.insert(Namespace+".write",Dto_p);
+	  	}
+	  	//help_me게시글 수정
+			@Override
+			public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+					int min_price, int help_post_id,String img)throws Exception {
+			System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
+			Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
+					tag_job,payment, min_price,help_post_id,img);
+	  		sqlSession.insert(Namespace+".edit",Dto_p);
+			}
+	  	//help_me게시글 삭제
+	  	@Override
+	  	public void delete(int help_post_id) throws Exception {
+	  		sqlSession.delete(Namespace+".delete_re",help_post_id);
+	  		sqlSession.delete(Namespace+".delete",help_post_id);
+	  	}
+
+			//help_me 댓글 보기
+	  	@Override
+	  	public List<Dto_help_reply> re_list(int help_post_id){
+	  		
+	  		return sqlSession.selectList(Namespace+".re_list",help_post_id);
+	  	}
+	  	//help_me 댓글 작성
+	  	@Override
+	  	public void re_write(String re_comment,int help_post_id ,String user_user_id)throws Exception {
+	  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment+" 유저아이디 : "+user_user_id);
+	  		
+	  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id, user_user_id);
+	  		sqlSession.insert(Namespace+".re_write",Dto_pr);
+	  	}
+	  	//help_me 수정 댓글 보기
+	  	@Override
+	  	public Dto_help_reply re_read(int help_reply_id)throws Exception{
+	  		return sqlSession.selectOne(Namespace+".re_edit_view",help_reply_id);
+	  	};
+	  	//help_me 댓글 수정
+	  	@Override
+	  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
+	  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
+	  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
+	  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
+	  		sqlSession.insert(Namespace+".re_edit",Dto_pr);
+	  	}
+	  	//help_me 댓글 삭제
 		@Override
-		public Dto_help_post read(int help_post_id) throws Exception{
-		return sqlSession.selectOne(Namespace+".read",help_post_id);
-		}
-  	
+	  	public void re_delete(int help_reply_id) throws Exception {
+	  		sqlSession.delete(Namespace+".re_delete",help_reply_id);
+	  	}
+		
+		//help_me 대댓글 작성
 		@Override
-		public List<Dto_help_post> likes(){
-		return sqlSession.selectList(Namespace+".likes");
+		public void helpme_re_recomment_submit(int re_index, String re_comment, 
+				int re_order, int re_class, int groupNum, int help_post_post_id, 
+				String user_user_id) throws Exception {
+			System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
+			int re_groupNum=sqlSession.selectOne(Namespace+".helpme_groupNum_select",groupNum);
+			re_index=re_groupNum+1;
+			Dto_help_reply recomment=new Dto_help_reply();
+			recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+			System.out.println(recomment.getRe_index());
+			sqlSession.insert(Namespace+".helpme_re_recommnet_submit",recomment);
+			
 		}
 		
-  	//help_me게시글 쓰기
-
+		//help_me hit
 		@Override
-		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price,String img)throws Exception {
-		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
-				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img);
-		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img);
-  		sqlSession.insert(Namespace+".write",Dto_p);
-  	}
-  	//help_me게시글 수정
-		@Override
-		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id,String img)throws Exception {
-		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
-		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
-				tag_job,payment, min_price,help_post_id,img);
-  		sqlSession.insert(Namespace+".edit",Dto_p);
-		}
-  	//help_me게시글 삭제
-  	@Override
-  	public void delete(int help_post_id) throws Exception {
-  		sqlSession.delete(Namespace+".delete_re",help_post_id);
-  		sqlSession.delete(Namespace+".delete",help_post_id);
-  	}
-
-		//help_me 댓글 보기
-  	@Override
-  	public List<Dto_help_reply> re_list(int help_post_id){
-  		
-  		return sqlSession.selectList(Namespace+".re_list",help_post_id);
-  	}
-  	//help_me 댓글 작성
-  	@Override
-  	public void re_write(String re_comment,int help_post_id )throws Exception {
-  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment);
-  		
-  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id);
-  		sqlSession.insert(Namespace+".re_write",Dto_pr);
-  	}
-  	//help_me 수정 댓글 보기
-  	@Override
-  	public Dto_help_reply re_read(int help_reply_id)throws Exception{
-  		return sqlSession.selectOne(Namespace+".re_edit_view",help_reply_id);
-  	};
-  	//help_me 댓글 수정
-  	@Override
-  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
-  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
-  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
-  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
-  		sqlSession.insert(Namespace+".re_edit",Dto_pr);
-  	}
-  	//help_me 댓글 삭제
-	@Override
-  	public void re_delete(int help_reply_id) throws Exception {
-  		sqlSession.delete(Namespace+".re_delete",help_reply_id);
-  	}
-	
-	//help_me 대댓글 작성
-	@Override
-	public void helpme_re_recomment_submit(int re_index, String re_comment, 
-			int re_order, int re_class, int groupNum, int help_post_post_id, 
-			String user_user_id) throws Exception {
-		System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
-		int re_groupNum=sqlSession.selectOne(Namespace+".helpme_groupNum_select",groupNum);
-		re_index=re_groupNum+1;
-		Dto_help_reply recomment=new Dto_help_reply();
-		recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
-		System.out.println(recomment.getRe_index());
-		sqlSession.insert(Namespace+".helpme_re_recommnet_submit",recomment);
+		public void hit(int help_post_id) throws Exception{
+		    sqlSession.insert(Namespace+".hit",help_post_id);
+		};
 		
-	}
-	
-	//help_me hit
-	@Override
-	public void hit(int help_post_id) throws Exception{
-	    sqlSession.insert(Namespace+".hit",help_post_id);
-	};
+		//help_me 댓글 카운트
+		@Override
+		public int help_reply_count(int help_post_id){
+			Object help_reply_count = sqlSession.selectList(Namespace+".help_reply_count",help_post_id);
+			return (Integer) help_reply_count;
+		}
+	    
 	
 	
     
@@ -251,128 +284,141 @@ public class IDaolmpl implements IDao {
 	
 	
 	//NOTICE
-			@Override //notice
-			public List<Dto_post> select_post() {
-				return sqlSession.selectList(Namespace+".select_post");
-			}
+	@Override //notice
+	public List<Dto_post> select_post(Pagination pagination) {
+		return sqlSession.selectList(Namespace+".select_post",pagination);
+	}
 
-			@Override //notice_write_view
-			public List<Dto_post> select_post_view(String post_id) {
-				return sqlSession.selectList(Namespace+".select_post_view",post_id);
-			}
+	@Override //notice_write_view
+	public List<Dto_post> select_post_view(String post_id) {
+		return sqlSession.selectList(Namespace+".select_post_view",post_id);
+	}
 
-			@Override //notice_write_view : comments
-			public List<Dto_reply> select_post_reply(String post_id) {
-				return sqlSession.selectList(Namespace+".select_post_reply",post_id);
-			}
+	@Override //notice_write_view : comments
+	public List<Dto_reply> select_post_reply(String post_id) {
+		return sqlSession.selectList(Namespace+".select_post_reply",post_id);
+	}
 
-			@Override //delete posts
-			public List<Dto_post> select_post_delete(String post_id) {
-				return sqlSession.selectList(Namespace+".select_post_delete",post_id);
-			}
+	@Override //delete posts
+	public List<Dto_post> select_post_delete(String post_id) {
+		return sqlSession.selectList(Namespace+".select_post_delete",post_id);
+	}
 
-			@Override //delete comments with a post
-			public List<Dto_reply> select_reply_delete(String post_id) {
-				return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
-			}
+	@Override //delete comments with a post
+	public List<Dto_reply> select_reply_delete(String post_id) {
+		return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
+	}
 
-			//add posts
+	//add posts
 
-			@Override
-			public void add_post(String title, String content, String img) {
-				
-				Dto_post Dto_post=new Dto_post(title, content, img);
-				sqlSession.insert(Namespace+".add_post",Dto_post);
-				
-			}
+	@Override
+	public void add_post(String title, String content, String img) {
+		
+		Dto_post Dto_post=new Dto_post(title, content, img);
+		sqlSession.insert(Namespace+".add_post",Dto_post);
+		
+	}
 
-			
-			//add comments
-			@Override
-			public void add_comment(String post_post_id, String re_comment) {
-				Dto_reply dto_reply=new Dto_reply(re_comment, post_post_id);
-				sqlSession.insert(Namespace+".add_comment",dto_reply);
-				System.out.println("IDaoImpl, post_post_id : "+post_post_id);
-				System.out.println("IDaoImpl, re_comment : "+re_comment);
-			}
-			
-			//delete comments ONLY
-			@Override
-			public void delete_comment(String reply_id, String board, String post_post_id) {
-				Dto_reply delete_comment=new Dto_reply(reply_id, board, post_post_id);
-				
-				System.out.println("IDAoImpl, reply_id : "+reply_id);
-				System.out.println("IDAoImpl, board : "+board);
-				System.out.println("IDAoImpl, post_post_id : "+post_post_id);
-				
-				sqlSession.insert(Namespace+".delete_comment",delete_comment);
-				System.out.println("delete_comment : "+delete_comment);
-			}
-				
-			//update comments
-			@Override
-			public void update_comment(String reply_id, String re_comment, String post_post_id, String board) {
-				
-				System.out.println("IDAoImpl, reply_id : "+reply_id);
-				System.out.println("IDAoImpl, re_comment : "+re_comment);
-				System.out.println("IDAoImpl, post_post_id : "+post_post_id);
-				
-				Dto_reply update_comment=new Dto_reply(reply_id,board,re_comment,post_post_id);
-				
-				sqlSession.insert(Namespace+".update_comment",update_comment);
-				
-			}
-			
-			//add re_comments
-			@Override
-			public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, String groupNum,String post_post_id) {
-				
-				System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
-				
-				Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
-				sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
-			}
+	
+	//add comments
+	@Override
+	public void add_comment(String post_post_id, String re_comment) {
+		Dto_reply dto_reply=new Dto_reply(re_comment, post_post_id);
+		sqlSession.insert(Namespace+".add_comment",dto_reply);
+		System.out.println("IDaoImpl, post_post_id : "+post_post_id);
+		System.out.println("IDaoImpl, re_comment : "+re_comment);
+	}
+	
+	//delete comments ONLY
+	@Override
+	public void delete_comment(String reply_id, String board, String post_post_id) {
+		Dto_reply delete_comment=new Dto_reply(reply_id, board, post_post_id);
+		
+		System.out.println("IDAoImpl, reply_id : "+reply_id);
+		System.out.println("IDAoImpl, board : "+board);
+		System.out.println("IDAoImpl, post_post_id : "+post_post_id);
+		
+		sqlSession.insert(Namespace+".delete_comment",delete_comment);
+		System.out.println("delete_comment : "+delete_comment);
+	}
+		
+	//update comments
+	@Override
+	public void update_comment(String reply_id, String re_comment, String post_post_id, String board) {
+		
+		System.out.println("IDAoImpl, reply_id : "+reply_id);
+		System.out.println("IDAoImpl, re_comment : "+re_comment);
+		System.out.println("IDAoImpl, post_post_id : "+post_post_id);
+		
+		Dto_reply update_comment=new Dto_reply(reply_id,board,re_comment,post_post_id);
+		
+		sqlSession.insert(Namespace+".update_comment",update_comment);
+		
+	}
+	
+	//add re_comments
+	@Override
+	public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, String groupNum,String post_post_id) {
+		
+		System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+		
+		Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
+		sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
+	}
 
-			//hits
-			@Override
-			public void uphit(String post_id) {
-				System.out.println("IdaoImpl, uphit : "+post_id);
-				sqlSession.insert(Namespace+".uphit",post_id);
-			}
-			
-			//the number of comments
-//			@Override
-//			public void num_of_comments(String post_id) {
-//				System.out.println("IdaoImpl, uphit, number : "+post_id);
-//				sqlSession.insert(Namespace+".num_of_comments",post_id);
-//			}
-			
-			@Override
-			public void update_post(String post_id, String board, String title, String content) {
+	//hits
+	@Override
+	public void uphit(String post_id) {
+		System.out.println("IdaoImpl, uphit : "+post_id);
+		sqlSession.insert(Namespace+".uphit",post_id);
+	}
+	
+	//the number of comments
+//	@Override
+//	public void num_of_comments(String post_id) {
+//		System.out.println("IdaoImpl, uphit, number : "+post_id);
+//		sqlSession.insert(Namespace+".num_of_comments",post_id);
+//	}
+	
+	@Override
+	public void update_post(String post_id, String board, String title, String content) {
 
-				System.out.println("IDaoImpl, post_id : "+post_id);
-				System.out.println("IDaoImpl, title : "+title);
-				System.out.println("IDaoImpl, content : "+content);
-				
-				Dto_post update_post=new Dto_post(post_id,board,title,content);
-				
-				sqlSession.insert(Namespace+".update_post_title",update_post);
-				sqlSession.insert(Namespace+".update_post_content",update_post);
-			}
+		System.out.println("IDaoImpl, post_id : "+post_id);
+		System.out.println("IDaoImpl, title : "+title);
+		System.out.println("IDaoImpl, content : "+content);
+		
+		Dto_post update_post=new Dto_post(post_id,board,title,content);
+		
+		sqlSession.insert(Namespace+".update_post_title",update_post);
+		sqlSession.insert(Namespace+".update_post_content",update_post);
+	}
 
-			//log in
-			@Override
-			public Dto_login login(String user_id, String user_pw) {
-				Dto_login dto = new Dto_login(user_id, user_pw);
-				System.out.println("IDaoImpl dto : "+dto);
-				return sqlSession.selectOne(Namespace+".login",dto);
-			}
-			
-			//log out
-			@Override
-			public void logout(HttpSession session) {
-				
-			}
+	//log in
+	@Override
+	public Dto_login login(String user_id, String user_pw) {
+		Dto_login dto = new Dto_login(user_id, user_pw);
+		System.out.println("IDaoImpl dto : "+dto);
+		return sqlSession.selectOne(Namespace+".login",dto);
+	}
+	
+	//log out
+	@Override
+	public void logout(HttpSession session) {
+		
+	}
+	
+	//r게시물 개수
+	@Override
+	public int count() throws Exception {
+		return sqlSession.selectOne(Namespace+".count");
+	}
+	
+	//댓글 수
+	@Override
+	public int selectCount_notice(int post_id) {
+		Object selectCount = sqlSession.selectList(Namespace+".selectCount_notice",post_id);
+		return (Integer) selectCount;
+	}
 			
 			
 			
@@ -498,4 +544,40 @@ public class IDaolmpl implements IDao {
 				return sqlSession.selectList(Namespace+".myreply",user_user_id);
 			}// 내가 쓴 댓글 조회
 
+			
+			
+			
+			
+			
+			//helpme에 지원하기
+			@Override
+			public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id,
+					String gender, String applier, String price) {
+				
+				Dto_apply dto = new Dto_apply(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price);
+				sqlSession.insert(Namespace+".add_apply_me",dto);	
+			}
+
+			//help you//helpyou에 지원하기
+			@Override
+			public void add_apply_you(String helpyou_id, String tag, String cv, String board,
+					String help_post_help_post_id, String gender, String applier, String price) {
+				System.out.println("Idao, helpyou_id : "+helpyou_id);
+				System.out.println("Idao, board : "+board);
+				Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price);
+				sqlSession.insert(Namespace+".add_apply_you",dto);
+			}
+
+			//apply_you 게시물 수
+			@Override
+			public int count_apply(String applier) {
+				return sqlSession.selectOne(Namespace+".count_apply",applier);
+			}
+
+			//apply_you page 보여줌
+			@Override
+			public Dto_apply apply_you_page(Pagination pagination) {
+				System.out.println("IDao apply_you_page");
+				return sqlSession.selectOne(Namespace+".apply_you_page",pagination);
+			}
 }

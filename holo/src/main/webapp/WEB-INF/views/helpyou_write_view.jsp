@@ -13,6 +13,7 @@
 <body>
  <header>
         <nav>
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
@@ -70,9 +71,11 @@
 		            <div id="first">
 		                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
 		                    <div id="nick">${read.nick}</div>
+		                    <input type="hidden" id="NICK" value="${read.nick}">
 		                    <div id="date">${read.operator}</div>
 		            </div>
 		            <input type="button" id="sub_btn"  value="요청하기">
+		            <input type="hidden" value="${read.user_user_id}" id="user_user_id">
 		            <div id="second">
 		            	<table>
 		            		<tr>
@@ -90,10 +93,6 @@
 			            	<tr>
 			            		<td>결제 방법</td>
 			            		<td>${read.payment}</td>
-			            	</tr>
-			            	<tr>
-			            		<td>조회수</td>
-			            		<td>${read.hit}</td>
 			            	</tr>
 		            	</table>
 					</div>
@@ -115,13 +114,13 @@
 			                <div id=cc>
 			                <input type=hidden name="post_id" value="${read.help_post_id}">
 			                <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-			                <input type="submit" id="submit" value="등록">
+			                <input type=submit value="등록">
 			                </div>
 		            	</form>
 		            </div> 
 		            <div id=comments>
 		            <c:forEach var="reply" items="${reply}">
-		            	<div id="comments${reply.help_reply_id}" class="comments" value="${reply.re_class}">
+		            	<div id="comments${reply.help_reply_id}">
 						    <input type="hidden" class="reply_id" value="${reply.help_reply_id}">
 						    <input type="hidden" class="re_index" value="${reply.re_index}">
 				            <p class="reply_user">${reply.user_user_id}</p>
@@ -183,6 +182,7 @@ function getContextPath() {
 }
 var ip='http://localhost:8080';
 */
+$(document)
 /*
 .ready(function(){
 	console.log($('#pId').val());
@@ -230,16 +230,7 @@ var ip='http://localhost:8080';
 		},'json')
 })
 */
-$(document)
-.ready(function(){
-	$('.comments').each(function(index,item){
-		var n = $(this).attr("value");
-		console.log(n);
-		$(this).css("margin-left",(n*50)+"px");
-		console.log((n*50));
-	});
-	//$('.comments').css("margin_left",(n*50)+"px");
-})
+
 .on('click','#remove',function(){
 	var post_id=$('#pId').val();
 	console.log(post_id);
@@ -269,7 +260,10 @@ $(document)
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
 	   }else{
-		   window.open("request_popup","requestPop",'width=470, height=580, left=400, top=200, resizable=no');
+		   window.open("request_popup?nick="+$('#NICK').val()+
+				   "&post_id="+$('#pId').val()+
+				   "&user_id="+$('#user_user_id').val(),
+				   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
 .on('click','input[id^=reply_edit_cancle]',function(){

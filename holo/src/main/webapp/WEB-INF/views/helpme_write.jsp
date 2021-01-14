@@ -41,7 +41,7 @@
         <!-- <span>제목</span> -->
             <h3>도움받기</h3>
             <form method='post' action='helpme_write_go' name="write_go" enctype="multipart/form-data">
-            
+            <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
             <div id="choice">
                 <!-- <span>태그</span>  -->
                 <select id="area" name="tag_area">

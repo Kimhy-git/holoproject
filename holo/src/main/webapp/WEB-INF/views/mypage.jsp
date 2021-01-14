@@ -42,21 +42,32 @@
             <nav id="mine">
             <ul class="tabs">
                 <li class="tabMenu current">
-                <a href="#tabContent01" >내가 쓴 글 |</a></li>
+                	<a href="#tabContent01" >내가 쓴 글</a>
+                </li>
                 <li class="tabMenu">
-                <a href="#tabContent02" >내가 쓴 댓글 |</a></li>
+                	<a href="#tabContent02" >내가 쓴 댓글</a> 
+                </li>
+                <li class="tabMenu">
+            		<a href="#tabContent03">지원자 목록</a>
+            	</li>
+            	<li class="tabMenu">
+                	<a href="#tabContent04">지원 목록</a>
+                </li>
             </ul>
             <div id="tossJsp" class="tossJsp">
-                <a href="apply_you">지원자 목록</a> | 
-                <a href="apply_me">지원 목록</a> |
-                <a href="edit_mp">내 정보 수정</a>
+				<form action="edit_mp" method="post" id="edit_page">
+					<input type=hidden value="${login.user_id}" id="user_id_login" name="user_id">
+                	<span id="edit_btn">내 정보 수정</span>
+				</form>
             </div>
             </nav>
+            <div class="clear"></div>
+            <div id="center">
             <div  id="tabContent01" class="tabPage">
-            <table id="my_list">
-                <tr>
-                    <td id="list_title" class="small_title" name="my_post">내가 쓴 글 목록</td>
-                </tr>
+            	<table id="my_list">
+                	<tr>
+                    	<td colspan="4" id="list_title" class="small_title" name="my_post">내가 쓴 글 목록</td>
+                	</tr>
 	                <tr id="info">
 	                    <td>제목</td>
 	                    <td>작성자</td>
@@ -70,20 +81,18 @@
 	                    <td>${item.nick}</td>
 	                    <td>${item.operator}</td>
 	                    <td>${item.hit}</td>
-	                    
-	                    
-	                    <td><input type="hidden" value="${item.post_id}"></td>
-            			<td><input type="hidden" value="${item.board}"></td>
+	                    <input type="hidden" value="${item.post_id}">
+            			<input type="hidden" value="${item.board}">
 	                
 	                </tr>
 	                </c:forEach>
-	            </table>
-        </div>
-                  <div id="tabContent02" class="tabPage">
-            <table id="my_list1">
-                <tr>
-                    <td id="list_title" class="small_title" name="my_post">내가 쓴 댓글 목록</td>
-                </tr>
+	        	</table>
+        	</div>
+        	<div id="tabContent02" class="tabPage">
+	            <table id="my_list1">
+	                <tr>
+	                    <td colspan=2 id="list_title" class="small_title" name="my_post">내가 쓴 댓글 목록</td>
+	                </tr>
 	                <tr id="info">
 	                    <td>댓글내용</td>
 	                    <td>날짜</td>
@@ -97,7 +106,69 @@
 	                </tr>
 	                </c:forEach>
 	            </table>
-        </div>
+        	</div>
+        	<div id="tabContent03" class="tabPage">
+        		<article>
+        		<div class="applier">
+					<div class="info">
+						<div class="title"><a href="#">게시글 제목</a>
+							<span class="date">2021-01-14</span>
+						</div>
+						<div class="nick">
+							<span class="info02">
+								<a href="#">닉네임</a> | 
+								<span class="info_gender">상관없음</span> | 
+								♥ <span class="info_like">2</span>
+							</span>
+							<span class="ptag">
+								<span>조용함</span>
+								<span>꼼꼼함</span>
+								<span>신속함</span>
+							</span>
+						</div>
+						<div class="intro">
+							<p>자기소개서 내용</p>
+						</div>
+					</div>
+					<div class="btns">
+						<input class="btn" type="button" value="채팅하기"><br>
+						<input class="btn last" type="button" value="채택하기">
+					</div>
+				</div>
+				</article>
+        	</div>
+        	<div id="tabContent04" class="tabPage">
+        		
+        		<article>
+				<div class="applier">
+					<div class="info">
+						<div class="title"><a href="#">게시글 제목</a>
+							<span class="date">2021-01-14</span>
+						</div>
+						<div class="nick">
+							<span class="info02">
+								<a href="#">닉네임</a> | 
+								<span class="info_gender">상관없음</span> | 
+								♥ <span class="info_like">2</span>
+							</span>
+							<span class="ptag">
+								<span>조용함</span>
+								<span>꼼꼼함</span>
+								<span>신속함</span>
+							</span>
+						</div>
+						<div class="intro">
+							<p>자기소개서 내용</p>
+						</div>
+					</div>
+					<div class="btns">
+						<input class="btn" type="button" value="채팅하기"><br>
+						<input class="btn last" type="button" value="취소하기">
+					</div>
+				</div>
+			</article>
+        	</div>
+        	</div>
         </div>    
     </section>
     <footer>
@@ -139,5 +210,12 @@ $(function () {
 	// 탭 초기화 및 설정
 	tabSetting();
 });
+</script>
+<script>
+$(document)
+.on('click','#edit_btn',function(){
+	console.log("click");
+	$('#edit_page').submit();
+})
 </script>
 </html>

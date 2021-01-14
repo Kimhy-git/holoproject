@@ -19,11 +19,12 @@ public class Dto_help_post {
 	private String user_user_id;
 	private int hit;
 	private int likes;
+	private String replyCnt;
 	
 	public Dto_help_post() {}
 	
 	public Dto_help_post(String title, String content, String tag_area, String tag_job, String gender, String payment,
-			int min_price,String img) {
+			int min_price,String img, String user_user_id) {
 		super();
 		this.tag_area = tag_area;
 		this.title = title;
@@ -33,7 +34,9 @@ public class Dto_help_post {
 		this.min_price = min_price;
 		this.payment = payment;
 		this.img=img;
+		this.user_user_id=user_user_id;
 	}
+	
 	
 	public Dto_help_post(int help_post_id, String tag_area, String title, String tag_job, String content, String img,
 			String gender, int min_price, String payment, String user_user_id) {
@@ -50,7 +53,7 @@ public class Dto_help_post {
 		this.user_user_id = user_user_id;
 	}
 
-	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
+/*	public Dto_help_post(String tag_area,String title,String tag_job,String content,String img,String gender,int min_price,String payment,String user_user_id) {
 		this.tag_area = tag_area;
 		this.title = title;
 		this.tag_job = tag_job;
@@ -59,11 +62,11 @@ public class Dto_help_post {
 		this.min_price = min_price;
 		this.payment = payment;
 		this.user_user_id = user_user_id;
-	}
+	}*/
 
 	public Dto_help_post(int help_post_id, String tag_area, int board, String title, Timestamp operator, String nick,
 			String tag_job, String content, String img, String gender, int min_price, String payment, int complete,
-			String user_user_id,int hit,int likes) {
+			String user_user_id,int hit,int likes,String replyCnt) {
 		super();
 		this.help_post_id = help_post_id;
 		this.tag_area = tag_area;
@@ -81,7 +84,9 @@ public class Dto_help_post {
 		this.user_user_id = user_user_id;
 		this.hit=hit;
 		this.likes=likes;
+		this.replyCnt = replyCnt;
 	}
+
 
 	public Dto_help_post(String title, String content, String gender, String tag_area, String tag_job, String payment,
 			int min_price, int help_post_id, String img) {
@@ -106,6 +111,14 @@ public class Dto_help_post {
 		this.min_price = min_price;
 		this.payment = payment;
 		this.user_user_id = user_user_id;
+	}
+	
+	public String getReplyCnt() {
+		return replyCnt;
+	}
+
+	public void setReplyCnt(String replyCnt) {
+		this.replyCnt = replyCnt;
 	}
 
 	public int getHelp_post_id() {

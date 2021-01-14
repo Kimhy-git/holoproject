@@ -78,9 +78,11 @@
                         <li onclick="location.href='/holo/helpme_write_view?help_post_id=${list.help_post_id}'">
                         	<input type="hidden" value="${list.user_user_id}" name="user_id">
                         	<input type="hidden" value="${list.help_post_id}">
-                            <img class="thumbnail" src="resources/img/test1.jpg">
-                            <p class="title" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"><span class="address">[${list.tag_area}][${list.tag_job}]</span> ${list.title}
-                            <!--<span class="hit">${list.hit}</span> --></p>
+                            <img class="thumbnail" src="${list.img}">
+                            
+                            <span class="address">[${list.tag_area}][${list.tag_job}]</span><br>
+                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
+                            <span class="comments">(${list.replyCnt})</span></div>
                             <p class="writer" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.nick} <span class="like"> ♥ ${list.likes}</span>
                             <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
                             <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
@@ -114,7 +116,7 @@ $(document)
 	user_id=$('#user_id_login').val();
 	console.log(user_id);
 	if(user_id==null || user_id==""){
-		alert("로그인하세요");
+		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
 	}else{
 		window.location.href="<c:url value='helpme_write'/>"

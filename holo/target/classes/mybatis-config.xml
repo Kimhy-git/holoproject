@@ -16,6 +16,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto_reply" alias="dto_reply"/>
             <typeAlias type="com.javalec.holo.dto.Dto_user" alias="dto_user"/>
             <typeAlias type="com.javalec.holo.dto.Dto_login" alias="dto_login"/>
+            <typeAlias type="com.javalec.holo.dto.Dto_apply" alias="dto_apply"/>
             
             
             

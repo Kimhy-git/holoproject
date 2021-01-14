@@ -36,12 +36,42 @@
 	</insert>
 	
 	
+<!-- 회원탈퇴 -->
+	<delete id="leave" parameterType="String">
+		delete from user where user_id=#{user_id}
+	</delete>
+	<delete id="user_del1" parameterType="String">
+		delete from help_reply where user_user_id=#{user_id} 
+	</delete>
+	<delete id="user_del2" parameterType="String">
+		delete from help_post where user_user_id=#{user_id} 
+	</delete>
+	<delete id="user_del3" parameterType="String">
+		delete from post where user_user_id=#{user_id} 
+	</delete>
+	<delete id="user_del4" parameterType="String">
+		delete from reply where user_user_id=#{user_id} 
+	</delete>
 	
+	
+	<!-- mypage user_info (유저 리스트) -->
+    <select id="mp_user" resultType="dto_user">
+    	select * from user 
+    	where user_id=#{user_id} <!-- and user_pw=#{user_pw} -->
+    </select>
+	
+	<!-- mypage edit -->
+	<select id="mp_edit" resultType="dto_user">
+    	update user set user_pw=#{user_pw}, nick=#{nick}, passwd_q=#{passwd_q}, 
+    	passwd_a=#{passwd_a}, mobile=#{mobile}, address=#{address}, tag=#{tag}, 
+    	cv=#{cv} where user_id=#{user_id};
+    </select>
 	
 
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
-		select * from help_post, user where help_post.user_user_id=user.user_id and board=1 order by help_post_id desc;
+		select *, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
+ 		from help_post a, user where user.user_id=a.user_user_id and board=1 order by help_post_id desc;
 	</select>
 	
 	<!-- help_me likes -->
@@ -51,14 +81,15 @@
 	
 	<!-- help_me 게시글 상세보기 -->
 	<select id="read" resultType="dto_p">
-		
-		select * from help_post, user where user.user_id = help_post.user_user_id and help_post.help_post_id = #{help_post_id};
+		select *, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
+ 		from help_post a, user where user.user_id = a.user_user_id and a.help_post_id =#{help_post_id};
+		<!-- select * from help_post, user where user.user_id = help_post.user_user_id and help_post.help_post_id = #{help_post_id};-->
 	</select>
 	
 	<!-- help_me 게시글 쓰기 -->
 	<select id="write" parameterType="dto_p">
 		insert into help_post (tag_area,img, board, title, nick, tag_job, content, gender, min_price, payment, complete, user_user_id) 
-		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id='b'),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,"b")
+		values(#{tag_area},#{img},1,#{title},(select nick from user where user_id=#{user_user_id}),#{tag_job},#{content},#{gender},#{min_price},#{payment},0,#{user_user_id})
 	</select>
 	<!-- help_me 게시글 수정 -->
 	<select id="edit" resultType="dto_p">
@@ -77,12 +108,16 @@
 		
 	<!-- help_me댓글 보기 -->
 	<select id="re_list" resultType="dto_pr">
-	 	select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};
+	 	SELECT *
+		FROM help_reply, user
+		where user.user_id=help_reply.user_user_id and board=1 and help_post_post_id=#{help_post_id}
+		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
+	 	<!--  select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};-->
 	</select>
 	<!-- help_me댓글 작성 -->
-	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">
-		insert into help_reply (board,re_index, re_comment, re_order, groupNum, help_post_post_id, 
-		user_user_id) values(1,1,#{re_comment},1,1,#{help_post_post_id},'a') ;
+	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">	 
+		insert into help_reply (board, re_comment, help_post_post_id, 
+		user_user_id) values(1,#{re_comment},#{help_post_post_id},#{user_user_id}) ;
 	</select>
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
@@ -107,6 +142,10 @@
 	<!-- help_me hit -->
 	<select id="hit" resultType="dto_p">
 		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
+	</select>
+	<!-- help_me 댓글 수 -->
+	<select id="help_reply_count" resultType="int">
+		select count(*) from help_reply where help_post_post_id=#{help_post_id};
 	</select>
 	
 	
@@ -177,15 +216,25 @@
 	</insert>
 
 
+
+
+
 	<!-- notice -->
     <select id="select_post" resultType="dto_post"> 
-    	select * from post where board=0; 
+		select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt  
+        from post a
+        where board=0 order by post_id desc limit #{startList}, #{listSize};
+    </select>
+    
+    <!-- counting -->
+    <select id="count" resultType="int">
+    	select count(*) from post where board=0
     </select>
     
      <!-- notice_write : add posts -->
     <select id="add_post" parameterType="dto_post"> 
     	insert into post(board, title, nick, content, img, user_user_id)
-		values(0,#{title},'One',#{content},#{img},'a');
+		values(0,#{title},'One',#{content},#{img},'admin');
     </select>
     
     <!-- notice_write_view : add comments --> 
@@ -236,7 +285,7 @@
     
     <!-- log in -->
     <select id="login" resultType="dto_login">
-    	select nick, user_id from user 
+    	select * from user 
     	where user_id=#{user_id} and user_pw=#{user_pw}
     </select>
     
@@ -353,4 +402,30 @@
     </select>
     <!-- 내가 쓴 댓글 -->
 
+
+
+
+
+    <!-- helpme에 지원하기 -->
+    <select id="add_apply_me" resultType="dto_apply">
+    	insert into apply(helpme_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
+		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, #{gender}, #{applier}, #{price})
+    </select>
+    
+    <!-- helpme에 지원하기 -->
+    <select id="add_apply_you" resultType="dto_apply">
+    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
+		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price})
+    </select>
+    
+    <!-- apply_you 게시물 수 -->
+    <select id="count_apply" resultType="int">
+		select count(*) from apply where board=0 and applier=#{applier}
+    </select>
+    
+    <!-- apply_you 게시물 보여줌 -->
+    <select id="apply_you_page" resultType="dto_apply">
+		select * from apply where board=0 and applier=#{applier}
+		order by apply_id desc limit #{startList}, #{listSize};
+    </select>
 </mapper>
