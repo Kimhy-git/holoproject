@@ -182,6 +182,6 @@ public class MpController {
 	 	  System.out.println("리브 유저 id="+user_id);
 	 	  service.leave(user_id);
 	 	  
-      return "redirect:main";
+	    return "redirect:logout";
    }
 }

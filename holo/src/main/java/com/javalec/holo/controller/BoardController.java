@@ -293,6 +293,9 @@ public class BoardController {
 	@RequestMapping(value = "/helpyou_done", method = {RequestMethod.POST,RequestMethod.GET})
     public String helpyou_done(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
     					Model model){
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
 		String area=req.getParameter("tag_area");
 		String title=req.getParameter("title");
 		String job=req.getParameter("tag_job");
@@ -313,7 +316,8 @@ public class BoardController {
 		int price=Integer.parseInt(req.getParameter("min_price"));
 		String[] paymentList=req.getParameterValues("payment");
 		String payment=String.join(", ", paymentList);
-		String user_id="a";
+		String user_id=dto.getUser_id();
+		System.out.println("board controller user_id: "+user_id);
 		service.helpyou_submit(area,title,job,txtarea,file_up,gender,price,payment,user_id);
         return "redirect:help_you";
     }
@@ -359,6 +363,9 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_write_view")
 	public String helpyou_write_view(HttpServletRequest req, Model model) throws Exception {
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
 		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
 		service.hit(help_post_id);
 		Dto_help_post read=service.helpyou_write_view(help_post_id);
@@ -380,6 +387,7 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_write_edit")
 	public String helpyou_write_edit(HttpServletRequest req, Model model) {
+		
 		String post_id=req.getParameter("help_post_id");
 		model.addAttribute("post_id",post_id);
 		
@@ -399,6 +407,7 @@ public class BoardController {
 	@RequestMapping(value = "/helpyou_edit_done", method = {RequestMethod.POST,RequestMethod.GET})
     public String helpyou_edit_done(HttpServletRequest req, @RequestParam("file_up") MultipartFile file,
     					Model model){
+		
 		int post_id=Integer.parseInt(req.getParameter("post_id"));
 		String area=req.getParameter("tag_area");
 		String title=req.getParameter("title");
@@ -433,15 +442,21 @@ public class BoardController {
 	}
 	@RequestMapping(value="/helpyou_reply_done", method = {RequestMethod.POST,RequestMethod.GET})
 	public String helpyou_reply_done(HttpServletRequest req, Model model) {
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
 		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
 		String comment=req.getParameter("re_comment");
-		String user_id="b";
+		String user_id=dto.getUser_id();
 		service.helpyou_reply_submit(comment, help_post_id, user_id);
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;
 	}
 	@RequestMapping(value="/helpyou_re_recomment_submit", method = {RequestMethod.POST,RequestMethod.GET})
 	public String helpyou_re_recomment_submit(HttpServletRequest req, Model model) throws Exception {
 		System.out.println("start re_recomment");
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
 		int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
 		int re_order=Integer.parseInt(req.getParameter("parent_id"));
 		System.out.println("parent_id: "+re_order);
@@ -459,7 +474,7 @@ public class BoardController {
 		}
 		System.out.println("groupNum: "+groupNum);
 		String comment=req.getParameter("re_re_comment");		
-		String user_id="a";
+		String user_id=dto.getUser_id();
 		int re_index=Integer.parseInt(req.getParameter("re_index"));
 		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
 		service.helpyou_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);

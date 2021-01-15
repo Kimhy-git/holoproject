@@ -320,13 +320,19 @@ $(document)
 })	
 
 
-//.on('click',$('#sign_out'),function(){
-//	console.log($('#user').val());
-//	alert("탈퇴 되었습니다.")
-//		$('#bye').submit();
+.on('click','#sign_out',function(){
+	console.log($('#user').val());
+	
+	if(confirm("정말 탈퇴 하시겠습니까? 지금까지 쓴 글과 댓글이 삭제됩니다.")){
+		if(confirm("확인을 누르면 탈퇴됩니다.")){
+			alert("탈퇴되었습니다.");
+			$('#bye').submit();	
+		}
+	}
+	
 
-//	}
-
+	
+})
 
 </script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

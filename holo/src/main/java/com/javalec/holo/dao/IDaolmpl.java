@@ -52,13 +52,15 @@ public class IDaolmpl implements IDao {
     //회원탈퇴
   	@Override
   	public void leave(String user_id) throws Exception {
+  		sqlSession.delete(Namespace+".user_del0",user_id);
+  		sqlSession.delete(Namespace+".user_del00",user_id);
   		sqlSession.delete(Namespace+".user_del1",user_id);
   		sqlSession.delete(Namespace+".user_del2",user_id);
   		sqlSession.delete(Namespace+".user_del3",user_id);
   		sqlSession.delete(Namespace+".user_del4",user_id);
   		sqlSession.delete(Namespace+".leave",user_id);
   	}
-    
+        
 
     
     //find_id

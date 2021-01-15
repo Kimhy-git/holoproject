@@ -36,9 +36,15 @@
 	</insert>
 	
 	
-<!-- 회원탈퇴 -->
+	<!-- 회원탈퇴 -->
 	<delete id="leave" parameterType="String">
 		delete from user where user_id=#{user_id}
+	</delete>
+	<delete id="user_del0" parameterType="String">
+		delete a from reply a,(select post_id,user_user_id from post where user_user_id=#{user_id}) b where a.post_post_id=b.post_id; 
+	</delete>
+	<delete id="user_del00" parameterType="String">
+		delete a from help_reply a, (select help_post_id,user_user_id from help_post where user_user_id=#{user_id}) b  where a.help_post_post_id=b.help_post_id; 
 	</delete>
 	<delete id="user_del1" parameterType="String">
 		delete from help_reply where user_user_id=#{user_id} 
@@ -163,7 +169,7 @@
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
-		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
+		 values(#{tag_area},0,#{title},(select nick from user where user_id=#{user_user_id}),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,#{user_user_id});
 	</insert>
 	<!-- helpyou_write_view -->
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
@@ -186,7 +192,7 @@
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
 		insert into help_reply(board,re_comment, help_post_post_id, user_user_id)
-		 values(0, #{re_comment}, #{help_post_post_id}, 'a')
+		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id})
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">

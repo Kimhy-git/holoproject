@@ -50,12 +50,47 @@ table{
 }
 #list_title{
 	text-align: left;
-	padding: 5px 0;
-}
-.small_title{
+	padding: 7px 0 7px 20px;
 	font-weight: bold;
     background-color:#bbbbbb;
 }
+table #info td{
+	font-weight: bold;
+}
+table tr td:first-child{
+	padding: 5px 20px;
+	width: 300px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 300px;
+}
+#my_list tr td:nth-child(2){
+	width: 100px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 100px;
+	padding-right: 20px;
+}
+table tr td:nth-child(4){
+	padding: 5px 20px;
+	text-align: right;
+}
+table tr{
+	border-bottom: 1px solid #bbb;
+}
+#my_list1 tr td:nth-child(2){
+	padding: 5px 20px;
+	text-align: right;
+}
+table a{
+	text-decoration: none;
+}
+table a:hover{
+	text-decoration: underline;
+}
+
 #count{
 	text-align: right;
 	width:60px;
@@ -92,7 +127,9 @@ table{
 .applier .info .nick{
 	margin-bottom: 7px;
 }
-.applier .info .info02 a,span{
+.applier .info .info02,
+.applier .info .info02 a,
+.applier .info .info02 span{
 	color:rgb(107, 156, 230);
 }
 .applier .info .ptag{
@@ -125,6 +162,17 @@ table{
 #tabContent04 .applier .btns .btn{
 	background-color: rgb(175, 107, 230);
 }
-#tabContent04 .applier .info02 a,span{
+#tabContent04 .applier .info02,
+#tabContent04 .applier .info02 a,
+#tabContent04 .applier .info02 span{
 	color: rgb(175, 107, 230);
+}
+#tossJsp{
+	margin-left:10px;
+}
+#tossJsp span:hover{
+	color:#fff;
+}
+.current a{
+	font-weight: bold;
 }

@@ -78,7 +78,7 @@
 	                <tr>
 	                
 	                    <td><a href="freeboard_write_view?post_id=${item.post_id}">${item.title}</a></td>
-	                    <td>${item.nick}</td>
+	                    <td >${item.nick}</td>
 	                    <td>${item.operator}</td>
 	                    <td>${item.hit}</td>
 	                    <input type="hidden" value="${item.post_id}">
@@ -107,6 +107,7 @@
 	                </c:forEach>
 	            </table>
         	</div>
+        	
         	<div id="tabContent03" class="tabPage">
         		<article>
         		<div class="applier">
@@ -116,9 +117,9 @@
 						</div>
 						<div class="nick">
 							<span class="info02">
-								<a href="#">닉네임</a> | 
+								<a href="#">지원자목록닉네임</a> | 
 								<span class="info_gender">상관없음</span> | 
-								♥ <span class="info_like">2</span>
+								♥ <span class="info_like">1</span>
 							</span>
 							<span class="ptag">
 								<span>조용함</span>
@@ -137,6 +138,8 @@
 				</div>
 				</article>
         	</div>
+        	
+        	
         	<div id="tabContent04" class="tabPage">
         		
         		<article>
@@ -147,9 +150,9 @@
 						</div>
 						<div class="nick">
 							<span class="info02">
-								<a href="#">닉네임</a> | 
+								<a href="#" class="info_nick">지원목록</a> | 
 								<span class="info_gender">상관없음</span> | 
-								♥ <span class="info_like">2</span>
+								♥ <span class="info_like">0</span>
 							</span>
 							<span class="ptag">
 								<span>조용함</span>
