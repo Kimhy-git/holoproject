@@ -9,7 +9,7 @@
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
-<link rel="stylesheet" href="resources/css/freeboard_write_view.css">
+<link rel="stylesheet" href="resources/css/notice_write_view.css">
 <body>
  <header>
         <nav>
@@ -35,53 +35,46 @@
     </header>
     <div class="clear"></div>
     <section>
-        <div id="wrap">
-	        <h2>공지사항</h2>
-	        <div id="search">
-	            <input type="text" id="search_txt">
-	            <input type="button" id="search_btn" value="검색">
-	        </div>
-
-            
-        <div>
-        <c:forEach var="dto" items="${notice}">
-        <form action="update_post" method="post">
-            <table id="first">
-                <tr>
-                <td><input type=hidden id=post_id name=post_id value=${dto.post_id}></td>
-            	<td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
-            	
-                    <td>제목</td>
-                    <td>${dto.title}
-                    <input type=hidden name=title value=${dto.title}></td>
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td>${dto.nick}</td>
-                </tr>
-                <tr>
-                    <td>작성날짜</td>
-                    <td>${dto.operator}</td>
-                    
-                    <td>조회수</td>
-                    <td>${dto.hit}</td>
-                </tr>
-                <tr>
-                    <td>글내용</td>
-                </tr>
-            </table>
-            <table id="second">
-            	<tr>                
-                    <td><textarea id="content" name="content" cols="130" rows="40" readonly>${dto.content}
-                    ${dto.img}
-                    </textarea>
-                    </td>
-                    <img src="http://localhost:8080/holo/img/${dto.img}"/>
-                </tr>
-            </table>
-        </form>
-        </c:forEach>
-        </div>
+	    <div id="wrap">
+	    	<h2>공지사항</h2>
+        	<div id="center">
+        		<c:forEach var="dto" items="${notice}">
+		        <form action="update_post" method="post">
+		            <table id="first">
+		                <tr>
+		                <td><input type=hidden id=post_id name=post_id value=${dto.post_id}></td>
+		            	<td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
+		            	</tr>
+		            	<tr>
+		                    <td>제목</td>
+		                    <td>${dto.title}
+		                    <input type=hidden name=title value=${dto.title}></td>
+		                    <td>닉네임</td>
+		                    <td>${dto.nick}</td>
+		                </tr>
+		                <tr>
+		                    <td>작성날짜</td>
+		                    <td>${dto.operator}</td>
+		                    
+		                    <td>조회수</td>
+		                    <td>${dto.hit}</td>
+		                </tr>
+		                <tr>
+		                    <td>글내용</td>
+		                </tr>
+		            </table>
+		            <table id="second">
+		            	<tr>                
+		                    <td><textarea id="content" name="content" cols="130" rows="40" readonly>${dto.content}
+		                    ${dto.img}
+		                    </textarea>
+		                    </td>
+		                    <img src="http://localhost:8080/holo/img/${dto.img}"/>
+		                </tr>
+		            </table>
+		        </form>
+		        </c:forEach>
+		        </div>
             
             <div id="btn">
             <c:if test="${login.user_id}==${dto.user_user_id}">
@@ -98,8 +91,9 @@
 	                <c:forEach var="dto" items="${notice}">
 	                	<input type=hidden value="${dto.post_id}" name="post_post_id">
 	                </c:forEach>
+	                	<input type="hidden" name="user_user_id" value="${login.user_id}">
 	                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-	                <input type=submit value="등록">
+	                <input type=submit class="reply_sub_btn" value="등록">
 	                </div>
             	</form>
             </div> 
@@ -131,13 +125,13 @@
 			                <br><br><br>
 			                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
 			                <input id="comment-input" name="re_re_comment">
-			                <input type=submit value="등록" onclick="javascript: form.action='add_re_comment';">
+			                <input type=submit class="reply_sub_btn" value="등록" onclick="javascript: form.action='add_re_comment';">
 			                <input type="button" value="취소" id="rere_cancel${dto_reply.reply_id}">
 			                </div>
 			                
 			                <div id="reply_update_textarea${dto_reply.reply_id}" style="display:none">
 			                <input id="comment-input" name="update_comment" placeholder="${dto_reply.re_comment}">
-			                <input type=submit value="등록" onclick="javascript: form.action='update_comment';"/>
+			                <input type=submit class="reply_sub_btn" value="등록" onclick="javascript: form.action='update_comment';"/>
 			                <input type="button" value="취소" id="edit_cancel${dto_reply.reply_id}">
 			                </div>
 			         	</div>

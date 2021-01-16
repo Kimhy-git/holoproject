@@ -1,6 +1,7 @@
 package com.javalec.holo.dao;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_total;
+import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
@@ -128,7 +131,7 @@ public interface IDao {
 	public void add_post(String title,String content, String img);
 	
 	//add comments
-	public void add_comment(String post_post_id, String re_comment);
+	public void add_comment(String post_post_id, String re_comment, String user_user_id);
 	
 	//delete comments ONLY
 	public void delete_comment(String reply_id, String board, String post_post_id);
@@ -140,7 +143,7 @@ public interface IDao {
 	public void update_post(String post_id, String board, String title, String content);
 
 	//add re_comments
-	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String post_post_id2);
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);
 	
 	//hits
 	public void uphit(String post_id); 
@@ -236,7 +239,7 @@ public interface IDao {
 	
 	//helpme에 지원하기
 	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price);
+			String applier, String price, String nick, String title);
 	
 	//helpyou에 지원하기
 	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
@@ -247,4 +250,22 @@ public interface IDao {
 	
 	//apply_you 게시물 수
 	public int count_apply(String applier);
+	
+	//help_post 글 제목 가져오기(join)
+	public List<Dto_help_post> help_title(String user_user_id);
+	
+	//apply에서 지원자 가져오기
+	public List<Dto_apply> applier(String user_id);
+	
+	//전체 댓글 가져오기
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
+	
+	//전체 댓글 수 
+	public int total_reply_count(String user_id);
+	
+	//전체 지원 게시글 수
+	public int total_apply_count(String user_id);
+	
+	//전체 지원 게시글 불러오기
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
 }

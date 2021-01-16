@@ -82,3 +82,9 @@ footer p{
     color: #818181;
     text-decoration: none;
 }
+
+h1{
+	padding:20px;
+	font-size:20pt;
+	color : red;	
+}

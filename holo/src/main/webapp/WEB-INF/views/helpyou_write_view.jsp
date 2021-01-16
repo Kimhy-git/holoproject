@@ -72,6 +72,7 @@
 		                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
 		                    <div id="nick">${read.nick}</div>
 		                    <input type="hidden" id="NICK" value="${read.nick}">
+		                    <input type="hidden" id="NICK" value="${read.title}">
 		                    <div id="date">${read.operator}</div>
 		            </div>
 		            <input type="button" id="sub_btn"  value="요청하기">

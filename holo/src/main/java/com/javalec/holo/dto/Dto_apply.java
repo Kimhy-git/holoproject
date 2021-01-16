@@ -12,7 +12,23 @@ public class Dto_apply {
 	private String gender;
 	private String applier;
 	private String price;
+	private String nick;
+	private String title;
 	
+	
+	
+	public String getNick() {
+		return nick;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getApply_id() {
 		return apply_id;
 	}
@@ -79,8 +95,9 @@ public class Dto_apply {
 	}
 	public Dto_apply() {}
 	
-	public Dto_apply(String apply_id, String helpme_id, String helpyou_id, String tag, String cv, String operator,
-			String help_post_help_post_id, String board, String price, String gender, String applier) {
+	public Dto_apply(String apply_id, String helpme_id, String helpyou_id, String tag, 
+			String cv, String operator, String help_post_help_post_id, String board, 
+			String price, String gender, String applier, String nick, String title) {
 		super();
 		this.apply_id = apply_id;
 		this.helpme_id = helpme_id;
@@ -93,9 +110,11 @@ public class Dto_apply {
 		this.price = price;
 		this.gender = gender;
 		this.applier = applier;
+		this.nick = nick;
+		this.title = title;
 	}
 	public Dto_apply(String helpme_id, String tag, String cv, String help_post_help_post_id,
-			String gender, String applier, String price) {
+			String gender, String applier, String price, String nick, String title) {
 		super();
 		this.helpme_id = helpme_id;
 		this.tag = tag;
@@ -104,10 +123,12 @@ public class Dto_apply {
 		this.gender = gender;
 		this.applier = applier;
 		this.price = price;
+		this.nick = nick;
+		this.title = title;
 	}
 
 	public Dto_apply(String helpyou_id, String tag, String cv, String help_post_help_post_id, String board,
-			String gender, String applier, String price) {
+			String gender, String applier, String price, String nick, String title) {
 		super();
 		this.helpyou_id = helpyou_id;
 		this.tag = tag;
@@ -117,7 +138,8 @@ public class Dto_apply {
 		this.gender = gender;
 		this.applier = applier;
 		this.price = price;
-		System.out.println("Dto_apply, helpyou_id : "+helpyou_id);
+		this.nick = nick;
+		this.title = title;
 	}
 	public String getApplier() {
 		return applier;

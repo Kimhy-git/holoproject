@@ -2,6 +2,7 @@ package com.javalec.holo.service;
 
 import java.io.PrintWriter;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,6 +22,8 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_total;
+import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
@@ -311,10 +314,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	//add comments
 	@Override
-	public void add_comment(String post_post_id, String re_comment) {
-		System.out.println("MemberServiceImpl, post_post_id : "+post_post_id);
-		System.out.println("MemberServiceImpl, re_comment : "+re_comment);
-		dao.add_comment(post_post_id, re_comment);
+	public void add_comment(String post_post_id, String re_comment, String user_user_id) {
+		System.out.println("re_comment, service : "+re_comment);
+		dao.add_comment(post_post_id, re_comment, user_user_id);
 	}
 	
 	//delete comments ONLY
@@ -352,10 +354,11 @@ public class MemberServiceImpl implements MemberService {
 	
 	//add re_comments
 	@Override
-	public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, String groupNum, String post_post_id) {
+	public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, 
+			String groupNum, String post_post_id, String user_user_id) {
 		
 		System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
-		dao.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
+		dao.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
 		
 	}	
 
@@ -529,9 +532,9 @@ public class MemberServiceImpl implements MemberService {
 	//help_me에 지원하기
 	@Override
 	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price) {
+			String applier, String price, String nick, String title) {
 		
-		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price);
+		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
 	}
 	//help_you에 지원하기
 	@Override
@@ -558,4 +561,41 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("Service apply_you_page");
 		return dao.apply_you_page(pagination);
 	}
+
+	//help_post 글제목 가져오기(join 이용)
+	@Override
+	public List<Dto_help_post> help_title(String user_user_id) {
+		System.out.println("service, user_user_id : "+user_user_id);
+		return dao.help_title(user_user_id);
+	}
+
+	//apply에서 지원자 가져오기
+	@Override
+	public List<Dto_apply> applier(String user_id) {
+		return dao.applier(user_id);
+	}
+	
+	//전체 댓글 가져오기
+	@Override
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination) {
+		return dao.total_reply(user_id, pagination);
+	}
+
+	@Override
+	public int total_reply_count(String user_id) {
+		return dao.total_reply_count(user_id);
+	}
+	
+	//전체 지원 게시글 수
+	@Override
+	public int total_apply_count(String user_id) {
+		return dao.total_apply_count(user_id);
+	}
+
+	//전체 지원 게시글 가져오기
+	@Override
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
+		return dao.total_apply(user_id,pagination);
+	}
+	
 }

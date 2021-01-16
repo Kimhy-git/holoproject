@@ -40,12 +40,8 @@
                 </tr>
                 </form>
 
-       		<c:if test="${msg=='fail'}">
+       		<c:if test="${msg==false}">
             	<h1>로그인 실패 : 아이디와 비밀번호를 확인해주세요</h1>
-        	</c:if>
-        	
-        	<c:if test="${msg=='logout'}">
-            	<h1>로그아웃 되었습니다</h1>
         	</c:if>
         	
             </table>

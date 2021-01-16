@@ -51,7 +51,7 @@ h3{
 	border-radius:30px;
 	padding:10px 30px;
 	font-size:17px;
-	font-weight:500;
+	font-weight:400;
 	color:#777;
 
 }
@@ -84,6 +84,8 @@ div{
 				<input type="hidden" name="applier" value="${login.user_id}">
 				<input type="hidden" name="helpme_id" value="${helpme_id}">
 				<input type="hidden" name="help_post_help_post_id" value="${help_post_help_post_id}">
+				<input type="hidden" name="nick" value="${login.nick}">
+				<input type="hidden" name="title" value="${title}">
 			</tr>
 			<tr>
 				<td class="bold">이름 </td>
@@ -139,8 +141,7 @@ div{
 			</tr>
 			<tr>
 				<td colspan=2><input type="submit" id="submit" value="제출">
-				<input type="button" id="cancel" value="취소">
-				<input type="button" id="close" value="닫기"></td>
+				<input type="button" id="cancel" value="취소"></td>
 			</tr>
 		</table>
 	</div>	
@@ -156,7 +157,7 @@ $(document)
 	if(!confirm('제출 하시겠습니까?')){
 		return false;
 	}else{
-		alert("제출 되었습니다. 창을 닫으시려면 닫기 버튼을 클릭해주세요");
+		alert("제출 되었습니다. 창을 닫으시려면 취소 버튼을 클릭해주세요");
 	}
 })
 

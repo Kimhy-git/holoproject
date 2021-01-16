@@ -7,7 +7,6 @@
  		<typeAliases>
             <typeAlias type="com.javalec.holo.dto.Dto" alias="dto"/>
             <!-- help_you -->
-            <typeAlias type="com.javalec.holo.dto.Help_postDto" alias="helpdto"/>
             
             
             
@@ -17,7 +16,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto_user" alias="dto_user"/>
             <typeAlias type="com.javalec.holo.dto.Dto_login" alias="dto_login"/>
             <typeAlias type="com.javalec.holo.dto.Dto_apply" alias="dto_apply"/>
-            
+            <typeAlias type="com.javalec.holo.dto.Dto_total_reply" alias="dto_total_reply"/>
             
             
             <!-- help_me -->

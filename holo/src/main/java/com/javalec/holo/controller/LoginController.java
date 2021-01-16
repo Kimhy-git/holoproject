@@ -33,15 +33,15 @@ public class LoginController {
     
     @RequestMapping(value = "/do_login", method = RequestMethod.POST)
     public String do_login(HttpServletRequest request,
-    		HttpSession session, RedirectAttributes attr) throws Exception {
+    		HttpSession session, RedirectAttributes rttr) throws Exception {
 
     	Dto_login dto=new Dto_login();
     	
         dto = service.login(request);
         
-        if(dto.getNick()==null || dto.getUser_id()==null) {
-        	session.setAttribute("login",null);
-        	attr.addFlashAttribute("msg","없는 아이디거나 잘못된 비밀번호 입니다");
+        if(dto==null) {
+        	session.setAttribute("login",dto);
+        	rttr.addFlashAttribute("msg",false);
         	return "redirect:login";
         } else {
         	session.setAttribute("login", dto);

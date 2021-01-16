@@ -1,7 +1,9 @@
 package com.javalec.holo.dto;
 
 public class Pagination {
-	private int listSize = 7;                //초기값으로 목록개수를 10으로 셋팅
+	private int listSize = 10;                //초기값으로 목록개수를 10으로 셋팅
+	
+	private int mypageListSize=5;
 
 	private int rangeSize = 5;            //초기값으로 페이지범위를 10으로 셋팅
 
