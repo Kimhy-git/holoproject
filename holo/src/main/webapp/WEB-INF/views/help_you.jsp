@@ -101,8 +101,15 @@ function fn_prev(page, range, rangeSize) {
                 <div id="category">
                     <a href="#">전체</a>
                     <a href="#">벌레잡기</a>
-                    <a href="#">줄서주기</a>
-                    <a href="#">대리전화</a>
+                    <a href="#">쓰레기 분리수거</a>
+                    <a href="#">음식물쓰레기 처리</a>
+                    <a href="#">장봐주기</a>
+                    <a href="#">이삿짐 도와주기</a>
+                    <a href="#">가구 조립</a>
+                    <a href="#">설거지</a>
+                    <a href="#">변기 뚫기</a>
+                    <a href="#">냉장고 정리</a>
+                    <a href="#">모닝콜</a>
                     <a href="#">기타</a>
                 </div>
                 <div id="content">
@@ -110,14 +117,23 @@ function fn_prev(page, range, rangeSize) {
 					<ul>
 						<c:forEach items="${list}" var="list">
 							<li>
-								<input type=hidden id=help_post_id value=${list.help_post_id }>
-								<input type="hidden" id=user_user_id value=${list.user_user_id }>
-                        		<img class="thumbnail" src="${list.img }" onclick="location.href='/holo/helpyou_write_view?help_post_id=${list.help_post_id}'">
-                    			<p class=title onclick="location.href='/holo/helpyou_write_view?help_post_id=${list.help_post_id}'"><span class="address">[${list.tag_area }]</span><span class="job">[${list.tag_job }]</span>${list.title}</p>
-                    			<p>${list.nick }<span class="like"> ♥ ${list.likes }</span></p>
-                    			<p class="price">최소금액 : ${list.min_price }원</p>
-                    			<p>${list.operator}</p>
-                			</li>
+                        	<div id="box" onclick="location.href='/holo/helpyou_write_view?help_post_id=${list.help_post_id}'">
+	                        	<input type="hidden" value="${list.user_user_id}" name="user_id">
+	                        	<input type="hidden" value="${list.help_post_id}">
+	                            <img class="thumbnail" src="${list.img}">
+	                            
+	                            <c:if test="${list.complete==1}">
+	                            	<span>[완료]</span>
+	                            </c:if>
+	                            <span class="address">[${list.tag_area}][${list.tag_job}]</span>
+	                            <br>
+	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
+	                            <span class="comments">(${list.replyCnt})</span></div>
+                            </div>
+                            <p class="writer" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+                            <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
+                            <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
+                        </li> 
                 		</c:forEach>
                     </ul>
                 </div>
@@ -166,7 +182,7 @@ $(document)
 	user_id=$('#user_id_login').val();
 	console.log(user_id);
 	if(user_id==null || user_id==""){
-		alert("로그인하세요");
+		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
 	}else{
 		window.location.href="<c:url value='helpyou_write'/>"

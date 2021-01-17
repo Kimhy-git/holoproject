@@ -71,6 +71,7 @@
 
             	<div id="first">
                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
+                   <input type="text" id="title_table" value="${read.title}">
                    <div id="nick">${read.nick}</div>
                    <div id="date">${read.operator}</div>
             	</div>
@@ -197,13 +198,16 @@ $(document)
 })
 .on('click','#sub_btn',function(){
 	var login_user_id=$('#login_user_id').val();
+	console.log("title");
+	console.log($('#title_table').val());
 	   if(login_user_id==null || login_user_id==""){
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
 	   }else{
 		   window.open("apply_popup?nick="+$('#nick').val()+
 			   "&post_id="+$('#pId').val()+
-			   "&user_id="+$('#userId').val(),
+			   "&user_id="+$('#userId').val()
+			   +"&title="+$('#title_table').val(),
 			   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })

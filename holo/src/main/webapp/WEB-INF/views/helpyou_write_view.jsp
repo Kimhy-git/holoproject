@@ -69,12 +69,21 @@
 		    	<input type=hidden id=userId value="${read.user_user_id}">
 		        
 		            <div id="first">
-		                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
+		            	<div id="title">
+		                    <div id="tags">
+		                    	<span>${read.tag_area}</span><span>${read.tag_job}</span>
+		                    </div>
+		                    	<c:if test="${read.complete==1}">[완료]</c:if>
+		                    	${read.title}
+	                    </div>
 		                    <div id="nick">${read.nick}</div>
 		                    <input type="hidden" id="NICK" value="${read.nick}">
+		                    <input type="text" id="title_table" value="${read.title}">
 		                    <div id="date">${read.operator}</div>
 		            </div>
-		            <input type="button" id="sub_btn"  value="요청하기">
+		            <c:if test="${read.complete==0}">
+						<input type="button" id="sub_btn"  value="요청하기">
+	                </c:if>
 		            <input type="hidden" value="${read.user_user_id}" id="user_user_id">
 		            <div id="second">
 		            	<table>
@@ -109,7 +118,7 @@
 		                </tr>
 		            </table>
 		            <div id="form-commentInfo"> 
-		                <div id="comment-count">댓글 <span id="count">0</span></div> 
+		                <div id="comment-count">댓글 <span id="count">(${read.replyCnt})</span></div> 
 		                <form method="post" action="helpyou_reply_done">
 			                <div id=cc>
 			                <input type=hidden name="post_id" value="${read.help_post_id}">
@@ -120,10 +129,10 @@
 		            </div> 
 		            <div id=comments>
 		            <c:forEach var="reply" items="${reply}">
-		            	<div id="comments${reply.help_reply_id}">
+		            	<div id="comments${reply.help_reply_id}" class="comments" value="${reply.re_class}">
 						    <input type="hidden" class="reply_id" value="${reply.help_reply_id}">
 						    <input type="hidden" class="re_index" value="${reply.re_index}">
-				            <p class="reply_user">${reply.user_user_id}</p>
+				            <p class="reply_user">${reply.nick}</p>
 				            <p class="reply_comment">${reply.re_comment}</p>
 				            <p class="reply_date">${reply.operator}</p>
 				            <c:if test="${login.user_id==reply.user_user_id}">
@@ -145,13 +154,13 @@
 			                </form>
 		                </div>
 		                <div id="reply_edit${reply.help_reply_id}" style="display:none;">
-			            <form method="post" action="helpyou_reply_edit">
-               				<input type="hidden" name="post_id" value="${reply.help_post_post_id }">
-               				<input type="hidden" name="reply_id" value="${reply.help_reply_id }">
-               				<input id="comment-input" name="re_comment" value="${reply.re_comment }">
-               				<input type=button id="reply_edit_cancle${reply.help_reply_id }" value="취소">
-               				<input type=submit value="등록">
-         					</form>
+				            <form method="post" action="helpyou_reply_edit">
+	               				<input type="hidden" name="post_id" value="${reply.help_post_post_id }">
+	               				<input type="hidden" name="reply_id" value="${reply.help_reply_id }">
+	               				<input id="comment-input" name="re_comment" value="${reply.re_comment }">
+	               				<input type=button id="reply_edit_cancle${reply.help_reply_id }" value="취소">
+	               				<input type=submit value="등록">
+	         				</form>
        					</div>
 					</c:forEach>
 		            </div>
@@ -183,6 +192,72 @@ function getContextPath() {
 var ip='http://localhost:8080';
 */
 $(document)
+.ready(function(){
+	$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+	});
+	//$('.comments').css("margin_left",(n*50)+"px");
+})
+
+.on('click','#remove',function(){
+	var post_id=$('#pId').val();
+	console.log(post_id);
+	if(confirm('삭제하시겠습니까?')){
+		window.location.href="<c:url value='helpyou_delete'/>?post_id="+post_id;
+	}else{
+		return false;
+	}
+})
+.on('click','input[id^=reply_btn]',function(){
+	var n=(this.id).substr(9);
+	console.log("reply: "+n);
+	console.log($('#reply_edit'+n).css("display"));
+	if($('#reply_edit'+n).css("display")=="none"){
+			$('#reply_edit'+n).show();
+			$('#comments'+n).hide();
+	}else{
+		$('#reply_edit'+n).hide();
+		$('#comments'+n).show();
+	}
+})
+
+.on('click','#sub_btn',function(){
+	var login_user_id=$('#login_user_id').val();
+	console.log(login_user_id);
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"
+	   }else{
+		   window.open("request_popup?nick="+$('#NICK').val()+
+				   "&post_id="+$('#pId').val()+
+				   "&user_id="+$('#user_user_id').val()
+				   +"&title="+$('#title_table').val(),
+				   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
+	   }
+})
+.on('click','input[id^=reply_edit_cancle]',function(){
+	var n=(this.id).substr(17); 
+	console.log($('#comments'+n).css("display"));
+	if($('#comments'+n).css("display")=="none"){
+			$('#comments'+n).show();
+			$('#reply_edit'+n).hide();
+	}else{
+		$('#comments'+n).hide();
+		$('#reply_edit'+n).show();
+	}
+})
+.on('click','input[id^=reply_again]',function(){
+	var n=(this.id).substr(11); 
+	console.log($('#reply_recomment'+n).css("display"));
+	if($('#reply_recomment'+n).css("display")=="none"){
+			$('#reply_recomment'+n).show();
+	}else{
+		$('#reply_recomment'+n).hide();
+	}
+})
 /*
 .ready(function(){
 	console.log($('#pId').val());
@@ -231,60 +306,5 @@ $(document)
 })
 */
 
-.on('click','#remove',function(){
-	var post_id=$('#pId').val();
-	console.log(post_id);
-	if(confirm('삭제하시겠습니까?')){
-		window.location.href="<c:url value='helpyou_delete'/>?post_id="+post_id;
-	}else{
-		return false;
-	}
-})
-.on('click','input[id^=reply_btn]',function(){
-	var n=(this.id).substr(9);
-	console.log("reply: "+n);
-	console.log($('#reply_edit'+n).css("display"));
-	if($('#reply_edit'+n).css("display")=="none"){
-			$('#reply_edit'+n).show();
-			$('#comments'+n).hide();
-	}else{
-		$('#reply_edit'+n).hide();
-		$('#comments'+n).show();
-	}
-})
-
-.on('click','#sub_btn',function(){
-	var login_user_id=$('#login_user_id').val();
-	console.log(login_user_id);
-	   if(login_user_id==null || login_user_id==""){
-			alert("로그인 해주세요");
-			window.location.href="<c:url value='login'/>"
-	   }else{
-		   window.open("request_popup?nick="+$('#NICK').val()+
-				   "&post_id="+$('#pId').val()+
-				   "&user_id="+$('#user_user_id').val(),
-				   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
-	   }
-})
-.on('click','input[id^=reply_edit_cancle]',function(){
-	var n=(this.id).substr(17); 
-	console.log($('#comments'+n).css("display"));
-	if($('#comments'+n).css("display")=="none"){
-			$('#comments'+n).show();
-			$('#reply_edit'+n).hide();
-	}else{
-		$('#comments'+n).hide();
-		$('#reply_edit'+n).show();
-	}
-})
-.on('click','input[id^=reply_again]',function(){
-	var n=(this.id).substr(11); 
-	console.log($('#reply_recomment'+n).css("display"));
-	if($('#reply_recomment'+n).css("display")=="none"){
-			$('#reply_recomment'+n).show();
-	}else{
-		$('#reply_recomment'+n).hide();
-	}
-})
 </script>
 </html>

@@ -56,7 +56,7 @@ h2{
 	margin-left: 25px;
 }
 #category a{
-	margin-right: 25px;
+	margin-right: 12px;
 }
 #center{
 	width: 1000px;
@@ -93,15 +93,38 @@ h2{
 	/*margin-right: 40px;*/
 	cursor:pointer;
 }
-#content ul li .title:hover{
-	text-decoration:underline;	
+#box:hover,
+#box:hover .title,
+#box:hover .comments,
+#box:hover .address{
+	text-decoration:underline;
+	cursor:pointer;	
+}
+#content ul li .writer:hover,
+#content ul li .writer:hover .like {
+	cursor:pointer;
+	font-weight:bolder;
+	color:#c0c0c0;
 }
 #content ul li:nth-child(1){
 	margin-left:0;
 }
-#content ul li p:nth-child(2){
+#content ul li .title{
 	font-weight: bolder;
+	float:left;
 }
+
+#content ul li .comments{
+	margin-left:5px;
+	color:#777;
+}
+#content ul li span.like{
+	color:#412e74;
+	font-size:13px
+}
+/*#content ul li p:nth-child(2){
+	font-weight: bolder;
+}*/
 .write{
     margin-top: 7px;
 }
@@ -113,4 +136,14 @@ h2{
 	/*width: 230px; 
 	height: 180px;*/
 	
+}
+#category a{
+	text-decoration: none;
+	color: #000;
+}
+#category a:hover{
+	text-decoration: none;
+	background: #bbb;
+	color: #fff;
+	border-radius: 3px;
 }

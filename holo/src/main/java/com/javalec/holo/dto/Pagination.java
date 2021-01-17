@@ -1,8 +1,10 @@
 package com.javalec.holo.dto;
 
 public class Pagination {
-	private int listSize = 7;                //초기값으로 목록개수를 10으로 셋팅
+	private int listSize = 10;                //초기값으로 목록개수를 10으로 셋팅, 마이폐이지의 내가쓴글, 내가쓴댓글
 
+	private int mypageListSize = 5;			//마이페이지에서 자신이 지원한 목록을 띄울 때 사용하는 셋팅
+	
 	private int rangeSize = 5;            //초기값으로 페이지범위를 10으로 셋팅
 
 	private int page;
@@ -26,6 +28,7 @@ public class Pagination {
 	private String helpme_id;
 	private String helpyou_id;
 	private String applier;
+	private String user_id;
 	
 	
 	public Pagination() {}
@@ -155,6 +158,36 @@ public class Pagination {
 		this.page = page;
 		this.range = range;
 		this.listCnt = listCnt;
+
+		//전체 페이지수 
+		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+
+		//시작 페이지
+		this.startPage = (range - 1) * rangeSize + 1 ;
+
+		//끝 페이지
+		this.endPage = range * rangeSize;
+
+		//게시판 시작번호
+		this.startList = (page - 1) * listSize;
+
+		//이전 버튼 상태
+		this.prev = range == 1 ? false : true;
+
+		//다음 버튼 상태
+		this.next = endPage > pageCnt ? false : true;
+		if (this.endPage > this.pageCnt) {
+			this.endPage = this.pageCnt;
+			this.next = false;
+		}
+
+	}
+	
+	public void pageInfo_mypage(int page, int range, int listCnt,String user_id) {
+		this.page = page;
+		this.range = range;
+		this.listCnt = listCnt;
+		this.user_id = user_id;
 
 		//전체 페이지수 
 		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;

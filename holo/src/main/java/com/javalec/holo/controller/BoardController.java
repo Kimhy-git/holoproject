@@ -27,7 +27,6 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
-import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 import com.javalec.holo.service.MemberService;

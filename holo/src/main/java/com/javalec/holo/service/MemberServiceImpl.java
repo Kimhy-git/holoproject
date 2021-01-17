@@ -21,8 +21,8 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_total;
 import com.javalec.holo.dto.Dto_user;
-import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
@@ -268,6 +268,32 @@ public class MemberServiceImpl implements MemberService {
 	public void helpyou_reply_edit(int help_reply_id, String re_comment) {
 		dao.helpyou_reply_edit(help_reply_id, re_comment);
 	}
+	
+	//mypage
+	@Override
+	public void help_complete(int help_post_id) {
+		dao.help_complete(help_post_id);
+	}
+	
+	@Override
+	public List<Dto_total> mypage_total_list(Pagination pagination){
+		return dao.mypage_total_list(pagination);
+	}
+	
+	@Override
+	public List<Dto_apply> mypage_applyme_list(int post_id){
+		return dao.mypage_applyme_list(post_id);
+	}
+	
+	@Override
+	public void mypage_applyme_choose(int apply_id) {
+		dao.mypage_applyme_choose(apply_id);
+	}
+	@Override
+	public void mypage_applier_like(String applier) {
+		dao.mypage_applier_like(applier);
+	}
+	
 	
 	
 	
@@ -529,17 +555,16 @@ public class MemberServiceImpl implements MemberService {
 	//help_me에 지원하기
 	@Override
 	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price) {
+			String applier, String price, String nick, String title) {
 		
-		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price);
+		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
 	}
 	//help_you에 지원하기
 	@Override
 	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
-			String gender, String applier, String price) {
-		System.out.println("member, helpyou_id : "+helpyou_id);
-		System.out.println("member, board : "+board);
-		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price);	
+			String gender, String applier, String price, String nick, String title) {
+		System.out.println("service nick and title : "+nick+", "+title);
+		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price, nick, title);	
 	}
 
 
@@ -557,5 +582,11 @@ public class MemberServiceImpl implements MemberService {
 	public Dto_apply apply_you_page(Pagination pagination) {
 		System.out.println("Service apply_you_page");
 		return dao.apply_you_page(pagination);
+	}
+
+	//tap4 내가 지원한 게시글 목록
+	@Override
+	public List<Dto_apply> applier(String user_user_id) {
+		return dao.applier(user_user_id);
 	}
 }

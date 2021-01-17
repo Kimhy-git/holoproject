@@ -17,7 +17,7 @@ h2{
 	margin-top: 10px;
 	margin-bottom: 30px;
 	margin-left: 12px;
-	width : 700px;
+	width : 800px;
 	float: left;
 }
 .tabMenu{
@@ -43,39 +43,40 @@ h2{
 table{
 	clear:both;
     margin: 0 auto;
-    width : 700px;
+    width : 800px;
     background: white;
     border: 1px solid #bbb;
     border-collapse: collapse;
 }
-#list_title{
+table #info td{
+	font-weight: bold;
 	text-align: left;
-	padding: 7px 0 7px 20px;
+	padding: 7px 0;
 	font-weight: bold;
     background-color:#bbbbbb;
 }
-table #info td{
-	font-weight: bold;
-}
 table tr td:first-child{
 	padding: 5px 20px;
-	width: 300px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-	max-width: 300px;
+	width: 70px;
+}
+#my_list #info td:first-child{
+	padding-left: 20px;
 }
 #my_list tr td:nth-child(2){
-	width: 100px;
+	width: 300px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 	max-width: 100px;
 	padding-right: 20px;
 }
-table tr td:nth-child(4){
-	padding: 5px 20px;
-	text-align: right;
+#my_list tr td:nth-child(4){
+	text-align:center;
+	width:70px;
+}
+#my_list tr td:nth-child(5){
+	text-align:right;
+	padding-right: 20px;
 }
 table tr{
 	border-bottom: 1px solid #bbb;
@@ -97,11 +98,11 @@ table a:hover{
 }
 
 #center{
-	width: 700px;
+	width: 800px;
 	margin: 0 auto;
 }
 .applier{
-	width: 700px;
+	width: 800px;
 	height: 120px;
 	border: 1px solid #bbb;
 	background: #fff;

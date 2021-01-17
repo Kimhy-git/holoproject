@@ -16,8 +16,8 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_total;
 import com.javalec.holo.dto.Dto_user;
-import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
@@ -46,7 +46,12 @@ public interface MemberService {
 	public void helpyou_edit(int help_post_id,String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public void helpyou_reply_edit(int help_reply_id, String re_comment);
 	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception;
-	
+	//mypage
+	public void help_complete(int help_post_id);
+	public List<Dto_total> mypage_total_list(Pagination pagination);
+	public List<Dto_apply> mypage_applyme_list(int post_id);
+	public void mypage_applyme_choose(int apply_id);
+	public void mypage_applier_like(String applier);
 	
 	
 	
@@ -230,16 +235,21 @@ public interface MemberService {
 	
 	//help_me에 지원하기
 	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price);
+			String applier, String price, String nick, String title);
 
 	//help_you에 지원하기
 	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
-			String gender, String applier, String price);
+			String gender, String applier, String price, String nick, String title);
 
 	//apply_you page
 	public Dto_apply apply_you_page(Pagination pagination);
 
 	//apply_you paging
 	public int count_apply(String applier);
+	
+	//mypage tap 4 //tap4 내가 지원한 게시글 목록
+	public List<Dto_apply> applier(String user_user_id);
+
+
 }
 

@@ -85,6 +85,7 @@ h2{
 #wrap{
     background-color: white;
     width:1000px;
+    height:auto;
     padding-bottom: 30px;
 }
 #form-commentInfo{
@@ -99,23 +100,43 @@ h2{
 	padding:5px;
 }
 #comment-input{
-	width:670px;
+	width:788px;
 	height:100px;
+	border:1px solid #ccc;
+	outline:none;
 }
 #submit{
-	height:112px;
-	width:112px;
-	margin-left:5px;
+	float:right;
+	display:block;
+	margin:10px 0 0 0px;
+	padding:5px 15px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	cursor:pointer;
+	outline:none;
 }
 #cc{
-	width:930px;
+	width:800px;
 }
 #btn input{
-	margin-right:5px;
+	margin-left:5px;
+	float:right;
+	border:1px solid #ccc;
+	border-radius:5px;
+	cursor:pointer;
 }
 #btn{
-	padding-top:3px;
-	padding-left:730px;
+	padding-top:20px;
+	width:800px;
+	padding-bottom:20px;
+	clear:both;
+}
+#list, #remove, #edit{
+	outline:none;
+	background-color:#fff;
+}
+#remove{
+	color:#f26231;
 }
 #write{
 	padding:5px;
@@ -131,4 +152,92 @@ h2{
 	margin:0 auto;
 	display:block;
 	text-align:center;
+}
+
+#nick{
+	margin-top:10px;
+	font-weight:bolder;
+}
+#date{
+	color:#767676;
+	margin-bottom:10px;
+}
+#second table tr td:nth-child(1){
+	font-weight:bolder;
+	color:#656565;
+	padding-right:10px;
+}
+.comments{
+	clear:both;
+	padding-bottom:15px;
+	border-bottom:1px solid #eaeaea;
+}
+
+.reply_user{
+	padding:10px 0 5px 0;
+	font-weight:bolder;
+}
+.reply_date{
+	font-size:13px;
+	color:#838383;
+}
+.re_remove, .re_edit, .re_again{
+	border:none;
+	background-color:white;
+	color:#333;
+	cursor:pointer;
+	margin-right:5px;
+	outline:none;
+}
+.re_remove{
+	color:#666;
+}
+.re_edit_txt{
+	width:740px;
+}
+.edit-go,.edit-cancel{
+	float:right;
+	margin:10px 0 0 5px;
+	padding:5px 15px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	cursor:pointer;
+	outline:none;
+}
+.reply_comment{
+	padding:10px 0 15px 0;
+}
+.edit-input{
+	margin-top:10px;
+	padding:5px;
+	width:728px;
+	height:100px;
+	border:1px solid #ccc;
+	outline:none;
+}
+.re_re_comment{
+	margin-top:10px;
+	padding:5px;
+	width:728px;
+	height:100px;
+	border:1px solid #ccc;
+	outline:none;
+}
+
+.reply_again_txt{
+	width:740px;
+}
+.re_re_submit{
+	margin-top:10px;
+	display:block;
+	float:right;
+	margin:10px 0 0 0px;
+	padding:5px 15px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	cursor:pointer;
+	outline:none;
+}
+#clr{
+	clear:both;
 }

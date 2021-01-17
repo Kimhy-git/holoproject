@@ -19,8 +19,8 @@ import com.javalec.holo.dto.Dto_help_reply;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_reply;
+import com.javalec.holo.dto.Dto_total;
 import com.javalec.holo.dto.Dto_user;
-import com.javalec.holo.dto.Help_postDto;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
 
@@ -281,6 +281,31 @@ public class IDaolmpl implements IDao {
 		Dto_help_reply helpreplyDto=new Dto_help_reply(help_reply_id,comment);
 		sqlSession.update(Namespace+".helpyou_reply_edit",helpreplyDto);
 	}
+	
+	// Mypage
+	// help_complete
+	@Override
+	public void help_complete(int help_post_id) {
+		sqlSession.update(Namespace+".help_complete",help_post_id);
+	}
+	@Override
+	public List<Dto_total> mypage_total_list(Pagination pagination){
+		return sqlSession.selectList(Namespace+".mypage_post_list",pagination);
+	}
+	@Override
+	public List<Dto_apply> mypage_applyme_list(int post_id){
+		return sqlSession.selectList(Namespace+".mypage_applyme_list",post_id);
+	}
+	@Override
+	public void mypage_applyme_choose(int apply_id) {
+		sqlSession.update(Namespace+".mypage_applyme_choose", apply_id);
+	}
+	@Override
+	public void mypage_applier_like(String applier) {
+		sqlSession.update(Namespace+".mypage_applier_like",applier);
+	}
+	
+	
 	
 	
 	
@@ -554,19 +579,19 @@ public class IDaolmpl implements IDao {
 			//helpme에 지원하기
 			@Override
 			public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id,
-					String gender, String applier, String price) {
+					String gender, String applier, String price, String nick, String title) {
 				
-				Dto_apply dto = new Dto_apply(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price);
+				Dto_apply dto = new Dto_apply(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
 				sqlSession.insert(Namespace+".add_apply_me",dto);	
 			}
 
 			//help you//helpyou에 지원하기
 			@Override
 			public void add_apply_you(String helpyou_id, String tag, String cv, String board,
-					String help_post_help_post_id, String gender, String applier, String price) {
-				System.out.println("Idao, helpyou_id : "+helpyou_id);
-				System.out.println("Idao, board : "+board);
-				Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price);
+					String help_post_help_post_id, String gender, String applier, String price, String nick, String title) {
+				System.out.println("Idao, nick : "+nick);
+				System.out.println("Idao, title : "+title);
+				Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price,nick,title);
 				sqlSession.insert(Namespace+".add_apply_you",dto);
 			}
 
@@ -581,5 +606,11 @@ public class IDaolmpl implements IDao {
 			public Dto_apply apply_you_page(Pagination pagination) {
 				System.out.println("IDao apply_you_page");
 				return sqlSession.selectOne(Namespace+".apply_you_page",pagination);
+			}
+			
+			//tap4 내가 지원한 게시글 목록
+			@Override
+			public List<Dto_apply> applier(String user_user_id) {
+				return sqlSession.selectList(Namespace+".applier",user_user_id);
 			}
 }

@@ -1,0 +1,107 @@
+@charset "EUC-KR";
+.clear{
+	clear:both;
+}
+section{
+	margin-top: 40px;
+    margin-bottom: 10px;
+    height: 650px;
+}
+h2{
+	padding-top:20px;
+	text-align: left;
+	margin-left: 20px;
+}
+#mine{
+	text-align:left;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	margin-left: 12px;
+	width : 800px;
+	float: left;
+	border: 1px solid red;
+}
+#center{
+	width: 800px;
+	margin: 0 auto;
+}
+.applier{
+	width: 800px;
+	height: 120px;
+	border: 1px solid #bbb;
+	background: #fff;
+	padding: 7px 10px;
+	
+}
+.applier a{
+	text-decoration: none;
+}
+.applier .info{
+	float: left;
+}
+.applier .title{
+	padding: 5px 0;
+}
+.applier .title a{
+	font-weight: bold;	
+}
+.applier .date{
+	margin-left: 10px;
+	color:#bbb;
+}
+.applier .info .nick{
+	margin-bottom: 7px;
+}
+.applier .info .info02,
+.applier .info .info02 a,
+.applier .info .info02 span{
+	color:rgb(107, 156, 230);
+}
+.applier .info .ptag{
+	padding-left: 5px;
+}
+.applier .info .ptag span{
+	background:#bbb;
+	border-radius: 5px;
+	color:#fff;
+	font-size: 12px;
+	padding:3px;
+	margin-left: 5px;
+}
+.applier .btns{
+	float: right;
+	margin-top: 7px;
+}
+.applier .btns .btn{
+	height: 50px;
+	width: 100px;
+	padding: 10px;
+	border-radius: 10px;
+	border: none;
+	background: rgb(107, 156, 230);
+	color:#fff;
+	font-size:15px;
+}
+.applier .btns .last{
+	margin-top: 5px;
+}
+.applier .btns .choose0{
+	background: #aaa;
+}
+#tabContent04 .applier .btns .btn{
+	background-color: rgb(175, 107, 230);
+}
+#tabContent04 .applier .info02,
+#tabContent04 .applier .info02 a,
+#tabContent04 .applier .info02 span{
+	color: rgb(175, 107, 230);
+}
+#tossJsp{
+	margin-left:10px;
+}
+#tossJsp span:hover{
+	color:#fff;
+}
+.current a{
+	font-weight: bold;
+}

@@ -6,9 +6,8 @@
  
  		<typeAliases>
             <typeAlias type="com.javalec.holo.dto.Dto" alias="dto"/>
-            <!-- help_you -->
-            <typeAlias type="com.javalec.holo.dto.Help_postDto" alias="helpdto"/>
-            
+            <!-- mypage -->
+            <typeAlias type="com.javalec.holo.dto.Dto_total" alias="dto_my_total"/>
             
             
             <!-- notice -->

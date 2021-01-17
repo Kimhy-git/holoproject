@@ -71,9 +71,10 @@ textarea::placeholder{
     border-radius: 3px;
     padding: 20px 2%;
     width: 76%;
-    margin-top: 10px;
+
     resize: none;
     outline: none;
+    height:350px;
 }
 
 #img_up{

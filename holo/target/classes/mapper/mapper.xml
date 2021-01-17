@@ -155,9 +155,13 @@
 	</select>
 	
 	
+	
+	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user 
+		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes,
+		ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
+		from help_post,user
 		where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
 		limit #{startList}, #{listSize};
 	</select>
@@ -173,7 +177,8 @@
 	</insert>
 	<!-- helpyou_write_view -->
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
-		select * from help_post where help_post_id=#{help_post_id}
+		select *,ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
+		from help_post where help_post_id=#{help_post_id}
 	</select>
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
@@ -197,8 +202,8 @@
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		SELECT *
-		FROM help_reply
-		where board=0 and help_post_post_id=#{help_post_post_id}
+		FROM help_reply, user
+		where user.user_id=help_reply.user_user_id and board=0 and help_post_post_id=#{help_post_id}
 		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
 	</select>
 	<!-- helpyou reply del -->
@@ -221,7 +226,39 @@
  		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
 	</insert>
 
-
+	
+	<!-- mypage help_complete -->
+	<update id="help_complete">
+		update help_post set complete=1 where help_post_id=#{help_post_id};
+	</update>
+	<!-- mypage post list -->
+	<select id="mypage_post_list" resultType="dto_my_total">
+		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
+		union
+		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
+		order by operator desc
+		limit #{startList}, #{listSize};
+	</select>
+	<!-- mypage post list count -->
+	<select id="mypage_post_list_count" resultType="dto_my_total">
+		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
+		union
+		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
+		order by operator desc;
+	</select>
+	<!-- mypage applyme list -->
+	<select id="mypage_applyme_list" parameterType="int" resultType="dto_apply">
+		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
+		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
+	</select>
+	<update id="mypage_applyme_choose" parameterType="int">
+		update apply set choose=1 where apply_id=#{apply_id};
+	</update>
+	<!-- mypage applier like -->
+	<update id="mypage_applier_like" parameterType="string">
+		update user set likes=likes+1 where user_id=#{applier};
+	</update>
+	
 
 
 
@@ -307,12 +344,12 @@
   <select id="select_freeboard" resultType="dto_freeboard">
         select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt 
         from post a
-        where board=1;
+        where board=2;
     </select>
     <!-- 리스트 보기 -->
     
     <select id="select_freeboard_view" resultType="dto_freeboard">
-        select * from post where board=1 and post_id=#{post_id};
+        select * from post where board=2 and post_id=#{post_id};
     </select>
     <!-- 게시글 보기 -->
         <select id="free_uphit" resultType="dto_freeboard"> 
@@ -321,53 +358,53 @@
     <!-- 조회수 +1 -->
     
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
-    	delete from post where post_id=#{post_id} and board=1;
+    	delete from post where post_id=#{post_id} and board=2;
     </select>
     <!-- 게시글 삭제 -->
  	
  	<select id="select_free_reply_delete" resultType="dto_free_reply_delete"> 
-    	delete from reply where post_post_id=#{post_post_id} and board=1;
+    	delete from reply where post_post_id=#{post_post_id} and board=2;
     </select>
     <!-- 게시글+댓글 삭제 -->
     <select id="freeboard_update" resultType="dto_freeboard"> 
     	update post set title=#{title}, content=#{content}
-    	where post_id=#{post_id} and board=1;
+    	where post_id=#{post_id} and board=2;
     </select>
     <!-- 게시물 수정 -->
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
     	insert into post(board, title, nick, content, img, user_user_id) 
-    		values (1, #{title}, "se", #{content}, #{img}, "b");
+    		values (2, #{title}, "se", #{content}, #{img}, "b");
     </insert>
 	<!-- 게시물 등록 -->	
     
     <select id="add_free_comment" parameterType="dto_free_reply"> 
     	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(1,0,#{re_comment},#{post_post_id},'a');	
+		values(2,0,#{re_comment},#{post_post_id},'a');	
     </select>
     <!-- 댓글 쓰기 -->   
     
     <select id="select_free_reply" resultType="dto_free_reply"> 
-    	select * from reply where board=1 and post_post_id=#{post_id}
+    	select * from reply where board=2 and post_post_id=#{post_id}
     	order by re_index, reply_id; 
     </select>
     <!-- 댓글 보여주기 -->
     
     <select id="delete_free_comment" resultType="dto_free_reply"> 
-    	delete from reply where reply_id=#{reply_id} and board=#{board} and
+    	delete from reply where reply_id=#{reply_id} and board=2 and
     	post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 삭제 -->
     
     <select id="update_free_comment_now" resultType="dto_free_reply" parameterType="com.javalec.holo.dto.Dto_free_reply"> 
     	update reply set re_comment=#{re_comment}
-    	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
+    	where board=2 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 수정 -->
     
     <select id="add_free_re_comment" parameterType="dto_free_reply"> 
     	     insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
-      values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
+      values(2,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
     </select>
     <!-- 대댓글 추가 -->
     
@@ -400,11 +437,11 @@
     </select>
     <!-- 댓글 갯수 세기 -->
           <select id="mylist" resultType="com.javalec.holo.dto.Dto_freeboard">
-        select * from post where board=1 and user_user_id = 'aaaaa';
+        select * from post where board=2 and user_user_id = 'aaaaa';
     </select>
     <!-- 내가 쓴 글 -->
           <select id="myreply" resultType="com.javalec.holo.dto.Dto_free_reply">
-        select * from reply where board=1 and user_user_id = 'a';
+        select * from reply where board=2 and user_user_id = 'a';
     </select>
     <!-- 내가 쓴 댓글 -->
 
@@ -414,14 +451,14 @@
 
     <!-- helpme에 지원하기 -->
     <select id="add_apply_me" resultType="dto_apply">
-    	insert into apply(helpme_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
-		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, #{gender}, #{applier}, #{price})
+    	insert into apply(helpme_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
+		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, #{gender}, #{applier}, #{price}, #{nick}, #{title})
     </select>
     
     <!-- helpme에 지원하기 -->
     <select id="add_apply_you" resultType="dto_apply">
-    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
-		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price})
+    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
+		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price}, #{nick},#{title})
     </select>
     
     <!-- apply_you 게시물 수 -->
@@ -433,5 +470,10 @@
     <select id="apply_you_page" resultType="dto_apply">
 		select * from apply where board=0 and applier=#{applier}
 		order by apply_id desc limit #{startList}, #{listSize};
+    </select>
+    
+    <!-- tap4 내가 지원한 글을 보여줌 -->
+    <select id="applier" resultType="dto_apply">
+		select * from apply where applier=#{user_user_id}
     </select>
 </mapper>

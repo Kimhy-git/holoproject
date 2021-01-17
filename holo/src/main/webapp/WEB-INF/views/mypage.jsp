@@ -41,17 +41,14 @@
          
             <nav id="mine">
             <ul class="tabs">
-                <li class="tabMenu current">
-                	<a href="#tabContent01" >내가 쓴 글</a>
+                <li>
+                	<a href="mypage_mypage_myposts">내가 쓴 글</a>
                 </li>
                 <li class="tabMenu">
                 	<a href="#tabContent02" >내가 쓴 댓글</a> 
                 </li>
-                <li class="tabMenu">
-            		<a href="#tabContent03">지원자 목록</a>
-            	</li>
             	<li class="tabMenu">
-                	<a href="#tabContent04">지원 목록</a>
+                	<a href="#tabContent03">내가 지원/요청한 목록</a>
                 </li>
             </ul>
             <div id="tossJsp" class="tossJsp">
@@ -62,116 +59,7 @@
             </div>
             </nav>
             <div class="clear"></div>
-            <div id="center">
-            <div  id="tabContent01" class="tabPage">
-            	<table id="my_list">
-                	<tr>
-                    	<td colspan="4" id="list_title" class="small_title" name="my_post">내가 쓴 글 목록</td>
-                	</tr>
-	                <tr id="info">
-	                    <td>제목</td>
-	                    <td>작성자</td>
-	                    <td>날짜</td>
-	                    <td>조회수</td>
-	                </tr>
-	                <c:forEach var="item" items="${mylist}">
-	                <tr>
-	                
-	                    <td><a href="freeboard_write_view?post_id=${item.post_id}">${item.title}</a></td>
-	                    <td >${item.nick}</td>
-	                    <td>${item.operator}</td>
-	                    <td>${item.hit}</td>
-	                    <input type="hidden" value="${item.post_id}">
-            			<input type="hidden" value="${item.board}">
-	                
-	                </tr>
-	                </c:forEach>
-	        	</table>
-        	</div>
-        	<div id="tabContent02" class="tabPage">
-	            <table id="my_list1">
-	                <tr>
-	                    <td colspan=2 id="list_title" class="small_title" name="my_post">내가 쓴 댓글 목록</td>
-	                </tr>
-	                <tr id="info">
-	                    <td>댓글내용</td>
-	                    <td>날짜</td>
-	                </tr>
-	                <c:forEach var="item" items="${myreply}">
-	                <tr>
-	                
-	                    <td><a href="freeboard_write_view?post_id=${item.post_post_id}">${item.re_comment}</a></td>
-	                    <td>${item.operator}</td>
-
-	                </tr>
-	                </c:forEach>
-	            </table>
-        	</div>
-        	
-        	<div id="tabContent03" class="tabPage">
-        		<article>
-        		<div class="applier">
-					<div class="info">
-						<div class="title"><a href="#">게시글 제목</a>
-							<span class="date">2021-01-14</span>
-						</div>
-						<div class="nick">
-							<span class="info02">
-								<a href="#">지원자목록닉네임</a> | 
-								<span class="info_gender">상관없음</span> | 
-								♥ <span class="info_like">1</span>
-							</span>
-							<span class="ptag">
-								<span>조용함</span>
-								<span>꼼꼼함</span>
-								<span>신속함</span>
-							</span>
-						</div>
-						<div class="intro">
-							<p>자기소개서 내용</p>
-						</div>
-					</div>
-					<div class="btns">
-						<input class="btn" type="button" value="채팅하기"><br>
-						<input class="btn last" type="button" value="채택하기">
-					</div>
-				</div>
-				</article>
-        	</div>
-        	
-        	
-        	<div id="tabContent04" class="tabPage">
-        		
-        		<article>
-				<div class="applier">
-					<div class="info">
-						<div class="title"><a href="#">게시글 제목</a>
-							<span class="date">2021-01-14</span>
-						</div>
-						<div class="nick">
-							<span class="info02">
-								<a href="#" class="info_nick">지원목록</a> | 
-								<span class="info_gender">상관없음</span> | 
-								♥ <span class="info_like">0</span>
-							</span>
-							<span class="ptag">
-								<span>조용함</span>
-								<span>꼼꼼함</span>
-								<span>신속함</span>
-							</span>
-						</div>
-						<div class="intro">
-							<p>자기소개서 내용</p>
-						</div>
-					</div>
-					<div class="btns">
-						<input class="btn" type="button" value="채팅하기"><br>
-						<input class="btn last" type="button" value="취소하기">
-					</div>
-				</div>
-			</article>
-        	</div>
-        	</div>
+            
         </div>    
     </section>
     <footer>
@@ -219,6 +107,18 @@ $(document)
 .on('click','#edit_btn',function(){
 	console.log("click");
 	$('#edit_page').submit();
+})
+.on('click','input[id^=choosebtn]',function(){ //input[id가 choosebtn으로 시작하는 버튼]
+    var n=(this.id).substr(9); 
+    console.log("choose id: "+n);
+    $.post("${pageContext.request.contextPath}/help_complete",
+			{"post_id":39},
+			function(data){
+				console.log(data);
+				alert(data);
+			})
+
+
 })
 </script>
 </html>
