@@ -135,7 +135,7 @@ public interface IDao {
 	public List<Dto_post> select_post_view(String post_id);
 	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination);
 	
 	//notice_write_view : delete posts
 	public List<Dto_post> select_post_delete(String post_id);
@@ -291,4 +291,10 @@ public interface IDao {
 	
 	//전체 지원 게시글 불러오기
 	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+	
+	//post_id에 해당하는 댓글 수
+	public int count_reply(String post_id);
+	
+	//ajax 가져오기
+	//public String requestPro
 }

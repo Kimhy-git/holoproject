@@ -336,8 +336,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
-		return dao.select_post_reply(post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception {
+		return dao.select_post_reply(post_id, pagination);
 	}
 
 	@Override //delete posts
@@ -656,6 +656,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
 		return dao.total_apply(user_id,pagination);
+	}
+	
+	//post_id에 해당하는 댓글 수
+	@Override
+	public int count_reply(String post_id) {
+		return dao.count_reply(post_id);
 	}
 	
 }

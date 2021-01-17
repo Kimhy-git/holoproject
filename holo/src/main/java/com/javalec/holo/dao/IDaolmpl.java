@@ -339,8 +339,11 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) {
-		return sqlSession.selectList(Namespace+".select_post_reply",post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) {
+		HashMap<Object,Object> dto = new HashMap<Object,Object>();
+		dto.put("post_post_id", post_id);
+		dto.put("pagination", pagination);
+		return sqlSession.selectList(Namespace+".select_post_reply",dto);
 	}
 
 	@Override //delete posts
@@ -686,5 +689,11 @@ public class IDaolmpl implements IDao {
 				dto.put("pagination", pagination);
 				
 				return sqlSession.selectList(Namespace+".total_apply",dto);
+			}
+			
+			//post_id에 해당하는 댓글 수
+			@Override
+			public int count_reply(String post_id) {
+				return sqlSession.selectOne(Namespace+".count_reply",post_id);
 			}
 }

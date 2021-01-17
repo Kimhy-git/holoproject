@@ -36,15 +36,9 @@
 	</insert>
 	
 	
-	<!-- 회원탈퇴 -->
+<!-- 회원탈퇴 -->
 	<delete id="leave" parameterType="String">
 		delete from user where user_id=#{user_id}
-	</delete>
-	<delete id="user_del0" parameterType="String">
-		delete a from reply a,(select post_id,user_user_id from post where user_user_id=#{user_id}) b where a.post_post_id=b.post_id; 
-	</delete>
-	<delete id="user_del00" parameterType="String">
-		delete a from help_reply a, (select help_post_id,user_user_id from help_post where user_user_id=#{user_id}) b  where a.help_post_post_id=b.help_post_id; 
 	</delete>
 	<delete id="user_del1" parameterType="String">
 		delete from help_reply where user_user_id=#{user_id} 
@@ -76,15 +70,9 @@
 
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,a.operator,a.nick,tag_job,content,img,a.gender,min_price,payment,hit,complete,user_user_id,likes,
-		ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
- 		from help_post a, user where user.user_id=a.user_user_id and board=1 order by help_post_id desc
- 		limit #{startList}, #{listSize};
+		select *, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
+ 		from help_post a, user where user.user_id=a.user_user_id and board=1 order by help_post_id desc;
 	</select>
-	<!-- counting -->
-    <select id="count_helpme" resultType="int">
-    	select count(*) from help_post where board=1
-    </select>
 	
 	<!-- help_me likes -->
 	<select id="likes" resultType="dto_p">
@@ -93,8 +81,7 @@
 	
 	<!-- help_me 게시글 상세보기 -->
 	<select id="read" resultType="dto_p">
-		select help_post_id,tag_area,board,title,a.operator,a.nick,tag_job,content,img,a.gender,min_price,payment,hit,complete,user_user_id,likes,
-		ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
+		select *, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
  		from help_post a, user where user.user_id = a.user_user_id and a.help_post_id =#{help_post_id};
 		<!-- select * from help_post, user where user.user_id = help_post.user_user_id and help_post.help_post_id = #{help_post_id};-->
 	</select>
@@ -159,250 +146,12 @@
 	<!-- help_me 댓글 수 -->
 	<select id="help_reply_count" resultType="int">
 		select count(*) from help_reply where help_post_post_id=#{help_post_id};
-	 <!-- 검색하기 -->
 	</select>
-		<select id="helpme_search" resultType="com.javalec.holo.dto.Dto_help_post" parameterType="com.javalec.holo.dto.BoardSearch">
-           select * , ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
-			from help_post a, user
-            where (user.user_id=a.user_user_id )and board = 1 
-            <if test='area != null and !("").equals(area) '>
-            	<if test='("전체").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-            	</if>
-            	<if test='("서울").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-	            and tag_area="서울" 
-            	</if>
-            	<if test='("경기").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경기" 
-            	</if>
-            	<if test='("인천").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="인천" 
-            	</if>
-            	<if test='("대전").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대전" 
-            	</if>
-            	<if test='("대구").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대구" 
-            	</if>
-            	<if test='("부산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="부산" 
-            	</if>
-            	<if test='("강원").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="강원" 
-            	</if>
-            	<if test='("경남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경남" 
-            	</if>
-            	<if test='("경북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경북" 
-            	</if>
-            	<if test='("울산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="울산" 
-            	</if>
-            	<if test='("광주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="광주" 
-            	</if>
-            	<if test='("전남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전남" 
-            	</if>
-            	<if test='("전북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전북" 
-            	</if>
-            	<if test='("세종").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="세종" 
-            	</if>
-            	<if test='("충남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충남" 
-            	</if>
-            	<if test='("충북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충북" 
-            	</if>
-            	<if test='("제주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="제주" 
-            	</if>
-            </if>
-            order by a.operator desc
-         	limit #{pagination.startList}, #{pagination.listSize}
-    </select>
-  
-    <!-- 검색하기 count -->
-    <select id="helpme_search_count" resultType="int" parameterType="com.javalec.holo.dto.BoardSearch">
-            select count(*)
-			from help_post a, user
-            where (user.user_id=a.user_user_id )and board = 1 
-            <if test='area != null and !("").equals(area) '>
-            	<if test='("전체").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-            	</if>
-            	<if test='("서울").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-	            and tag_area="서울" 
-            	</if>
-            	<if test='("경기").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경기" 
-            	</if>
-            	<if test='("인천").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="인천" 
-            	</if>
-            	<if test='("대전").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대전" 
-            	</if>
-            	<if test='("대구").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대구" 
-            	</if>
-            	<if test='("부산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="부산" 
-            	</if>
-            	<if test='("강원").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="강원" 
-            	</if>
-            	<if test='("경남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경남" 
-            	</if>
-            	<if test='("경북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경북" 
-            	</if>
-            	<if test='("울산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="울산" 
-            	</if>
-            	<if test='("광주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="광주" 
-            	</if>
-            	<if test='("전남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전남" 
-            	</if>
-            	<if test='("전북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전북" 
-            	</if>
-            	<if test='("세종").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="세종" 
-            	</if>
-            	<if test='("충남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충남" 
-            	</if>
-            	<if test='("충북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충북" 
-            	</if>
-            	<if test='("제주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="제주" 
-            	</if>
-            </if>
-            order by a.operator desc
-	</select>
-	
-	
 	
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes,
-		ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
-		from help_post,user
+		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user 
 		where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
 		limit #{startList}, #{listSize};
 	</select>
@@ -414,12 +163,11 @@
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
-		 values(#{tag_area},0,#{title},(select nick from user where user_id=#{user_user_id}),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,#{user_user_id});
+		 values(#{tag_area},0,#{title},(select nick from user where user_id='a'),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,'a');
 	</insert>
 	<!-- helpyou_write_view -->
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
-		select *,ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
-		from help_post where help_post_id=#{help_post_id}
+		select * from help_post where help_post_id=#{help_post_id}
 	</select>
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
@@ -438,13 +186,13 @@
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
 		insert into help_reply(board,re_comment, help_post_post_id, user_user_id)
-		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id})
+		 values(0, #{re_comment}, #{help_post_post_id}, 'a')
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		SELECT *
-		FROM help_reply, user
-		where user.user_id=help_reply.user_user_id and board=0 and help_post_post_id=#{help_post_id}
+		FROM help_reply
+		where board=0 and help_post_post_id=#{help_post_post_id}
 		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
 	</select>
 	<!-- helpyou reply del -->
@@ -467,39 +215,7 @@
  		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
 	</insert>
 
-	
-	<!-- mypage help_complete -->
-	<update id="help_complete">
-		update help_post set complete=1 where help_post_id=#{help_post_id};
-	</update>
-	<!-- mypage post list -->
-	<select id="mypage_post_list" resultType="dto_my_total">
-		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
-		union
-		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
-		order by operator desc
-		limit #{startList}, #{listSize};
-	</select>
-	<!-- mypage post list count -->
-	<select id="mypage_post_list_count" resultType="dto_my_total">
-		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
-		union
-		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
-		order by operator desc;
-	</select>
-	<!-- mypage applyme list -->
-	<select id="mypage_applyme_list" parameterType="int" resultType="dto_apply">
-		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
-		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
-	</select>
-	<update id="mypage_applyme_choose" parameterType="int">
-		update apply set choose=1 where apply_id=#{apply_id};
-	</update>
-	<!-- mypage applier like -->
-	<update id="mypage_applier_like" parameterType="string">
-		update user set likes=likes+1 where user_id=#{applier};
-	</update>
-	
+
 
 
 
@@ -545,10 +261,10 @@
     
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_reply"> 
-		SELECT *
-		FROM reply
-		where board=3 and post_post_id=#{post_id}
-		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index;
+		SELECT * FROM reply
+		where board=3 and post_post_id=#{post_post_id}
+		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
+		limit #{pagination.startList},#{pagination.mypageListSize}
     </select>
     
     <!-- notice_write_view : delete posts -->
@@ -580,22 +296,17 @@
   
 
     
-<!-- freeboard -->
-    <select id="select_freeboard" resultType="dto_freeboard">
-		select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt  
+    
+    <!-- freeboard -->
+  <select id="select_freeboard" resultType="dto_freeboard">
+        select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt 
         from post a
-        where board=2 order by post_id desc limit #{startList}, #{listSize};
+        where board=1;
     </select>
-    
-    <!-- counting -->
-    <select id="count_freeboard" resultType="int">
-    	select count(*) from post where board=2
-    </select>
-    
     <!-- 리스트 보기 -->
     
     <select id="select_freeboard_view" resultType="dto_freeboard">
-        select * from post where board=2 and post_id=#{post_id};
+        select * from post where board=1 and post_id=#{post_id};
     </select>
     <!-- 게시글 보기 -->
         <select id="free_uphit" resultType="dto_freeboard"> 
@@ -604,34 +315,34 @@
     <!-- 조회수 +1 -->
     
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
-    	delete from post where post_id=#{post_id} and board=2;
+    	delete from post where post_id=#{post_id} and board=1;
     </select>
     <!-- 게시글 삭제 -->
  	
  	<select id="select_free_reply_delete" resultType="dto_free_reply_delete"> 
-    	delete from reply where post_post_id=#{post_post_id} and board=2;
+    	delete from reply where post_post_id=#{post_post_id} and board=1;
     </select>
     <!-- 게시글+댓글 삭제 -->
     <select id="freeboard_update" resultType="dto_freeboard"> 
     	update post set title=#{title}, content=#{content}
-    	where post_id=#{post_id} and board=2;
+    	where post_id=#{post_id} and board=1;
     </select>
     <!-- 게시물 수정 -->
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
     	insert into post(board, title, nick, content, img, user_user_id) 
-    		values (2, #{title}, "se", #{content}, #{img}, 'a');
+    		values (1, #{title}, "se", #{content}, #{img}, "b");
     </insert>
 	<!-- 게시물 등록 -->	
     
     <select id="add_free_comment" parameterType="dto_free_reply"> 
     	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(2,0,#{re_comment},#{post_post_id},'a');	
+		values(1,0,#{re_comment},#{post_post_id},'a');	
     </select>
     <!-- 댓글 쓰기 -->   
     
     <select id="select_free_reply" resultType="dto_free_reply"> 
-    	select * from reply where board=2 and post_post_id=#{post_id}
+    	select * from reply where board=1 and post_post_id=#{post_id}
     	order by re_index, reply_id; 
     </select>
     <!-- 댓글 보여주기 -->
@@ -644,13 +355,13 @@
     
     <select id="update_free_comment_now" resultType="dto_free_reply" parameterType="com.javalec.holo.dto.Dto_free_reply"> 
     	update reply set re_comment=#{re_comment}
-    	where board=2 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
+    	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 수정 -->
     
     <select id="add_free_re_comment" parameterType="dto_free_reply"> 
     	     insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
-      values(2,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
+      values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
     </select>
     <!-- 대댓글 추가 -->
     
@@ -683,54 +394,15 @@
     </select>
     <!-- 댓글 갯수 세기 -->
           <select id="mylist" resultType="com.javalec.holo.dto.Dto_freeboard">
-        select * from post where board=2 and user_user_id = 'a';
+        select * from post where board=1 and user_user_id = 'aaaaa';
     </select>
     <!-- 내가 쓴 글 -->
           <select id="myreply" resultType="com.javalec.holo.dto.Dto_free_reply">
-        select * from reply where board=2 and user_user_id = 'a';
+        select * from reply where board=1 and user_user_id = 'a';
     </select>
-    <!-- 내가 쓴 댓글 -->                  
-	<select id="listAll" resultType="com.javalec.holo.dto.Dto_freeboard" parameterType="com.javalec.holo.dto.BoardSearch">
-          select a.* , ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt
-            from post a
-            where board = #{board}
-            <if test='search_option != null and !("").equals(search_option) '>
-            	<if test='("user_id").equals(search_option)'>
-	            and user_user_id like CONCAT('%',#{keyword},'%')
-            	</if>
-            	<if test='("title").equals(search_option)'>
-	            and title like CONCAT('%',#{keyword},'%')
-            	</if>
-            	<if test='("content").equals(search_option)'>
-	            and content like CONCAT('%',#{keyword},'%')
+    <!-- 내가 쓴 댓글 -->
 
-            	</if>
-            </if>
-            order by post_id
-            <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
-         limit #{pagination.startList}, #{pagination.listSize}
-    </select>
-    <!-- 검색하기 -->
-    <!-- 검색하기 count -->
-    <select id="search_count" resultType="int">
-    select count(*)            
-            from post
-            where board = #{board}
-            <if test='search_option != null and !("").equals(search_option) '>
-            	<if test='("user_id").equals(search_option)'>
-	            and user_user_id like CONCAT('%',#{keyword},'%')
-            	</if>
-            	<if test='("title").equals(search_option)'>
-	            and title like CONCAT('%',#{keyword},'%')
-            	</if>
-            	<if test='("content").equals(search_option)'>
-	            and content like CONCAT('%',#{keyword},'%')
 
-            	</if>
-            </if>
-            order by post_id
-            <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
-	</select>
 
 
 
@@ -741,15 +413,15 @@
 		#{gender}, #{applier}, #{price}, #{nick}, #{title})
     </select>
     
-    <!-- helpyou에 지원하기 -->
+    <!-- helpme에 지원하기 -->
     <select id="add_apply_you" resultType="dto_apply">
-    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
-		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price}, #{nick},#{title})
+    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
+		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price})
     </select>
     
     <!-- apply_you 게시물 수 -->
     <select id="count_apply" resultType="int">
-		select count(*) from apply where board=0 and applier=#{applier}
+		select count(*) from apply where board=0 and =#{applier}
     </select>
     
     <!-- apply_you 게시물 보여줌 -->
@@ -769,7 +441,6 @@
     <select id="applier" resultType="dto_apply">
 		select * from apply where helpme_id=#{user_id}
     </select>
-
     
     <!-- 전체 댓글 가져오기 -->
     <select id="total_reply" resultType="dto_total_reply">
@@ -801,5 +472,8 @@
 		limit #{pagination.startList},#{pagination.mypageListSize}
     </select>
     
-
+    <!-- 전체 지원 게시글 수 -->
+    <select id="count_reply" resultType="int">
+    	select count(*) from reply where post_post_id=#{post_id}
+    </select>
 </mapper>

@@ -68,7 +68,7 @@ public interface MemberService {
 	public List<Dto_post> select_post_view(String post_id) throws Exception;
 	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception;
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception;
 	
 	//notice_write_view : delete
 	public List<Dto_post> select_post_delete(String post_id) throws Exception;
@@ -279,5 +279,10 @@ public interface MemberService {
 
 	//전체 지원 게시글 가져오기
 	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+
+	//post_id에 해당하는 댓글 개수
+	public int count_reply(String post_id);
+	
+	//public List<> requestPro()
 }
 
