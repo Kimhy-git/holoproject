@@ -38,29 +38,32 @@
  <section>
  	 <div id="section_h">   
         <h2>도움받기</h2>
-        <div id="search">
-            <select id="area">
-                <option value="서울">서울</option>
-                <option value="경기">경기</option>
-                <option value="인천">인천</option>
-                <option value="대전">대전</option>
-                <option value="대구">대구</option>
-                <option value="부산">부산</option>
-                <option value="강원">강원</option>
-                <option value="경남">경남</option>
-                <option value="경북">경북</option>
-                <option value="울산">울산</option>
-                <option value="광주">광주</option>
-                <option value="전남">전남</option>
-                <option value="전북">전북</option>
-                <option value="세종">세종</option>
-                <option value="충남">충남</option>
-                <option value="충북">충북</option>
-                <option value="제주">제주</option>
-            </select>
-            <input type="text" id="search_txt">
-            <input type="button" id="search_btn" value="검색">
-        </div>
+        <form method="post" action="helpme_search_go">
+            <div id="search">
+               <select id="area" name="area">
+               	   <option value="전체"<c:if test="${map.area == '전체'}">selected</c:if>>전체</option>
+                   <option value="서울"<c:if test="${map.area == '서울'}">selected</c:if>>서울</option>
+                   <option value="경기"<c:if test="${map.area == '경기'}">selected</c:if>>경기</option>
+                   <option value="인천"<c:if test="${map.area == '인천'}">selected</c:if>>인천</option>
+                   <option value="대전"<c:if test="${map.area == '대전'}">selected</c:if>>대전</option>
+                   <option value="대구"<c:if test="${map.area == '대구'}">selected</c:if>>대구</option>
+                   <option value="부산"<c:if test="${map.area == '부산'}">selected</c:if>>부산</option>
+                   <option value="강원"<c:if test="${map.area == '강원'}">selected</c:if>>강원</option>
+                   <option value="경남"<c:if test="${map.area == '경남'}">selected</c:if>>경남</option>
+                   <option value="경북"<c:if test="${map.area == '경북'}">selected</c:if>>경북</option>
+                   <option value="울산"<c:if test="${map.area == '울산'}">selected</c:if>>울산</option>
+                   <option value="광주"<c:if test="${map.area == '광주'}">selected</c:if>>광주</option>
+                   <option value="전남"<c:if test="${map.area == '전남'}">selected</c:if>>전남</option>
+                   <option value="전북"<c:if test="${map.area == '전북'}">selected</c:if>>전북</option>
+                   <option value="세종"<c:if test="${map.area == '세종'}">selected</c:if>>세종</option>
+                   <option value="충남"<c:if test="${map.area == '충남'}">selected</c:if>>충남</option>
+                   <option value="충북"<c:if test="${map.area == '충북'}">selected</c:if>>충북</option>
+                   <option value="제주"<c:if test="${map.area == '제주'}">selected</c:if>>제주</option>
+               </select>
+               <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
+			   <input type="submit" value="검색">
+            </div>
+         </form>
        <a href="helpme_write" class="write">글쓰기</a>
     </div> 
     <div id="wrap">
@@ -71,7 +74,6 @@
 
             	<div id="first">
                    <div id="title">${read.title}<span>${read.tag_job}</span></div>
-                   <input type="text" id="title_table" value="${read.title}">
                    <div id="nick">${read.nick}</div>
                    <div id="date">${read.operator}</div>
             	</div>
@@ -83,7 +85,7 @@
 	           			<td>${read.min_price}</td>
 	            	</tr>
 	            	<tr>
-	            		<td>요청 가능 성별</td>
+	            		<td>지원 가능 성별</td>
 	            		<td>${read.gender}</td>
 	            	</tr>
 	            	<tr>
@@ -140,20 +142,20 @@
 	           <input type=hidden value="${read.help_post_id}" name="help_post_post_id">
 	           
 	        <c:if test="${login.user_id==list.user_user_id || login.user_id=='admin'}">
-	           <input type=submit value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
-	           <input type=button id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
+	           <input type=submit class="re_remove" value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
+	           <input type=button class="re_edit" id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
 	        </c:if>
-	           <input type="button" id="reply_again${list.help_reply_id}" value="답글달기" >
+	           <input type="button" class="re_again" id="reply_again${list.help_reply_id}" value="답글달기" >
 	        </div>
            
            
-           <div id="re_edit_txt${list.help_reply_id}" style="display:none">
-	           <input id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
-           	   <input type=submit id="edit_go${list.help_reply_id}" value="수정">
-           	   <input type=button id="edit_cancel${list.help_reply_id}" value="취소">
+           <div class="re_edit_txt" id="re_edit_txt${list.help_reply_id}" style="display:none">
+	           <input class="edit-input" id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
+           	   <input type=submit class="edit-go" id="edit_go${list.help_reply_id}" value="수정">
+           	   <input type=button class="edit-cancel" id="edit_cancel${list.help_reply_id}" value="취소">
            </div>
    					
-                   <div id="reply_again_textarea${list.help_reply_id}" style="display:none">
+                   <div class="reply_again_txt" id="reply_again_textarea${list.help_reply_id}" style="display:none">
                       <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
                       <input type="hidden" name="parent_id" value="${list.help_reply_id}">
 				      <input type="hidden" name="re_index" value="${list.re_index}">
@@ -161,9 +163,10 @@
 				      <input type="hidden" name="re_class" value="${list.re_class}">
 				      <input type="hidden" name="groupNum" value="${list.groupNum}">
 				      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
-                      <input type=text name="re_re_comment" size=100> 
-                      <input type=submit value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
+                      <input type=text class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요."> 
+                      <input type=submit class="re_re_submit"value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
                    </div>
+                   <div id="clr"></div>
         	</div>
            
           </form>
@@ -198,16 +201,13 @@ $(document)
 })
 .on('click','#sub_btn',function(){
 	var login_user_id=$('#login_user_id').val();
-	console.log("title");
-	console.log($('#title_table').val());
 	   if(login_user_id==null || login_user_id==""){
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
 	   }else{
 		   window.open("apply_popup?nick="+$('#nick').val()+
 			   "&post_id="+$('#pId').val()+
-			   "&user_id="+$('#userId').val()
-			   +"&title="+$('#title_table').val(),
+			   "&user_id="+$('#userId').val(),
 			   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
@@ -220,7 +220,27 @@ $(document)
 	   }else{
 	   }
 })
-
+.on('click','#submit',function(){
+	
+	   if($('#comment-input').val()==''){
+			alert("내용을 입력하세요.");
+			return false;
+	   }
+		   
+	   
+})
+.on('click','.re_re_submit',function(){
+	   if($('.re_re_comment').val()==''){
+			alert("내용을 입력하세요.");
+			return false;
+	   }
+})
+.on('click','.edit-go',function(){
+		if($('.edit-input').val()==''){
+			alert("내용을 입력하세요.");
+			return false;
+	   }
+})
 .on('click','#remove',function(){
 	if(confirm('삭제하시겠습니까?')){	
 	}else{
@@ -239,9 +259,15 @@ $(document)
 		   console.log($('#reply_again_textarea'+n).css("display"));
 		   if($('#reply_again_textarea'+n).css("display")=="none"){
 		         $('#reply_again_textarea'+n).show();
+		         $('#re_edit_txt'+n).hide();
+		         //$('.reply_again_txt').hide()
+			     //$('.re_edit_txt').hide()
+			     $('#reply_again_textarea'+n).show()
 		   }else{
 		      $('#reply_again_textarea'+n).hide();
 		   } 
+		   
+		   
 	   }
 })     
 
@@ -251,7 +277,7 @@ $(document)
    if($('#re_edit_txt'+n).css("display")=="none"){
        $('#comments'+n).hide()
 	   $('#re_edit_txt'+n).show();
-         
+       $('#reply_again_textarea'+n).hide();
    }else{
 	  $('#comments'+n).show()
       $('#re_edit_txt'+n).hide();

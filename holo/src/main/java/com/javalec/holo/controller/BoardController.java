@@ -1,7 +1,9 @@
 package com.javalec.holo.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.javalec.holo.dto.BoardSearch;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
@@ -40,13 +44,21 @@ public class BoardController {
 	
 	//helpme
 	@RequestMapping(value = "/help_me", method = RequestMethod.GET)
-    public String help_me(HttpServletRequest req, Model model) throws Exception {
+    public String help_me(HttpServletRequest req, Model model,
+			    		@RequestParam(required = false, defaultValue = "1") int page, 
+						@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
 		 
 		System.out.println("help_me작동");
-
-		 List<Dto_help_post> list = service.list();      
+		//전체 게시글 수
+		int listCnt = service.count_helpme();
+		System.out.println("listCnt: "+listCnt);
+		//Pagination 객제 생성
+		Pagination_help pagination = new Pagination_help();
+		pagination.pageInfo(page, range, listCnt);
+		System.out.println("controller endpage: "+pagination.getEndPage());
+		 List<Dto_help_post> list = service.list(pagination);      
 		 model.addAttribute("list", list);
-		 
+		 model.addAttribute("pagination", pagination);
 		 Dto_login dto = new Dto_login();
 		 
 		 HttpSession session = req.getSession();
@@ -286,7 +298,52 @@ public class BoardController {
 		System.out.println("end re_recomment");
 		return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	}			
-		
+	
+	@RequestMapping("helpme_search_go") //url mapping
+    public ModelAndView helpme_search_list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+            @RequestParam(defaultValue="1") int curPage,
+            @RequestParam(defaultValue="전체") String area, //기본 검색 옵션값을 작성자로 한다.
+            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
+            @RequestParam(defaultValue="1") int board,
+            @RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range
+            )
+             throws Exception{
+        
+        //전체 로우 수
+        int count = 1000;
+        BoardSearch search = new BoardSearch();
+        search.setArea(area);
+        search.setKeyword(keyword);
+        search.setBoard(board);
+        int listCnt = service.helpme_search_count(search);
+        System.out.println("리스트 카운트는 과연~? : "+listCnt);
+        // 검색조건 + 보드서치 객체 생성
+        Pagination pagination = new Pagination();
+        pagination.pageInfo(page,range,listCnt);
+        
+        search.setPagination(pagination);
+        
+             
+        //검색 조건으로 게시글 목록 조회
+        List<Dto_help_post> list = service.helpme_search(search);
+        ModelAndView mav = new ModelAndView();
+        Map<String,Object> map = new HashMap<String, Object>();    
+        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
+        System.out.println("boardcontroller"+pagination.getEndPage());
+        map.put("count", count);
+        map.put("area", area);
+        map.put("keyword", keyword);
+        mav.addObject("map", map);                    
+        mav.addObject("pagination", pagination);   
+        mav.addObject("list", list);   
+        
+        System.out.println("map : "+map);
+        mav.setViewName("help_me");   //자료를 넘길 뷰의 이름
+        return mav;   //게시판 페이지로 이동   
+    } // 검색하기
+	
+	
 	// helpyou
 	// 글쓰기 완료
 	@RequestMapping(value = "/helpyou_done", method = {RequestMethod.POST,RequestMethod.GET})
@@ -778,10 +835,22 @@ public class BoardController {
 	    
     //freeboard
     @RequestMapping(value="freeboard", method = {RequestMethod.POST,RequestMethod.GET})
-	public String freeboard(HttpServletRequest req, Model model) throws Exception{
+	public String freeboard(HttpServletRequest req, Model model,
+			@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception{
 		
-		List<Dto_freeboard> freeboard = service.select_freeboard();
+		//전체 게시글 수
+		int listCnt = service.count_freeboard();
+
+		//Pagination 객제 생성
+		Pagination pagination = new Pagination();
+		System.out.println("board controller range01: "+pagination.getRange());
+		pagination.pageInfo(page, range, listCnt);
+		System.out.println("board controller range02: "+pagination.getRange());
+		List<Dto_freeboard> freeboard = service.select_freeboard(pagination);
+		System.out.println("board controller range03: "+pagination.getRange());
 		model.addAttribute("freeboard",freeboard);
+		model.addAttribute("pagination", pagination);
 		
 		  Dto_login dto = new Dto_login();
 			 
@@ -839,7 +908,7 @@ public class BoardController {
 		  	String post_id=req.getParameter("post_id");
 	    	String title=req.getParameter("title");
 	    	String content=req.getParameter("content");
-	    	String board="1";
+	    	String board="2";
 	    	
 	    	System.out.println("to modify: "+post_id);
 	    	
@@ -853,7 +922,7 @@ public class BoardController {
 	    public String freeboard_update(HttpServletRequest req, Model model) throws Exception{
 	    	
 	    	String post_id=req.getParameter("post_id");
-	    	String board="1";
+	    	String board="2";
 	    	String title=req.getParameter("title");
 	    	String content=req.getParameter("content");
 	    	
@@ -874,7 +943,7 @@ public class BoardController {
 		@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
 		public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
 			String post_id="10";
-	    	String board="1";
+	    	String board="2";
 	    	String title=req.getParameter("title");
 	    	String operator=null;
 	    	String content=req.getParameter("content");
@@ -899,7 +968,7 @@ public class BoardController {
 	    public String delete_free_comment(HttpServletRequest req, Model model) throws Exception{
 	    	
 	    	String reply_id=req.getParameter("reply_id");
-	    	String board="1";
+	    	String board="2";
 		    String post_post_id=req.getParameter("post_id");
 
 			service.delete_free_comment(reply_id,board,post_post_id);
@@ -913,7 +982,7 @@ public class BoardController {
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
-	    	String board="1";
+	    	String board="2";
 	    	
 	    	model.addAttribute("post_post_id",post_post_id);
 	    	model.addAttribute("re_comment",re_comment);
@@ -928,7 +997,7 @@ public class BoardController {
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
-	    	String board="1";
+	    	String board="2";
 	    	
 	    	service.update_free_comment_now(reply_id,re_comment,post_post_id,board);
 
@@ -944,7 +1013,7 @@ public class BoardController {
 	    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	System.out.println("re_re_comment: "+re_comment);
-	    	String board="1";
+	    	String board="2";
 	    	order_i+=1;
 	    	groupNum_i+=1;
 	    	
@@ -956,4 +1025,44 @@ public class BoardController {
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
 
+	    
+	    @RequestMapping("list.do") //url mapping
+	    public ModelAndView list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+	            @RequestParam(defaultValue="1") int curPage,
+	            @RequestParam(defaultValue="user_id") String search_option, //기본 검색 옵션값을 작성자로 한다.
+	            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
+	            @RequestParam(defaultValue="2") int board,
+	            @RequestParam(required = false, defaultValue = "1") int page, 
+				@RequestParam(required = false, defaultValue = "1") int range
+	            )
+	             throws Exception{
+	        
+	        //전체 로우 수
+	        int count = 1000;
+	        int listCnt = service.count_freeboard_search();
+	        // 검색조건 + 보드서치 객체 생성
+	        Pagination pagination = new Pagination();
+	        pagination.pageInfo(page,range,listCnt);
+	        BoardSearch search = new BoardSearch();
+	        search.setPagination(pagination);
+	        search.setSearch_option(search_option);
+	        search.setKeyword(keyword);
+	        search.setBoard(board);
+	             
+	        //검색 조건으로 게시글 목록 조회
+	        List<Dto_freeboard> list = service.listAll(search);
+	        ModelAndView mav = new ModelAndView();
+	        Map<String,Object> map = new HashMap<String, Object>();    
+	        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
+	
+	        map.put("count", count);
+	        map.put("search_option", search_option);
+	        map.put("keyword", keyword);
+	        mav.addObject("map", map);                    
+	        mav.addObject("pagination", pagination);   
+	        mav.addObject("freeboard", list);   
+	        System.out.println("map : "+map);
+	        mav.setViewName("freeboard");   //자료를 넘길 뷰의 이름
+	        return mav;   //게시판 페이지로 이동   
+	    } // 검색하기
 }

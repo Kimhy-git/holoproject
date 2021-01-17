@@ -32,9 +32,9 @@
             아이디<input type="text" id="user_id" name="user_id"><br>
             비밀번호 질문
             <select id="passwd_q" name="passwd_q"><br>
-                <option id="q1" value="q1">처음 키운 강아지 이름은?</option>
-                <option id="q2" value="q2">아버지 성함은?</option>
-                <option id="q3" value="q3">출신 초등학교 이름은?</option>
+                <option id="q1" value="처음 키운 강아지 이름은?">처음 키운 강아지 이름은?</option>
+                <option id="q2" value="아버지 성함은?">아버지 성함은?</option>
+                <option id="q3" value="출신 초등학교 이름은?">출신 초등학교 이름은?</option>
             </select><br>
             비밀번호 답변 <input type="text" id="passwd_a" name="passwd_a"><br>
             <input type="button" id="find" value="찾기">

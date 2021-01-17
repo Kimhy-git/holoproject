@@ -37,10 +37,6 @@
     <section>
         <div id="wrap">
 	        <h2>자유게시판</h2>
-	        <div id="search">
-	            <input type="text" id="search_txt">
-	            <input type="button" id="search_btn" value="검색">
-	        </div>
             <table id="first">
                
                <c:forEach var="dto" items="${freeboard}">

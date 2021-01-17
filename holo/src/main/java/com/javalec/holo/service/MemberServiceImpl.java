@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import com.javalec.holo.dao.IDao;
+import com.javalec.holo.dto.BoardSearch;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
@@ -111,104 +112,127 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-		//help_me게시글 리스트
-		@Override
-		public List<Dto_help_post> list() throws Exception {
-			List<Dto_help_post> list=dao.list();
-			for(int i=0;i<list.size();i++) {
-				if(list.get(i).getImg()==null) {
-					list.get(i).setImg("resources/img/test1.jpg");
-				}else {
-					String image=list.get(i).getImg();
-					list.get(i).setImg("http://localhost:8080/holo/img/"+image);
-				}
+	//help_me게시글 리스트
+	@Override
+	public List<Dto_help_post> list(Pagination_help pagination) throws Exception {
+		List<Dto_help_post> list=dao.list(pagination);
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getImg()==null) {
+				list.get(i).setImg("resources/img/test1.jpg");
+			}else {
+				String image=list.get(i).getImg();
+				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
 			}
-			return list;
 		}
-		
-		//help_me게시글 상세보기(뷰어)
-		@Override
-		public Dto_help_post read(int help_post_id) throws Exception {
-
-		return dao.read(help_post_id);
-		}
-		
-
-		//help_me like 불러오기
-
-		@Override
-		public List<Dto_help_post> likes() throws Exception{
-		return dao.likes();
-		}
-
-		//help_me게시글 쓰기
-
-		@Override
-		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price, String img ,String user_user_id)throws Exception {
-			
-			dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img,user_user_id);
-		
-		}
-		//help_me게시글 수정
-		@Override
-		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-				int min_price, int help_post_id, String img)throws Exception {
-			
-			dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id,img);
-		
-		}
-		//help_me게시글 삭제
-		@Override
-		public void delete(int help_post_id) throws Exception {
-
-			dao.delete(help_post_id);
-		}
-
-		//help_me 댓글 보여주기
-		public List<Dto_help_reply> re_list(int help_post_id) throws Exception{
-				
-		return dao.re_list(help_post_id);
-		}
-		//help_me 댓글 작성
-		public void re_write(String re_comment,int help_post_id ,String user_user_id) throws Exception {
-		System.out.println("멤버서비스 댓글보여주기 reply"+re_comment);
-			dao.re_write(re_comment,help_post_id,user_user_id);
-		}
-		
-		//help_me  수정 댓글 보기
-		public Dto_help_reply re_read(int help_reply_id)throws Exception{
-			return dao.re_read(help_reply_id);
-		};
-		//help_me 댓글 수정
-		public void re_edit(int help_reply_id, String re_comment)throws Exception {
-			System.out.println("멤버 서비스에서 리코멘트 수정한거 ~~:"+re_comment);
-			dao.re_edit(help_reply_id,re_comment);
-		}
-		//help_me 댓글 삭제
-		public void re_delete(int help_reply_id) throws Exception{
-		dao.re_delete(help_reply_id);
-		}
+		return list;
+	}
+	@Override
+	public int count_helpme() throws Exception{
+		return dao.count_helpme();
+	}
 	
-		//help_me 대댓글 작성
-		@Override
-		public void helpme_re_recomment_submit(int re_index, String re_comment, 
-				int re_order, int re_class, int groupNum, int help_post_post_id,
-				String user_user_id) throws Exception {
-			dao.helpme_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
-		}
+	//help_me게시글 상세보기(뷰어)
+	@Override
+	public Dto_help_post read(int help_post_id) throws Exception {
+
+	return dao.read(help_post_id);
+	}
+	
+
+	//help_me like 불러오기
+
+	@Override
+	public List<Dto_help_post> likes() throws Exception{
+	return dao.likes();
+	}
+
+	//help_me게시글 쓰기
+
+	@Override
+	public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+			int min_price, String img ,String user_user_id)throws Exception {
 		
-		//help_me hit
-		public void hit(int help_post_id) throws Exception{
-			dao.hit(help_post_id);
-		}
+		dao.write(title,content,gender,tag_area,tag_job,payment,min_price, img,user_user_id);
+	
+	}
+	//help_me게시글 수정
+	@Override
+	public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+			int min_price, int help_post_id, String img)throws Exception {
 		
-		//help_me 댓글 카운트
-		@Override
-		public int help_reply_count(int help_post_id) throws Exception{
-			return dao.help_reply_count(help_post_id);
+		dao.edit(title,content,gender,tag_area,tag_job,payment,min_price,help_post_id,img);
+	
+	}
+	//help_me게시글 삭제
+	@Override
+	public void delete(int help_post_id) throws Exception {
+
+		dao.delete(help_post_id);
+	}
+
+	//help_me 댓글 보여주기
+	public List<Dto_help_reply> re_list(int help_post_id) throws Exception{
+			
+	return dao.re_list(help_post_id);
+	}
+	//help_me 댓글 작성
+	public void re_write(String re_comment,int help_post_id ,String user_user_id) throws Exception {
+	System.out.println("멤버서비스 댓글보여주기 reply"+re_comment);
+		dao.re_write(re_comment,help_post_id,user_user_id);
+	}
+	
+	//help_me  수정 댓글 보기
+	public Dto_help_reply re_read(int help_reply_id)throws Exception{
+		return dao.re_read(help_reply_id);
+	};
+	//help_me 댓글 수정
+	public void re_edit(int help_reply_id, String re_comment)throws Exception {
+		System.out.println("멤버 서비스에서 리코멘트 수정한거 ~~:"+re_comment);
+		dao.re_edit(help_reply_id,re_comment);
+	}
+	//help_me 댓글 삭제
+	public void re_delete(int help_reply_id) throws Exception{
+	dao.re_delete(help_reply_id);
+	}
+
+	//help_me 대댓글 작성
+	@Override
+	public void helpme_re_recomment_submit(int re_index, String re_comment, 
+			int re_order, int re_class, int groupNum, int help_post_post_id,
+			String user_user_id) throws Exception {
+		dao.helpme_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+	}
+	
+	//help_me hit
+	public void hit(int help_post_id) throws Exception{
+		dao.hit(help_post_id);
+	}
+	
+	//help_me 댓글 카운트
+	@Override
+	public int help_reply_count(int help_post_id) throws Exception{
+		return dao.help_reply_count(help_post_id);
+	}
+	
+	@Override
+	public List<Dto_help_post> helpme_search(BoardSearch search) {
+		List<Dto_help_post> list=dao.helpme_search(search);
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getImg()==null) {
+				list.get(i).setImg("resources/img/test1.jpg");
+			}else {
+				String image=list.get(i).getImg();
+				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
+			}
 		}
-		
+		return list;
+	}
+	@Override
+	public int helpme_search_count(BoardSearch search) {
+		return dao.helpme_search_count(search);
+	}
+	
+	
 
 		
 	
@@ -444,9 +468,9 @@ public class MemberServiceImpl implements MemberService {
 	
 
 	@Override
-	public List<Dto_freeboard> select_freeboard() throws Exception {
+	public List<Dto_freeboard> select_freeboard(Pagination pagination) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.select_freeboard();
+		return dao.select_freeboard(pagination);
 	} //리스트 보기
 	@Override
 	public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception {
@@ -546,7 +570,18 @@ public class MemberServiceImpl implements MemberService {
 	public List<Dto_free_reply> myreply(String user_id) throws Exception{
 		return dao.myreply(user_id);
 	} // 내가 쓴 댓글 가져오기
-	
+	@Override
+	public int count_freeboard() {
+		return dao.count_freeboard();
+	} //페이징 처리
+	@Override
+	public List<Dto_freeboard> listAll(BoardSearch search) {
+		return dao.listAll(search);
+	} // 검색하기
+	@Override
+	public int count_freeboard_search() {
+		return dao.count_freeboard_search();
+	}
 	
 	
 	

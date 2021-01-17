@@ -153,6 +153,11 @@ private MemberService service;
     	  System.out.println("juso호출");
     	  return "jusoPopup";
       }
+      @RequestMapping(value = "/mp_popup", method = RequestMethod.GET)
+      public String mp_popup() {
+         
+         return "mp_popup";
+      }
 
    
 }

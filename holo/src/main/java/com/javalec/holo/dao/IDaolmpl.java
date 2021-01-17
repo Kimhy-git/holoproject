@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.javalec.holo.dto.BoardSearch;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
@@ -99,10 +100,15 @@ public class IDaolmpl implements IDao {
 	   
 	  //help_me게시글 리스트
 	  	@Override
-	  	public List<Dto_help_post> list() throws Exception {
+	  	public List<Dto_help_post> list(Pagination_help pagination) throws Exception {
 	  		// TODO Auto-generated method stub
-	  		
-	  		return sqlSession.selectList(Namespace+".list");
+	  		System.out.println("idao pagination: "+pagination.getStartPage());
+	  		System.out.println("idao pagination: "+pagination.getEndPage());
+	  		return sqlSession.selectList(Namespace+".list",pagination);
+	  	}
+	  	//카운트
+	  	public int count_helpme() throws Exception{
+	  		return sqlSession.selectOne(Namespace+".count_helpme");
 	  	}
 	  	
 	  	//help_me게시글 상세보기 (뷰어)
@@ -202,7 +208,16 @@ public class IDaolmpl implements IDao {
 			Object help_reply_count = sqlSession.selectList(Namespace+".help_reply_count",help_post_id);
 			return (Integer) help_reply_count;
 		}
-	    
+		//help_me 검색
+		@Override
+		public List<Dto_help_post> helpme_search(BoardSearch search) {
+			return sqlSession.selectList(Namespace+".helpme_search", search);
+		}
+		//help_me 검색 카운트
+		@Override
+		public int helpme_search_count(BoardSearch search) {
+			return sqlSession.selectOne(Namespace+".helpme_search_count",search);
+		}
 	
 	
     
@@ -456,123 +471,135 @@ public class IDaolmpl implements IDao {
 		
 		
 		
-			@Override
-			public List<Dto_freeboard> select_freeboard() {
-				// TODO Auto-generated method stub
-				return sqlSession.selectList(Namespace+".select_freeboard");
-			} //리스트 보기
-			@Override
-			public List<Dto_freeboard> select_freeboard_view(int post_id) {
-				// TODO Auto-generated method stub
-				return sqlSession.selectList(Namespace+".select_freeboard_view",post_id);
-			}//게시글 상세보기
+	@Override
+	public List<Dto_freeboard> select_freeboard(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(Namespace+".select_freeboard",pagination);
+	} //리스트 보기
+	@Override
+	public List<Dto_freeboard> select_freeboard_view(int post_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(Namespace+".select_freeboard_view",post_id);
+	}//게시글 상세보기
+
+	@Override
+	public void select_freeboard_delete(String post_id) {
+		sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
+	}//게시글 삭제
+	
+	@Override //delete comments with a post
+	public List<Dto_free_reply> select_free_reply_delete(String post_id) {
+		return sqlSession.selectList(Namespace+".select_free_reply_delete",post_id);
+	} //게시글 + 댓글 삭제
+	
+	@Override
+	public void freeboard_update(String post_id, String board, String title, String content) {			
+		Dto_freeboard freeboard_update=new Dto_freeboard(post_id,board,title,content);
 		
-			@Override
-			public void select_freeboard_delete(String post_id) {
-				sqlSession.selectList(Namespace+".select_freeboard_delete",post_id);
-			}//게시글 삭제
-			
-			@Override //delete comments with a post
-			public List<Dto_free_reply> select_free_reply_delete(String post_id) {
-				return sqlSession.selectList(Namespace+".select_free_reply_delete",post_id);
-			} //게시글 + 댓글 삭제
-			
-			@Override
-			public void freeboard_update(String post_id, String board, String title, String content) {			
-				Dto_freeboard freeboard_update=new Dto_freeboard(post_id,board,title,content);
-				
-				sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
-			}// 게시물 수정
-			@Override
-			public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
-			throws Exception{
-				Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
-				sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
-			}// 게시물 달기
-			
-			@Override 
-			public List<Dto_free_reply> select_free_reply(int post_id) {
-				return sqlSession.selectList(Namespace+".select_free_reply",post_id);
-			}// 댓글 보여주기
-			@Override
-			public void add_free_comment(String post_post_id, String re_comment) {
-				Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
-				sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
-			} //댓글 달기
-			@Override
-			public void delete_free_comment(String reply_id, String board, String post_post_id) {
-				Dto_free_reply delete_free_comment=new Dto_free_reply(reply_id, board, post_post_id);			
-				sqlSession.insert(Namespace+".delete_free_comment",delete_free_comment);
-			} // 댓글 삭제
-			@Override
-			public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
-				Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,re_comment,post_post_id,board);
-				sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
-			} //댓글 수정
-			@Override
-			public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-					String post_post_id, String board) {
-				System.out.println("idao re_re_comment: "+re_comment);
-				Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
-				System.out.println("get comment"+add_free_re_comment.getRe_comment());
-				sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
-			} //대댓글 작성
+		sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
+	}// 게시물 수정
+	@Override
+	public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
+	throws Exception{
+		Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
+		sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
+	}// 게시물 달기
+	
+	@Override 
+	public List<Dto_free_reply> select_free_reply(int post_id) {
+		return sqlSession.selectList(Namespace+".select_free_reply",post_id);
+	}// 댓글 보여주기
+	@Override
+	public void add_free_comment(String post_post_id, String re_comment) {
+		Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+		sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
+	} //댓글 달기
+	@Override
+	public void delete_free_comment(String reply_id, String board, String post_post_id) {
+		Dto_free_reply delete_free_comment=new Dto_free_reply(reply_id, board, post_post_id);			
+		sqlSession.insert(Namespace+".delete_free_comment",delete_free_comment);
+	} // 댓글 삭제
+	@Override
+	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board) {
+		Dto_free_reply update_free_comment=new Dto_free_reply(reply_id,re_comment,post_post_id,board);
+		sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
+	} //댓글 수정
+	@Override
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		System.out.println("idao re_re_comment: "+re_comment);
+		Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+		System.out.println("get comment"+add_free_re_comment.getRe_comment());
+		sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
+	} //대댓글 작성
 
-			public void free_uphit(int post_id) throws Exception {
-				sqlSession.insert(Namespace+".free_uphit",post_id);
-			} // 조회수
-			@Override
-			public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-					String post_post_id, String board) {
-				System.out.println("idao re_re_comment: "+re_comment);
-				Dto_free_reply edit_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
-				System.out.println("get comment"+edit_free_re_comment.getRe_comment());
-				sqlSession.insert(Namespace+".edit_free_re_comment",edit_free_re_comment);
-			}
-			@Override
-			public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception{
-				Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
-				sqlSession.insert(Namespace+".find_pw",Dto_user);
-			}// 게시물 달기
+	public void free_uphit(int post_id) throws Exception {
+		sqlSession.insert(Namespace+".free_uphit",post_id);
+	} // 조회수
+	@Override
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board) {
+		System.out.println("idao re_re_comment: "+re_comment);
+		Dto_free_reply edit_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+		System.out.println("get comment"+edit_free_re_comment.getRe_comment());
+		sqlSession.insert(Namespace+".edit_free_re_comment",edit_free_re_comment);
+	}
+	@Override
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception{
+		Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
+		sqlSession.insert(Namespace+".find_pw",Dto_user);
+	}// 게시물 달기
 
-			@Override
-			public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
-				Dto_free_reply update_free_comment_now=new Dto_free_reply(reply_id,board, re_comment, post_post_id);
-				sqlSession.insert(Namespace+".update_free_comment_now",update_free_comment_now);
-			}
+	@Override
+	public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board) {
+		Dto_free_reply update_free_comment_now=new Dto_free_reply(reply_id,board, re_comment, post_post_id);
+		sqlSession.insert(Namespace+".update_free_comment_now",update_free_comment_now);
+	}
 
-			@Override
-			public int checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
-				Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
-				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw",Dto_user);
-				return (Integer)selRes;
-			}
+	@Override
+	public int checkQueestionPw(String user_id, String passwd_q, String passwd_a) {
+		Dto_user Dto_user= new Dto_user(user_id, passwd_q, passwd_a);
+		Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw",Dto_user);
+		return (Integer)selRes;
+	}
 
-			@Override
-			public int checkQueestionPw2(Dto_user user) {
-				Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw2",user);
-				return (Integer)selRes;
-			}
+	@Override
+	public int checkQueestionPw2(Dto_user user) {
+		Object selRes = sqlSession.selectOne(Namespace+".checkQueestionPw2",user);
+		return (Integer)selRes;
+	}
 
-			@Override
-			public Dto_user getUserByUserId(String user_id) {
-				return sqlSession.selectOne(Namespace+".getUserByUserId",user_id);
-			}
-			@Override
-			public int selectCount (int post_id) {
-				Object selectCount = sqlSession.selectList(Namespace+".selectCount",post_id);
-				return (Integer) selectCount;
-			} // 댓글 갯수 세기
-			@Override
-			public List<Dto_freeboard> mylist(String user_user_id) throws Exception{
-				return sqlSession.selectList(Namespace+".mylist",user_user_id);
-			}// 내가 쓴 글 조회
-			@Override
-			public List<Dto_free_reply> myreply(String user_user_id) throws Exception{
-				return sqlSession.selectList(Namespace+".myreply",user_user_id);
-			}// 내가 쓴 댓글 조회
+	@Override
+	public Dto_user getUserByUserId(String user_id) {
+		return sqlSession.selectOne(Namespace+".getUserByUserId",user_id);
+	}
+	@Override
+	public int selectCount (int post_id) {
+		Object selectCount = sqlSession.selectList(Namespace+".selectCount",post_id);
+		return (Integer) selectCount;
+	} // 댓글 갯수 세기
+	@Override
+	public List<Dto_freeboard> mylist(String user_user_id) throws Exception{
+		return sqlSession.selectList(Namespace+".mylist",user_user_id);
+	}// 내가 쓴 글 조회
+	@Override
+	public List<Dto_free_reply> myreply(String user_user_id) throws Exception{
+		return sqlSession.selectList(Namespace+".myreply",user_user_id);
+	}// 내가 쓴 댓글 조회
+	@Override
+	public int count_freeboard() {
+		return sqlSession.selectOne(Namespace+".count_freeboard");
+	} // 페이징
 
-			
+	@Override
+	public List<Dto_freeboard> listAll(BoardSearch search) {
+		return sqlSession.selectList(Namespace+".listAll", search);
+	} // 검색하기
+	
+	@Override
+	public int count_freeboard_search() {
+		return sqlSession.selectOne(Namespace+".search_count");
+	}
 			
 			
 			

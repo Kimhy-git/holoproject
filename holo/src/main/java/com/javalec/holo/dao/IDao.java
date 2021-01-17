@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.javalec.holo.dto.BoardSearch;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
@@ -50,7 +51,8 @@ public interface IDao {
 
 
     //help_me게시글 리스트
-	public List<Dto_help_post> list()throws Exception;;
+	public List<Dto_help_post> list(Pagination_help pagination)throws Exception;
+	public int count_helpme() throws Exception;
 	
 	//help_me게시글 상세보기
 	public Dto_help_post read(int help_post_id) throws Exception;
@@ -94,6 +96,11 @@ public interface IDao {
 	
 	//help_me 댓글 수
 	public int help_reply_count(int help_post_id);
+	
+	//help_me 검색
+	public List<Dto_help_post> helpme_search(BoardSearch search);
+	//help_me 검색 카운트
+	public int helpme_search_count(BoardSearch search);
 	
 		
 		
@@ -180,7 +187,7 @@ public interface IDao {
 			
 			
 			
-	public List<Dto_freeboard> select_freeboard();
+	public List<Dto_freeboard> select_freeboard(Pagination pagination);
 	//리스트 보여주기
 
 	public List<Dto_freeboard> select_freeboard_view(int post_id);
@@ -241,8 +248,14 @@ public interface IDao {
 	// 내가 쓴 글 조회
 	public List<Dto_free_reply> myreply(String user_id) throws Exception;
 	// 내가 쓴 댓글 조회
-
 	
+	
+	public int count_freeboard();
+	//페이징
+	public List<Dto_freeboard> listAll(BoardSearch search);
+	//검색하기
+	public int count_freeboard_search();
+
 	
 	
 	
