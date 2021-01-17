@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+#current{
+font-weight: bold;
+color:#000;
+}
+</style>
 <meta charset="UTF-8">
 <title>마이페이지</title>
 </head>
@@ -30,7 +36,7 @@
                 <a href="help_me">도움받기</a>
                 <a href="help_you">도움주기</a>
                 <a href="freeboard">자유게시판</a>
-                <a href="mypage">마이페이지</a>
+                <a href="edit_mp">마이페이지</a>
             </div>
     </header>
     <section>
@@ -44,38 +50,64 @@
                 &nbsp; &nbsp; 
                 <span><a href="mypage">내가 쓴 글에 지원한 지원자 목록</a></span>
                 &nbsp; &nbsp; 
-                <span><a href="mypage_apply">내가 지원한 게시글 목록</a></span>
+                <span><a href="mypage_apply"  id="current">내가 지원한 게시글 목록</a></span>
                 &nbsp; &nbsp; 
                 <span><a href="edit_mp?user_id=${login.user_id}">내 정보 수정</a></span>
             </nav>
+            
             <div class="clear"></div>
+            <c:forEach var="item" items="${total_apply}">
             <div id="center">
-                        <table>
-                <tr>
-                    <td>아이디</td>
-                    <td class="readonly">${login.user_id}</td>
-                </tr>                
-                <tr id="like">
-                    <td>좋아요</td>
-                    <td readonly>0</td>
-                    <!-- 좋아요 기능 추가되면, login, user 테이블에 like 넣기 dto 수정 -->
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td readonly>${login.nick}</td>
-                </tr>
-                <tr>
-                	<td>성격 태그</td>
-                	<td readonly>
-                		${login.tag}
-					</td>
-                </tr>
-                <tr>
-                	<td>자기소개</td>
-                	<td><textarea readonly>${login.cv}</textarea></td>
-                </tr>
-                </table>
- 			</div><br><br>
+          	<article>
+				<div class="applier">
+					<div class="info">
+						<div class="title">
+						<p id="apply_title">${item.title}</p>
+						<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
+						<input type="hidden" id="helpyou_id" value="${item.help_post_help_post_id}">
+							<span class="date">${item.operator}</span>
+						</div>
+						<div class="nick">
+							<span class="info02">
+								<a href="#" class="info_nick">지원목록</a> | 
+								<span class="info_gender">${item.gender}</span> | 
+								♥ <span class="info_like">0</span>
+							</span>
+							<span class="ptag">
+							${item.tag}
+							</span>
+						</div>
+						<div class="intro">
+							<p>${item.cv}</p>
+						</div>
+					</div>
+					<div class="btns">
+						<input class="btn" type="button" value="채팅하기"><br>
+						<input class="btn last" type="button" value="취소하기">
+					</div>
+				</div>
+			</c:forEach>
+			</article>
+	            </table>
+				   <div id="paginationBox">
+					<ul class="pagination">
+						<c:if test="${pagination.prev}">
+							<a class="page-link" href="#" onClick="fn_prev
+							('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">Previous</a>
+						</c:if>
+			
+						<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+							<c:out value="${pagination.page == idx ? '' : ''}"/><a class="page-link" href="#" onClick="fn_pagination
+							('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a>
+						</c:forEach>			
+			
+						<c:if test="${pagination.next}">
+							<a class="page-link" href="#" onClick="fn_next('${pagination.range}', 
+							'${pagination.range}', '${pagination.rangeSize}')" >Next</a>
+						</c:if>
+					</ul>
+				</div>
+        	</div>
     </section>
     <footer>
         <p>&copy;copyright 홀로서기
@@ -116,5 +148,19 @@ function fn_prev(page, range, rangeSize) {
 		location.href = url;
 		console.log(url);
 	}
+</script>
+<script>
+$(document)
+.on('click','#apply_title',function(){
+	var helpyou_id=$('#helpyou_id').val();
+	var post_id=$('#help_post_help_post_id').val();
+	if(helpyou_id==null){
+		var url = "http://localhost:8080/holo/helpme_write_view?help_post_id="+post_id;    
+		$(location).attr('href',url);
+	}else{
+		var url = "http://localhost:8080/holo/helpyou_write_view?help_post_id="+post_id;    
+		$(location).attr('href',url);
+	}
+})
 </script>
 </html>

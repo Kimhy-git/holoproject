@@ -539,8 +539,8 @@ public class BoardController {
 		List<Dto_post> notice = service.select_post(pagination); 
         model.addAttribute("notice", notice);
         System.out.println("startPage: "+pagination.getStartPage());
-		 Dto_login dto = new Dto_login();
 		 
+        Dto_login dto = new Dto_login();
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
 
@@ -585,13 +585,19 @@ public class BoardController {
     @RequestMapping(value = "add_comment", method = {RequestMethod.POST,RequestMethod.GET})
     public String add_comment(HttpServletRequest req, Model model) {
     	
+		 Dto_login dto = new Dto_login();
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+    	
     	System.out.println("add_comment");
+    	String user_user_id=req.getParameter("user_user_id");
     	String post_post_id=req.getParameter("post_post_id");
     	String re_comment=req.getParameter("re_comment");
     	
+    	System.out.println("THIS IS user_user_id : "+user_user_id);
     	System.out.println("THIS IS post_post_id : "+post_post_id);
     	System.out.println("THIS IS re_comment : "+re_comment);
-    	service.add_comment(post_post_id, re_comment);
+    	service.add_comment(post_post_id, re_comment,user_user_id);
 //    	service.get_reply_id(re_comment);//방금 쓴 댓글의 reply_id를 가져옴
 //    	service.set_re_index//그 댓글의 re_index에 reply_id를 넣음
     	
@@ -727,6 +733,12 @@ public class BoardController {
     	
     	System.out.println("Start add_recomment");
 
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		
+    	String user_user_id=dto.getUser_id();
     	String re_index=req.getParameter("reply_id");
     	String re_comment=req.getParameter("re_re_comment");
     	int order=Integer.parseInt(req.getParameter("re_order"));
@@ -747,7 +759,7 @@ public class BoardController {
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
     	
     	
     	System.out.println("The end of update_post_now");

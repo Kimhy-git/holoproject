@@ -17,9 +17,8 @@ public class Dto_apply {
 	private int likes;
 	private int complete;
 	private int choose;
-	
-	
-	
+
+
 	
 	public int getChoose() {
 		return choose;

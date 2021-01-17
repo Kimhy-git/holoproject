@@ -1,5 +1,6 @@
 package com.javalec.holo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
+import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_total;
+import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
@@ -32,14 +35,65 @@ public class MpController {
 	
 	@RequestMapping(value = "/mypage", method = {RequestMethod.POST,RequestMethod.GET})
     public String mypage(HttpServletRequest req, Model model) throws Exception {
+		
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
+        return "mypage";
+    }
+	
+	@RequestMapping(value = "/mypage_mycomments", method = {RequestMethod.POST,RequestMethod.GET})
+    public String mypage_mycomments(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+		
 		Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
 		
-       return "mypage";
+  		//전체 댓글 수
+  		int listCnt = service.total_reply_count(dto.getUser_id());
+  		System.out.println("listCnt: "+listCnt);
+  		
+  		//Pagination 객제 생성
+  		Pagination pagination = new Pagination();
+  		pagination.pageInfo(page, range, listCnt);
+        model.addAttribute("pagination", pagination);
+        System.out.println("range: "+pagination.getRange());
+		
+		List<Dto_total_reply>total_reply = service.total_reply(dto.getUser_id(),pagination);
+		model.addAttribute("total_reply",total_reply);
+		List<Dto_apply> apply=service.applier(dto.getUser_id());
+		model.addAttribute("apply",apply);
+		
+       return "mypage_mycomments";
     }
 	
-	@RequestMapping(value = "/mypage_mypage_myposts", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "/mypage_apply", method = {RequestMethod.POST,RequestMethod.GET})
+    public String mypage_apply(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+		
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
+		
+  		//전체 지원한 게시글 수
+  		int listCnt = service.total_apply_count(dto.getUser_id());
+  		
+  		//Pagination 객제 생성
+  		Pagination pagination = new Pagination();
+  		pagination.pageInfo(page, range, listCnt);
+        model.addAttribute("pagination", pagination);
+        System.out.println("range: "+pagination.getRange());
+		
+		List<Dto_apply>total_apply = service.total_apply(dto.getUser_id(),pagination);
+		model.addAttribute("total_apply",total_apply);
+
+       return "mypage_apply";
+    }
+	
+	@RequestMapping(value = "/mypage_myposts", method = {RequestMethod.POST,RequestMethod.GET})
     public String mypage_mypage_myposts(@RequestParam(required = false, defaultValue = "1") int page, 
 										@RequestParam(required = false, defaultValue = "1") int range,
 										HttpServletRequest req, Model model) throws Exception {
@@ -59,7 +113,7 @@ public class MpController {
 		List<Dto_total> total_list=service.mypage_total_list(pagination);
 		System.out.println("controller list: "+total_list);
 		model.addAttribute("mylist",total_list);
-       return "mypage_mypage_myposts";
+       return "mypage_myposts";
     }
 	
     @RequestMapping(value = "/edit_mp", method = {RequestMethod.POST,RequestMethod.GET})
@@ -130,12 +184,11 @@ public class MpController {
         	String helpyou_id=req.getParameter("user_id");
         	String title=req.getParameter("title");
         	
-        	
         	model.addAttribute("nick",nick);
         	model.addAttribute("help_post_help_post_id",help_post_help_post_id);
         	model.addAttribute("helpyou_id",helpyou_id);
         	model.addAttribute("title",title);
-        	
+
     		
     		Dto_login dto = new Dto_login();
     		HttpSession session = req.getSession();

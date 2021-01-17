@@ -8,6 +8,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto" alias="dto"/>
             <!-- mypage -->
             <typeAlias type="com.javalec.holo.dto.Dto_total" alias="dto_my_total"/>
+
             
             
             <!-- notice -->
@@ -16,7 +17,7 @@
             <typeAlias type="com.javalec.holo.dto.Dto_user" alias="dto_user"/>
             <typeAlias type="com.javalec.holo.dto.Dto_login" alias="dto_login"/>
             <typeAlias type="com.javalec.holo.dto.Dto_apply" alias="dto_apply"/>
-            
+            <typeAlias type="com.javalec.holo.dto.Dto_total_reply" alias="dto_total_reply"/>
             
             
             <!-- help_me -->

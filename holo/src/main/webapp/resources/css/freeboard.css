@@ -72,3 +72,19 @@ th, td {
 #index{
     text-align:center;
 }
+
+a{
+	text-decoration:none;
+}
+#search_btn{
+	border:1px solid #ccc;	
+	border-radius:30px;
+	padding:2px 10px;
+	font-size:10px;
+	font-weight:200;
+	color:#777;
+}
+.page-link{
+	margin-left:20px;
+	font-size:14pt;
+}

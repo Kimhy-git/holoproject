@@ -41,7 +41,6 @@
                 <tr>
                     <td>아이디</td>
                     <td class="readonly">${mp_user.user_id}</td>
-                    <td><input type="hidden" value="${login.user_id}" name=user_id></td>
                 </tr>                
                 <tr id="gender">
                     <td>성별</td>

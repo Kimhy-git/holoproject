@@ -266,35 +266,35 @@
     <select id="select_post" resultType="dto_post"> 
 		select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt  
         from post a
-        where board=0 order by post_id desc limit #{startList}, #{listSize};
+        where board=3 order by post_id desc limit #{startList}, #{listSize};
     </select>
     
     <!-- counting -->
     <select id="count" resultType="int">
-    	select count(*) from post where board=0
+    	select count(*) from post where board=3
     </select>
     
      <!-- notice_write : add posts -->
     <select id="add_post" parameterType="dto_post"> 
     	insert into post(board, title, nick, content, img, user_user_id)
-		values(0,#{title},'One',#{content},#{img},'admin');
+		values(3,#{title},'One',#{content},#{img},'admin');
     </select>
     
     <!-- notice_write_view : add comments --> 
-    <select id="add_comment" parameterType="dto_reply"> 
+    <select id="add_comment" parameterType="hashmap"> 
     	insert into reply(board,re_comment,post_post_id,user_user_id)
-		values(0,#{re_comment},#{post_post_id},'a');	
+		values(3,#{re_comment},#{post_post_id},#{user_user_id});	
     </select>
     
  	<!-- notice_write_view : add re_comments -->
     <select id="add_re_comment" parameterType="dto_reply"> 
 		insert into reply(board,re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id)
- 		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{post_post_id},'a');
+ 		 values(3,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{post_post_id},#{user_user_id});
     </select>
     
     <!-- notice_write_view -->
     <select id="select_post_view" resultType="dto_post"> 
-    	select * from post where board=0 and post_id=#{post_id}; 
+    	select * from post where board=3 and post_id=#{post_id}; 
     </select>
     
     <!-- notice_write_view -->
@@ -306,23 +306,23 @@
     <select id="select_post_reply" resultType="dto_reply"> 
 		SELECT *
 		FROM reply
-		where board=0 and post_post_id=#{post_id}
+		where board=3 and post_post_id=#{post_id}
 		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index;
     </select>
     
     <!-- notice_write_view : delete posts -->
     <select id="select_post_delete" resultType="dto_post"> 
-    	delete from post where post_id=#{post_id} and board=0;
+    	delete from post where post_id=#{post_id} and board=3;
     </select>
     
     <!-- notice_write_view : delete comments with a post -->
     <select id="select_reply_delete" resultType="dto_reply"> 
-    	delete from reply where post_post_id=#{post_post_id} and board=0;
+    	delete from reply where post_post_id=#{post_post_id} and board=3;
     </select>
     
      <!-- notice_write_view : delete comments ONLY -->
     <select id="delete_comment" resultType="dto_reply"> 
-    	delete from reply where reply_id=#{reply_id} and board=#{board} and
+    	delete from reply where reply_id=#{reply_id} and board=3 and
     	post_post_id=#{post_post_id};
     </select>
     
@@ -452,10 +452,11 @@
     <!-- helpme에 지원하기 -->
     <select id="add_apply_me" resultType="dto_apply">
     	insert into apply(helpme_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
-		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, #{gender}, #{applier}, #{price}, #{nick}, #{title})
+		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, 
+		#{gender}, #{applier}, #{price}, #{nick}, #{title})
     </select>
     
-    <!-- helpme에 지원하기 -->
+    <!-- helpyou에 지원하기 -->
     <select id="add_apply_you" resultType="dto_apply">
     	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
 		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price}, #{nick},#{title})
@@ -469,11 +470,51 @@
     <!-- apply_you 게시물 보여줌 -->
     <select id="apply_you_page" resultType="dto_apply">
 		select * from apply where board=0 and applier=#{applier}
-		order by apply_id desc limit #{startList}, #{listSize};
+		order by apply_id desc limit #{startList}, #{listSize}
     </select>
     
-    <!-- tap4 내가 지원한 글을 보여줌 -->
-    <select id="applier" resultType="dto_apply">
-		select * from apply where applier=#{user_user_id}
+    <!-- help_post 글제목 가져오기 -->
+    <select id="help_title" resultType="dto_p">
+		select DISTINCT a.title, a.operator, a.help_post_id from help_post a, apply b 
+		where a.user_user_id=#{user_user_id} and a.board=1
+		and (a.user_user_id=b.helpme_id or a.user_user_id=b.helpyou_id)     
     </select>
+    
+    <!-- apply에서 지원자 가져오기 -->
+    <select id="applier" resultType="dto_apply">
+		select * from apply where helpme_id=#{user_id}
+    </select>
+
+    
+    <!-- 전체 댓글 가져오기 -->
+    <select id="total_reply" resultType="dto_total_reply">
+		select a.reply_id, a.board, a.operator, a.re_comment, a.post_post_id, a.user_user_id
+		from reply as a where user_user_id=#{user_id}
+		union
+		select b.help_reply_id, b.board, b.operator, b.re_comment, b.help_post_post_id, b.user_user_id
+		from help_reply as b where user_user_id=#{user_id}
+		order by operator desc limit #{pagination.startList}, #{pagination.listSize}
+    </select>
+    
+    <!-- 전체 댓글 수 -->
+    <select id="total_reply_count" resultType="int">
+    	select(
+		SELECT COUNT(*) from reply
+		where user_user_id=#{user_id})
+		+(SELECT COUNT(*) from help_reply
+		where user_user_id=#{user_id})
+    </select>
+    
+    <!-- 전체 지원 게시글 수 -->
+    <select id="total_apply_count" resultType="int">
+    	select count(*) from apply where applier=#{user_id}
+    </select>
+    
+    <!-- 전체 지원 게시글 가져오기 -->
+    <select id="total_apply" resultType="dto_apply">
+    	select * from apply where applier=#{user_id} order by operator desc 
+		limit #{pagination.startList},#{pagination.mypageListSize}
+    </select>
+    
+
 </mapper>

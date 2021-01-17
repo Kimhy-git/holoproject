@@ -32,7 +32,7 @@ function fn_prev(page, range, rangeSize) {
 	function fn_next(page, range, rangeSize) {
 		var page = parseInt((range * rangeSize)) + 1;
 		var range = parseInt(range) + 1;
-		var url = "${pageContext.request.contextPath}/board/getBoardList";
+		var url = "${pageContext.request.contextPath}/notice";
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
@@ -89,7 +89,7 @@ function fn_prev(page, range, rangeSize) {
 	                <c:forEach var="dto" items="${notice}">
 	                <tr>
 	                
-	                    <td><a href="notice_write_view?post_id=${dto.post_id}">${dto.title}(${dto.replyCnt})</a></td>
+	                    <td><a href="notice_write_view?post_id=${dto.post_id}">${dto.title} (${dto.replyCnt})</a></td>
 	                    <td>${dto.nick}</td>
 	                    <td>${dto.operator}</td>
 	                	<td>${dto.hit}</td>

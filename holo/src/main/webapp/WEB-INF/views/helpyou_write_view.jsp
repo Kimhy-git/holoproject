@@ -78,7 +78,6 @@
 	                    </div>
 		                    <div id="nick">${read.nick}</div>
 		                    <input type="hidden" id="NICK" value="${read.nick}">
-		                    <input type="text" id="title_table" value="${read.title}">
 		                    <div id="date">${read.operator}</div>
 		            </div>
 		            <c:if test="${read.complete==0}">

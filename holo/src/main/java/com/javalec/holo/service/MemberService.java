@@ -1,12 +1,15 @@
 package com.javalec.holo.service;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.javalec.holo.dto.Dto_total;
+import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_apply;
 import com.javalec.holo.dto.Dto_free_reply;
@@ -76,7 +79,7 @@ public interface MemberService {
 	public void add_post(String title,String content, String file_up);
 	
 	//add comments
-	public void add_comment(String post_post_id, String re_comment);
+	public void add_comment(String post_post_id, String re_comment, String user_user_id);
 	
 	//delete comments ONLY
 	public void delete_comment(String reply_id, String board, String post_post_id);
@@ -88,7 +91,7 @@ public interface MemberService {
 	public void update_post(String post_id, String board, String title, String content);
 
 	//add re_comments
-	public void add_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String post_post_id2);
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);
 	
 	//hits
 	public void uphit(String post_id);
@@ -246,10 +249,24 @@ public interface MemberService {
 
 	//apply_you paging
 	public int count_apply(String applier);
-	
-	//mypage tap 4 //tap4 내가 지원한 게시글 목록
-	public List<Dto_apply> applier(String user_user_id);
 
 
+	//help_post 제목 가져오기(Join 사용)
+	public List<Dto_help_post> help_title(String user_user_id);
+
+	//apply에서 지원자 가져오기
+	public List<Dto_apply> applier(String user_id);
+
+	//전체 댓글 가져오기
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
+
+	//전체 댓글 수 
+	public int total_reply_count(String user_id);
+
+	//전체 지원 게시글 수
+	public int total_apply_count(String user_id);
+
+	//전체 지원 게시글 가져오기
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
 }
 
