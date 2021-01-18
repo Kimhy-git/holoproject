@@ -134,6 +134,9 @@ public interface IDao {
 	//notice_write_view
 	public List<Dto_post> select_post_view(String post_id);
 	
+	//notice_write_view : 댓글 개수
+	public int count_post_reply(String post_id);
+	
 	//notice_write_view : comments
 	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination);
 	
@@ -180,6 +183,13 @@ public interface IDao {
 	
 	//댓글 수
 	public int selectCount_notice(int post_id);
+	
+	//notice 검색 결과
+	public int count_notice_search();
+	
+	public List<Dto_post> list_notice(BoardSearch search);
+	
+	
 	
 	
 			
@@ -294,7 +304,4 @@ public interface IDao {
 	
 	//post_id에 해당하는 댓글 수
 	public int count_reply(String post_id);
-	
-	//ajax 가져오기
-	//public String requestPro
 }

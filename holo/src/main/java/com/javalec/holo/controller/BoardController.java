@@ -683,13 +683,15 @@ public class BoardController {
     	service.uphit(post_id);
     	
     	List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
-    	List<Dto_post> notice = service.select_post_view(post_id); 
+    	List<Dto_post> notice = service.select_post_view(post_id);
+    	int replyCnt = service.count_post_reply(post_id);
     	
         model.addAttribute("notice", notice);
         model.addAttribute("reply", reply);
         model.addAttribute("page",0);
+        model.addAttribute("replyCnt",replyCnt);
+        
 		 Dto_login dto = new Dto_login();
-		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
     	
@@ -856,7 +858,49 @@ public class BoardController {
 
     	return "redirect:notice_write_view?post_id="+post_post_id;
     }
-		    
+	
+    //검색하기
+    @RequestMapping("notice_do") //url mapping
+    public ModelAndView notice_do(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+            @RequestParam(defaultValue="1") int curPage,
+            @RequestParam(defaultValue="user_id") String search_option, //기본 검색 옵션값을 작성자로 한다.
+            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
+            @RequestParam(defaultValue="2") int board,
+            @RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range
+            )
+             throws Exception{
+        
+        //전체 로우 수
+        int count = 1000;
+        int listCnt = service.count_notie_search();
+        
+        //검색조건 + 보드서치 객체 생성
+        Pagination pagination = new Pagination();
+        pagination.pageInfo(page,range,listCnt);
+        BoardSearch search = new BoardSearch();
+        search.setPagination(pagination);
+        search.setSearch_option(search_option);
+        search.setKeyword(keyword);
+        search.setBoard(board);
+             
+        //검색 조건으로 게시글 목록 조회
+        List<Dto_post> list = service.list_notice(search);
+        ModelAndView mav = new ModelAndView();
+        Map<String,Object> map = new HashMap<String, Object>();    
+        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
+
+        map.put("count", count);
+        map.put("search_option", search_option);
+        map.put("keyword", keyword);
+        mav.addObject("map", map);                    
+        mav.addObject("pagination", pagination);   
+        mav.addObject("notice", list);   
+        System.out.println("map : "+map);
+        mav.setViewName("notice_do");   //자료를 넘길 뷰의 이름
+        return mav;   //게시판 페이지로 이동   
+    }
+    
 		    
 		    
 		    
@@ -1095,7 +1139,7 @@ public class BoardController {
 	        mav.addObject("pagination", pagination);   
 	        mav.addObject("freeboard", list);   
 	        System.out.println("map : "+map);
-	        mav.setViewName("freeboard");   //자료를 넘길 뷰의 이름
+	        mav.setViewName("freeboard_search");   //자료를 넘길 뷰의 이름
 	        return mav;   //게시판 페이지로 이동   
 	    } // 검색하기
 }

@@ -251,7 +251,12 @@
     
     <!-- notice_write_view -->
     <select id="select_post_view" resultType="dto_post"> 
-    	select * from post where board=3 and post_id=#{post_id}; 
+    	select * from post where board=3 and post_id=#{post_id}
+    </select>
+    
+    <!-- counting -->
+    <select id="count_post_reply" resultType="int">
+    	select count(*) from reply where board=3 and post_post_id=#{post_id}
     </select>
     
     <!-- notice_write_view -->
@@ -289,6 +294,47 @@
     	where user_id=#{user_id} and user_pw=#{user_pw}
     </select>
     
+    <!-- 검색하기 count -->
+    <select id="count_notice_search" resultType="int">
+    select count(*)            
+            from post
+            where board = 3
+            <if test='search_option != null and !("").equals(search_option) '>
+            	<if test='("user_id").equals(search_option)'>
+	            and user_user_id like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("title").equals(search_option)'>
+	            and title like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("content").equals(search_option)'>
+	            and content like CONCAT('%',#{keyword},'%')
+
+            	</if>
+            </if>
+            order by post_id
+	</select>
+	
+	<!-- 내가 쓴 댓글 -->                  
+	<select id="list_notice" resultType="Dto_post" parameterType="com.javalec.holo.dto.BoardSearch">
+          select a.* , ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt
+            from post a
+            where board = 3
+            <if test='search_option != null and !("").equals(search_option) '>
+            	<if test='("user_id").equals(search_option)'>
+	            and user_user_id like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("title").equals(search_option)'>
+	            and title like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("content").equals(search_option)'>
+	            and content like CONCAT('%',#{keyword},'%')
+
+            	</if>
+            </if>
+            order by post_id
+         limit #{pagination.startList}, #{pagination.listSize}
+    </select>
+    
 
     
     
@@ -301,12 +347,57 @@
   <select id="select_freeboard" resultType="dto_freeboard">
         select a.*, ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt 
         from post a
-        where board=1;
+        where board=2
+        limit #{startList}, #{listSize};
     </select>
+    
+   <!-- 내가 쓴 댓글 -->                  
+	<select id="listAll" resultType="com.javalec.holo.dto.Dto_freeboard" parameterType="com.javalec.holo.dto.BoardSearch">
+          select a.* , ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt
+            from post a
+            where board = #{board}
+            <if test='search_option != null and !("").equals(search_option) '>
+            	<if test='("user_id").equals(search_option)'>
+	            and user_user_id like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("title").equals(search_option)'>
+	            and title like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("content").equals(search_option)'>
+	            and content like CONCAT('%',#{keyword},'%')
+
+            	</if>
+            </if>
+            order by post_id
+            <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
+         limit #{pagination.startList}, #{pagination.listSize}
+    </select>
+    <!-- 검색하기 -->
+    <!-- 검색하기 count -->
+    <select id="search_count" resultType="int">
+    select count(*)            
+            from post
+            where board = #{board}
+            <if test='search_option != null and !("").equals(search_option) '>
+            	<if test='("user_id").equals(search_option)'>
+	            and user_user_id like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("title").equals(search_option)'>
+	            and title like CONCAT('%',#{keyword},'%')
+            	</if>
+            	<if test='("content").equals(search_option)'>
+	            and content like CONCAT('%',#{keyword},'%')
+
+            	</if>
+            </if>
+            order by post_id
+            <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
+	</select>
+    
     <!-- 리스트 보기 -->
     
     <select id="select_freeboard_view" resultType="dto_freeboard">
-        select * from post where board=1 and post_id=#{post_id};
+        select * from post where board=2 and post_id=#{post_id};
     </select>
     <!-- 게시글 보기 -->
         <select id="free_uphit" resultType="dto_freeboard"> 
@@ -315,34 +406,34 @@
     <!-- 조회수 +1 -->
     
     <select id="select_freeboard_delete" resultType="dto_freeboard"> 
-    	delete from post where post_id=#{post_id} and board=1;
+    	delete from post where post_id=#{post_id} and board=2;
     </select>
     <!-- 게시글 삭제 -->
  	
  	<select id="select_free_reply_delete" resultType="dto_free_reply_delete"> 
-    	delete from reply where post_post_id=#{post_post_id} and board=1;
+    	delete from reply where post_post_id=#{post_post_id} and board=2;
     </select>
     <!-- 게시글+댓글 삭제 -->
     <select id="freeboard_update" resultType="dto_freeboard"> 
     	update post set title=#{title}, content=#{content}
-    	where post_id=#{post_id} and board=1;
+    	where post_id=#{post_id} and board=2;
     </select>
     <!-- 게시물 수정 -->
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
     	insert into post(board, title, nick, content, img, user_user_id) 
-    		values (1, #{title}, "se", #{content}, #{img}, "b");
+    		values (2, #{title}, #{nick}, #{content}, #{img}, #{user_user_id});
     </insert>
 	<!-- 게시물 등록 -->	
     
     <select id="add_free_comment" parameterType="dto_free_reply"> 
     	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(1,0,#{re_comment},#{post_post_id},'a');	
+		values(2,0,#{re_comment},#{post_post_id},#{user_user_id});	
     </select>
     <!-- 댓글 쓰기 -->   
     
     <select id="select_free_reply" resultType="dto_free_reply"> 
-    	select * from reply where board=1 and post_post_id=#{post_id}
+    	select * from reply where board=2 and post_post_id=#{post_id}
     	order by re_index, reply_id; 
     </select>
     <!-- 댓글 보여주기 -->
@@ -355,13 +446,13 @@
     
     <select id="update_free_comment_now" resultType="dto_free_reply" parameterType="com.javalec.holo.dto.Dto_free_reply"> 
     	update reply set re_comment=#{re_comment}
-    	where board=1 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
+    	where board=2 and reply_id=#{reply_id} and post_post_id=#{post_post_id};
     </select>
     <!-- 댓글 수정 -->
     
     <select id="add_free_re_comment" parameterType="dto_free_reply"> 
     	     insert into reply(board,re_index,re_comment,re_order,groupNum,post_post_id,user_user_id)
-      values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},'a');	
+      values(1,last_insert_id()+1,#{re_comment},#{re_order},#{groupNum},#{post_post_id},#{user_user_id});	
     </select>
     <!-- 대댓글 추가 -->
     
@@ -394,11 +485,16 @@
     </select>
     <!-- 댓글 갯수 세기 -->
           <select id="mylist" resultType="com.javalec.holo.dto.Dto_freeboard">
-        select * from post where board=1 and user_user_id = 'aaaaa';
+        select * from post where board=1 and user_user_id = #{user_user_id};
     </select>
     <!-- 내가 쓴 글 -->
           <select id="myreply" resultType="com.javalec.holo.dto.Dto_free_reply">
-        select * from reply where board=1 and user_user_id = 'a';
+        select * from reply where board=1 and user_user_id = #{user_user_id};
+    </select>
+    
+    <!-- counting -->
+    <select id="count_freeboard" resultType="int">
+    	select count(*) from post where board=2
     </select>
     <!-- 내가 쓴 댓글 -->
 

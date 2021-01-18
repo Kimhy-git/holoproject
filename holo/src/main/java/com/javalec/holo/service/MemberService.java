@@ -67,6 +67,9 @@ public interface MemberService {
 	//notice_write_view
 	public List<Dto_post> select_post_view(String post_id) throws Exception;
 	
+	//notice_write_view : 총 댓글 수
+	public int count_post_reply(String post_id);
+	
 	//notice_write_view : comments
 	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception;
 	
@@ -111,6 +114,16 @@ public interface MemberService {
 	
 	//댓글 수
 	public int selectCount_notice (int post_id) throws Exception;
+	
+	//notice 검색 결과
+	public int count_notie_search();
+	
+	//noitce 검색 조건으로 게시글 목록 조회
+	public List<Dto_post> list_notice(BoardSearch search);
+	
+	
+	
+	
 
 
 	
@@ -282,7 +295,5 @@ public interface MemberService {
 
 	//post_id에 해당하는 댓글 개수
 	public int count_reply(String post_id);
-	
-	//public List<> requestPro()
 }
 

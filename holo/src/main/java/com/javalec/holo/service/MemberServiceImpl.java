@@ -1,5 +1,4 @@
 package com.javalec.holo.service;
-
 import java.io.PrintWriter;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -335,6 +334,11 @@ public class MemberServiceImpl implements MemberService {
 		return dao.select_post_view(post_id);
 	}
 
+	@Override
+	public int count_post_reply(String post_id) {
+		return dao.count_post_reply(post_id);
+	}
+
 	@Override //notice_write_view : comments
 	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception {
 		return dao.select_post_reply(post_id, pagination);
@@ -459,6 +463,16 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectCount_notice(post_id);
 	}
 	
+	//notice 검색 결과
+	@Override
+	public int count_notie_search() {
+		return dao.count_notice_search();
+	}
+	
+	@Override
+	public List<Dto_post> list_notice(BoardSearch search) {
+		return dao.list_notice(search);
+	}	
 	
 	
 	
@@ -663,5 +677,4 @@ public class MemberServiceImpl implements MemberService {
 	public int count_reply(String post_id) {
 		return dao.count_reply(post_id);
 	}
-	
 }
