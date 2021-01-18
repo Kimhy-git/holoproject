@@ -36,7 +36,7 @@
     </header>
     <section>
 		<div id="wrap">
-		<h2>마이페이지</h2>
+		<h2 onclick="location.href='/holo/mypage'">마이페이지</h2>
          
             <p id="mine">지원자 목록</p>
             <div class="clear"></div>

@@ -41,7 +41,7 @@ color:#000;
     </header>
     <section>
         <div id="wrap">
-        <h2>마이페이지</h2>
+        <h2 onclick="location.href='/holo/mypage'">마이페이지</h2>
          
             <nav id="mine">
                 <span><a href="mypage_myposts" >내가 쓴 글</a></span>

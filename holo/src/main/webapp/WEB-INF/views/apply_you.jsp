@@ -9,8 +9,23 @@
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
-<link rel="stylesheet" href="resources/css/mypage.css">
-
+<link rel="stylesheet" href="resources/css/apply_me.css">
+<style>
+.applier .btns .btn{
+background: rgb(175, 107, 230);
+}
+.applier .btns .choose0{
+background: #aaa;
+}
+.applier .info .info02,
+.applier .info .info02 a,
+.applier .info .info02 span{
+color:rgb(175, 107, 230);
+}
+#mine{
+color:#9660b6;
+}
+</style>
 <body>
     <header>
         <nav>
@@ -36,41 +51,53 @@
     </header>
     <section>
 		<div id="wrap">
-		<h2>지원자 목록</h2>
+		<h2 onclick="location.href='/holo/mypage'">마이페이지</h2>
          
-            <nav id="mine">
-            <ul class="tabs">
-                <li class="tabMenu current">
-                <a href="#tabContent01" >내가 쓴 글 |</a></li>
-                <li class="tabMenu">
-                <a href="#tabContent02" >내가 쓴 댓글 |</a></li>
-            </ul>
-            <div id="tossJsp" class="tossJsp">
-                <a href="apply_you">지원자 목록</a> | 
-                <a href="apply_me">지원 목록</a> |
-                <a href="edit_mp">내 정보 수정</a>
-            </div>
-            </nav>
+            <p id="mine">요청자 목록</p>
+            <div class="clear"></div>
+            <div id="center">
 			<article>
-				<div class="title"><a href="#">게시글 제목</a></div>
-				<div class="info">
-					<div class="nick">
-						<a href="#">닉네임</a> | 
-						<span class="info_gender">female</span>
-						<span class="info_like">2</span>
+			<c:forEach var="list" items="${list}">
+        		<div class="applier">
+					<div class="info">
+						<div class="title"><a href="#">${list.title}</a>
+							<span class="date">${list.operator}</span>
+						</div>
+						<div class="nick">
+							<span class="info02">
+								<a href="#">${list.nick}</a> | 
+								<span class="info_gender">
+									<c:if test="${list.gender=='f'}">여</c:if>
+									<c:if test="${list.gender=='m'}">남</c:if>
+								</span> | 
+								♥ <span class="info_like">${list.likes}</span>
+							</span>
+							<span id="ptag${list.apply_id}" class="ptag">
+								<input type="hidden" id="hidden${list.apply_id}" value="${list.tag}">
+							</span>
+						</div>
+						<div class="intro">
+							<p>${list.cv}</p>
+						</div>
 					</div>
-					<div class="ptag">
-						조용함, 꼼꼼함, 신속함
-					</div>
-					<div class="intro">
-						<p>자기소개서 내용</p>
+					<div class="btns">
+						<input class="btn" type="button" value="채팅하기"><br>
+						<c:if test="${list.complete==0}">
+							<input class="btn last" type="button" value="채택하기" id="choosebtn${list.help_post_help_post_id}" data-n="${list.apply_id}">
+						</c:if>
+						<c:if test="${list.complete==1}">
+							<c:if test="${list.choose==0}">
+							<input class="btn last choose0" type="button" value="채택완료">
+							</c:if>
+							<c:if test="${list.choose==1}">
+							<input class="btn last choose1" type="button" value="추천하기" id="likesbtn" data-l="${list.applier}">
+							</c:if>
+						</c:if>
 					</div>
 				</div>
-				<div class="btns">
-					<input type="button" value="채팅하기">
-					<input type="button" value="채택하기">
-				</div>
+			</c:forEach>
 			</article>
+			</div>
 		</div>            
     </section>
     <footer>
@@ -78,4 +105,74 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script type="text/javascript">
+$(document)
+.ready(function(){
+	$('input[id^=hidden]').trigger('click');
+})
+.on('click','input[id^=choosebtn]',function(){ //input[id가 choosebtn으로 시작하는 버튼]
+    var n=(this.id).substr(9); 
+    var applyId=$(this).data("n");
+    console.log("choose apply_id: "+applyId);
+	$.ajax({
+	    type: 'POST',
+	    url: "${pageContext.request.contextPath}/help_complete",
+	    data: { 
+	    	"post_id":n,
+	    	"apply_id":applyId
+	    },
+	    dataType: "text",
+	    success: function(data){
+			alert(data);
+			location.reload();
+	    },
+	    error: function (request, status, error){
+			console.log(request);
+			console.log(status);
+			console.log(error);
+	    }
+
+	});
+    
+   
+})
+.on('click','input[id^=hidden]',function(){
+	var n=(this.id).substr(6);
+	var tags=$(this).val();
+	var list=tags.split(',');
+	console.log("test: "+tags+", list: "+list);
+	var string="";
+	for( var i in list){
+		console.log(list[i]);
+		string=string+'<span>'+list[i]+'</span>';
+	}
+	console.log(string);
+	console.log("n: "+n);
+	console.log("ptag: "+$('#ptag'+n));
+	$('#ptag'+n).append(string);
+})
+.on('click','#likesbtn',function(){
+	var applier=$(this).data('l');
+	console.log("applier: "+applier);
+	$.ajax({
+	    type: 'POST',
+	    url: "${pageContext.request.contextPath}/applier_like",
+	    data: { 
+	    	"applier":applier
+	    },
+	    dataType: "text",
+	    success: function(data){
+			alert(data);
+			location.reload();
+	    },
+	    error: function (request, status, error){
+			console.log(request);
+			console.log(status);
+			console.log(error);
+	    }
+
+	});
+})
+</script>
 </html>

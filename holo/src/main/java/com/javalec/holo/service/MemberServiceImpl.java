@@ -118,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
 		List<Dto_help_post> list=dao.list(pagination);
 		for(int i=0;i<list.size();i++) {
 			if(list.get(i).getImg()==null) {
-				list.get(i).setImg("resources/img/test1.jpg");
+				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
 				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
@@ -219,7 +219,7 @@ public class MemberServiceImpl implements MemberService {
 		List<Dto_help_post> list=dao.helpme_search(search);
 		for(int i=0;i<list.size();i++) {
 			if(list.get(i).getImg()==null) {
-				list.get(i).setImg("resources/img/test1.jpg");
+				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
 				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
@@ -250,7 +250,7 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("pagination_PageCnt"+pagination.getPageCnt());
 		for(int i=0;i<list.size();i++) {
 			if(list.get(i).getImg()==null) {
-				list.get(i).setImg("resources/img/test1.jpg");
+				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
 				list.get(i).setImg("http://localhost:8080/holo/img/"+image);
@@ -307,8 +307,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public int mypage_total_list_count(String user_id) {
+		return dao.mypage_total_list_count(user_id);
+	}
+	
+	@Override
 	public List<Dto_apply> mypage_applyme_list(int post_id){
 		return dao.mypage_applyme_list(post_id);
+	}
+	
+	@Override
+	public List<Dto_apply> mypage_applyyou_list(int post_id){
+		return dao.mypage_applyyou_list(post_id);
 	}
 	
 	@Override

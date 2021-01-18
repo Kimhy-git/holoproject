@@ -7,8 +7,8 @@ import java.util.Calendar;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileuploadServlet {
-	private static final String SAVE_PATH = "\\holoimg\\img";
-	private static final String PREFIX_URL = "\\holoimg\\img\\";
+	private static final String SAVE_PATH = "imgtest";
+	private static final String PREFIX_URL = "imgtest/";
 	
 	public static String restore(MultipartFile multipartFile) {
 		String url = null;

@@ -10,7 +10,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/mypage.css">
-
+<style>
+.form_applyyou{
+background:rgb(175, 107, 230);
+}
+.form_applyme{
+background:rgb(95, 143, 214);
+}
+.formbtn{
+border: none;
+border-radius:3px;
+padding:2px;
+color:#fff;
+opacity: 0.6;
+}
+.formbtn:hover{
+cursor:pointer;
+opacity: 1;
+}
+.help_me{
+color:rgb(95, 143, 214);
+font-weight:bold;
+}
+.help_you{
+color:rgb(175, 107, 230);
+font-weight:bold;
+}
+</style>
 
 <body>
     <header>
@@ -37,26 +63,18 @@
     </header>
     <section>
         <div id="wrap">
-        <h2>마이페이지</h2>
+        <h2 onclick="location.href='/holo/mypage'">마이페이지</h2>
          
             <nav id="mine">
-            <ul class="tabs">
-                <li class="tabMenu current">
-                	<a href="#tabContent01" >내가 쓴 글</a>
-                </li>
-                <li class="tabMenu">
-                	<a href="#tabContent02" >내가 쓴 댓글</a> 
-                </li>
-            	<li class="tabMenu">
-                	<a href="#tabContent03">내가 지원/요청한 목록</a>
-                </li>
-            </ul>
-            <div id="tossJsp" class="tossJsp">
-				<form action="edit_mp" method="post" id="edit_page">
-					<input type=hidden value="${login.user_id}" id="user_id_login" name="user_id">
-                	<span id="edit_btn">내 정보 수정</span>
-				</form>
-            </div>
+                <span><a href="mypage_myposts" >내가 쓴 글</a></span>
+                &nbsp; &nbsp; 
+                <span><a href="mypage_mycomments" >내가 쓴 댓글</a></span>
+                &nbsp; &nbsp; 
+                <span><a href="mypage">내가 쓴 글에 지원한 지원자 목록</a></span>
+                &nbsp; &nbsp; 
+                <span><a href="mypage_apply">내가 지원한 게시글 목록</a></span>
+                &nbsp; &nbsp; 
+                <span><a href="edit_mp?user_id=${login.user_id}">내 정보 수정</a></span>
             </nav>
             <div class="clear"></div>
             <div id="center">
@@ -99,21 +117,20 @@
 	                    <c:if test="${item.board==0}">
 	                    	<form method="post" action="apply_you">
 		                    	<input type="hidden" value="${item.post_id}" name="post_id">
-		                    	<input type="submit" value="요청자 확인" class="form_applyyou">
+		                    	<input type="submit" value="요청자 확인" class="form_applyyou formbtn">
 	                    	</form>
 	                    </c:if>
 	                    <c:if test="${item.board==1}">
 	                    	<form method="post" action="apply_me">
 		                    	<input type="hidden" value="${item.post_id}" name="post_id">
-		                    	<input type="submit" value="지원자 확인" class="form_applyme">
+		                    	<input type="submit" value="지원자 확인" class="form_applyme formbtn">
 	                    	</form>
 	                    </c:if>
 	                    </td>
 	                </tr>
 	                </c:forEach>
 	        	</table>
-        	</div>
-        	</div>
+	        	
         	<!-- pagination{s} -->
 				<div id="paginationBox">
 					<ul class="pagination">
@@ -124,7 +141,7 @@
 			
 						<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
 							<c:out value="${pagination.page == idx ? '' : ''}"/><a class="page-link" href="#" onClick="fn_pagination
-							('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a>
+							('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a>&nbsp;
 						</c:forEach>			
 			
 						<c:if test="${pagination.next}">
@@ -134,6 +151,9 @@
 					</ul>
 				</div>
 			<!-- pagination{e} -->
+        	</div>
+        	</div>
+        	
         </div>    
     </section>
     <footer>
@@ -167,7 +187,7 @@ $(document)
 function fn_prev(page, range, rangeSize) {
 		var page = ((range - 2) * rangeSize) + 1;
 		var range = range - 1;
-		var url = "${pageContext.request.contextPath}/mypage_mypage_myposts";
+		var url = "${pageContext.request.contextPath}/mypage_myposts";
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
@@ -177,7 +197,7 @@ function fn_prev(page, range, rangeSize) {
 //페이지 번호 클릭
 
 	function fn_pagination(page, range, rangeSize, searchType, keyword) {
-		var url = "${pageContext.request.contextPath}/mypage_mypage_myposts";
+		var url = "${pageContext.request.contextPath}/mypage_myposts";
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
 		location.href = url;	
@@ -188,7 +208,7 @@ function fn_prev(page, range, rangeSize) {
 	function fn_next(page, range, rangeSize) {
 		var page = parseInt((range * rangeSize)) + 1;
 		var range = parseInt(range) + 1;
-		var url = "${pageContext.request.contextPath}/mypage_mypage_myposts";
+		var url = "${pageContext.request.contextPath}/mypage_myposts";
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;

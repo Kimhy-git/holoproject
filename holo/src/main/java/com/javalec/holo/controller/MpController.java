@@ -102,16 +102,17 @@ public class MpController {
 		dto=(Dto_login)session.getAttribute("login");
 		String user_user_id=dto.getUser_id();
 		//전체 게시글 수
-		int listCnt = service.count_helpyou();
-		System.out.println("json listCnt: "+listCnt);
+		int listCnt = service.mypage_total_list_count(user_user_id);
+		System.out.println("mypage_myposts listCnt: "+listCnt);
 		//Pagination 객제 생성
 		Pagination pagination = new Pagination();
 		pagination.pageInfo_mypage(page, range, listCnt, user_user_id);
 		
 		System.out.println("controller user_id: "+user_user_id);
-		
 		List<Dto_total> total_list=service.mypage_total_list(pagination);
-		System.out.println("controller list: "+total_list);
+		System.out.println("controller startPage: "+pagination.getStartPage());
+		System.out.println("controller EndPage: "+pagination.getEndPage());
+		model.addAttribute("pagination",pagination);
 		model.addAttribute("mylist",total_list);
        return "mypage_myposts";
     }
@@ -155,13 +156,13 @@ public class MpController {
     }
     
     @RequestMapping(value = "/apply_you", method = {RequestMethod.POST,RequestMethod.GET})
-    public String apply_you(HttpServletRequest req) {
+    public String apply_you(HttpServletRequest req,Model model) {
     	Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
-    	
-    	String user_id=dto.getUser_id();
-    	
+		int post_id=Integer.parseInt(req.getParameter("post_id"));
+    	List<Dto_apply> list=service.mypage_applyme_list(post_id);
+    	model.addAttribute("list",list);
        return "apply_you";
     }
     
@@ -171,7 +172,7 @@ public class MpController {
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
     	int post_id=Integer.parseInt(req.getParameter("post_id"));
-    	List<Dto_apply> list=service.mypage_applyme_list(post_id);
+    	List<Dto_apply> list=service.mypage_applyyou_list(post_id);
     	model.addAttribute("list",list);
        return "apply_me";
     }

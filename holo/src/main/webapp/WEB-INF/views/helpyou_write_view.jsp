@@ -135,8 +135,8 @@
 				            <p class="reply_comment">${reply.re_comment}</p>
 				            <p class="reply_date">${reply.operator}</p>
 				            <c:if test="${login.user_id==reply.user_user_id}">
-				            <a href="helpyou_reply_delete?post_id=${reply.help_post_post_id}&reply_id=${reply.help_reply_id}"><input type="button" value="삭제"></a> 
-				            <input type="button" id="reply_btn${reply.help_reply_id}" value="수정"> 
+					            <a href="helpyou_reply_delete?post_id=${reply.help_post_post_id}&reply_id=${reply.help_reply_id}"><input type="button" value="삭제"></a> 
+					            <input type="button" id="reply_btn${reply.help_reply_id}" value="수정"> 
 				            </c:if>
 				            <input type="button" id="reply_again${reply.help_reply_id}" value="답글달기">
 				            <form method="post" action="helpyou_re_recomment_submit" id="reply_recomment${reply.help_reply_id}" style="display:none;">

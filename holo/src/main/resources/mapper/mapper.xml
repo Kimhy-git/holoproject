@@ -481,14 +481,20 @@
 		limit #{startList}, #{listSize};
 	</select>
 	<!-- mypage post list count -->
-	<select id="mypage_post_list_count" resultType="dto_my_total">
-		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
-		union
-		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
-		order by operator desc;
+	<select id="mypage_post_list_count" resultType="int">
+		select (
+		SELECT COUNT(*) from post
+		where user_user_id=#{user_id})
+		+(SELECT COUNT(*) from help_post
+		where user_user_id=#{user_id}) as count;
 	</select>
 	<!-- mypage applyme list -->
 	<select id="mypage_applyme_list" parameterType="int" resultType="dto_apply">
+		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
+		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
+	</select>
+	<!-- mypage applyyou list -->
+	<select id="mypage_applyyou_list" parameterType="int" resultType="dto_apply">
 		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
 		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
 	</select>
@@ -499,6 +505,8 @@
 	<update id="mypage_applier_like" parameterType="string">
 		update user set likes=likes+1 where user_id=#{applier};
 	</update>
+	
+	
 	
 
 

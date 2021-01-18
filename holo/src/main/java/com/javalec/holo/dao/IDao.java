@@ -121,7 +121,9 @@ public interface IDao {
 	//mypage
 	public void help_complete(int help_post_id);
 	public List<Dto_total> mypage_total_list(Pagination pagination);
+	public int mypage_total_list_count(String user_id);
 	public List<Dto_apply> mypage_applyme_list(int post_id);
+	public List<Dto_apply> mypage_applyyou_list(int post_id);
 	public void mypage_applyme_choose(int apply_id);
 	public void mypage_applier_like(String applier);
 	

@@ -310,8 +310,16 @@ public class IDaolmpl implements IDao {
 		return sqlSession.selectList(Namespace+".mypage_post_list",pagination);
 	}
 	@Override
+	public int mypage_total_list_count(String user_id) {
+		return sqlSession.selectOne(Namespace+".mypage_post_list_count",user_id);
+	}
+	@Override
 	public List<Dto_apply> mypage_applyme_list(int post_id){
 		return sqlSession.selectList(Namespace+".mypage_applyme_list",post_id);
+	}
+	@Override
+	public List<Dto_apply> mypage_applyyou_list(int post_id){
+		return sqlSession.selectList(Namespace+".mypage_applyyou_list",post_id);
 	}
 	@Override
 	public void mypage_applyme_choose(int apply_id) {
