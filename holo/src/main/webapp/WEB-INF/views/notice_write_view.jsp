@@ -145,7 +145,8 @@
 		 
 		</div>  
 		<input type="hidden" name="page" id="page" value="${page}">
-		<a href="#" onclick="loadNextPage('${page+5}')">더보기</a> 
+		<input type="hidden" id="range" value="${pagination.range}">
+		<a href="#" id="more">더보기</a> 
     </section>
     <footer>
         <p>copyright 홀로서기 
@@ -155,24 +156,13 @@
 
 <script src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script type="text/javascript">
+/*
 function loadNextPage(){
 	var page=$('#page').val();
 	page=parseInt(page);
 	page+=5;
 	var post_id=$('#post_id').val();
-	$.ajax({
-		type:'POST', url:'notice_write_view_reply',
-		data:({page:page,post_id:post_id}),
-		success:function(data){
-			console.log("success: "+data);
-			$('#comments_add').append(data);
-			$('#page').val(page);
-		},
-		error:function(data){
-			alert("fail");
-		}
-	});
-}
+}*/
 </script>
 <script>
 /*
@@ -194,6 +184,61 @@ $(document)
 	//$('.comments').css("margin_left",(n*50)+"px");
 	})
 })
+
+.on('click','#more',function(){
+	console.log("more");
+	
+	var page=$('#page').val();
+	page=parseInt(page);
+	page+=5;
+	
+	var range=$('#range').val();
+	var post_id=$('#post_id').val();
+	console.log("page : "+page);
+	
+	$.post("notice_write_view_reply?post_id="+$('#post_id').val(),
+			{"page":page,"range":range},
+			function(data){
+				console.log("post ajax data : "+data);
+				$.each(data,function(ndx,value){
+					console.log("each: "+value['reply_id']+", "+value['re_comment']);
+					var content=
+					'<div id=comments'+value['reply_id']+'>'
+					+'<input type=text id=re_comment value='+value['re_comment']+'name=re_comment>'+'<br>'
+			        +value['user_user_id']+value['operator']+'<br>'
+					+'<input type=hidden name=post_post_id value='+value['post_post_id']+'>'
+		            +'<input type=hidden name=reply_id value='+value['reply_id']+'>'
+		            +'<input type=hidden name=re_index value='+value['re_index']+'>'
+		            +'<input type=hidden name=re_order value='+value['re_order']+'>'
+		            +'<input type=hidden name=re_class value='+value['re_class']+'>'
+		            +'<input type=hidden name=groupNum value='+value['reply_id']+'>'
+		            +'</div>'
+		            
+		            +'<div id=btn_reply>'
+		            
+		            if(value['user_id']==value['user_user_id']){
+		            	 '<input type=button id=remove_reply'+value['reply_id']+'value=삭제 data_r='+value['reply_id']+'>'
+			             +'<input type=button id=reply_update'+value['reply_id']+'value=수정 data_r='+value['reply_id']+'>'
+		            }
+		            +'<input type=button id=reply_again'+value['reply_id']+'value=답글달기>'
+		            +'<br><br><br>'
+	                +'<div id=reply_again_textarea'+value['reply_id']+'style=display:none>'
+	                +'<input id=comment-input name=re_re_comment>'
+	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=add_re_comment/>'
+	                +'<input type=button value=취소 id=rere_cancel'+value['reply_id']+'>'
+	                +'</div>'
+	                
+	                +'<div id=reply_update_textarea'+value['reply_id']+'style=display:none>'
+	                +'<input id=comment-input name=update_comment placeholder='+value['re_comment']+'>'
+	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=update_comment/>'
+	                +'<input type=button value=취소 id=edit_cancel'+value['reply_id']+'>'
+	                +'</div>'
+		            
+					$('#comment').append(content);
+			})
+		},'json')
+})
+
 //Delete post and comments
 .on('click','#remove',function changeView(){
 	var post_id=$('#post_id').val();

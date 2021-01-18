@@ -677,6 +677,7 @@ public class BoardController {
   		Pagination pagination = new Pagination();
   		pagination.pageInfo(page, range, listCnt);
         model.addAttribute("pagination", pagination);
+        System.out.println("range : "+pagination.getRange());
     	
     	//hits
     	service.uphit(post_id);
@@ -695,29 +696,29 @@ public class BoardController {
        return "notice_write_view";
     }
     
-    @RequestMapping(value = "notice_write_view_reply", method = {RequestMethod.POST,RequestMethod.GET})
-    public String notice_write_view_reply(HttpServletRequest req, Model model) throws Exception {
-    	// 기본 페이지번호를 0으로 설정하고
-        int page = 0;
- 
-        // 넘어온 파라미터가 있다면
-        if (req.getParameter("page") != null) {
- 
-            // 해당 파라미터를 int형으로 캐스팅후 변수에 대입
-            page = Integer.parseInt(req.getParameter("page"));
-        }
-        String post_id=req.getParameter("post_id");
-    	System.out.println("this is post_id : " +post_id);
+    @RequestMapping(value = "notice_write_view_reply", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+    public @ResponseBody String notice_write_view_reply(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+			
+    		System.out.println("댓글 페이징");
     	
-  		Pagination pagination = new Pagination();
-  		pagination.setStartList(page);
-        model.addAttribute("pagination", pagination);
-    	
-    	List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
-        //List<Dto_reply> dto = service.notice_write_view_reply(page);
-        
-    	return "ajaxList";
-    }
+    		//전체 댓글 수
+    		String post_id=req.getParameter("post_id");
+    		System.out.println("this is post_id : " +post_id);
+			int listCnt = service.count_reply(post_id);
+			System.out.println("json listCnt: "+listCnt);
+			
+			//Pagination 객제 생성
+			Pagination pagination = new Pagination();
+			pagination.pageInfo(page, range, listCnt);
+			System.out.println("json page: "+page);
+			List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+			Gson gson = new Gson();
+			String json = gson.toJson(reply);
+			
+			return json;
+	}
 
     //delete posts
     @RequestMapping(value = "notice_write_delete", method = {RequestMethod.POST,RequestMethod.GET})

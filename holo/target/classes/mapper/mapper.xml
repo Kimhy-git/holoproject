@@ -264,7 +264,7 @@
 		SELECT * FROM reply
 		where board=3 and post_post_id=#{post_post_id}
 		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
-		limit #{pagination.startList},#{pagination.mypageListSize}
+		limit #{pagination.page},#{pagination.mypageListSize}
     </select>
     
     <!-- notice_write_view : delete posts -->
