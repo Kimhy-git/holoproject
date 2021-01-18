@@ -15,6 +15,8 @@ function fn_prev(page, range, rangeSize) {
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
+		url = url + "&search_option=" + '${map.search_option}';
+		url = url + "&keyword=" + '${map.keyword}';
 
 		location.href = url;
 	}
@@ -24,6 +26,8 @@ function fn_prev(page, range, rangeSize) {
 		var url = "${pageContext.request.contextPath}/notice_do";
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
+		url = url + "&search_option=" + '${map.search_option}';
+		url = url + "&keyword=" + '${map.keyword}';
 		location.href = url;	
 	}
 
@@ -36,6 +40,8 @@ function fn_prev(page, range, rangeSize) {
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
+		url = url + "&search_option=" + '${map.search_option}';
+		url = url + "&keyword=" + '${map.keyword}';
 		location.href = url;
 	}
 </script>

@@ -474,8 +474,8 @@ public class IDaolmpl implements IDao {
 	
 	//notice 검색 결과
 	@Override
-	public int count_notice_search() {
-		return sqlSession.selectOne(Namespace+".count_notice_search");
+	public int count_notice_search(BoardSearch search) {
+		return sqlSession.selectOne(Namespace+".count_notice_search",search);
 	}
 	
 	//notice 

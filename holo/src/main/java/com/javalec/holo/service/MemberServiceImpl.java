@@ -465,8 +465,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	//notice 검색 결과
 	@Override
-	public int count_notie_search() {
-		return dao.count_notice_search();
+	public int count_notie_search(BoardSearch search) {
+		return dao.count_notice_search(search);
 	}
 	
 	@Override

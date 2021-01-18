@@ -116,7 +116,7 @@ public interface MemberService {
 	public int selectCount_notice (int post_id) throws Exception;
 	
 	//notice 검색 결과
-	public int count_notie_search();
+	public int count_notie_search(BoardSearch search);
 	
 	//noitce 검색 조건으로 게시글 목록 조회
 	public List<Dto_post> list_notice(BoardSearch search);

@@ -873,16 +873,18 @@ public class BoardController {
         
         //전체 로우 수
         int count = 1000;
-        int listCnt = service.count_notie_search();
+        BoardSearch search = new BoardSearch();
+        search.setSearch_option(search_option);
+        search.setKeyword(keyword);
+        search.setBoard(board);
+        int listCnt = service.count_notie_search(search);
         
         //검색조건 + 보드서치 객체 생성
         Pagination pagination = new Pagination();
         pagination.pageInfo(page,range,listCnt);
-        BoardSearch search = new BoardSearch();
+        
         search.setPagination(pagination);
-        search.setSearch_option(search_option);
-        search.setKeyword(keyword);
-        search.setBoard(board);
+        
              
         //검색 조건으로 게시글 목록 조회
         List<Dto_post> list = service.list_notice(search);

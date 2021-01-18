@@ -301,7 +301,7 @@
             where board = 3
             <if test='search_option != null and !("").equals(search_option) '>
             	<if test='("user_id").equals(search_option)'>
-	            and user_user_id like CONCAT('%',#{keyword},'%')
+	            and nick like CONCAT('%',#{keyword},'%')
             	</if>
             	<if test='("title").equals(search_option)'>
 	            and title like CONCAT('%',#{keyword},'%')
@@ -314,14 +314,14 @@
             order by post_id
 	</select>
 	
-	<!-- 내가 쓴 댓글 -->                  
+	<!-- notice_검색 결과 가져옴 -->                  
 	<select id="list_notice" resultType="Dto_post" parameterType="com.javalec.holo.dto.BoardSearch">
           select a.* , ifnull((select count(*) from reply where post_post_id=a.post_id group by post_post_id), 0) as replyCnt
             from post a
             where board = 3
             <if test='search_option != null and !("").equals(search_option) '>
             	<if test='("user_id").equals(search_option)'>
-	            and user_user_id like CONCAT('%',#{keyword},'%')
+	            and nick like CONCAT('%',#{keyword},'%')
             	</if>
             	<if test='("title").equals(search_option)'>
 	            and title like CONCAT('%',#{keyword},'%')

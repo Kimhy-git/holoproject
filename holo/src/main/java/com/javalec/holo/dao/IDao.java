@@ -185,7 +185,7 @@ public interface IDao {
 	public int selectCount_notice(int post_id);
 	
 	//notice 검색 결과
-	public int count_notice_search();
+	public int count_notice_search(BoardSearch search);
 	
 	public List<Dto_post> list_notice(BoardSearch search);
 	
