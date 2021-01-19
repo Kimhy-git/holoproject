@@ -738,28 +738,63 @@ public class BoardController {
     
     //notice_write_view + comments
     @RequestMapping(value = "notice_write_view", method = {RequestMethod.POST,RequestMethod.GET})
-    public String notice_write_view(HttpServletRequest req, Model model) throws Exception {
+    public String notice_write_view(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
       
     	System.out.println("write_view작동");
     	String post_id=req.getParameter("post_id");
     	System.out.println("this is post_id : " +post_id);
     	
+  		int listCnt = service.count_reply(post_id);
+  		System.out.println("listCnt: "+listCnt);
+  		Pagination pagination = new Pagination();
+  		pagination.pageInfo(page, range, listCnt);
+        model.addAttribute("pagination", pagination);
+        System.out.println("range : "+pagination.getRange());
+    	
     	//hits
     	service.uphit(post_id);
     	
-    	List<Dto_reply> reply = service.select_post_reply(post_id);
-    	List<Dto_post> notice = service.select_post_view(post_id); 
+    	List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+    	List<Dto_post> notice = service.select_post_view(post_id);
+    	int replyCnt = service.count_post_reply(post_id);
     	
         model.addAttribute("notice", notice);
         model.addAttribute("reply", reply);
+        model.addAttribute("page",0);
+        model.addAttribute("replyCnt",replyCnt);
         
 		 Dto_login dto = new Dto_login();
-		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
     	
        return "notice_write_view";
     }
+    
+    @RequestMapping(value = "notice_write_view_reply", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+    public @ResponseBody String notice_write_view_reply(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+			
+    		System.out.println("댓글 페이징");
+    	
+    		//전체 댓글 수
+    		String post_id=req.getParameter("post_id");
+    		System.out.println("this is post_id : " +post_id);
+			int listCnt = service.count_reply(post_id);
+			System.out.println("json listCnt: "+listCnt);
+			
+			//Pagination 객제 생성
+			Pagination pagination = new Pagination();
+			pagination.pageInfo(page, range, listCnt);
+			System.out.println("json page: "+page);
+			List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+			Gson gson = new Gson();
+			String json = gson.toJson(reply);
+			
+			return json;
+	}
 
     //delete posts
     @RequestMapping(value = "notice_write_delete", method = {RequestMethod.POST,RequestMethod.GET})
@@ -897,7 +932,51 @@ public class BoardController {
 
     	return "redirect:notice_write_view?post_id="+post_post_id;
     }
-		    
+	
+    //검색하기
+    @RequestMapping("notice_do") //url mapping
+    public ModelAndView notice_do(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+            @RequestParam(defaultValue="1") int curPage,
+            @RequestParam(defaultValue="user_id") String search_option, //기본 검색 옵션값을 작성자로 한다.
+            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
+            @RequestParam(defaultValue="2") int board,
+            @RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range
+            )
+             throws Exception{
+        
+        //전체 로우 수
+        int count = 1000;
+        BoardSearch search = new BoardSearch();
+        search.setSearch_option(search_option);
+        search.setKeyword(keyword);
+        search.setBoard(board);
+        int listCnt = service.count_notie_search(search);
+        
+        //검색조건 + 보드서치 객체 생성
+        Pagination pagination = new Pagination();
+        pagination.pageInfo(page,range,listCnt);
+        
+        search.setPagination(pagination);
+        
+             
+        //검색 조건으로 게시글 목록 조회
+        List<Dto_post> list = service.list_notice(search);
+        ModelAndView mav = new ModelAndView();
+        Map<String,Object> map = new HashMap<String, Object>();    
+        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
+
+        map.put("count", count);
+        map.put("search_option", search_option);
+        map.put("keyword", keyword);
+        mav.addObject("map", map);                    
+        mav.addObject("pagination", pagination);   
+        mav.addObject("notice", list);   
+        System.out.println("map : "+map);
+        mav.setViewName("notice_do");   //자료를 넘길 뷰의 이름
+        return mav;   //게시판 페이지로 이동   
+    }
+    
 		    
 		    
 		    
@@ -1036,10 +1115,13 @@ public class BoardController {
 	
 	@RequestMapping(value = "add_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
     public String add_free_comment(HttpServletRequest req, Model model) throws Exception {
-    	
+		Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
     	String post_post_id=req.getParameter("post_post_id");
     	String re_comment=req.getParameter("re_comment");
-    	service.add_free_comment(post_post_id, re_comment);
+    	String user_user_id=dto.getUser_id();
+    	service.add_free_comment(post_post_id, re_comment, user_user_id);
     	
     	return "redirect:freeboard_write_view?post_id="+post_post_id;
     } //댓글 작성
@@ -1086,26 +1168,44 @@ public class BoardController {
 	    
 	    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
-	    	//test_2
+	    	//test_2	    	
+	       	
+	    	System.out.println("Start add_recomment");
+
+			 Dto_login dto = new Dto_login();
+			 
+			 HttpSession session = req.getSession();
+			 dto=(Dto_login)session.getAttribute("login");
+			
+	    	String user_user_id=dto.getUser_id();
 	    	String re_index=req.getParameter("reply_id");
 	    	String re_comment=req.getParameter("re_re_comment");
-	    	int order_i=Integer.parseInt(req.getParameter("re_order"));
-	    	int groupNum_i=Integer.parseInt(req.getParameter("groupNum"));
+	    	int order=Integer.parseInt(req.getParameter("re_order"));
+	    	int class_re=Integer.parseInt(req.getParameter("re_class"));
+	    	String groupNum=req.getParameter("groupNum");
 	    	String post_post_id=req.getParameter("post_post_id");
-	    	System.out.println("re_re_comment: "+re_comment);
-	    	String board="2";
-	    	order_i+=1;
-	    	groupNum_i+=1;
 	    	
-	    	String re_order=String.valueOf(order_i);
-	    	String groupNum=String.valueOf(groupNum_i);
+	    	order+=1;
+	    	class_re+=1;
 
-	    	service.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+	    	
+	    	String re_order=String.valueOf(order);
+	    	String re_class=String.valueOf(class_re);
+
+	    	System.out.println("this is re_index : " +re_index);
+	    	System.out.println("this is re_comment : " +re_comment);
+	    	System.out.println("this is order : " +re_order);
+	    	System.out.println("this is groupNum : " +groupNum);
+	    	System.out.println("this is post_post_id : " +post_post_id);
+	    	
+	    	service.add_free_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+	    	
+	    	
+	    	System.out.println("The end of update_post_now");
 
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
 
-	    
 	    @RequestMapping("freeboard_search") //url mapping
 	    public ModelAndView list(HttpServletRequest req, //RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
 	            @RequestParam(defaultValue="1") int curPage,

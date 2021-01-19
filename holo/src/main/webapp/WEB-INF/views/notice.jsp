@@ -72,11 +72,27 @@ function fn_prev(page, range, rangeSize) {
         <div id="wrap">
         	<div id="section_h">
 	            <h2>공지사항</h2>
-			        <div id="search">
-			            <input type="text" id="search_txt">
-			            <input type="button" id="search_btn" value="검색">
-			        </div>
-		        <div class="write" id="writing">글쓰기</div>
+			        <form name="form1" method="post" action="notice_do">
+				    <select name="search_option">
+						<option value="user_id"
+						<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+						>작성자</option>
+						
+					    <option value="title" 
+						<c:if test="${map.search_option == 'title'}">selected</c:if>
+					    >제목</option>
+					
+					    <option value="content" 
+						<c:if test="${map.search_option == 'content'}">selected</c:if>
+					    >내용</option>
+
+				 	</select>
+					    <input name="keyword" value="${map.keyword}">
+					    <input type="submit" value="조회">
+					</form>
+		         	<c:if test="${login.nick!=admin}">
+		        		<div class="write" id="writing">글쓰기</div>
+		        	</c:if>
 	        </div>
 	        <div id=tablediv>
 	            <table>
@@ -135,7 +151,7 @@ $(document)
 	console.log(user_id);
 	if(user_id==null || user_id=="" || user_id!="admin"){
 		alert("관리자 로그인 해주세요");
-		window.location.href="<c:url value='login'/>"
+		window.location.href="<c:url value='notice'/>"
 	}else{
 		window.location.href="<c:url value='notice_write'/>"
 	}

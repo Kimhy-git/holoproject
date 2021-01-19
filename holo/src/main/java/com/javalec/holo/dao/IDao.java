@@ -148,8 +148,11 @@ public interface IDao {
 	//notice_write_view
 	public List<Dto_post> select_post_view(String post_id);
 	
+	//notice_write_view : 댓글 개수
+	public int count_post_reply(String post_id);
+	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination);
 	
 	//notice_write_view : delete posts
 	public List<Dto_post> select_post_delete(String post_id);
@@ -195,6 +198,13 @@ public interface IDao {
 	//댓글 수
 	public int selectCount_notice(int post_id);
 	
+	//notice 검색 결과
+	public int count_notice_search(BoardSearch search);
+	
+	public List<Dto_post> list_notice(BoardSearch search);
+	
+	
+	
 	
 			
 			
@@ -221,7 +231,7 @@ public interface IDao {
 	public List<Dto_free_reply> select_free_reply(int post_id);
 	// 댓글 보여주기
 	
-	public void add_free_comment(String post_post_id, String re_comment);
+	public void add_free_comment(String post_post_id, String re_comment, String user_user_id);
 	//댓글 작성
 	
 	public void delete_free_comment(String reply_id, String board, String post_post_id);
@@ -230,7 +240,8 @@ public interface IDao {
 	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 	// 댓글 수정
 
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum, String post_post_id, String board);
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
+			String groupNum, String post_post_id, String user_user_id);
 	// 대댓글 작성
 
 
@@ -305,4 +316,7 @@ public interface IDao {
 	
 	//전체 지원 게시글 불러오기
 	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+	
+	//post_id에 해당하는 댓글 수
+	public int count_reply(String post_id);
 }

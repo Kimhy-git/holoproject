@@ -1,5 +1,4 @@
 package com.javalec.holo.service;
-
 import java.io.PrintWriter;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -375,9 +374,14 @@ public class MemberServiceImpl implements MemberService {
 		return dao.select_post_view(post_id);
 	}
 
+	@Override
+	public int count_post_reply(String post_id) {
+		return dao.count_post_reply(post_id);
+	}
+
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
-		return dao.select_post_reply(post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception {
+		return dao.select_post_reply(post_id, pagination);
 	}
 
 	@Override //delete posts
@@ -499,6 +503,16 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectCount_notice(post_id);
 	}
 	
+	//notice 검색 결과
+	@Override
+	public int count_notie_search(BoardSearch search) {
+		return dao.count_notice_search(search);
+	}
+	
+	@Override
+	public List<Dto_post> list_notice(BoardSearch search) {
+		return dao.list_notice(search);
+	}	
 	
 	
 	
@@ -547,8 +561,8 @@ public class MemberServiceImpl implements MemberService {
 		return dao.select_free_reply(post_id);
 	} // 댓글 보여주기
 	@Override
-		public void add_free_comment(String post_post_id, String re_comment) {
-			dao.add_free_comment(post_post_id, re_comment);
+		public void add_free_comment(String post_post_id, String re_comment, String user_user_id) {
+			dao.add_free_comment(post_post_id, re_comment, user_user_id);
 	} // 댓글 작성
 	@Override
 	public void delete_free_comment(String reply_id, String board, String post_post_id) {
@@ -561,9 +575,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 
 
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-			String post_post_id, String board) {
-		dao.add_free_re_comment(re_index,re_comment,re_order,groupNum,post_post_id, board);
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
+			String groupNum, String post_post_id, String user_user_id) {
+		dao.add_free_re_comment(re_index,re_comment,re_order, re_class,groupNum,post_post_id, user_user_id);
 	} // 대댓글 작성
 	@Override
 	public void free_uphit(int post_id) throws Exception {
@@ -698,4 +712,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.total_apply(user_id,pagination);
 	}
 	
+	//post_id에 해당하는 댓글 수
+	@Override
+	public int count_reply(String post_id) {
+		return dao.count_reply(post_id);
+	}
 }

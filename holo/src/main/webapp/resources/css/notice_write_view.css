@@ -94,3 +94,7 @@ h2{
     font-size:14pt;
     border:none;
 }
+
+#comments_add {
+    margin-left: 33px;
+}

@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- ajax library -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -87,7 +89,7 @@
             </div>
 
             <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">0</span></div> 
+                <div id="comment-count">댓글 <span id="count">${replyCnt}</span></div> 
                 <form method="post" action="add_comment">
 	                <div id=cc>
 	                <c:forEach var="dto" items="${notice}">
@@ -99,24 +101,22 @@
 	                </div>
             	</form>
             </div> 
-            
             <br><br><br>
             <!-- DB에서 reply 가져오기 -->
-            <div id=comments> 
             <c:forEach var="dto_reply" items="${reply}">
+            <div id=comments> 
             <form action="update_comment" method=post class="comments" value="${dto_reply.re_class}">
 	            <div id="comments${dto_reply.reply_id}">
 			            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
 			            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
-			            
+
 			            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 			            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
 			            <input type=hidden name="re_index" value=${dto_reply.re_index}>
 			            <input type=hidden name="re_order" value=${dto_reply.re_order}>
 			            <input type=hidden name="re_class" value=${dto_reply.re_class}>
-			            <input type=hidden name="groupNum" value=${dto_reply.reply_id}>
-			            
-			   </div>
+			            <input type=hidden name="groupNum" value=${dto_reply.reply_id}>    
+			    </div>
 			            <div id="btn_reply">
 			            <c:if test="${login.user_id}==${dto_reply.user_user_id}">
 			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
@@ -138,11 +138,17 @@
 			                </div>
 			         	</div>
 			</form>
-			</c:forEach>  
-			     
-		</div>
-	               
-            </div>
+			</div>
+			</c:forEach>
+			
+			<div id="comments_add">
+				
+			</div>
+		 
+		</div>  
+		<input type="hidden" name="page" id="page" value="${page}">
+		<input type="hidden" id="range" value="${pagination.range}">
+		<a href="#" id="more">더보기</a> 
     </section>
     <footer>
         <p>copyright 홀로서기 
@@ -150,8 +156,26 @@
     </footer>
 </body>   
 
-<script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script type="text/javascript">
+/*
+function loadNextPage(){
+	var page=$('#page').val();
+	page=parseInt(page);
+	page+=5;
+	var post_id=$('#post_id').val();
+}*/
+</script>
 <script>
+/*
+function loadNextPage(page){
+	var param="page="+page;
+	$('#comment').load("notice_write_view",param,function(data){
+		alert(data);
+	});
+}  
+*/
+
 $(document)
 .ready(function(){
 	$('.comments').each(function(index,item){
@@ -159,9 +183,78 @@ $(document)
 		console.log(n);
 		$(this).css("margin-left",(n*50)+"px");
 		console.log((n*50));
-	});
 	//$('.comments').css("margin_left",(n*50)+"px");
+	})
 })
+
+.on('click','#more',function(){
+	console.log("more");
+	
+	var page=$('#page').val();
+	page=parseInt(page);
+	page+=5;
+	
+	var range=$('#range').val();
+	var post_id=$('#post_id').val();
+	console.log("page : "+page);
+	
+	$.post("notice_write_view_reply?post_id="+$('#post_id').val(),
+			{"page":page,"range":range},
+			function(data){
+				console.log("post ajax data : "+data);
+				
+				$.each(data,function(ndx,value){
+					console.log("each: "+value['reply_id']+", "+value['re_comment']);
+					var ifbtn="";
+					if(value['user_id']==value['user_user_id']){
+		            	 ifbtn='<input type=button id=remove_reply'+value['reply_id']+'value=삭제 data_r='+value['reply_id']+'>'
+			             +'<input type=button id=reply_update'+value['reply_id']+'value=수정 data_r='+value['reply_id']+'>'
+		            }
+					console.log("ifbtn: "+ifbtn);
+					var content=
+					'<form action=update_comment method=post class=comments value='+value['re_class']+'>'
+					+'<div id=comments'+value['reply_id']+'>'
+					+'<input type=text name=re_comment id=re_comment value='+value['re_comment']+'>'+'<br>'
+			        +value['user_user_id']+value['operator']+'<br>'
+					+'<input type=hidden name=post_post_id value='+value['post_post_id']+'>'
+		            +'<input type=hidden name=reply_id value='+value['reply_id']+'>'
+		            +'<input type=hidden name=re_index value='+value['re_index']+'>'
+		            +'<input type=hidden name=re_order value='+value['re_order']+'>'
+		            +'<input type=hidden name=re_class value='+value['re_class']+'>'
+		            +'<input type=hidden name=groupNum value='+value['reply_id']+'>'
+		            +'</div>'
+		            
+		            +'<div id=btn_reply>'
+		            +ifbtn
+		            
+		            +'<input type=button id=reply_again'+value['reply_id']+' value=답글달기>'
+		            +'<br><br><br>'
+	                +'<div id=reply_again_textarea'+value['reply_id']+' style=display:none>'
+		                +'<input id=comment-input name=re_re_comment>'
+		                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=add_re_comment/>'
+		                +'<input type=button value=취소 id=rere_cancel'+value['reply_id']+'>'
+	                +'</div>'
+	                
+	                +'<div id=reply_update_textarea'+value['reply_id']+' style=display:none>'
+	                +'<input id=comment-input name=update_comment placeholder='+value['re_comment']+'>'
+	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=update_comment/>'
+	                +'<input type=button value=취소 id=edit_cancel'+value['reply_id']+'>'
+	                +'</div>'
+		            console.log("content: "+content);
+					$('#comments_add').append(content);
+			})
+			
+		$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+		})
+		},'json')
+		
+		
+})
+
 //Delete post and comments
 .on('click','#remove',function changeView(){
 	var post_id=$('#post_id').val();
@@ -242,9 +335,6 @@ $(document)
       $('#reply_again_textarea'+n).hide();
    }
 })
-
-
-//add re_comments
 
 </script>
 </html>

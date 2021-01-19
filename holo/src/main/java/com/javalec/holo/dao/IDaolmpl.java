@@ -373,10 +373,19 @@ public class IDaolmpl implements IDao {
 	public List<Dto_post> select_post_view(String post_id) {
 		return sqlSession.selectList(Namespace+".select_post_view",post_id);
 	}
+	
+	//notice_write_view : 댓글 개수
+	@Override
+	public int count_post_reply(String post_id) {
+		return sqlSession.selectOne(Namespace+".count_post_reply",post_id);
+	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) {
-		return sqlSession.selectList(Namespace+".select_post_reply",post_id);
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) {
+		HashMap<Object,Object> dto = new HashMap<Object,Object>();
+		dto.put("post_post_id", post_id);
+		dto.put("pagination", pagination);
+		return sqlSession.selectList(Namespace+".select_post_reply",dto);
 	}
 
 	@Override //delete posts
@@ -497,6 +506,19 @@ public class IDaolmpl implements IDao {
 		Object selectCount = sqlSession.selectList(Namespace+".selectCount_notice",post_id);
 		return (Integer) selectCount;
 	}
+	
+	//notice 검색 결과
+	@Override
+	public int count_notice_search(BoardSearch search) {
+		return sqlSession.selectOne(Namespace+".count_notice_search",search);
+	}
+	
+	//notice 
+	@Override
+	public List<Dto_post> list_notice(BoardSearch search) {
+		return sqlSession.selectList(Namespace+".list_notice", search);
+	}
+	
 			
 			
 			
@@ -545,13 +567,14 @@ public class IDaolmpl implements IDao {
 		return sqlSession.selectList(Namespace+".select_free_reply",post_id);
 	}// 댓글 보여주기
 	@Override
-	public void add_free_comment(String post_post_id, String re_comment) {
-		Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id);
+	public void add_free_comment(String post_post_id, String re_comment, String user_user_id) {
+		Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id, user_user_id);
 		sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
 	} //댓글 달기
 	@Override
 	public void delete_free_comment(String reply_id, String board, String post_post_id) {
-		Dto_free_reply delete_free_comment=new Dto_free_reply(reply_id, board, post_post_id);			
+		Dto_free_reply delete_free_comment=new Dto_free_reply();
+		delete_free_comment.Dto_free_reply_delete(reply_id, board, post_post_id);
 		sqlSession.insert(Namespace+".delete_free_comment",delete_free_comment);
 	} // 댓글 삭제
 	@Override
@@ -560,10 +583,10 @@ public class IDaolmpl implements IDao {
 		sqlSession.insert(Namespace+".update_free_comment",update_free_comment);			
 	} //댓글 수정
 	@Override
-	public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-			String post_post_id, String board) {
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
+			String groupNum, String post_post_id, String user_user_id) {
 		System.out.println("idao re_re_comment: "+re_comment);
-		Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,groupNum,post_post_id);
+		Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,re_class, groupNum,post_post_id,user_user_id);
 		System.out.println("get comment"+add_free_re_comment.getRe_comment());
 		sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
 	} //대댓글 작성
@@ -635,7 +658,6 @@ public class IDaolmpl implements IDao {
 	public int count_freeboard_search(BoardSearch search) {
 		return sqlSession.selectOne(Namespace+".search_count",search);
 	}
-			
 			
 			
 			
@@ -722,6 +744,10 @@ public class IDaolmpl implements IDao {
 				
 				return sqlSession.selectList(Namespace+".total_apply",dto);
 			}
-
 			
+			//post_id에 해당하는 댓글 수
+			@Override
+			public int count_reply(String post_id) {
+				return sqlSession.selectOne(Namespace+".count_reply",post_id);
+			}
 }

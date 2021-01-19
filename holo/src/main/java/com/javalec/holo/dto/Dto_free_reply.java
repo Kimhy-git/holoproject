@@ -35,19 +35,24 @@ public class Dto_free_reply {
 
 
 
-	public Dto_free_reply(String reply_id, String board, String post_post_id) {
+	public Dto_free_reply(String reply_id, String board) {
 		super();
 		this.reply_id = reply_id;
 		this.board = board;
-		this.post_post_id = post_post_id;
 	}
 
+	public void Dto_free_reply_delete(String reply_id, String board, String post_post_id) {
+		
+		this.reply_id=reply_id;
+		this.board=board;
+		this.post_post_id=post_post_id;
+	}
 
-
-	public Dto_free_reply(String re_comment, String post_post_id) {
+	public Dto_free_reply(String re_comment, String post_post_id, String user_user_id) {
 		super();
 		this.re_comment = re_comment;
 		this.post_post_id = post_post_id;
+		this.user_user_id = user_user_id;
 	}
 	
 	public Dto_free_reply(String reply_id, String board, String operator, String re_index, String re_comment,
@@ -64,8 +69,18 @@ public class Dto_free_reply {
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
 	}
-	public Dto_free_reply(int reply_id, String re_comment, int post_post_id, String board) {
-		// TODO Auto-generated constructor stub
+
+
+	public Dto_free_reply(String re_index, String re_comment, String re_order, String re_class,
+			String groupNum, String post_post_id, String user_user_id) {
+		super();
+		this.re_index = re_index;
+		this.re_comment = re_comment;
+		this.re_order = re_order;
+		this.re_class = re_class;
+		this.groupNum = groupNum;
+		this.post_post_id = post_post_id;
+		this.user_user_id = user_user_id;
 	}
 
 	public String getUser_user_id() {

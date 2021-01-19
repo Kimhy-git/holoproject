@@ -76,8 +76,11 @@ public interface MemberService {
 	//notice_write_view
 	public List<Dto_post> select_post_view(String post_id) throws Exception;
 	
+	//notice_write_view : 총 댓글 수
+	public int count_post_reply(String post_id);
+	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception;
+	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception;
 	
 	//notice_write_view : delete
 	public List<Dto_post> select_post_delete(String post_id) throws Exception;
@@ -120,6 +123,16 @@ public interface MemberService {
 	
 	//댓글 수
 	public int selectCount_notice (int post_id) throws Exception;
+	
+	//notice 검색 결과
+	public int count_notie_search(BoardSearch search);
+	
+	//noitce 검색 조건으로 게시글 목록 조회
+	public List<Dto_post> list_notice(BoardSearch search);
+	
+	
+	
+	
 
 
 	
@@ -200,60 +213,60 @@ public interface MemberService {
 			
 			
 	// freeboard
-		public List<Dto_freeboard> select_freeboard(Pagination pagination) throws Exception;
-		// 리스트 보기
-		public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception;
-		// 게시글 보기
-		public void select_freeboard_delete(String post_id) throws Exception;
-		//게시글 삭제
-		public List<Dto_free_reply> select_free_reply_delete(String post_id) throws Exception;
-		//게시글+댓글 삭제
+	public List<Dto_freeboard> select_freeboard(Pagination pagination) throws Exception;
+	// 리스트 보기
+	public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception;
+	// 게시글 보기
+	public void select_freeboard_delete(String post_id) throws Exception;
+	//게시글 삭제
+	public List<Dto_free_reply> select_free_reply_delete(String post_id) throws Exception;
+	//게시글+댓글 삭제
 
-		public void freeboard_update(String post_id, String board, String title, String content);
-		// 게시글 수정
-		public void freeboard_write(String post_id, String board, String title,
-				String content, String user_user_id, String nick)throws Exception;
-		// 게시물 쓰기
-		public List<Dto_free_reply> select_free_reply(int post_id) throws Exception;
-		// 댓글 보기
-		public void add_free_comment(String post_post_id, String re_comment) throws Exception;
-		// 댓글 쓰기
-	 
-		public void delete_free_comment(String reply_id, String board, String post_post_id);
-		// 댓글 삭제
-		public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
-		// 댓글 수정
-		public void add_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-				String post_post_id, String board);
-		// 대댓글 작성	
+	public void freeboard_update(String post_id, String board, String title, String content);
+	// 게시글 수정
+	public void freeboard_write(String post_id, String board, String title,
+			String content, String user_user_id, String nick)throws Exception;
+	// 게시물 쓰기
+	public List<Dto_free_reply> select_free_reply(int post_id) throws Exception;
+	// 댓글 보기
+	public void add_free_comment(String post_post_id, String re_comment, String user_user_id) throws Exception;
+	// 댓글 쓰기
+ 
+	public void delete_free_comment(String reply_id, String board, String post_post_id);
+	// 댓글 삭제
+	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
+	// 댓글 수정
+	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
+			String groupNum, String post_post_id, String user_user_id);
+	// 대댓글 작성	
 
-		public void free_uphit(int post_id) throws Exception;
-		// 조회수
-		public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
-				String post_post_id, String board);
-		
-		public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception;
-		// 비밀번호 찾기 입력
-		public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board);
-		
-		public void checkQueestionPw(String user_id, String passwd_q, String passwd_a);
-		//비밀번호 찾기 문답
-		public int checkQueestionPw2(Dto_user user);
-		
-		public Dto_user getUserByUserId(String user_id);
-		// 유저아이디로 유저 정보 조회
-		public int selectCount (int post_id) throws Exception;
-		// 댓글 갯수 세기
-		public List<Dto_freeboard> mylist(String user_id) throws Exception;
-		// 내가 쓴 글 조회
-		public List<Dto_free_reply> myreply(String user_user_id)throws Exception;
-		// 내가 쓴 댓글 조회
-		public int count_freeboard();
-		// 페이징
-		public List<Dto_freeboard> listAll(BoardSearch search);
-		// 검색하기
-		public int count_freeboard_search(BoardSearch search);
-		// 검색하기 카운트
+	public void free_uphit(int post_id) throws Exception;
+	// 조회수
+	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
+			String post_post_id, String board);
+	
+	public void find_pw(String user_id, String passwd_q, String passwd_a) throws Exception;
+	// 비밀번호 찾기 입력
+	public void update_free_comment_now(String reply_id, String re_comment, String post_post_id, String board);
+	
+	public void checkQueestionPw(String user_id, String passwd_q, String passwd_a);
+	//비밀번호 찾기 문답
+	public int checkQueestionPw2(Dto_user user);
+	
+	public Dto_user getUserByUserId(String user_id);
+	// 유저아이디로 유저 정보 조회
+	public int selectCount (int post_id) throws Exception;
+	// 댓글 갯수 세기
+	public List<Dto_freeboard> mylist(String user_id) throws Exception;
+	// 내가 쓴 글 조회
+	public List<Dto_free_reply> myreply(String user_user_id)throws Exception;
+	// 내가 쓴 댓글 조회
+	public int count_freeboard();
+	// 페이징
+	public List<Dto_freeboard> listAll(BoardSearch search);
+	// 검색하기
+	public int count_freeboard_search(BoardSearch search);
+	// 검색하기 카운트
 	
 	
 	
@@ -292,5 +305,8 @@ public interface MemberService {
 
 	//전체 지원 게시글 가져오기
 	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+
+	//post_id에 해당하는 댓글 개수
+	public int count_reply(String post_id);
 }
 

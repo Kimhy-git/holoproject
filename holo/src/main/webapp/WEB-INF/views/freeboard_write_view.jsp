@@ -79,39 +79,43 @@
                 </c:forEach>
             </table>
               <div id="btn">
-	            <c:if test="${login.user_id}==${dto.user_user_id}">
+              <c:forEach var="dto" items="${freeboard}">
+	            <c:if test="${login.user_id==dto.user_user_id}">
 		                <input type="button" id="remove" value="삭제">
 		                <input type="submit" id="edit" value="수정">
 		        </c:if>
+		        </c:forEach>
                 <a href="freeboard"><input type="button" id="list" value="목록보기"></a>
             </div>
             </form>
             
             
             <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">0</span></div> 
+            <c:forEach var="dto" items="${freeboard}">
+                <div id="comment-count">댓글 <span id="count">(${dto.replyCnt})</span></div> 
                 <div id=cc>
                 	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." > 
                 	<button id="submit">등록</button>
                 </div>
-
+			</c:forEach>
             </div> 
             
                <br><br><br>
             <!-- DB에서 reply 가져오기 -->
             <div id=comments> 
 	            <c:forEach var="dto_free_reply" items="${free_reply}">
-	            
+	            <div class="comments" value="${dto_free_reply.re_class}">
 		            ${dto_free_reply.user_user_id}<br>
 		            ${dto_free_reply.re_comment} ${dto_free_reply.operator}<br>
 		            <input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
 		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
-		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
+		            <input type="hidden" name="groupNum" value="${dto_free_reply.reply_id}">
+		        
 		            <div id="btn_reply">
 			            <c:if test="${login.user_id==dto_free_reply.user_user_id}">
-			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
+			                <input type="button" id="remove_reply${dto_free_reply.reply_id}" value="삭제" data_r="${dto_free_reply.reply_id}">
+			                <input type="button" id="reply_update${dto_free_reply.reply_id}" value="수정" data_r="${dto_free_reply.reply_id}">
 			            </c:if>
 		                <input type="button" id="reply_again${dto_free_reply.reply_id}" value="답글달기" >
 		            </div>
@@ -120,9 +124,10 @@
 	            	<form action="add_free_re_comment" method="post">
 	            	<input type="hidden" name="post_post_id" value="${dto_free_reply.post_post_id}">
 		            <input type="hidden" name="reply_id" value="${dto_free_reply.reply_id}">
+		            <input type="hidden" name="re_index" value="${dto_free_reply.re_index}">
 		            <input type="hidden" name="re_order" value="${dto_free_reply.re_order}">
-		            <input type="hidden" name="groupNum" value="${dto_free_reply.groupNum}">
-		            <input type="hidden" name="board" value="${dto_free_reply.board}">
+		            <input type="hidden" name="re_class" value="${dto_free_reply.re_class}">
+		            <input type="hidden" name="groupNum" value="${dto_free_reply.reply_id}">
 		            <input type="text" name="re_re_comment"> 
 		            <input type="submit" value="등록"> 
 		        	</form>		        	
@@ -139,6 +144,7 @@
 	                	<button id="submit">등록</button>
                 		</div>
 		        	</form>		        	
+		        </div>
 		        </div>
 	            </c:forEach>
             </div>
@@ -161,6 +167,8 @@ $(document)
 		console.log((n*50));
 	});
 	//$('.comments').css("margin_left",(n*50)+"px");
+	console.log("dto.user_user_id: "+'${dto.user_user_id}');
+	console.log("login.user_id: "+'${login.user_id}');
 })
 //Delete post and comments
 .on('click','#remove',function changeView(){
@@ -178,7 +186,7 @@ $(document)
 	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
-		window.location.href="<c:url value='delete_comment'/>?post_id="
+		window.location.href="<c:url value='delete_free_comment'/>?post_id="
 				+post_id+"&reply_id="+$(this).attr("data_r");
 	}
 })
