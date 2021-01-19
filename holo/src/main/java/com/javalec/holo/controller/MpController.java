@@ -296,4 +296,33 @@ public class MpController {
 	   String complete="추천이 완료되었습니다.";
 	   return complete;
    }
+   @RequestMapping(value = "/mp_popup", method = RequestMethod.POST)
+   public String mp_popup(HttpServletRequest req, Model model) throws Exception {
+ 	  Dto_login dto = new Dto_login();
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+ 	  
+ 	  
+ 	  String user_id=req.getParameter("user_id");
+ 	  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+ 	  
+ 	  model.addAttribute("user_id",user_id);
+ 	  model.addAttribute("post_id",help_post_id);
+ 	  System.out.println("유저아이디 : "+user_id+" 포스트아이디 : "+help_post_id);
+ 	  Dto_help_post read = service.read(help_post_id);
+ 	  Dto_user mp_user = service.mp_user(user_id);
+ 	  
+		 
+		  List<Dto_total_reply>total_reply = service.total_reply_pop(user_id);
+		  model.addAttribute("total_reply",total_reply);  		  
+		  
+		  List<Dto_total> total_list=service.mypage_total_list_pop(user_id);
+		  System.out.println("controller list: "+total_list);
+		  model.addAttribute("mylist",total_list);
+
+ 	  model.addAttribute("read", read);
+ 	  model.addAttribute("mp_user", mp_user);
+
+ 	  return "mp_popup";
+   }
 }

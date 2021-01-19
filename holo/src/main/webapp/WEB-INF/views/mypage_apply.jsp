@@ -4,18 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-#current{
-font-weight: bold;
-color:#000;
-}
-</style>
+
 <meta charset="UTF-8">
 <title>마이페이지</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/mypage.css">
+<style>
+#current{
+font-weight: bold;
+color:#000;
+}
+section{
+	height:900px;
+}
+</style>
 <body>
     <header>
         <nav>
@@ -47,8 +51,6 @@ color:#000;
                 <span><a href="mypage_myposts" >내가 쓴 글</a></span>
                 &nbsp; &nbsp; 
                 <span><a href="mypage_mycomments" >내가 쓴 댓글</a></span>
-                &nbsp; &nbsp; 
-                <span><a href="mypage">내가 쓴 글에 지원한 지원자 목록</a></span>
                 &nbsp; &nbsp; 
                 <span><a href="mypage_apply"  id="current">내가 지원한 게시글 목록</a></span>
                 &nbsp; &nbsp; 

@@ -74,6 +74,24 @@
     </select>
 	
 
+	<!-- 마이페이지 팝업 글 -->
+    <select id="total_reply_pop" resultType="dto_total_reply">
+		select a.reply_id, a.board, a.operator, a.re_comment, a.post_post_id, a.user_user_id
+		from reply as a where user_user_id=#{user_id}
+		union
+		select b.help_reply_id, b.board, b.operator, b.re_comment, b.help_post_post_id, b.user_user_id
+		from help_reply as b where user_user_id=#{user_id}
+		order by operator desc
+    </select>
+    <!--마이페이지 팝업 댓글 -->
+	<select id="mypage_total_list_pop" resultType="dto_my_total">
+		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
+		union
+		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
+		order by operator desc
+	</select>
+
+
     <!-- help_me 게시글 리스트 -->
 	<select id="list" resultType="dto_p">
 		select help_post_id,tag_area,board,title,a.operator,a.nick,tag_job,content,img,a.gender,min_price,payment,hit,complete,user_user_id,likes,
@@ -165,117 +183,31 @@
            select * , ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
 			from help_post a, user
             where (user.user_id=a.user_user_id )and board = 1 
-            <if test='area != null and !("").equals(area) '>
-            	<if test='("전체").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-            	</if>
-            	<if test='("서울").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-	            and tag_area="서울" 
-            	</if>
-            	<if test='("경기").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경기" 
-            	</if>
-            	<if test='("인천").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="인천" 
-            	</if>
-            	<if test='("대전").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대전" 
-            	</if>
-            	<if test='("대구").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대구" 
-            	</if>
-            	<if test='("부산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="부산" 
-            	</if>
-            	<if test='("강원").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="강원" 
-            	</if>
-            	<if test='("경남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경남" 
-            	</if>
-            	<if test='("경북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경북" 
-            	</if>
-            	<if test='("울산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="울산" 
-            	</if>
-            	<if test='("광주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="광주" 
-            	</if>
-            	<if test='("전남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전남" 
-            	</if>
-            	<if test='("전북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전북" 
-            	</if>
-            	<if test='("세종").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="세종" 
-            	</if>
-            	<if test='("충남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충남" 
-            	</if>
-            	<if test='("충북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충북" 
-            	</if>
-            	<if test='("제주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="제주" 
-            	</if>
+            <if test='tagJob != null and !("").equals(tagJob) and !("전체").equals(tagJob)'>
+	            and tag_job=#{tagJob} 
             </if>
+            <if test='area != null and !("").equals(area) and !("전체").equals(area) '>
+	            
+	            and tag_area=#{area} 
+            </if>
+            <if test='search_option != null and !("").equals(search_option) and keyword!=null'>
+	            	<if test='("all").equals(search_option)'>
+		            	and (a.nick like CONCAT('%',#{keyword},'%')
+			            or title like CONCAT('%',#{keyword},'%')
+			            or content like CONCAT('%',#{keyword},'%')) 
+	            	</if>
+	            	<if test='("user_id").equals(search_option)'>
+		            	and nick like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("title").equals(search_option)'>
+		            	and title like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("content").equals(search_option)'>
+		            	and content like CONCAT('%',#{keyword},'%')
+	            	</if>
+            	</if>
             order by a.operator desc
-         	limit #{pagination.startList}, #{pagination.listSize}
+         	limit #{pagination_help.startList}, #{pagination_help.listSize}
     </select>
   
     <!-- 검색하기 count -->
@@ -283,115 +215,29 @@
             select count(*)
 			from help_post a, user
             where (user.user_id=a.user_user_id )and board = 1 
-            <if test='area != null and !("").equals(area) '>
-            	<if test='("전체").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-            	</if>
-            	<if test='("서울").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%')) 
-	            and tag_area="서울" 
-            	</if>
-            	<if test='("경기").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경기" 
-            	</if>
-            	<if test='("인천").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="인천" 
-            	</if>
-            	<if test='("대전").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대전" 
-            	</if>
-            	<if test='("대구").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="대구" 
-            	</if>
-            	<if test='("부산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="부산" 
-            	</if>
-            	<if test='("강원").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="강원" 
-            	</if>
-            	<if test='("경남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경남" 
-            	</if>
-            	<if test='("경북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="경북" 
-            	</if>
-            	<if test='("울산").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="울산" 
-            	</if>
-            	<if test='("광주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="광주" 
-            	</if>
-            	<if test='("전남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전남" 
-            	</if>
-            	<if test='("전북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="전북" 
-            	</if>
-            	<if test='("세종").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="세종" 
-            	</if>
-            	<if test='("충남").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충남" 
-            	</if>
-            	<if test='("충북").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="충북" 
-            	</if>
-            	<if test='("제주").equals(area)'>
-	            and (a.nick like CONCAT('%',#{keyword},'%')
-	            or title like CONCAT('%',#{keyword},'%')
-	            or content like CONCAT('%',#{keyword},'%'))
-	            and tag_area="제주" 
-            	</if>
+            <if test='tagJob != null and !("").equals(tagJob) and !("전체").equals(tagJob)'>
+	            and tag_job=#{tagJob} 
             </if>
+            <if test='area != null and !("").equals(area) and !("전체").equals(area) '>
+	            
+	            and tag_area=#{area} 
+            </if>
+            <if test='search_option != null and !("").equals(search_option) and keyword!=null'>
+	            	<if test='("all").equals(search_option)'>
+		            	and (a.nick like CONCAT('%',#{keyword},'%')
+			            or title like CONCAT('%',#{keyword},'%')
+			            or content like CONCAT('%',#{keyword},'%')) 
+	            	</if>
+	            	<if test='("user_id").equals(search_option)'>
+		            	and nick like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("title").equals(search_option)'>
+		            	and title like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("content").equals(search_option)'>
+		            	and content like CONCAT('%',#{keyword},'%')
+	            	</if>
+            	</if>
             order by a.operator desc
 	</select>
 	
@@ -410,6 +256,69 @@
     <select id="count_helpyou" resultType="int">
     	select count(*) from help_post where board=0
     </select>
+    
+     <!-- helpyou검색하기 -->
+		<select id="helpyou_search" resultType="com.javalec.holo.dto.Dto_help_post" parameterType="com.javalec.holo.dto.BoardSearch">
+           select * , ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
+			from help_post a, user
+            where (user.user_id=a.user_user_id )and board = 0
+            <if test='tagJob != null and !("").equals(tagJob) and !("전체").equals(tagJob)'>
+	            and tag_job=#{tagJob} 
+            </if>
+            <if test='area != null and !("").equals(area) and !("전체").equals(area) '>
+	            
+	            and tag_area=#{area} 
+            </if>
+            <if test='search_option != null and !("").equals(search_option) and keyword!=null'>
+	            	<if test='("all").equals(search_option)'>
+		            	and (a.nick like CONCAT('%',#{keyword},'%')
+			            or title like CONCAT('%',#{keyword},'%')
+			            or content like CONCAT('%',#{keyword},'%')) 
+	            	</if>
+	            	<if test='("user_id").equals(search_option)'>
+		            	and nick like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("title").equals(search_option)'>
+		            	and title like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("content").equals(search_option)'>
+		            	and content like CONCAT('%',#{keyword},'%')
+	            	</if>
+            	</if>
+            order by a.operator desc
+         	limit #{pagination_help.startList}, #{pagination_help.listSize}
+    </select>
+  
+    <!-- helpyou 검색하기 count -->
+    <select id="helpyou_search_count" resultType="int" parameterType="com.javalec.holo.dto.BoardSearch">
+            select count(*)
+			from help_post a, user
+            where (user.user_id=a.user_user_id )and board = 0
+            <if test='tagJob != null and !("").equals(tagJob) and !("전체").equals(tagJob)'>
+	            and tag_job=#{tagJob} 
+            </if>
+            <if test='area != null and !("").equals(area) and !("전체").equals(area) '>
+	            
+	            and tag_area=#{area} 
+            </if>
+            <if test='search_option != null and !("").equals(search_option) and keyword!=null'>
+	            	<if test='("all").equals(search_option)'>
+		            	and (a.nick like CONCAT('%',#{keyword},'%')
+			            or title like CONCAT('%',#{keyword},'%')
+			            or content like CONCAT('%',#{keyword},'%')) 
+	            	</if>
+	            	<if test='("user_id").equals(search_option)'>
+		            	and nick like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("title").equals(search_option)'>
+		            	and title like CONCAT('%',#{keyword},'%')
+	            	</if>
+	            	<if test='("content").equals(search_option)'>
+		            	and content like CONCAT('%',#{keyword},'%')
+	            	</if>
+            	</if>
+            order by a.operator desc
+	</select>
     
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
@@ -506,6 +415,14 @@
 		update user set likes=likes+1 where user_id=#{applier};
 	</update>
 	
+	<!-- admin page -->
+	<select id="admin_user_list" resultType="dto_user">
+		select user_id,nick,likes,operator from user order by operator desc
+		limit #{startList}, #{listSize};;
+	</select>
+	<select id="admin_user_list_count" resultType="int">
+		select count(user_id) from user;
+	</select>
 	
 	
 
@@ -581,6 +498,11 @@
     	where user_id=#{user_id} and user_pw=#{user_pw}
     </select>
     
+    <!-- update posts -->
+    <select id="update_post" resultType="dto_post">
+    	update post set title = #{title}, content=#{content} where post_id=#{post_id} and board=3
+    </select>
+    
 
     
     
@@ -628,13 +550,13 @@
  
     <insert id="freeboard_write" parameterType="dto_freeboard">
     	insert into post(board, title, nick, content, img, user_user_id) 
-    		values (2, #{title}, "se", #{content}, #{img}, 'a');
+    		values (2, #{title}, #{nick}, #{content}, #{img}, #{user_user_id});
     </insert>
 	<!-- 게시물 등록 -->	
     
     <select id="add_free_comment" parameterType="dto_free_reply"> 
     	insert into reply(board,re_index,re_comment,post_post_id,user_user_id)
-		values(2,0,#{re_comment},#{post_post_id},'a');	
+		values(2,0,#{re_comment},#{post_post_id},#{user_user_id});
     </select>
     <!-- 댓글 쓰기 -->   
     
@@ -714,7 +636,7 @@
 
             	</if>
             </if>
-            order by post_id
+            order by operator desc
             <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
          limit #{pagination.startList}, #{pagination.listSize}
     </select>

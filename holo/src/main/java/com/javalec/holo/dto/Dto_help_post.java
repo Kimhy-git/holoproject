@@ -20,6 +20,9 @@ public class Dto_help_post {
 	private int hit;
 	private int likes;
 	private String replyCnt;
+	private String birth;
+	private String tag;
+	private String cv;
 	
 	public Dto_help_post() {}
 	
@@ -66,7 +69,7 @@ public class Dto_help_post {
 
 	public Dto_help_post(int help_post_id, String tag_area, int board, String title, Timestamp operator, String nick,
 			String tag_job, String content, String img, String gender, int min_price, String payment, int complete,
-			String user_user_id,int hit,int likes,String replyCnt) {
+			String user_user_id,int hit,int likes,String replyCnt, String birth, String tag, String cv) {
 		super();
 		this.help_post_id = help_post_id;
 		this.tag_area = tag_area;
@@ -85,6 +88,9 @@ public class Dto_help_post {
 		this.hit=hit;
 		this.likes=likes;
 		this.replyCnt = replyCnt;
+		this.birth = birth;
+		this.tag = tag;
+		this.cv = cv;
 	}
 
 
@@ -113,6 +119,30 @@ public class Dto_help_post {
 		this.user_user_id = user_user_id;
 	}
 	
+	public String getBirth() {
+		return birth;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public String getCv() {
+		return cv;
+	}
+
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public void setCv(String cv) {
+		this.cv = cv;
+	}
+
 	public String getReplyCnt() {
 		return replyCnt;
 	}

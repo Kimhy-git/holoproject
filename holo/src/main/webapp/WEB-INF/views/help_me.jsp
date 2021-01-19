@@ -38,7 +38,7 @@
             <div id="wrap">
                 <div id="section_h">
                     <h2>도움 받기</h2>
-                    <form method="post" action="helpme_search_go">
+                    <form id="form1" method="post" action="help_me_search" >
 	                    <div id="search">
 	                       <select id="area" name="area">
 		                        <option value="전체"<c:if test="${map.area == '전체'}">selected</c:if>>전체</option>
@@ -60,6 +60,21 @@
 	                            <option value="충북"<c:if test="${map.area == '충북'}">selected</c:if>>충북</option>
 	                            <option value="제주"<c:if test="${map.area == '제주'}">selected</c:if>>제주</option>
                         	</select>
+                        	<select name="search_option">
+                        		<option value="all"
+								<c:if test="${map.search_option == 'all'}">selected</c:if>
+								>전체</option>
+								<option value="user_id"
+								<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+								>작성자</option>
+							    <option value="title" 
+								<c:if test="${map.search_option == 'title'}">selected</c:if>
+							    >제목</option>
+							    <option value="content" 
+								<c:if test="${map.search_option == 'content'}">selected</c:if>
+							    >내용</option>
+		
+						 	</select>
                         <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
 					    <input type="submit" value="검색">
 	                    </div>
@@ -68,7 +83,7 @@
                     <div class="write" id="writing">글쓰기</div>
                 </div>
                 <div id="category">
-                    <a href="#">전체</a>
+                     <a href="#" class="cate-active">전체</a>
                     <a href="#">벌레잡기</a>
                     <a href="#">쓰레기 분리수거</a>
                     <a href="#">음식물쓰레기 처리</a>
@@ -96,23 +111,25 @@
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
 	                            <span class="comments">(${list.replyCnt})</span></div>
                             </div>
-                        <form method="post">    
-                            <p class="writer" id="mp_go"
+                        <form method="post" action="mp_popup" target="mp_popGo" id="mpGo${list.help_post_id}"> 
+  	                        <input type="hidden" value="${list.help_post_id}" name="help_post_id">
+                        	<input type=hidden value="${list.user_user_id}" name="user_id">
+                        	<input type=hidden value="${list.nick}" name="nick">   
+                            <p class="writer" id="mp_go${list.help_post_id}"
                             style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                             ${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
-                        </form>    
+                        </form>
                             <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
                             <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
                         
-                        </li> 
+                        </li>
                     
                     </c:forEach>                
                     </ul>
                 </div>
             </div>  
-        </div>
-        <div class="clear"></div>
-        <!-- pagination{s} -->
+            <div class="clear"></div>
+            <!-- pagination{s} -->
 			<div id="paginationBox">
 				<ul class="pagination">
 					<c:if test="${pagination.prev}">
@@ -132,6 +149,8 @@
 				</ul>
 			</div>
 		<!-- pagination{e} -->
+        </div>
+		<div class="clear"></div>  
     </section>
     
     
@@ -142,6 +161,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
+
+
 $(document)
 .ready(function(){
 
@@ -150,6 +171,8 @@ $(document)
 		$("#content ul li:eq("+count+")").css("margin-left","0");
 		console.log(count)
 	}
+	
+	$("#category > a").on("click", clickTagAction);
 })
 
 .on('click','#writing',function(){
@@ -163,11 +186,24 @@ $(document)
 	}
 })
 
-.on('click','#mp_go',function(){
-
-		   window.open("mp_popup","mpPop",'width=470, height=580, left=400, top=200, resizable=no');
-
+.on('click','[id^=mp_go]',function(){
+	console.log("mp_go click");
+	var n=(this.id).substr(5);
+	console.log("n: "+n);
+	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
+	$("#mpGo"+n).submit();
 })
+
+
+function clickTagAction(){
+	var form = $("#form1 > div");
+	var tagJob = $(this).text();
+	console.log("tagJob : "+tagJob);
+	$("#tagJob").remove();
+	form.append("<input id='tabJob' name='tagJob' type='hidden' value='"+tagJob+"'/>");
+	$("#form1")[0].submit();
+}
+
 </script>
 <script>
 //이전 버튼 이벤트
@@ -201,5 +237,6 @@ function fn_prev(page, range, rangeSize) {
 		url = url + "&range=" + range;
 		location.href = url;
 	}
+	
 </script>
 </html>

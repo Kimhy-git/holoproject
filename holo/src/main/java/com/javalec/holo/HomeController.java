@@ -1,5 +1,6 @@
 package com.javalec.holo;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javalec.holo.dto.Dto_user;
+import com.javalec.holo.dto.Pagination;
+import com.javalec.holo.dto.Pagination_help;
 import com.javalec.holo.service.MemberService;
 
 
@@ -121,26 +124,19 @@ private MemberService service;
       } //비밀번호 찾기 작동
       
       
-      
-
-//      @RequestMapping(value = "/help_me", method = RequestMethod.GET)
-//      public String help_me() {
-//         
-//         return "help_me";
-//      }
-//      @RequestMapping(value = "/helpme_write", method = RequestMethod.GET)
-//      public String helpme_write() {
-//         
-//         return "helpme_write";
-//      }
-//      @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
-//      public String helpme_write_view() {
-//         
-//         return "helpme_write_view";
-//      }
       @RequestMapping(value = "/admin", method = RequestMethod.GET)
-      public String admin() {
-         
+      public String admin(HttpServletRequest req, Model model,
+    		  				@RequestParam(required = false, defaultValue = "1") int page, 
+    		  				@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+    	 //전체 게시글 수
+  	 	 int listCnt = service.admin_user_list_count();
+  	 	 System.out.println("listCnt: "+listCnt);
+  		 //Pagination 객제 생성
+  		 Pagination pagination = new Pagination();
+  		 pagination.pageInfo(page, range, listCnt);
+         List<Dto_user> user_list=service.admin_user_list(pagination);
+         model.addAttribute("pagination", pagination);
+         model.addAttribute("user_list", user_list);
          return "admin";
       }
       @RequestMapping(value = "/apply", method = RequestMethod.GET)
@@ -152,11 +148,6 @@ private MemberService service;
       public String jusoPopup() {
     	  System.out.println("juso호출");
     	  return "jusoPopup";
-      }
-      @RequestMapping(value = "/mp_popup", method = RequestMethod.GET)
-      public String mp_popup() {
-         
-         return "mp_popup";
       }
 
    

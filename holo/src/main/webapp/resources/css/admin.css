@@ -1,0 +1,41 @@
+@charset "EUC-KR";
+.clear{
+	clear:both;
+}
+#tablediv{
+	width:800px;
+	margin:30px auto;
+}
+h2{
+	padding-top:20px;
+	text-align: left;
+	margin-left: 20px;
+}
+table{
+	width:800px;
+	border:1px solid #ccc;
+	background:#fff;
+	border-collapse: collapse;
+}
+#info{
+	background:#ccc;
+}
+tr{
+	border-bottom:1px solid #ccc;
+}
+th{
+	padding:7px 0;
+	text-align:left;
+}
+th:first-child{
+	padding-left:20px;
+}
+a{
+	text-decoration:none;
+}
+td{
+	padding:5px 0;
+}
+td:first-child{
+	padding-left:20px;
+}

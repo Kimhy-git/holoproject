@@ -42,6 +42,7 @@
                 <!-- <span>제목</span>  -->
                 <form action="freeboard_submit" method="get" enctype="multipart/form-data">
                 <div id="title">
+                <input type="hidden" name="nick" value="${login.nick}">
                 <input type="text" id="title" class="title" name="title" placeholder="제목을 입력하세요.">
                 </div>
                 <div id="content">

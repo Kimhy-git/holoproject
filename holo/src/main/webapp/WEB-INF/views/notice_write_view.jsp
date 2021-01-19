@@ -72,15 +72,17 @@
 		                    <img src="http://localhost:8080/holo/img/${dto.img}"/>
 		                </tr>
 		            </table>
+				   	<div id="btn">
+		            <c:forEach var="dto" items="${notice}">
+		            <c:if test="${login.user_id==dto.user_user_id}">
+			                <input type="button" id="remove" value="삭제">
+			                <input type="submit" id="edit" value="수정">
+			        </c:if>
+			        </c:forEach>
 		        </form>
 		        </c:forEach>
 		        </div>
-            
-            <div id="btn">
-            <c:if test="${login.user_id}==${dto.user_user_id}">
-	                <input type="button" id="remove" value="삭제">
-	                <input type="submit" id="edit" value="수정">
-	        </c:if>
+           
                 <a href="notice"><input type="button" id="list" value="목록보기"></a>
             </div>
 

@@ -42,6 +42,7 @@ public class BoardController {
 	@Inject
     private MemberService service;
 	
+	
 	//helpme
 	@RequestMapping(value = "/help_me", method = RequestMethod.GET)
     public String help_me(HttpServletRequest req, Model model,
@@ -60,7 +61,7 @@ public class BoardController {
 		 model.addAttribute("list", list);
 		 model.addAttribute("pagination", pagination);
 		 Dto_login dto = new Dto_login();
-		 
+		 model.addAttribute("search_done",0);
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
 		 
@@ -299,49 +300,66 @@ public class BoardController {
 		return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	}			
 	
-	@RequestMapping("helpme_search_go") //url mapping
+	@RequestMapping("help_me_search") //url mapping
     public ModelAndView helpme_search_list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
             @RequestParam(defaultValue="1") int curPage,
+            @RequestParam(defaultValue="") String search_option, //기본 검색 옵션값을 작성자로 한다.
             @RequestParam(defaultValue="전체") String area, //기본 검색 옵션값을 작성자로 한다.
             @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
             @RequestParam(defaultValue="1") int board,
             @RequestParam(required = false, defaultValue = "1") int page, 
-			@RequestParam(required = false, defaultValue = "1") int range
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(defaultValue="전체") String tagJob
             )
              throws Exception{
         
+		BoardSearch search = new BoardSearch();
         //전체 로우 수
-        int count = 1000;
-        BoardSearch search = new BoardSearch();
-        search.setArea(area);
-        search.setKeyword(keyword);
+        if(!area.equals("")) {
+        	search.setArea(area);
+        }
+        if(!keyword.equals("")) {
+        	search.setKeyword(keyword);
+        }
+        search.setSearch_option(search_option);
+        search.setTagJob(tagJob);
+        System.out.println("boardsearch area: "+search.getArea());
+        System.out.println("boardsearch option: "+search.getSearch_option());
+        System.out.println("boardsearch keyword: "+search.getKeyword());
         search.setBoard(board);
         int listCnt = service.helpme_search_count(search);
         System.out.println("리스트 카운트는 과연~? : "+listCnt);
         // 검색조건 + 보드서치 객체 생성
-        Pagination pagination = new Pagination();
+        Pagination_help pagination = new Pagination_help();
         pagination.pageInfo(page,range,listCnt);
         
-        search.setPagination(pagination);
+        search.setPagination_help(pagination);
         
-             
+        System.out.println("help_me board page: "+search.getPagination_help().getStartList());
         //검색 조건으로 게시글 목록 조회
         List<Dto_help_post> list = service.helpme_search(search);
         ModelAndView mav = new ModelAndView();
         Map<String,Object> map = new HashMap<String, Object>();    
         //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
         System.out.println("boardcontroller"+pagination.getEndPage());
-        map.put("count", count);
+        map.put("search_option", search_option);
+        map.put("tagJob", tagJob);
         map.put("area", area);
         map.put("keyword", keyword);
-        mav.addObject("map", map);                    
-        mav.addObject("pagination", pagination);   
-        mav.addObject("list", list);   
+        mav.addObject("map", map);             
+        mav.addObject("pagination", pagination);
+        mav.addObject("list", list);
+        mav.addObject("search_done", 1);
         
         System.out.println("map : "+map);
-        mav.setViewName("help_me");   //자료를 넘길 뷰의 이름
+        mav.setViewName("help_me_search");   //자료를 넘길 뷰의 이름
         return mav;   //게시판 페이지로 이동   
     } // 검색하기
+	
+	
+	
+	
+	
 	
 	
 	// helpyou
@@ -417,6 +435,62 @@ public class BoardController {
 		String json = gson.toJson(dto);
 		return json;
 	}
+	@RequestMapping("help_you_search") //url mapping
+    public ModelAndView helpyou_search_list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+            @RequestParam(defaultValue="1") int curPage,
+            @RequestParam(defaultValue="all") String search_option, //기본 검색 옵션값을 작성자로 한다.
+            @RequestParam(defaultValue="전체") String area, //기본 검색 옵션값을 작성자로 한다.
+            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
+            @RequestParam(defaultValue="1") int board,
+            @RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range,
+			@RequestParam(defaultValue="전체") String tagJob
+            )
+             throws Exception{
+        
+		BoardSearch search = new BoardSearch();
+        //전체 로우 수
+        if(!area.equals("")) {
+        	search.setArea(area);
+        }
+        if(!keyword.equals("")) {
+        	search.setKeyword(keyword);
+        }
+        search.setSearch_option(search_option);
+        search.setTagJob(tagJob);
+        System.out.println("boardsearch area: "+search.getArea());
+        System.out.println("boardsearch option: "+search.getSearch_option());
+        System.out.println("boardsearch keyword: "+search.getKeyword());
+        search.setBoard(board);
+        int listCnt = service.helpyou_search_count(search);
+        System.out.println("리스트 카운트는 과연~? : "+listCnt);
+        // 검색조건 + 보드서치 객체 생성
+        Pagination_help pagination = new Pagination_help();
+        pagination.pageInfo(page,range,listCnt);
+        
+        search.setPagination_help(pagination);
+        
+        System.out.println("help_me board page: "+search.getPagination_help().getStartList());
+        //검색 조건으로 게시글 목록 조회
+        List<Dto_help_post> list = service.helpyou_search(search);
+        ModelAndView mav = new ModelAndView();
+        Map<String,Object> map = new HashMap<String, Object>();    
+        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
+        System.out.println("boardcontroller"+pagination.getEndPage());
+        map.put("search_option", search_option);
+        map.put("tagJob", tagJob);
+        map.put("area", area);
+        map.put("keyword", keyword);
+        mav.addObject("map", map);             
+        mav.addObject("pagination", pagination);
+        mav.addObject("list", list);
+        mav.addObject("search_done", 1);
+        
+        System.out.println("map : "+map);
+        mav.setViewName("help_you_search");   //자료를 넘길 뷰의 이름
+        return mav;   //게시판 페이지로 이동   
+    } // 검색하기
+	
 	@RequestMapping(value="/helpyou_write_view")
 	public String helpyou_write_view(HttpServletRequest req, Model model) throws Exception {
 		Dto_login dto = new Dto_login();
@@ -744,7 +818,7 @@ public class BoardController {
     	String post_id=req.getParameter("post_id");
     	String title=req.getParameter("title");
     	String content=req.getParameter("content");
-    	String board="0";
+    	String board="3";
     	
     	model.addAttribute("title",title);
     	model.addAttribute("post_id",post_id);
@@ -851,9 +925,10 @@ public class BoardController {
 		System.out.println("board controller range03: "+pagination.getRange());
 		model.addAttribute("freeboard",freeboard);
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("search_do",0);
 		
 		  Dto_login dto = new Dto_login();
-			 
+		  
 		  HttpSession session = req.getSession();
 		  dto=(Dto_login)session.getAttribute("login");
 		return "freeboard";
@@ -942,15 +1017,20 @@ public class BoardController {
 	    	
 		@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
 		public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
+			Dto_login dto = new Dto_login();
+			HttpSession session = req.getSession();
+			dto=(Dto_login)session.getAttribute("login");
+			
 			String post_id="10";
 	    	String board="2";
 	    	String title=req.getParameter("title");
 	    	String operator=null;
 	    	String content=req.getParameter("content");
-			String user_user_id="b";
+	    	String nick=req.getParameter("nick");
+			String user_user_id=dto.getUser_id();
 			
 			System.out.println("test : " +title);
-			service.freeboard_write(post_id, board, title, content,user_user_id);
+			service.freeboard_write(post_id, board, title, content,user_user_id,nick);
 			return "redirect:freeboard";
 		} //게시글 작성
 	
@@ -1026,43 +1106,53 @@ public class BoardController {
 	    } // 대댓글 작성
 
 	    
-	    @RequestMapping("list.do") //url mapping
-	    public ModelAndView list(//RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
+	    @RequestMapping("freeboard_search") //url mapping
+	    public ModelAndView list(HttpServletRequest req, //RequestParam으로 옵션, 키워드, 페이지의 기본값을 각각 설정해준다.
 	            @RequestParam(defaultValue="1") int curPage,
-	            @RequestParam(defaultValue="user_id") String search_option, //기본 검색 옵션값을 작성자로 한다.
+	            @RequestParam(defaultValue="") String search_option, //기본 검색 옵션값을 작성자로 한다.
 	            @RequestParam(defaultValue="") String keyword,   //키워드의 기본값을 ""으로 한다.
 	            @RequestParam(defaultValue="2") int board,
 	            @RequestParam(required = false, defaultValue = "1") int page, 
 				@RequestParam(required = false, defaultValue = "1") int range
 	            )
 	             throws Exception{
-	        
+	    	Dto_login dto = new Dto_login();
+			HttpSession session = req.getSession();
+			dto=(Dto_login)session.getAttribute("login");
+	    	
+	    	
+	    	BoardSearch search = new BoardSearch();
 	        //전체 로우 수
-	        int count = 1000;
-	        int listCnt = service.count_freeboard_search();
+	        if(!search_option.equals("")) {
+	        	search.setSearch_option(search_option);
+	        }
+	        if(!keyword.equals("")) {
+	        	search.setKeyword(keyword);
+	        }
+	        System.out.println("boardsearch: "+search.getKeyword());
+	        search.setBoard(board);
+	        int listCnt = service.count_freeboard_search(search);
 	        // 검색조건 + 보드서치 객체 생성
+	        System.out.println("search_count"+listCnt);
 	        Pagination pagination = new Pagination();
 	        pagination.pageInfo(page,range,listCnt);
-	        BoardSearch search = new BoardSearch();
 	        search.setPagination(pagination);
-	        search.setSearch_option(search_option);
-	        search.setKeyword(keyword);
-	        search.setBoard(board);
-	             
+	        
+	        
 	        //검색 조건으로 게시글 목록 조회
 	        List<Dto_freeboard> list = service.listAll(search);
 	        ModelAndView mav = new ModelAndView();
 	        Map<String,Object> map = new HashMap<String, Object>();    
 	        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
-	
-	        map.put("count", count);
+	        System.out.println("search endPage: "+pagination.getEndPage());
 	        map.put("search_option", search_option);
 	        map.put("keyword", keyword);
 	        mav.addObject("map", map);                    
 	        mav.addObject("pagination", pagination);   
 	        mav.addObject("freeboard", list);   
+	        mav.addObject("search_do",1);
 	        System.out.println("map : "+map);
-	        mav.setViewName("freeboard");   //자료를 넘길 뷰의 이름
+	        mav.setViewName("freeboard_search");   //자료를 넘길 뷰의 이름
 	        return mav;   //게시판 페이지로 이동   
 	    } // 검색하기
 }

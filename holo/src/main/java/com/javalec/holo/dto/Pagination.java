@@ -189,16 +189,12 @@ public class Pagination {
 		this.listCnt = listCnt;
 		this.user_id = user_id;
 		
-		System.out.println("pagination range: "+this.range);
-		
 		//전체 페이지수 
 		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
 
 		//시작 페이지
 		this.startPage = (range - 1) * rangeSize + 1 ;
 
-		System.out.println("pagination startPage: "+this.startPage);
-		
 		//끝 페이지
 		this.endPage = range * rangeSize;
 

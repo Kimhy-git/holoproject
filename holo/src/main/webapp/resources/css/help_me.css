@@ -160,3 +160,15 @@ h2{
 	height: 180px;*/
 	
 }
+#paginationBox{
+	width:100%;
+	text-align:center;
+}
+
+#paginationBox a{
+	margin-right:10px;
+	text-decoration:none;
+}
+#paginationBox a:hover{
+	text-decoration:underline;
+}

@@ -74,7 +74,7 @@ function fn_prev(page, range, rangeSize) {
         <div id="wrap">
         	<div id="section_h">
 	            <h2>자유게시판</h2>
-			        <form name="form1" method="post" action="list.do">
+			        <form name="form1" method="post" action="freeboard_search">
 				    <select name="search_option">
 						<option value="user_id"
 						<c:if test="${map.search_option == 'user_id'}">selected</c:if>
@@ -119,6 +119,7 @@ function fn_prev(page, range, rangeSize) {
 	                </c:forEach>
 	            </table>
 	        </div>
+	        <input type="hidden" name="search_do" value=0>
            <!-- pagination{s} -->
 				<div id="paginationBox">
 					<ul class="pagination">

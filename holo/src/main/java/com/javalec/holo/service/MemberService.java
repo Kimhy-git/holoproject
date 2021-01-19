@@ -42,6 +42,11 @@ public interface MemberService {
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list(Pagination_help pagination);
 	public int count_helpyou() throws Exception;
+	//help_you 검색
+	public List<Dto_help_post> helpyou_search(BoardSearch search);
+	//help_you 검색 카운트
+	public int helpyou_search_count(BoardSearch search);
+	
 	public Dto_help_post helpyou_write_view(int help_post_id);
 	public void helpyou_delete(int help_post_id);
 	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);
@@ -58,6 +63,8 @@ public interface MemberService {
 	public List<Dto_apply> mypage_applyyou_list(int post_id);
 	public void mypage_applyme_choose(int apply_id);
 	public void mypage_applier_like(String applier);
+	public List<Dto_user> admin_user_list(Pagination pagination);
+	public int admin_user_list_count();
 	
 	
 	
@@ -131,6 +138,10 @@ public interface MemberService {
 	//마이페이지 유저정보 수정
 	public void mp_edit(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
 			String tag, String cv, String user_id) throws Exception;
+	//마이페이지 팝업
+	public List<Dto_total_reply> total_reply_pop(String user_id);
+	public List<Dto_total> mypage_total_list_pop(String user_id);
+	
 	
 	//help_me게시글 상세보기
 	public Dto_help_post read(int help_post_id) throws Exception;
@@ -201,7 +212,7 @@ public interface MemberService {
 		public void freeboard_update(String post_id, String board, String title, String content);
 		// 게시글 수정
 		public void freeboard_write(String post_id, String board, String title,
-				String content, String user_user_id)throws Exception;
+				String content, String user_user_id, String nick)throws Exception;
 		// 게시물 쓰기
 		public List<Dto_free_reply> select_free_reply(int post_id) throws Exception;
 		// 댓글 보기
@@ -241,7 +252,7 @@ public interface MemberService {
 		// 페이징
 		public List<Dto_freeboard> listAll(BoardSearch search);
 		// 검색하기
-		public int count_freeboard_search();
+		public int count_freeboard_search(BoardSearch search);
 		// 검색하기 카운트
 	
 	

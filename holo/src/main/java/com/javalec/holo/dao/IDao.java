@@ -48,8 +48,11 @@ public interface IDao {
 	//마이페이지 수정
 	public void mp_edit(String user_pw, String nick, String passwd_q, String passwd_a, String mobile, String address,
 			String tag, String cv, String user_id) throws Exception;
-
-
+	//마이페이지 팝업
+	public List<Dto_total_reply> total_reply_pop(String user_id);
+	public List<Dto_total> mypage_total_list_pop(String user_id);
+	
+	
     //help_me게시글 리스트
 	public List<Dto_help_post> list(Pagination_help pagination)throws Exception;
 	public int count_helpme() throws Exception;
@@ -109,6 +112,11 @@ public interface IDao {
 	public void helpyou_submit(String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public List<Dto_help_post> helpyou_list(Pagination_help pagination);
 	public int count_helpyou() throws Exception;
+	//help_you 검색
+	public List<Dto_help_post> helpyou_search(BoardSearch search);
+	//help_you 검색 카운트
+	public int helpyou_search_count(BoardSearch search);
+	
 	public Dto_help_post helpyou_write_view(int help_post_id);
 	public void helpyou_delete(int help_post_id);
 	public void helpyou_reply_submit(String comment, int help_post_post_id, String user_user_id);
@@ -126,6 +134,10 @@ public interface IDao {
 	public List<Dto_apply> mypage_applyyou_list(int post_id);
 	public void mypage_applyme_choose(int apply_id);
 	public void mypage_applier_like(String applier);
+	
+	//adminpage
+	public List<Dto_user> admin_user_list(Pagination pagination);
+	public int admin_user_list_count();
 	
 	
 	
@@ -203,7 +215,7 @@ public interface IDao {
 	// 게시물 수정
 
 	public void freeboard_write(String post_id, String board, String title,
-			String content, String user_user_id) throws Exception;
+			String content, String user_user_id, String nick) throws Exception;
 	//게시글 작성
 
 	public List<Dto_free_reply> select_free_reply(int post_id);
@@ -256,7 +268,7 @@ public interface IDao {
 	//페이징
 	public List<Dto_freeboard> listAll(BoardSearch search);
 	//검색하기
-	public int count_freeboard_search();
+	public int count_freeboard_search(BoardSearch search);
 
 	
 	

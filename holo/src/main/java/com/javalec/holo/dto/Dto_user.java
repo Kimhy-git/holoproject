@@ -14,6 +14,7 @@ public class Dto_user {
 	private String likes;
 	private String tag;
 	private String cv;
+	private String operator;
 
 
 	public Dto_user(String user_id, String nick, String email) {
@@ -76,6 +77,18 @@ public class Dto_user {
 	
 	
 	
+	
+	
+	public String getOperator() {
+		return operator;
+	}
+
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+
+
 	public String getUser_id() {
 		return user_id;
 	}

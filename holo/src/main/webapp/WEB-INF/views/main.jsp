@@ -48,8 +48,27 @@
         </div>
     </section>
     <footer>
-        <p>copyright 홀로서기
+        <p id="p">copyright 홀로서기
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+var n=0;
+$(document)
+.on('click','#p',function(){
+	n=n+1;
+	console.log("n: "+n);
+	if(n>=5){
+		console.log("if");
+		console.log("user_id:"+'${login.user_id}');
+		if('${login.user_id}'=='admin'){
+			if(confirm("관리자 페이지로 이동하시겠습니까?")){
+				window.location.href = 'admin';	
+			}
+		}
+	}
+})
+
+</script>
 </html>

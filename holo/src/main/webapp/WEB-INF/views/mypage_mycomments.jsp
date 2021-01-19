@@ -57,9 +57,6 @@ color:#000;
             <div id="center">
         	<div id="tabContent02" class="tabPage">
 	            <table id="my_list1">
-	                <tr>
-	                    <td colspan=2 id="list_title" class="small_title" name="my_post">내가 쓴 댓글 목록</td>
-	                </tr>
 	                <tr id="info">
 	                    <td>댓글내용</td>
 	                    <td>날짜</td>

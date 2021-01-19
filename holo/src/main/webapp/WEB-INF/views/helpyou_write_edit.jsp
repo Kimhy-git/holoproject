@@ -106,16 +106,11 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
-function getContextPath() {
-    var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-    console.log("location: "+location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) ));
-    return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-}
-var ip='http://localhost:8080';
+
 $(document)
 .ready(function(){
 	console.log("edit ready");
-	$.post(ip+getContextPath()+'/helpyou_edit_list',
+	$.post('${pageContext.request.contextPath}/helpyou_edit_list',
 			{"post_id":$('#pId').val()},
 			function(data){
 				console.log(data);

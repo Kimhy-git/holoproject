@@ -94,8 +94,15 @@ public class IDaolmpl implements IDao {
   			tag, cv , user_id);
   		sqlSession.insert(Namespace+".mp_edit",Dto_user);
   	}
-      
-    
+    //마이페이지 팝업
+	@Override
+	public List<Dto_total_reply> total_reply_pop(String user_id){
+		return sqlSession.selectList(Namespace+".total_reply_pop",user_id);
+	};
+	@Override
+	public List<Dto_total> mypage_total_list_pop(String user_id){
+		return sqlSession.selectList(Namespace+".mypage_total_list_pop",user_id);
+	};
     
 	   
 	  //help_me게시글 리스트
@@ -231,6 +238,18 @@ public class IDaolmpl implements IDao {
 	public int count_helpyou() throws Exception{
 		return sqlSession.selectOne(Namespace+".count_helpyou");
 	}
+	
+	@Override
+	public List<Dto_help_post> helpyou_search(BoardSearch search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(Namespace+".helpyou_search", search);
+	}
+
+	@Override
+	public int helpyou_search_count(BoardSearch search) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(Namespace+".helpyou_search_count", search);
+	}
 		
   	//helpyou_write
 	@Override
@@ -330,6 +349,15 @@ public class IDaolmpl implements IDao {
 		sqlSession.update(Namespace+".mypage_applier_like",applier);
 	}
 	
+	//adminpage
+	@Override
+	public List<Dto_user> admin_user_list(Pagination pagination){
+		return sqlSession.selectList(Namespace+".admin_user_list",pagination);
+	}
+	@Override
+	public int admin_user_list_count() {
+		return sqlSession.selectOne(Namespace+".admin_user_list_count");
+	}
 	
 	
 	
@@ -440,8 +468,7 @@ public class IDaolmpl implements IDao {
 		
 		Dto_post update_post=new Dto_post(post_id,board,title,content);
 		
-		sqlSession.insert(Namespace+".update_post_title",update_post);
-		sqlSession.insert(Namespace+".update_post_content",update_post);
+		sqlSession.insert(Namespace+".update_post",update_post);
 	}
 
 	//log in
@@ -507,9 +534,9 @@ public class IDaolmpl implements IDao {
 		sqlSession.insert(Namespace+".freeboard_update",freeboard_update);
 	}// 게시물 수정
 	@Override
-	public void freeboard_write(String post_id, String board, String title, String content, String user_user_id)
+	public void freeboard_write(String post_id, String board, String title, String content, String user_user_id, String nick)
 	throws Exception{
-		Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id);
+		Dto_freeboard Dto_freeboard= new Dto_freeboard(post_id, board, title, content, user_user_id, nick);
 		sqlSession.insert(Namespace+".freeboard_write",Dto_freeboard);
 	}// 게시물 달기
 	
@@ -605,8 +632,8 @@ public class IDaolmpl implements IDao {
 	} // 검색하기
 	
 	@Override
-	public int count_freeboard_search() {
-		return sqlSession.selectOne(Namespace+".search_count");
+	public int count_freeboard_search(BoardSearch search) {
+		return sqlSession.selectOne(Namespace+".search_count",search);
 	}
 			
 			
@@ -695,4 +722,6 @@ public class IDaolmpl implements IDao {
 				
 				return sqlSession.selectList(Namespace+".total_apply",dto);
 			}
+
+			
 }

@@ -3,12 +3,23 @@ package com.javalec.holo.dto;
 public class BoardSearch {
 	
 	private String area;
+	private String tagJob;
 	private int board;
 	private String search_option;
 	private String keyword;
 	private Pagination pagination;
+	private Pagination_help pagination_help;
 	
 	
+	
+	
+	
+	public Pagination_help getPagination_help() {
+		return pagination_help;
+	}
+	public void setPagination_help(Pagination_help pagination_help) {
+		this.pagination_help = pagination_help;
+	}
 	public String getArea() {
 		return area;
 	}
@@ -40,4 +51,11 @@ public class BoardSearch {
 	public void setPagination(Pagination pagination) {
 		this.pagination = pagination;
 	}
+	public String getTagJob() {
+		return tagJob;
+	}
+	public void setTagJob(String tagJob) {
+		this.tagJob = tagJob;
+	}
+	
 }

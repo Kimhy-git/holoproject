@@ -111,6 +111,15 @@ public class MemberServiceImpl implements MemberService {
 			tag, cv , user_id);
 	}
 	
+	//마이페이지 팝업
+	public List<Dto_total_reply> total_reply_pop(String user_id){
+		return dao.total_reply_pop(user_id);
+	};
+
+
+	public List<Dto_total> mypage_total_list_pop(String user_id){
+		return dao.mypage_total_list_pop(user_id);
+	};
 	
 	//help_me게시글 리스트
 	@Override
@@ -258,6 +267,19 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<Dto_help_post> helpyou_search(BoardSearch search) {
+		// TODO Auto-generated method stub
+		return dao.helpyou_search(search);
+	}
+
+	@Override
+	public int helpyou_search_count(BoardSearch search) {
+		// TODO Auto-generated method stub
+		return dao.helpyou_search_count(search);
+	}
+	
 	@Override
 	public int count_helpyou() throws Exception{
 		return dao.count_helpyou();
@@ -328,6 +350,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void mypage_applier_like(String applier) {
 		dao.mypage_applier_like(applier);
+	}
+	@Override
+	public List<Dto_user> admin_user_list(Pagination pagination){
+		return dao.admin_user_list(pagination);
+	}
+	@Override
+	public int admin_user_list_count() {
+		return dao.admin_user_list_count();
 	}
 	
 	
@@ -507,9 +537,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void freeboard_write(String post_id, String board, String title,
-			String content, String user_user_id) throws Exception
+			String content, String user_user_id, String nick) throws Exception
 			{
-		dao.freeboard_write(post_id, board, title, content, user_user_id);
+		dao.freeboard_write(post_id, board, title, content, user_user_id,nick);
 	} // 게시글 작성
 	
 	@Override 
@@ -589,8 +619,8 @@ public class MemberServiceImpl implements MemberService {
 		return dao.listAll(search);
 	} // 검색하기
 	@Override
-	public int count_freeboard_search() {
-		return dao.count_freeboard_search();
+	public int count_freeboard_search(BoardSearch search) {
+		return dao.count_freeboard_search(search);
 	}
 	
 	

@@ -1,0 +1,111 @@
+@charset "EUC-KR";
+*{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight:300;
+}
+body{
+	margin: 0;
+	padding: 0 5%;
+}
+#who{
+	color: #6085b6;
+	font-weight:700;
+
+}
+
+h3{
+	font-size:23px;
+	font-weight:500;
+	margin:40px 0 30px 0;
+	text-align:center;
+}
+#cv{
+	border:1px solid #ddd;	
+	border-radius:5px;
+	background-color:rgb(225, 238, 250);
+	width:96%; height:100px;
+	text-align:left; font-size:15px;
+	outline:none;
+	resize:none;
+	margin-top: 5px;
+	padding: 2%;
+}
+h4{
+	font-size:18px;
+	font-weight:400;
+	margin-bottom:10px;
+}
+.bold{
+	font-weight:500;
+	width: 30%;
+}
+.board,.recon{
+	display:inline-block;
+	color:#656565;
+	font-weight:400;
+	text-align:left;
+	width:20%;
+	max-width: 100%;
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+}
+.atag{
+	/*margin-left:20px;
+	margin-bottom:5px;*/
+	width:100%;
+	display:flex;
+	justify-content:space-btween;
+}
+.atag a {
+	font-weight:400;
+	color:black;
+	text-decoration:none;
+	display:inline-block;
+	width:50%;
+	outline:none;
+	max-width: 100%;
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+}
+.re{
+	color:black;
+	text-decoration:none;
+	display:inline-block;
+	width:50%;
+	outline:none;
+	max-width: 100%;
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+}
+.atag a:hover{
+	text-decoration:underline;
+}
+.recon{
+	text-align:left;
+}
+.time{
+	color:#aaa;
+	font-size:14px;
+	width:30%;
+	text-align: right;
+	max-width: 100%;
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+}
+.cancel-box{
+	width:100%;
+	text-align:center;
+	padding: 50px 0px 30px 0px;
+}
+#cancel{
+	border:1px solid #ccc;	
+	border-radius:30px;
+	padding:10px 30px;
+	font-size:17px;
+	font-weight:400;
+	color:#777;
+}
