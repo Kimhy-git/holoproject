@@ -139,7 +139,15 @@ $(document)
 				});
 		},'json')
 })
-
+.on('keyup',"#min",function(){
+		str=document.getElementById("min").value;
+	if($('#min').val().length>6){
+		
+		alert("최대 999,999까지 입력할 수 있습니다.");
+		document.getElementById("min").value=str.substring(0,6);
+		return;
+	}
+})
 $(document)
 .on('click','#submit',function(){
 	console.log($.isNumeric($('#min').val()));

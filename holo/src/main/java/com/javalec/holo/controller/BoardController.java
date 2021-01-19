@@ -575,7 +575,7 @@ public class BoardController {
 		Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
-		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
+		int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
 		String comment=req.getParameter("re_comment");
 		String user_id=dto.getUser_id();
 		service.helpyou_reply_submit(comment, help_post_id, user_id);

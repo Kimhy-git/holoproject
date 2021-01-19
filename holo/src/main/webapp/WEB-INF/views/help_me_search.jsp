@@ -127,7 +127,7 @@
                     </c:forEach>                
                     </ul>
                 </div>
-            </div>  
+             
             <div class="clear"></div>
             <!-- pagination{s} -->
 			<div id="paginationBox">
@@ -148,6 +148,7 @@
 					</c:if>
 				</ul>
 			</div>
+			</div> 
 		<!-- pagination{e} -->
         </div>
         <div class="clear"></div>

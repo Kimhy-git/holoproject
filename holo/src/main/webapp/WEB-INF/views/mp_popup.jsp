@@ -32,22 +32,22 @@
     </tr>
     <tr id="like">
         <td class="bold">좋아요</td>
-        <td class="readonly">${read.likes}</td>
+        <td class="readonly">${mp_user.likes}</td>
     </tr>
     <tr>
         <td class="bold">생년월일</td>
-        <td id="readonly">${read.birth}</td>
+        <td id="readonly">${mp_user.birth}</td>
     </tr>
     <tr>
    		<td class="bold">성격 태그</td>
    		<td>
-   		<input type=hidden value="${read.tag}" id="tags">
-   		${read.tag}
+   		<input type=hidden value="${mp_user.tag}" id="tags">
+   		${mp_user.tag}
 		</td>
      </tr>
      <tr><td class="bold">자기소개</td></tr>
  </table>
- <textarea id="cv" name="cv" placeholder="100자 이하로 입력해 주세요" readonly>${read.cv}</textarea>
+ <textarea id="cv" name="cv" placeholder="100자 이하로 입력해 주세요" readonly>${mp_user.cv}</textarea>
             
  <h4>내가 쓴 글</h4>
 	<c:set var="i" value="0" />

@@ -57,16 +57,14 @@ h2{
 }
 #category a{
 	margin-right: 12px;
-	text-decoration:none;
-	color:#656565;
+	text-decoration: none;
+	color: #000;
 }
 #category a:hover{
-	color:#333;
-	font-weight:bolder;
-}
-#category a:active {
-	color:rgb(107, 156, 230);
-	font-weight:bolder;
+	text-decoration: none;
+	background: #bbb;
+	color: #fff;
+	border-radius: 3px;
 }
 #center{
 	width: 1000px;

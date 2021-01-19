@@ -305,16 +305,17 @@ public class MpController {
  	  
  	  String user_id=req.getParameter("user_id");
  	  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
- 	  
  	  model.addAttribute("user_id",user_id);
  	  model.addAttribute("post_id",help_post_id);
  	  System.out.println("유저아이디 : "+user_id+" 포스트아이디 : "+help_post_id);
  	  Dto_help_post read = service.read(help_post_id);
  	  Dto_user mp_user = service.mp_user(user_id);
+ 	  System.out.println("read and mp_user has finished");
  	  
 		 
 		  List<Dto_total_reply>total_reply = service.total_reply_pop(user_id);
-		  model.addAttribute("total_reply",total_reply);  		  
+		  model.addAttribute("total_reply",total_reply);  		
+		  System.out.println("total_reply has finished");
 		  
 		  List<Dto_total> total_list=service.mypage_total_list_pop(user_id);
 		  System.out.println("controller list: "+total_list);
@@ -325,4 +326,5 @@ public class MpController {
 
  	  return "mp_popup";
    }
+
 }

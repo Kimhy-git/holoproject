@@ -117,7 +117,14 @@
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
 	                            <span class="comments">(${list.replyCnt})</span></div>
                             </div>
-                            <p class="writer" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+	                        <form method="post" action="mp_popup" target="mp_popGo" id="mpGo${list.help_post_id}"> 
+	  	                        <input type="hidden" value="${list.help_post_id}" name="help_post_id">
+	                        	<input type=hidden value="${list.user_user_id}" name="user_id">
+	                        	<input type=hidden value="${list.nick}" name="nick">   
+	                            <p class="writer" id="mp_go${list.help_post_id}"
+	                            style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+	                            ${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+	                        </form>
                             <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
                             <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
                         </li> 
@@ -179,14 +186,16 @@ $(document)
 		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
 	}else{
-		window.location.href="<c:url value='helpme_write'/>"
+		window.location.href="<c:url value='helpyou_write'/>"
 	}
 })
 
-.on('click','#mp_go',function(){
-
-		   window.open("mp_popup","mpPop",'width=470, height=580, left=400, top=200, resizable=no');
-
+.on('click','[id^=mp_go]',function(){
+	console.log("mp_go click");
+	var n=(this.id).substr(5);
+	console.log("n: "+n);
+	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
+	$("#mpGo"+n).submit();
 })
 
 

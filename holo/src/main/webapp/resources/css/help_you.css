@@ -120,7 +120,7 @@ h2{
 }
 #content ul li span.like{
 	color:#412e74;
-	font-size:13px
+	font-size:13px;
 }
 /*#content ul li p:nth-child(2){
 	font-weight: bolder;
@@ -146,4 +146,16 @@ h2{
 	background: #bbb;
 	color: #fff;
 	border-radius: 3px;
+}
+#paginationBox{
+	width:100%;
+	text-align:center;
+}
+
+#paginationBox a{
+	margin-right:10px;
+	text-decoration:none;
+}
+#paginationBox a:hover{
+	text-decoration:underline;
 }

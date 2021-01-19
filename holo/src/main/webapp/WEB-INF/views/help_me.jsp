@@ -107,6 +107,9 @@
 	                        	<input type="hidden" value="${list.help_post_id}">
 	                            <img class="thumbnail" src="${list.img}">
 	                            
+	                            <c:if test="${list.complete==1}">
+	                            	<span>[완료]</span>
+	                            </c:if>
 	                            <span class="address">[${list.tag_area}][${list.tag_job}]</span><br>
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
 	                            <span class="comments">(${list.replyCnt})</span></div>
@@ -127,7 +130,7 @@
                     </c:forEach>                
                     </ul>
                 </div>
-            </div>  
+            
             <div class="clear"></div>
             <!-- pagination{s} -->
 			<div id="paginationBox">
@@ -148,6 +151,7 @@
 					</c:if>
 				</ul>
 			</div>
+		</div>  
 		<!-- pagination{e} -->
         </div>
 		<div class="clear"></div>  

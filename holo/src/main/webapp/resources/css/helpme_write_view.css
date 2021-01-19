@@ -55,13 +55,16 @@ h2{
 #second table tr td{
 	margin:10px;
 }
-#title span{
-	background: #ccc;
-	border-radius: 10px;
+#tags{
+	margin-bottom: 5px;
+}
+#tags span{
+	background: #ddd;
+	border-radius: 7px;
 	color: #000;
 	padding: 5px;
-	margin-left: 10px;
-	font-size: 13px;
+	font-size: 15px;
+	margin-right:10px;
 }
 #title{
     margin: 0 auto;
@@ -250,4 +253,16 @@ h2{
 }
 #clr{
 	clear:both;
+}
+.writer{
+	max-width: 500px;
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+    cursor:pointer;
+    font-weight:400; 
+    display:inline
+}
+.writer:hover{
+	text-decoration:underline;
 }
