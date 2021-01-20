@@ -60,7 +60,7 @@
 	                            <option value="충북"<c:if test="${map.area == '충북'}">selected</c:if>>충북</option>
 	                            <option value="제주"<c:if test="${map.area == '제주'}">selected</c:if>>제주</option>
                         	</select>
-                        	<select name="search_option">
+                        	<select name="search_option" id=sc>
                         		<option value="all"
 								<c:if test="${map.search_option == 'all'}">selected</c:if>
 								>전체</option>
@@ -75,11 +75,10 @@
 							    >내용</option>
 		
 						 	</select>
-                        <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
-					    <input type="submit" value="검색">
+                        <input id="scbar" name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
+					    <input id="scbtn" type="submit" value="검색">
 	                    </div>
-                    </form>
-                    
+                    </form> 
                     <div class="write" id="writing">글쓰기</div>
                 </div>
                 <div id="category">
@@ -108,7 +107,7 @@
 	                            <img class="thumbnail" src="${list.img}">
 	                            
 	                            <c:if test="${list.complete==1}">
-	                            	<span>[완료]</span>
+	                            	<span style="font-weight: bold; color:rgb(107, 156, 230);">[완료]</span>
 	                            </c:if>
 	                            <span class="address">[${list.tag_area}][${list.tag_job}]</span><br>
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>

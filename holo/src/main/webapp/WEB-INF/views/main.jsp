@@ -42,7 +42,12 @@
             </c:forEach>
             <nav id="sub_menu">
                 <a href="freeboard">자유게시판</a>  
-                <a href="mypage">마이페이지</a> 
+	            <c:if test="${login.nick==null}">
+		           <a href="#" id="mypage">마이페이지</a>
+		        </c:if>
+	            <c:if test="${login.nick!=null}">
+		           <a href="mypage" id="mypage">마이페이지</a>
+		        </c:if>
                 <a href="notice">공지사항</a>
             </nav>
         </div>
@@ -70,5 +75,13 @@ $(document)
 	}
 })
 
+.on('click','#mypage',function(){
+	var user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==""){
+		alert("로그인하세요");
+		window.location.href="<c:url value='login'/>"
+	}
+})
 </script>
 </html>

@@ -152,7 +152,7 @@ public interface IDao {
 	public int count_post_reply(String post_id);
 	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination);
+	public List<Dto_reply> select_post_reply(String post_id);
 	
 	//notice_write_view : delete posts
 	public List<Dto_post> select_post_delete(String post_id);
@@ -165,7 +165,7 @@ public interface IDao {
 	public void add_post(String title,String content, String img);
 	
 	//add comments
-	public void add_comment(String post_post_id, String re_comment, String user_user_id);
+	public void add_comment(String post_post_id, String re_comment, String user_user_id, String nick);
 	
 	//delete comments ONLY
 	public void delete_comment(String reply_id, String board, String post_post_id);
@@ -214,7 +214,7 @@ public interface IDao {
 	public List<Dto_freeboard> select_freeboard(Pagination pagination);
 	//리스트 보여주기
 
-	public List<Dto_freeboard> select_freeboard_view(int post_id);
+	public List<Dto_freeboard> select_freeboard_view(String post_id);
 	//게시글 상세 보기
 	
 	public void select_freeboard_delete(String post_id);
@@ -228,7 +228,7 @@ public interface IDao {
 			String content, String user_user_id, String nick) throws Exception;
 	//게시글 작성
 
-	public List<Dto_free_reply> select_free_reply(int post_id);
+	public List<Dto_free_reply> select_free_reply(String post_id);
 	// 댓글 보여주기
 	
 	public void add_free_comment(String post_post_id, String re_comment, String user_user_id);
@@ -245,7 +245,7 @@ public interface IDao {
 	// 대댓글 작성
 
 
-	public void free_uphit(int post_id) throws Exception; 
+	public void free_uphit(String post_id) throws Exception; 
 	// 조회수
 
 	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
@@ -267,7 +267,7 @@ public interface IDao {
 	public int checkQueestionPw2(Dto_user user);
 
 	public Dto_user getUserByUserId(String user_id);
-	public int selectCount(int post_id);
+	public int selectCount(String post_id);
 	// 댓글 갯수 세기
 	public List<Dto_freeboard> mylist(String user_user_id) throws Exception;
 	// 내가 쓴 글 조회
@@ -280,8 +280,8 @@ public interface IDao {
 	public List<Dto_freeboard> listAll(BoardSearch search);
 	//검색하기
 	public int count_freeboard_search(BoardSearch search);
+	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
 
-	
 	
 	
 	
@@ -319,4 +319,8 @@ public interface IDao {
 	
 	//post_id에 해당하는 댓글 수
 	public int count_reply(String post_id);
+	
+	public void cancel_apply(String apply_id);
+	
+	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination);
 }

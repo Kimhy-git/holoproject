@@ -380,8 +380,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception {
-		return dao.select_post_reply(post_id, pagination);
+	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
+		return dao.select_post_reply(post_id);
 	}
 
 	@Override //delete posts
@@ -407,9 +407,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	//add comments
 	@Override
-	public void add_comment(String post_post_id, String re_comment, String user_user_id) {
+	public void add_comment(String post_post_id, String re_comment, String user_user_id, String nick) {
 		System.out.println("re_comment, service : "+re_comment);
-		dao.add_comment(post_post_id, re_comment, user_user_id);
+		System.out.println("user_user_id, service : "+user_user_id);
+		dao.add_comment(post_post_id, re_comment, user_user_id,nick);
 	}
 	
 	//delete comments ONLY
@@ -527,7 +528,7 @@ public class MemberServiceImpl implements MemberService {
 		return dao.select_freeboard(pagination);
 	} //리스트 보기
 	@Override
-	public List<Dto_freeboard> select_freeboard_view(int post_id) throws Exception {
+	public List<Dto_freeboard> select_freeboard_view(String post_id) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.select_freeboard_view(post_id);
 	} // 게시글 보기
@@ -557,7 +558,7 @@ public class MemberServiceImpl implements MemberService {
 	} // 게시글 작성
 	
 	@Override 
-	public List<Dto_free_reply> select_free_reply(int post_id) throws Exception {
+	public List<Dto_free_reply> select_free_reply(String post_id) throws Exception {
 		return dao.select_free_reply(post_id);
 	} // 댓글 보여주기
 	@Override
@@ -580,7 +581,7 @@ public class MemberServiceImpl implements MemberService {
 		dao.add_free_re_comment(re_index,re_comment,re_order, re_class,groupNum,post_post_id, user_user_id);
 	} // 대댓글 작성
 	@Override
-	public void free_uphit(int post_id) throws Exception {
+	public void free_uphit(String post_id) throws Exception {
 		dao.free_uphit(post_id);
 	} // 조회수 올리기
 	public void edit_free_re_comment(String re_index, String re_comment, String re_order, String groupNum,
@@ -613,7 +614,7 @@ public class MemberServiceImpl implements MemberService {
 		return dao.getUserByUserId(user_id);
 	}
 	@Override
-	public int selectCount (int post_id) throws Exception {
+	public int selectCount (String post_id) throws Exception {
 		return dao.selectCount(post_id);
 	} // 댓글 갯수 세기
 	@Override
@@ -635,6 +636,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int count_freeboard_search(BoardSearch search) {
 		return dao.count_freeboard_search(search);
+	}
+	@Override
+	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination) {
+		
+		return dao.select_free_reply_ajax(post_id, pagination);
 	}
 	
 	
@@ -716,5 +722,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int count_reply(String post_id) {
 		return dao.count_reply(post_id);
+	}
+
+	@Override
+	public void cancel_apply(String apply_id) {
+		System.out.println("Service apply_id : "+apply_id);
+		dao.cancel_apply(apply_id);
+	}
+	
+	@Override
+	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination) {
+		return dao.select_post_reply_ajax(post_id,pagination);
 	}
 }

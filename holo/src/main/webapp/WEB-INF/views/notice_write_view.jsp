@@ -32,7 +32,12 @@
                 <a href="help_me">도움받기</a>
                 <a href="help_you">도움주기</a>
                 <a href="freeboard">자유게시판</a>
-                <a href="mypage">마이페이지</a>
+	            <c:if test="${login.nick==null}">
+		           <a href="#" id="mypage">마이페이지</a>
+		        </c:if>
+	            <c:if test="${login.nick!=null}">
+		           <a href="mypage" id="mypage">마이페이지</a>
+		        </c:if>
         </div>
     </header>
     <div class="clear"></div>
@@ -96,8 +101,14 @@
 	                	<input type=hidden value="${dto.post_id}" name="post_post_id">
 	                </c:forEach>
 	                	<input type="hidden" name="user_user_id" value="${login.user_id}">
-	                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
-	                <input type=submit class="reply_sub_btn" value="등록">
+	                	<input type="text" name="nick" value="${login.nick}">
+	                	<c:if test="${login.nick==null}">
+					         <input id="comment-input" name="re_comment" placeholder="로그인 한 회원만 입력이 가능합니다.">
+				        </c:if>
+	                	<c:if test="${login.nick!=null}">
+		                	<input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+		                	<input type=submit class="reply_sub_btn" value="등록">
+	                	</c:if>
 	                </div>
             	</form>
             </div> 
@@ -108,7 +119,7 @@
             <form action="update_comment" method=post class="comments" value="${dto_reply.re_class}">
 	            <div id="comments${dto_reply.reply_id}">
 			            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
-			            ${dto_reply.user_user_id} ${dto_reply.operator}<br>
+			            ${dto_reply.nick}  ${dto_reply.operator}<br>
 
 			            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 			            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
@@ -144,8 +155,7 @@
 			<div id="comments_add">
 				
 			</div>
-		 
-		</div>  
+ 
 		<input type="hidden" name="page" id="page" value="${page}">
 		<input type="hidden" id="range" value="${pagination.range}">
 		<a href="#" id="more">더보기</a> 
@@ -336,5 +346,13 @@ $(document)
    }
 })
 
+.on('click','#mypage',function(){
+	var user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인하세요");
+		window.location.href="<c:url value='login'/>"
+	}
+})
 </script>
 </html>

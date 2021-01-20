@@ -725,11 +725,13 @@ public class BoardController {
     	String user_user_id=req.getParameter("user_user_id");
     	String post_post_id=req.getParameter("post_post_id");
     	String re_comment=req.getParameter("re_comment");
+    	String nick=req.getParameter("nick");
     	
     	System.out.println("THIS IS user_user_id : "+user_user_id);
     	System.out.println("THIS IS post_post_id : "+post_post_id);
     	System.out.println("THIS IS re_comment : "+re_comment);
-    	service.add_comment(post_post_id, re_comment,user_user_id);
+    	System.out.println("THIS IS nick : "+nick);
+    	service.add_comment(post_post_id, re_comment,user_user_id,nick);
 //    	service.get_reply_id(re_comment);//방금 쓴 댓글의 reply_id를 가져옴
 //    	service.set_re_index//그 댓글의 re_index에 reply_id를 넣음
     	
@@ -757,7 +759,7 @@ public class BoardController {
     	//hits
     	service.uphit(post_id);
     	
-    	List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+    	List<Dto_reply> reply = service.select_post_reply(post_id);
     	List<Dto_post> notice = service.select_post_view(post_id);
     	int replyCnt = service.count_post_reply(post_id);
     	
@@ -790,7 +792,7 @@ public class BoardController {
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
 			System.out.println("json page: "+page);
-			List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+			List<Dto_reply> reply = service.select_post_reply_ajax(post_id, pagination);
 			Gson gson = new Gson();
 			String json = gson.toJson(reply);
 			
@@ -1027,17 +1029,24 @@ public class BoardController {
 	} // 자유게시판 글쓰기 페이지
     
 	@RequestMapping(value="/freeboard_write_view", method = {RequestMethod.POST,RequestMethod.GET})
-	public String freeboard_write_view(HttpServletRequest req, Model model) throws Exception{
+	public String freeboard_write_view(HttpServletRequest req, Model model, 
+			@RequestParam(required = false, defaultValue = "1") int page, 
+    		@RequestParam(required = false, defaultValue = "1") int range) throws Exception{
+			String post_id=req.getParameter("post_id");
 		
-		if(req.getParameter("post_id").equals("")) {
-			return "redirect:freeboard";
-		}
-		int post_id=Integer.parseInt(req.getParameter("post_id"));	
-		service.free_uphit(post_id);
+			int listCnt = service.selectCount(post_id);
+			Pagination pagination = new Pagination();
+	  		pagination.pageInfo(page, range, listCnt);
+	  		model.addAttribute("pagination", pagination);
+		
+	  		service.free_uphit(post_id);
 		List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
 		List<Dto_free_reply> free_reply = service.select_free_reply(post_id);
+		int replyCnt = service.selectCount(post_id);
 		model.addAttribute("freeboard",freeboard);
         model.addAttribute("free_reply", free_reply);
+        model.addAttribute("page",0);
+        model.addAttribute("replyCnt",replyCnt);
         
 		  Dto_login dto = new Dto_login();
 			 
@@ -1046,6 +1055,37 @@ public class BoardController {
     	
 		return "freeboard_write_view";
 	} //게시글 + 댓글 보기
+	
+	@RequestMapping(value = "freeboard_write_view_reply", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+    public @ResponseBody String freeboard_write_view_reply(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+			
+    		System.out.println("댓글 페이징");
+    	
+    		//전체 댓글 수
+    		String post_id=req.getParameter("post_id");
+    		System.out.println("this is post_id : " +post_id);
+			int listCnt = service.selectCount(post_id);
+			System.out.println("json listCnt: "+listCnt);
+			
+			//Pagination 객제 생성
+			Pagination pagination = new Pagination();
+			pagination.pageInfo(page, range, listCnt);
+			System.out.println("json page: "+page);
+			List<Dto_free_reply> reply = service.select_free_reply_ajax(post_id, pagination);
+			Gson gson = new Gson();
+			String json = gson.toJson(reply);
+			System.out.println("댓글 페이징 완료");
+			
+			System.out.println("freeboard_write_view_reply, json : "+json);
+			return json;
+	}
+
+
+
+
+
 	
 	  @RequestMapping(value = "/freeboard_write_delete", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String freeboard_write_delete(HttpServletRequest req, Model model) throws Exception{
@@ -1156,7 +1196,6 @@ public class BoardController {
 	 
 	    @RequestMapping(value = "update_free_comment_now", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String update_free_comment_now(HttpServletRequest req, Model model) throws Exception{
-	    	
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
