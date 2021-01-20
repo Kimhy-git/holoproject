@@ -365,9 +365,11 @@
 	</insert>
 
 	
-	<!-- mypage help_complete -->
+	<!-- mypage help_complete 완료시 apply choose는 2, 채택된 choose는 1 -->
 	<update id="help_complete">
-		update help_post set complete=1 where help_post_id=#{help_post_id};
+		update apply,help_post set apply.choose=2,help_post.complete=1
+		where apply.help_post_help_post_id=help_post.help_post_id
+		and help_post.help_post_id=#{help_post_id};
 	</update>
 	<!-- mypage post list -->
 	<select id="mypage_post_list" resultType="dto_my_total">

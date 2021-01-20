@@ -87,7 +87,7 @@ color:#9660b6;
 							<input class="btn last" type="button" value="채택하기" id="choosebtn${list.help_post_help_post_id}" data-n="${list.apply_id}">
 						</c:if>
 						<c:if test="${list.complete==1}">
-							<c:if test="${list.choose==0}">
+							<c:if test="${list.choose==2}">
 							<input class="btn last choose0" type="button" value="채택완료">
 							</c:if>
 							<c:if test="${list.choose==1}">
