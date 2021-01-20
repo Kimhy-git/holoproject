@@ -24,12 +24,7 @@ h2{
 	width: 1000px;
 	margin: 0 auto;
 }
-#search{
-	padding: 10px 0 10px 0;
-	width: 370px;
-	float: left;
-	margin-left: 220px;
-}
+
 .write{
 	float: right;
 }
@@ -99,6 +94,7 @@ h2{
 #form-commentInfo, #btn, #comments{
 	width:300px;
 	padding-bottom:5px;
+
 }
 #comment-count, #comment-input, #submit,
 #remove, #edit, #list{
@@ -184,6 +180,7 @@ h2{
 	clear:both;
 	padding-bottom:15px;
 	border-bottom:1px solid #eaeaea;
+	margin-top:10px;
 }
 
 .reply_user{

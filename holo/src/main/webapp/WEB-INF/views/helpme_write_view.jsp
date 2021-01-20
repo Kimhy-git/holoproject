@@ -76,7 +76,7 @@
 		
 						 	</select>
                         <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
-					    <input type="submit" value="검색">
+					    <input type="submit" id="scbtn" value="검색">
 	                    </div>
                     </form>
        <a href="helpme_write" class="write">글쓰기</a>
@@ -98,7 +98,7 @@
                         <form method="post" action="mp_popup" target="mp_popGo" id="mpGo${read.help_post_id}"> 
   	                        <input type="hidden" value="${read.help_post_id}" name="help_post_id">
                         	<input type=hidden value="${read.user_user_id}" name="user_id">
-                        	<input type=hidden value="${read.nick}" name="nick">   
+                        	<input type=hidden value="${read.nick}" name="nick" id="who">   
                             <p class="writer" id="mp_go${read.help_post_id}" >
                             ${read.nick} <span class="like" style="color:#412e74; font-size:13px;"> ♥ ${read.likes}</span></p>
                         </form>
@@ -107,7 +107,7 @@
                     <input type="hidden" id="title_par" value="${read.title}">
             </div>
 			<c:if test="${read.complete==0}">
-						<input type="button" id="sub_btn"  value="요청하기">
+						<input type="button" id="sub_btn"  value="지원하기">
 	        </c:if>
             <div id="second">
 	           	<table>
@@ -160,19 +160,22 @@
 
           <form method="post" action="mp_popup" target="mp_popGoGo" id="mpGol${list.help_reply_id}">
           		
-          	<div class=comments value="${list.re_class}">
+          	<div class="comments" value="${list.re_class}">
           	<input type="hidden" class="re_class" value="${list.re_class}">	     
-            <div id="comments${list.help_reply_id}" >
+            <div id="comments${list.help_reply_id}" class="commentsbox">
                <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 	           
               	  <input type=hidden value="${list.user_user_id}" name="user_id">
-              	  <input type=hidden value="${list.nick}" name="nick">   
+              	  <input type=hidden id="whoru${list.help_reply_id}" value="${list.nick}" name="nick">   
                   <p class="writer" id="mp_popGo${list.help_reply_id}">
                   ${list.nick}</p>
 	           <p class="reply_comment">${list.re_comment}</p>
 	           <p class="reply_date">${list.operator}</p>
 	           <input type=hidden value="${read.help_post_id}" name="help_post_id">
-	           
+	      </form>
+	      <form method="post">
+	      	<input type=hidden value="${read.help_post_id}" name="help_post_post_id">
+	        <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">  
 	        <c:if test="${login.user_id==list.user_user_id || login.user_id=='admin'}">
 	           <input type=submit class="re_remove" value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
 	           <input type=button class="re_edit" id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
@@ -195,13 +198,13 @@
 				      <input type="hidden" name="re_class" value="${list.re_class}">
 				      <input type="hidden" name="groupNum" value="${list.groupNum}">
 				      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
-                      <input type=text class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요."> 
-                      <input type=submit class="re_re_submit"value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
+                      <input type=text id="re_re_comment${list.help_reply_id}" class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요."> 
+                      <input type=submit class="re_re_submit" id="re_re_submit${list.help_reply_id}"value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
                    </div>
                    <div id="clr"></div>
         	</div>
-           
-          </form>
+            </form>
+         
 		</c:forEach>
 
 	         <div id="btn">
@@ -262,14 +265,16 @@ $(document)
 		   
 	   
 })
-.on('click','.re_re_submit',function(){
-	   if($('.re_re_comment').val()==''){
+.on('click','[id^=re_re_submit]',function(){
+	var n=(this.id).substr(12); 
+	   if($('#re_re_comment'+n).val()==''){
 			alert("내용을 입력하세요.");
 			return false;
 	   }
 })
-.on('click','.edit-go',function(){
-		if($('.edit-input').val()==''){
+.on('click','[id^=edit-go]',function(){
+	var n=(this.id).substr(7); 
+		if($('#edit-input'+n).val()==''){
 			alert("내용을 입력하세요.");
 			return false;
 	   }
@@ -290,12 +295,16 @@ $(document)
 	   }else{
 		   var n=(this.id).substr(11); 
 		   console.log($('#reply_again_textarea'+n).css("display"));
+		   console.log($('#who').val()+"그리고..?"+$('#whoru'+n).val());
+		   
 		   if($('#reply_again_textarea'+n).css("display")=="none"){
-		         $('#reply_again_textarea'+n).show();
-		         $('#re_edit_txt'+n).hide();
-		         //$('.reply_again_txt').hide()
-			     //$('.re_edit_txt').hide()
-			     $('#reply_again_textarea'+n).show()
+			   $('.reply_again_txt').hide(); 
+			   $('.re_edit_txt').hide();
+			   $('.commentsbox').show();
+			   $('#re_edit_txt'+n).hide();
+			   $('#re_re_comment'+n).val("@"+$('#whoru'+n).val()+" ");
+			   $('#reply_again_textarea'+n).show();
+			   
 		   }else{
 		      $('#reply_again_textarea'+n).hide();
 		   } 
@@ -308,12 +317,12 @@ $(document)
    var n=(this.id).substr(7); 
    console.log($('#re_edit_txt'+n).css("display"));
    if($('#re_edit_txt'+n).css("display")=="none"){
-       $('#comments'+n).hide()
+	   $('.reply_again_txt').hide(); 
+	   $('.re_edit_txt').hide();
+	   $('.commentsbox').show();       
+	   $('#comments'+n).hide()
 	   $('#re_edit_txt'+n).show();
        $('#reply_again_textarea'+n).hide();
-   }else{
-	  $('#comments'+n).show()
-      $('#re_edit_txt'+n).hide();
    }
 })
 
@@ -325,9 +334,6 @@ $(document)
        $('#comments'+n).show()
 	   $('#re_edit_txt'+n).hide();
          
-   }else{
-	  $('#comments'+n).hide()
-      $('#re_edit_txt'+n).show();
    }
 })  
 .on('click','[id^=mp_go]',function(){

@@ -90,7 +90,6 @@
     </c:if>
     	
     	<div class="atag"> 
-	    <span class="recon">${read.nick}</span>
        	<span class="re">${item.re_comment}</span>
 	    <span class="time">${item.operator}</span>
     	</div>

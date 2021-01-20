@@ -165,8 +165,8 @@
                <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 	           
 	            <input type=hidden value="${list.user_user_id}" name="user_id">
-              	<input type=hidden value="${list.nick}" name="nick">   
-                <p class="writer" id="mp_popGo${list.help_reply_id}">
+              	<input type=hidden value="${list.nick}" name="nick" id="who">   
+                <p class="writer" id="mp_popGo${list.help_reply_id}" >
                   ${list.nick}</p>
 	           <p class="reply_comment">${list.re_comment}</p>
 	           <p class="reply_date">${list.operator}</p>
