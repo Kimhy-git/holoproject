@@ -155,8 +155,7 @@
 			<div id="comments_add">
 				
 			</div>
-		 
-		</div>  
+ 
 		<input type="hidden" name="page" id="page" value="${page}">
 		<input type="hidden" id="range" value="${pagination.range}">
 		<a href="#" id="more">더보기</a> 

@@ -68,7 +68,8 @@ section{
 						<span class="date">${item.operator}</span>
 						<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
 						<input type="hidden" id="help_post_id" value="${item.help_post_help_post_id}">
-						<input type="text" id="apply_id" value="${item.apply_id}">
+						<input type="hidden" id="apply_id" value="${item.apply_id}">
+						<input type="hidden" id="choose" value="${item.choose}">
 						</div>
 						<div class="nick">
 							<span class="info02">
@@ -168,10 +169,15 @@ $(document)
 	}
 })
 .on('click','#cancel_apply',function(){
-	var answer=confirm("지원 취소하시겠습니까?");
-	if(answer){
-		var apply_id=$("#apply_id").val();
-		window.location.href="<c:url value='cancel_apply'/>?apply_id="+apply_id;
+	var choose=$('#choose').val();
+	if(choose==0){
+		var answer=confirm("지원 취소하시겠습니까?");
+		if(answer){
+			var apply_id=$("#apply_id").val();
+			window.location.href="<c:url value='cancel_apply'/>?apply_id="+apply_id;
+		}
+	}else{
+		alert("이미 채택된 게시글은 지원 취소가 불가능합니다");
 	}
 })
 
