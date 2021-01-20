@@ -67,7 +67,8 @@ footer p{
 }
 #search{
 	padding: 10px 0 10px 0;
-	width: 80%;
+	margin:0 !important;
+	width: 80% !important;
 	float: left;
 	text-align: center;
 }
@@ -93,7 +94,7 @@ footer p{
 h1{
 	padding:20px;
 	font-size:20pt;
-	color : red;	
+	color : #8a0000;	
 }
 #search select, #search input{
 	border:1px solid #ccc;
@@ -102,6 +103,7 @@ h1{
 #area{
 	border-radius:10px 0 0 10px;
 }
+
 #scbtn{
 	border-radius:0 10px 10px 0;
 	width:55px;

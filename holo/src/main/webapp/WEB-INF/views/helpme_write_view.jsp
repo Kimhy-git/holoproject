@@ -149,7 +149,7 @@
 	             <div id=cc>
 	             	 <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
 	             	 <input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
-		             <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+		             <textarea id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>
 		             <input type=submit id="submit" value="등록">
 		         </div> 
 		     </form>    
@@ -185,7 +185,7 @@
            
            
            <div class="re_edit_txt" id="re_edit_txt${list.help_reply_id}" style="display:none">
-	           <input class="edit-input" id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
+	           <textarea class="edit-input" id="edit-input${list.help_reply_id}" name="re_comment_edit" placeholder="댓글을 입력해 주세요." style="resize:none">${list.re_comment}</textarea>
            	   <input type=submit class="edit-go" id="edit_go${list.help_reply_id}" value="수정">
            	   <input type=button class="edit-cancel" id="edit_cancel${list.help_reply_id}" value="취소">
            </div>
@@ -198,7 +198,7 @@
 				      <input type="hidden" name="re_class" value="${list.re_class}">
 				      <input type="hidden" name="groupNum" value="${list.groupNum}">
 				      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
-                      <input type=text id="re_re_comment${list.help_reply_id}" class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요."> 
+                      <textarea id="re_re_comment${list.help_reply_id}" class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>
                       <input type=submit class="re_re_submit" id="re_re_submit${list.help_reply_id}"value="등록" onclick="javascript: form.action='helpme_re_recomment_submit';"/> 
                    </div>
                    <div id="clr"></div>
@@ -262,9 +262,36 @@ $(document)
 			alert("내용을 입력하세요.");
 			return false;
 	   }
-		   
+	     
 	   
 })
+.on('keyup','#comment-input',function(){
+	str=document.getElementById("comment-input").value;
+	if($('#comment-input').val().length>500){
+		alert("최대 500자까지 입력할 수 있습니다.");
+		document.getElementById("comment-input").value=str.substring(0,500);
+		return;
+   }
+})
+.on('keyup','[id^=edit-input]',function(){
+	var n=(this.id).substr(10);
+	str=document.getElementById("edit-input"+n).value;
+	if($('#edit-input'+n).val().length>500){
+		alert("최대 500자까지 입력할 수 있습니다.");
+		document.getElementById("edit-input"+n).value=str.substring(0,500);
+		return;
+   }
+})
+.on('keyup','[id^=re_re_comment]',function(){
+	var n=(this.id).substr(13);
+	str=document.getElementById("re_re_comment"+n).value;
+	if($('#re_re_comment'+n).val().length>500){
+		alert("최대 500자까지 입력할 수 있습니다.");
+		document.getElementById("re_re_comment"+n).value=str.substring(0,500);
+		return;
+   }
+})
+
 .on('click','[id^=re_re_submit]',function(){
 	var n=(this.id).substr(12); 
 	   if($('#re_re_comment'+n).val()==''){
@@ -294,8 +321,7 @@ $(document)
 			window.location.href="<c:url value='login'/>"
 	   }else{
 		   var n=(this.id).substr(11); 
-		   console.log($('#reply_again_textarea'+n).css("display"));
-		   console.log($('#who').val()+"그리고..?"+$('#whoru'+n).val());
+
 		   
 		   if($('#reply_again_textarea'+n).css("display")=="none"){
 			   $('.reply_again_txt').hide(); 
@@ -315,7 +341,7 @@ $(document)
 
 .on('click','input[id^=re_edit]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(7); 
-   console.log($('#re_edit_txt'+n).css("display"));
+
    if($('#re_edit_txt'+n).css("display")=="none"){
 	   $('.reply_again_txt').hide(); 
 	   $('.re_edit_txt').hide();

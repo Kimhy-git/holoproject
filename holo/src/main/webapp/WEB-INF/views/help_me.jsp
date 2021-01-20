@@ -107,7 +107,7 @@
 	                            <img class="thumbnail" src="${list.img}">
 	                            
 	                            <c:if test="${list.complete==1}">
-	                            	<span>[완료]</span>
+	                            	<span style="font-weight: bold; color:rgb(107, 156, 230);">[완료]</span>
 	                            </c:if>
 	                            <span class="address">[${list.tag_area}][${list.tag_job}]</span><br>
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
