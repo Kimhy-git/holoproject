@@ -152,6 +152,7 @@ public interface IDao {
 	public int count_post_reply(String post_id);
 	
 	//notice_write_view : comments
+	public List<Dto_reply> select_post_reply(String post_id);
 	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination);
 	
 	//notice_write_view : delete posts
@@ -165,7 +166,7 @@ public interface IDao {
 	public void add_post(String title,String content, String img);
 	
 	//add comments
-	public void add_comment(String post_post_id, String re_comment, String user_user_id);
+	public void add_comment(String post_post_id, String re_comment, String user_user_id, String nick);
 	
 	//delete comments ONLY
 	public void delete_comment(String reply_id, String board, String post_post_id);
@@ -319,4 +320,7 @@ public interface IDao {
 	
 	//post_id에 해당하는 댓글 수
 	public int count_reply(String post_id);
+	
+	//apply_cancel
+	public void cancel_apply(String apply_id);
 }

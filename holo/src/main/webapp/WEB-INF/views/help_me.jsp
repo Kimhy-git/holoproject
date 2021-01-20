@@ -29,7 +29,12 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <c:if test="${login.nick==null}">
+	           <a href="#" id="mypage">마이페이지</a>
+	        </c:if>
+            <c:if test="${login.nick!=null}">
+	           <a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
         </div>
     </header>
     <div class="clear"></div>

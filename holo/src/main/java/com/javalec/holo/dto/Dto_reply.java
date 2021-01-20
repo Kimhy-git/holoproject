@@ -11,6 +11,7 @@ public class Dto_reply {
 	private String groupNum;
 	private String post_post_id;
 	private String user_user_id;
+	private String nick;
 	
 	public Dto_reply() {}
 	
@@ -49,7 +50,7 @@ public class Dto_reply {
 	}
 	
 	public Dto_reply(String reply_id, String board, String operator, String re_index, String re_comment,
-			String re_class, String re_order, String groupNum, String post_post_id, String user_user_id) {
+			String re_class, String re_order, String groupNum, String post_post_id, String user_user_id, String nick) {
 		super();
 		this.reply_id = reply_id;
 		this.board = board;
@@ -61,6 +62,7 @@ public class Dto_reply {
 		this.groupNum = groupNum;
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
+		this.nick = nick;
 	}
 
 	public void setRe_order(String re_order) {
@@ -127,4 +129,13 @@ public class Dto_reply {
 	public void setPost_post_id(String post_post_id) {
 		this.post_post_id = post_post_id;
 	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+	
 }

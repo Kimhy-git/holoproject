@@ -30,7 +30,12 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <c:if test="${login.nick==null}">
+	           <a href="#" id="mypage">마이페이지</a>
+	        </c:if>
+            <c:if test="${login.nick!=null}">
+	           <a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
         </div>
     </header>
     <div class="clear"></div>
@@ -65,4 +70,15 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+$(document)
+.on('click','#mypage',function(){
+	var user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인하세요");
+		window.location.href="<c:url value='login'/>"
+	}
+})
 </html>

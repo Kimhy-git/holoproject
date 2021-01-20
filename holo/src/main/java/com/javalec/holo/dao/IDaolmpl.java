@@ -381,11 +381,17 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override //notice_write_view : comments
+	public List<Dto_reply> select_post_reply(String post_id) {
+		String post_post_id=post_id;
+		return sqlSession.selectList(Namespace+".select_post_reply",post_post_id);
+	}
+	
+	@Override
 	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) {
 		HashMap<Object,Object> dto = new HashMap<Object,Object>();
 		dto.put("post_post_id", post_id);
 		dto.put("pagination", pagination);
-		return sqlSession.selectList(Namespace+".select_post_reply",dto);
+		return sqlSession.selectList(Namespace+".select_post_reply_ajax",dto);
 	}
 
 	@Override //delete posts
@@ -408,12 +414,14 @@ public class IDaolmpl implements IDao {
 
 	//add comments
 	@Override
-	public void add_comment(String post_post_id, String re_comment, String user_user_id) {
+	public void add_comment(String post_post_id, String re_comment, String user_user_id, String nick) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("post_post_id", post_post_id);
 		map.put("re_comment",re_comment);
 		map.put("user_user_id",user_user_id);
+		map.put("nick",nick);
 		System.out.println("Idao, re_comment : "+re_comment);
+		System.out.println("Idao, user_user_id : "+user_user_id);
 		sqlSession.insert(Namespace+".add_comment",map);
 	}
 	
@@ -749,5 +757,12 @@ public class IDaolmpl implements IDao {
 			@Override
 			public int count_reply(String post_id) {
 				return sqlSession.selectOne(Namespace+".count_reply",post_id);
+			}
+
+			//apply_cancel
+			@Override
+			public void cancel_apply(String apply_id) {
+				System.out.println("IDao apply_id : "+apply_id);
+				sqlSession.selectOne(Namespace+".cancel_apply",apply_id);
 			}
 }

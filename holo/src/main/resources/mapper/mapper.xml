@@ -52,7 +52,10 @@
 	<delete id="user_del4" parameterType="String">
 		delete from reply where user_user_id=#{user_id} 
 	</delete>
-	
+	<!-- counting -->
+    <select id="count_helpme" resultType="int">
+    	select count(*) from help_post where board=1
+    </select>
 	
 	<!-- mypage user_info (유저 리스트) -->
     <select id="mp_user" resultType="dto_user">
@@ -430,8 +433,8 @@
     
     <!-- notice_write_view : add comments --> 
     <select id="add_comment" parameterType="hashmap"> 
-    	insert into reply(board,re_comment,post_post_id,user_user_id)
-		values(3,#{re_comment},#{post_post_id},#{user_user_id});	
+    	insert into reply(board,re_comment,post_post_id,user_user_id,nick)
+		values(3,#{re_comment},#{post_post_id},#{user_user_id},#{nick});	
     </select>
     
  	<!-- notice_write_view : add re_comments -->
@@ -457,6 +460,14 @@
     
     <!-- notice_write_view : comment -->
     <select id="select_post_reply" resultType="dto_reply"> 
+		SELECT * FROM reply
+		where board=3 and post_post_id=#{post_post_id}
+		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
+		limit 0,5
+    </select>
+    
+    <!-- notice_write_view : comment -->
+    <select id="select_post_reply_ajax" resultType="dto_reply"> 
 		SELECT * FROM reply
 		where board=3 and post_post_id=#{post_post_id}
 		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
@@ -704,15 +715,16 @@
 
     <!-- helpme에 지원하기 -->
     <select id="add_apply_me" resultType="dto_apply">
-    	insert into apply(helpme_id, tag, cv, help_post_help_post_id, board, gender, applier, price, nick, title)
-		values(#{helpme_id}, #{tag}, #{cv}, #{help_post_help_post_id}, 1, 
-		#{gender}, #{applier}, #{price}, #{nick}, #{title})
+    	insert into apply(helpme_id, tag, cv, board, gender, applier, price, help_post_help_post_id, nick, title)
+		values(#{helpme_id}, #{tag}, #{cv}, 1, 
+		#{gender}, #{applier}, #{price}, #{help_post_help_post_id}, #{nick}, #{title})
     </select>
     
     <!-- helpme에 지원하기 -->
     <select id="add_apply_you" resultType="dto_apply">
-    	insert into apply(helpyou_id, tag, cv, help_post_help_post_id, board, gender, applier, price)
-		values(#{helpyou_id}, #{tag}, #{cv}, #{board}, #{help_post_help_post_id}, #{gender}, #{applier}, #{price})
+    	insert into apply(helpyou_id, tag, cv, board, gender, applier, price, help_post_help_post_id, nick, title)
+		values(#{helpme_id}, #{tag}, #{cv}, 0, 
+		#{gender}, #{applier}, #{price}, #{help_post_help_post_id}, #{nick}, #{title})
     </select>
     
     <!-- apply_you 게시물 수 -->
@@ -772,4 +784,9 @@
     <select id="count_reply" resultType="int">
     	select count(*) from reply where post_post_id=#{post_id}
     </select>
+    
+    <!-- apply_cacel(delete) -->
+    <delete id="cancel_apply" parameterType="String">
+    	delete from apply where apply_id=#{apply_id}
+    </delete>
 </mapper>

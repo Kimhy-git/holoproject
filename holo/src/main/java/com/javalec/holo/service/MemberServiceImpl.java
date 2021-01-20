@@ -380,8 +380,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id, Pagination pagination) throws Exception {
-		return dao.select_post_reply(post_id, pagination);
+	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
+		return dao.select_post_reply(post_id);
+	}
+	
+	@Override
+	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination) {
+		return dao.select_post_reply(post_id,pagination);
 	}
 
 	@Override //delete posts
@@ -407,9 +412,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	//add comments
 	@Override
-	public void add_comment(String post_post_id, String re_comment, String user_user_id) {
+	public void add_comment(String post_post_id, String re_comment, String user_user_id, String nick) {
 		System.out.println("re_comment, service : "+re_comment);
-		dao.add_comment(post_post_id, re_comment, user_user_id);
+		System.out.println("user_user_id, service : "+user_user_id);
+		dao.add_comment(post_post_id, re_comment, user_user_id,nick);
 	}
 	
 	//delete comments ONLY
@@ -513,6 +519,14 @@ public class MemberServiceImpl implements MemberService {
 	public List<Dto_post> list_notice(BoardSearch search) {
 		return dao.list_notice(search);
 	}	
+	
+	@Override
+	public void cancel_apply(String apply_id) {
+		System.out.println("Service apply_id : "+apply_id);
+		dao.cancel_apply(apply_id);
+	}
+	
+	
 	
 	
 	

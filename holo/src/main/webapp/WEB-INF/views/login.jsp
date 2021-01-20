@@ -24,7 +24,6 @@
                 <a href="help_me">도움받기</a>
                 <a href="help_you">도움주기</a>
                 <a href="freeboard">자유게시판</a>
-                <a href="mypage">마이페이지</a>
             </div>
     </header>
     <section>

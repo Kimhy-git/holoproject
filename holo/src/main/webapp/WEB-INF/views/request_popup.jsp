@@ -84,7 +84,7 @@ div{
 				<input type="hidden" name="helpyou_id" value="${helpyou_id}">
 				<input type="hidden" name="help_post_help_post_id" value="${help_post_help_post_id}">
 				<input type="hidden" name="nick" value="${login.nick}">
-				<input type="hidden" name="title" value="${title}">
+				<input type="text" name="title" value="${title}">
 			</tr>
 			<tr>
 				<td class="bold">이름 </td>

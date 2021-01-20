@@ -189,6 +189,8 @@ public class MpController {
         	model.addAttribute("help_post_help_post_id",help_post_help_post_id);
         	model.addAttribute("helpyou_id",helpyou_id);
         	model.addAttribute("title",title);
+        	
+        	System.out.println("request_popup, title : "+title);
 
     		
     		Dto_login dto = new Dto_login();
@@ -216,7 +218,7 @@ public class MpController {
     			+" / "+helpyou_id+" / "+help_post_help_post_id+" / "+nick+" / "+title);
     	service.add_apply_you(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price,nick,title);
     	 
-    	return "main";
+    	return "done";
     }
  
     
@@ -262,7 +264,7 @@ public class MpController {
   			+" / "+helpme_id+" / "+help_post_help_post_id+" / "+nick+" / "+title);
   	service.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price,nick,title);
   	 
-      return "main";
+      return "done";
    }
    
    @RequestMapping(value = "/leave", method = RequestMethod.POST)
@@ -325,6 +327,21 @@ public class MpController {
  	  model.addAttribute("mp_user", mp_user);
 
  	  return "mp_popup";
+   }
+   
+   @RequestMapping(value = "cancel_apply", method = {RequestMethod.POST,RequestMethod.GET})
+   public String cancel_apply(HttpServletRequest req) throws Exception {
+   	
+   	  	  String apply_id=req.getParameter("apply_id");
+	 	  System.out.println("cancel_apply : "+apply_id);
+	 	  service.cancel_apply(apply_id);
+	 	  
+	 	  Dto_login dto = new Dto_login();
+	 	  HttpSession session = req.getSession();
+	 	  dto=(Dto_login)session.getAttribute("login");
+			
+	 	  System.out.println("cancel apply has finished");
+	 	 return "redirect:mypage_apply";
    }
 
 }

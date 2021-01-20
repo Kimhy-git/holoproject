@@ -65,14 +65,14 @@ section{
 					<div class="info">
 						<div class="title">
 						<p id="apply_title">${item.title}</p>
+						<span class="date">${item.operator}</span>
 						<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
-						<input type="hidden" id="helpyou_id" value="${item.help_post_help_post_id}">
-							<span class="date">${item.operator}</span>
+						<input type="hidden" id="help_post_id" value="${item.help_post_help_post_id}">
+						<input type="text" id="apply_id" value="${item.apply_id}">
 						</div>
 						<div class="nick">
 							<span class="info02">
-								<a href="#" class="info_nick">지원목록</a> | 
-								<span class="info_gender">${item.gender}</span> | 
+								<a href="#" class="info_nick">${item.nick}</a>  
 								♥ <span class="info_like">0</span>
 							</span>
 							<span class="ptag">
@@ -85,7 +85,7 @@ section{
 					</div>
 					<div class="btns">
 						<input class="btn" type="button" value="채팅하기"><br>
-						<input class="btn last" type="button" value="취소하기">
+						<input id="cancel_apply" class="btn last" type="button" value="취소하기">
 					</div>
 				</div>
 			</c:forEach>
@@ -122,7 +122,7 @@ section{
 function fn_prev(page, range, rangeSize) {
 		var page = ((range - 2) * rangeSize) + 1;
 		var range = range - 1;
-		var url = "${pageContext.request.contextPath}/mypage";
+		var url = "${pageContext.request.contextPath}/mypage_apply";
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
@@ -132,7 +132,7 @@ function fn_prev(page, range, rangeSize) {
 //페이지 번호 클릭
 
 	function fn_pagination(page, range, rangeSize, searchType, keyword) {
-		var url = "${pageContext.request.contextPath}/mypage";
+		var url = "${pageContext.request.contextPath}/mypage_apply";
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
 		location.href = url;	
@@ -143,7 +143,7 @@ function fn_prev(page, range, rangeSize) {
 	function fn_next(page, range, rangeSize) {
 		var page = parseInt((range * rangeSize)) + 1;
 		var range = parseInt(range) + 1;
-		var url = "${pageContext.request.contextPath}/mypage";
+		var url = "${pageContext.request.contextPath}/mypage_apply";
 
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
@@ -155,14 +155,25 @@ function fn_prev(page, range, rangeSize) {
 $(document)
 .on('click','#apply_title',function(){
 	var helpyou_id=$('#helpyou_id').val();
-	var post_id=$('#help_post_help_post_id').val();
-	if(helpyou_id==null){
+	console.log(helpyou_id);
+	var post_id=$('#help_post_id').val();
+	if(helpyou_id==null || helpyou_id==""){
 		var url = "http://localhost:8080/holo/helpme_write_view?help_post_id="+post_id;    
 		$(location).attr('href',url);
+		console.log(url);
 	}else{
 		var url = "http://localhost:8080/holo/helpyou_write_view?help_post_id="+post_id;    
 		$(location).attr('href',url);
+		console.log(url);
 	}
 })
+.on('click','#cancel_apply',function(){
+	var answer=confirm("지원 취소하시겠습니까?");
+	if(answer){
+		var apply_id=$("#apply_id").val();
+		window.location.href="<c:url value='cancel_apply'/>?apply_id="+apply_id;
+	}
+})
+
 </script>
 </html>

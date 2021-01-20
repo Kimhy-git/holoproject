@@ -1,6 +1,4 @@
 package com.javalec.holo.controller;
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -724,11 +722,13 @@ public class BoardController {
     	String user_user_id=req.getParameter("user_user_id");
     	String post_post_id=req.getParameter("post_post_id");
     	String re_comment=req.getParameter("re_comment");
+    	String nick=req.getParameter("nick");
     	
     	System.out.println("THIS IS user_user_id : "+user_user_id);
     	System.out.println("THIS IS post_post_id : "+post_post_id);
     	System.out.println("THIS IS re_comment : "+re_comment);
-    	service.add_comment(post_post_id, re_comment,user_user_id);
+    	System.out.println("THIS IS nick : "+nick);
+    	service.add_comment(post_post_id, re_comment,user_user_id,nick);
 //    	service.get_reply_id(re_comment);//방금 쓴 댓글의 reply_id를 가져옴
 //    	service.set_re_index//그 댓글의 re_index에 reply_id를 넣음
     	
@@ -756,7 +756,7 @@ public class BoardController {
     	//hits
     	service.uphit(post_id);
     	
-    	List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+    	List<Dto_reply> reply = service.select_post_reply(post_id);
     	List<Dto_post> notice = service.select_post_view(post_id);
     	int replyCnt = service.count_post_reply(post_id);
     	
@@ -789,9 +789,10 @@ public class BoardController {
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
 			System.out.println("json page: "+page);
-			List<Dto_reply> reply = service.select_post_reply(post_id, pagination);
+			List<Dto_reply> reply = service.select_post_reply_ajax(post_id, pagination);
 			Gson gson = new Gson();
 			String json = gson.toJson(reply);
+			System.out.println("댓글 페이징 완료");
 			
 			return json;
 	}
