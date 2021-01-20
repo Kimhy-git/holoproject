@@ -508,8 +508,9 @@ public class BoardController {
 		  }
 		if(read.getImg()!=null) {
 			String image=read.getImg();
-			read.setImg("http://localhost:8080/holo/img/"+image);
+			read.setImg("holoimg/img/"+image);
 		}
+		System.out.println("boardcontroller nick: "+read.getlikes());
 		List<Dto_help_reply> reply_list=service.helpyou_reply_list(help_post_id);
 		model.addAttribute("read",read);
 		model.addAttribute("reply",reply_list);
@@ -606,7 +607,7 @@ public class BoardController {
 		String comment=req.getParameter("re_re_comment");		
 		String user_id=dto.getUser_id();
 		int re_index=Integer.parseInt(req.getParameter("re_index"));
-		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum);
+		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum+"user_id: "+user_id);
 		service.helpyou_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
 		System.out.println("end re_recomment");
 		return "redirect:helpyou_write_view?help_post_id="+help_post_id;

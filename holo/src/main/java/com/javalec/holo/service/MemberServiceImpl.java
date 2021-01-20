@@ -129,7 +129,7 @@ public class MemberServiceImpl implements MemberService {
 				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
-				list.get(i).setImg("http://3.140.161.238:8080//holo/img/"+image);
+				list.get(i).setImg("holoimg/img/"+image);
 			}
 		}
 		return list;
@@ -230,7 +230,7 @@ public class MemberServiceImpl implements MemberService {
 				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
-				list.get(i).setImg("http://3.140.161.238:8080//holo/img/"+image);
+				list.get(i).setImg("holoimg/img/"+image);
 			}
 		}
 		return list;
@@ -261,7 +261,7 @@ public class MemberServiceImpl implements MemberService {
 				list.get(i).setImg("resources/img/default_img.png");
 			}else {
 				String image=list.get(i).getImg();
-				list.get(i).setImg("http://3.140.161.238:8080/holo/img/"+image);
+				list.get(i).setImg("holoimg/img/"+image);
 			}
 		}
 		return list;

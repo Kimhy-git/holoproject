@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움주기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -340,6 +340,15 @@ $(document)
       $('#re_edit_txt'+n).show();
    }
 })
+
+.on('click','[id^=mp_go]',function(){
+	console.log("mp_go click");
+	var n=(this.id).substr(5);
+	console.log("n: "+n);
+	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
+	$("#mpGo"+n).submit();
+})
+
 $('[id^=mp_popGo]').click(function () {
 	console.log("mp_popgo click");
 	var n=(this.id).substr(8);
@@ -348,6 +357,8 @@ $('[id^=mp_popGo]').click(function () {
 	$("#mpGol"+n).submit();
 	console.log("end!!");
 });
+
+
 
 function clickTagAction(){
 	var form = $("#form1 > div");

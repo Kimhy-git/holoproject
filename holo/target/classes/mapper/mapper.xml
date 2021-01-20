@@ -91,7 +91,10 @@
 		select *, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt 
  		from help_post a, user where user.user_id=a.user_user_id and board=1 order by help_post_id desc;
 	</select>
-	
+	<!-- counting -->
+    <select id="count_helpme" resultType="int">
+    	select count(*) from help_post where board=1
+    </select>
 	<!-- help_me likes -->
 	<select id="likes" resultType="dto_p">
 		select user.nick, user.likes from help_post, user where user.user_id = help_post.user_user_id;
@@ -231,8 +234,10 @@
 	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
-		select help_post_id,tag_area,board,title,help_post.operator,help_post.nick,tag_job,content,img,help_post.gender,min_price,payment,complete,user_user_id,likes from help_post,user 
-		where user.user_id=help_post.user_user_id and board=0 order by help_post_id desc
+		select *
+		, ifnull((select count(*) from help_reply where help_post_post_id=a.help_post_id group by help_post_post_id), 0) as replyCnt
+		from help_post a,user 
+		where user.user_id=a.user_user_id and board=0 order by help_post_id desc
 		limit #{startList}, #{listSize};
 	</select>
 	<!-- counting -->
@@ -310,7 +315,8 @@
 	</insert>
 	<!-- helpyou_write_view -->
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
-		select * from help_post where help_post_id=#{help_post_id}
+		select help_post.*,user.likes,ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
+		from help_post,user where help_post.user_user_id=user.user_id and help_post_id=#{help_post_id}
 	</select>
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
@@ -333,9 +339,9 @@
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
-		SELECT *
-		FROM help_reply
-		where board=0 and help_post_post_id=#{help_post_post_id}
+		SELECT help_reply.*, user.nick
+		FROM help_reply, user
+		where user.user_id=help_reply.user_user_id and board=0 and help_post_post_id=#{help_post_post_id}
 		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
 	</select>
 	<!-- helpyou reply del -->

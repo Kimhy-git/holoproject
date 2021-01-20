@@ -49,6 +49,7 @@
 							<span class="date">${list.operator}</span>
 						</div>
 						<div class="nick">
+							<span>금액: ${list.price}원</span> | 
 							<span class="info02">
 								<a href="#">${list.nick}</a> | 
 								<span class="info_gender">
