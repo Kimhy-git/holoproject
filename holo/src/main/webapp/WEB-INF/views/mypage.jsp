@@ -51,26 +51,26 @@
                         <table>
                 <tr>
                     <td>아이디</td>
-                    <td class="readonly">${login.user_id}</td>
+                    <td class="readonly">${user.user_id}</td>
                 </tr>                
                 <tr id="like">
                     <td>좋아요</td>
-                    <td readonly>0</td>
+                    <td readonly>${user.likes}</td>
                     <!-- 좋아요 기능 추가되면, login, user 테이블에 like 넣기 dto 수정 -->
                 </tr>
                 <tr>
                     <td>닉네임</td>
-                    <td readonly>${login.nick}</td>
+                    <td readonly>${user.nick}</td>
                 </tr>
                 <tr>
                 	<td>성격 태그</td>
                 	<td readonly>
-                		${login.tag}
+                		${user.tag}
 					</td>
                 </tr>
                 <tr>
                 	<td>자기소개</td>
-                	<td><textarea readonly>${login.cv}</textarea></td>
+                	<td><textarea readonly>${user.cv}</textarea></td>
                 </tr>
                 </table>
  			</div><br><br>

@@ -39,6 +39,8 @@ public class MpController {
 		Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
+		Dto_user mp_user = service.mp_user(dto.getUser_id());
+		model.addAttribute("user", mp_user);
         return "mypage";
     }
 	
