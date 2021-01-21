@@ -149,6 +149,10 @@ public class BoardController {
 		  }else if(read.getGender().equals("m")) {
 			  read.setGender("남성");
 		  }
+			if(read.getImg()!=null) {
+				String image=read.getImg();
+				read.setImg("holoimg/img/"+image);
+			}
 		  model.addAttribute("read", read);
 		  
 		  Dto_login dto = new Dto_login();
