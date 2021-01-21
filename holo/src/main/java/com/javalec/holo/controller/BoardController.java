@@ -1024,7 +1024,7 @@ public class BoardController {
 		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
-    	
+	
     	return "freeboard_write";
 	} // 자유게시판 글쓰기 페이지
     
@@ -1047,6 +1047,7 @@ public class BoardController {
         model.addAttribute("free_reply", free_reply);
         model.addAttribute("page",0);
         model.addAttribute("replyCnt",replyCnt);
+        model.addAttribute("listCnt",listCnt);
         
 		  Dto_login dto = new Dto_login();
 			 
@@ -1136,11 +1137,16 @@ public class BoardController {
 	    } //게시물 수정
 	    	
 		@RequestMapping(value="/freeboard_submit", method = {RequestMethod.POST,RequestMethod.GET})
-		public String freeboard_submit(HttpServletRequest req, Model model) throws Exception {
+		public String freeboard_submit(HttpServletRequest req, @RequestParam("file_up") MultipartFile file, Model model) throws Exception {
 			Dto_login dto = new Dto_login();
 			HttpSession session = req.getSession();
 			dto=(Dto_login)session.getAttribute("login");
-			
+			 
+			String file_up=null;
+				if(!file.isEmpty()) {
+					file_up=FileuploadServlet.restore(file);
+				}
+				
 			String post_id="10";
 	    	String board="2";
 	    	String title=req.getParameter("title");
@@ -1150,7 +1156,8 @@ public class BoardController {
 			String user_user_id=dto.getUser_id();
 			
 			System.out.println("test : " +title);
-			service.freeboard_write(post_id, board, title, content,user_user_id,nick);
+			System.out.println("file_up : " +file_up);
+			service.freeboard_write(post_id, board, title, content,user_user_id,nick, file_up);
 			return "redirect:freeboard";
 		} //게시글 작성
 	

@@ -7,6 +7,14 @@
     margin-top: 10px;
     resize: none;
 }
+#ftitle{
+    margin: 0 auto;
+    font-size: 26px;
+    text-align: left;
+    font-weight: 500;
+    padding-top: 40px;
+    color: #6085b6;
+}
 table tr{
 	padding:5px;
 	padding-left:30px;

@@ -30,12 +30,7 @@
                 <a href="help_me">도움받기</a>
                 <a href="help_you">도움주기</a>
                 <a href="freeboard">자유게시판</a>
-               	<c:if test="${login.nick==null}">
-		           <a href="#" id="mypage">마이페이지</a>
-		        </c:if>
-	            <c:if test="${login.nick!=null}">
-		           <a href="mypage" id="mypage">마이페이지</a>
-		        </c:if>
+                <a href="mypage">마이페이지</a>
         </div>
     </header>
     <div class="clear"></div>
@@ -47,24 +42,24 @@
                <c:forEach var="dto" items="${freeboard}">
                 <form action="freeboard_modify" method="get">
 	                <tr>
+	                <p id="ftitle" name="ftitle">${dto.title}<p>
+	                <tr>
+                    <input type="hidden" name="title" value="${dto.title}">
+	                <tr>
 	                 <td><input type="hidden" id="post_id" name="post_id" value="${dto.post_id}"></td>
             		 <td><input type="hidden" id="board" value="${dto.board}"></td>
             		 <td><input type="hidden" id="user_user_id" value="${dto.user_user_id}"></td>
                 	</tr>
-                	<tr>
-                	<td>제목</td>
-                    <td>${dto.title}
-                    <input type="hidden" name="title" value="${dto.title}"></td>
-                     </tr>
 	                <tr>
-                    <td>닉네임</td>
+
                     <td>${dto.nick}</td>
                 	</tr>
 	            
 	                <tr>
-                    <td>작성날짜</td>
+
                     <td>${dto.operator}</td>
-                    
+                    </tr>
+                    <tr>
                     <td>조회수</td>
                     <td>${dto.hit}</td>
                 	</tr>
@@ -78,8 +73,14 @@
             <table id="second">
             	<c:forEach var="dto" items="${freeboard}">
             	<tr>                
-                    <td><textarea id="content" cols="130" rows="40" name="content" readonly>${dto.content} ${dto.img}</textarea></td>
-                <img src="http://localhost:8080/holo/img/${dto.img}"/>
+                    <td>
+					 <div id="content">
+		               <c:if test="${dto.img!=null}">
+		                 <img src="holoimg/img/${dto.img}" id="image"/><br><br>
+		               </c:if>
+		                 ${dto.content}
+		             </div></td>
+
                 </tr>
                 </c:forEach>
             </table>
@@ -152,8 +153,14 @@
 		        </div>
 		        </div>
 	            </c:forEach>
-            </div>
+	            <div id="comments_add"></div>
+	             </div> 
+        
         </div>
+        <input type="hidden" name="page" id="page" value="${page}">
+		<input type="hidden" name="listCnt" id="listCnt" value="${listCnt}">
+		<input type="hidden" id="range" value="${pagination.range}">
+		<a href="#" id="more">더보기</a> 
     </section>
     <footer>
         <p>copyright 홀로서기 
@@ -163,6 +170,7 @@
 
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
+var page=$('#page').val();
 $(document)
 .ready(function(){
 	$('.comments').each(function(index,item){
@@ -170,10 +178,84 @@ $(document)
 		console.log(n);
 		$(this).css("margin-left",(n*50)+"px");
 		console.log((n*50));
-	});
+	})
 	//$('.comments').css("margin_left",(n*50)+"px");
 	console.log("dto.user_user_id: "+'${dto.user_user_id}');
 	console.log("login.user_id: "+'${login.user_id}');
+})
+.on('click','#more',function(){
+console.log("more");
+	
+	var listCnt=$('#listCnt').val();
+	console.log("listCnt : "+listCnt);
+	page=parseInt(page);
+	page+=5;
+	console.log("page : "+page);
+	
+	if(page>listCnt){
+		alert("댓글이 더 없습니다");
+		$('#more').hide();
+	}
+	
+	var range=$('#range').val();
+	var post_id=$('#post_id').val();
+	console.log("page : "+page);
+	
+	$.post("freeboard_write_view_reply?post_id="+$('#post_id').val(),
+			{"page":page,"range":range},
+			function(data){
+				console.log("post ajax data : "+data);
+				
+				$.each(data,function(ndx,value){
+					console.log("each: "+value['reply_id']+", "+value['re_comment']);
+					var ifbtn="";
+					if(value['user_id']==value['user_user_id']){
+		            	 ifbtn='<input type=button id=remove_reply'+value['reply_id']+'value=삭제 data_r='+value['reply_id']+'>'
+			             +'<input type=button id=reply_update'+value['reply_id']+'value=수정 data_r='+value['reply_id']+'>'
+		            }
+					console.log("ifbtn: "+ifbtn);
+					var content=
+					'<form action=update_comment method=post class=comments value='+value['re_class']+'>'
+					+'<div id=comments'+value['reply_id']+'>'
+					+value['user_user_id']+'<br>'
+					+value['re_comment']+" "+value['operator']+'<br>'
+					+'<input type=hidden name=post_post_id value='+value['post_post_id']+'>'
+		            +'<input type=hidden name=reply_id value='+value['reply_id']+'>'
+		            +'<input type=hidden name=re_index value='+value['re_index']+'>'
+		            +'<input type=hidden name=re_order value='+value['re_order']+'>'
+		            +'<input type=hidden name=re_class value='+value['re_class']+'>'
+		            +'<input type=hidden name=groupNum value='+value['reply_id']+'>'
+		            +'</div>'
+		            
+		            +'<div id=btn_reply>'
+		            +ifbtn
+		            
+		            +'<input type=button id=reply_again'+value['reply_id']+' value=답글달기>'
+		            +'<br><br><br>'
+	                +'<div id=edit_reply_textarea'+value['reply_id']+' style=display:none>'
+		                +'<input id=comment-input name=re_re_comment>'
+		                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=add_free_re_comment/>'
+		                +'<input type=button value=취소 id=rere_cancel'+value['reply_id']+'>'
+	                +'</div>'
+	                
+	                +'<div id=edit_reply_textarea'+value['reply_id']+' style=display:none>'
+	                +'<input id=comment-input name=update_comment placeholder='+value['re_comment']+'>'
+	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=update_free_comment_now/>'
+	                +'<input type=button value=취소 id=edit_cancel'+value['reply_id']+'>'
+	                +'</div>'
+		            console.log("content: "+content);
+					$('#comments_add').append(content);
+			})
+			
+		$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+		})
+		},'json')
+		
+		
 })
 //Delete post and comments
 .on('click','#remove',function changeView(){
@@ -184,7 +266,6 @@ $(document)
 		window.location.href="<c:url value='freeboard_write_delete'/>?post_id="+post_id;
 	}
 })
-
 //Delete ONLY comments
 .on('click','input[id^=remove_reply]',function changeView(){
 	var post_id=$('#post_id').val();
@@ -205,7 +286,6 @@ $(document)
 		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment;
 	}
 })
-
 //show re_reply textarea
 .on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
 	 var login_user_id=$('#login_user_id').val();
@@ -222,21 +302,20 @@ $(document)
 		   } 
 	   }
 })
-
 //show re_reply update textarea
 .on('click','input[id^=reply_update]',function(){ //input[id가 reply_update으로 시작하는 버튼]
-	var n=(this.id).substr(12); 
-	console.log($('#reply_update_textarea'+n).css("display"));
-	if($('#reply_update_textarea'+n).css("display")=="none"){
-			$('#reply_update_textarea'+n).show();
+	var n=(this.id).substr(12);
+	console.log("n: "+n);
+	console.log($('#edit_reply_textarea'+n).css("display"));
+	if($('#edit_reply_textarea'+n).css("display")=="none"){
+			$('#edit_reply_textarea'+n).show();
 			$('#comments'+n).hide();
 			$('#reply_update'+n).hide();
 	}else{
-		$('#reply_update_textarea'+n).hide();
+		$('#edit_reply_textarea'+n).hide();
 		$('#comments'+n).show()
 	}
 })
-
 //cancel
 .on('click','input[id^=edit_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(11); 
@@ -251,7 +330,6 @@ $(document)
       $('#reply_update_textarea'+n).show();
    }
 })
-
 //cancel
 .on('click','input[id^=rere_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(11); 
@@ -264,15 +342,5 @@ $(document)
       $('#reply_again_textarea'+n).hide();
    }
 })
-.on('click','#mypage',function(){
-	var user_id=$('#user_id_login').val();
-	console.log(user_id);
-	if(user_id==null || user_id==""){
-		alert("로그인하세요");
-		window.location.href="<c:url value='login'/>"
-	}
-})
-
-
 </script>
 </html>

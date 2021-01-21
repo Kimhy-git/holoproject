@@ -198,11 +198,18 @@ $(document)
 })
 
 .on('click','#more',function(){
-	console.log("more");
+console.log("more");
 	
-	var page=$('#page').val();
+	var listCnt=$('#listCnt').val();
+	console.log("listCnt : "+listCnt);
 	page=parseInt(page);
 	page+=5;
+	console.log("page : "+page);
+	
+	if(page>listCnt){
+		alert("댓글이 더 없습니다");
+		$('#more').hide();
+	}
 	
 	var range=$('#range').val();
 	var post_id=$('#post_id').val();
