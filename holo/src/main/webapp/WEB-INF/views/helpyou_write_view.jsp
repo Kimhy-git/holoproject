@@ -258,6 +258,8 @@ $(document)
 	   if(login_user_id==null || login_user_id==""){
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
+	   }else if(login_user_id==$('#userId').val()){
+		   alert("본인 글에 지원할 수 없습니다");
 	   }else{
 		   window.open("request_popup?nick="+$('#NICK').val()+
 				   "&post_id="+$('#pId').val()+

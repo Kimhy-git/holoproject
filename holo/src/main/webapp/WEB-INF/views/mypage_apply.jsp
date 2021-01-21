@@ -64,7 +64,14 @@ section{
 				<div class="applier">
 					<div class="info">
 						<div class="title">
-						<p id="apply_title">${item.title}</p>
+						<p id="apply_title">${item.title}
+							<span id="apply_selected">
+								<c:if test="${item.choose=='1'}">
+									작성자 채택
+								</c:if>
+							</span>
+						</p>
+						
 						<span class="date">${item.operator}</span>
 						<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
 						<input type="hidden" id="help_post_id" value="${item.help_post_help_post_id}">
@@ -72,10 +79,6 @@ section{
 						<input type="hidden" id="choose" value="${item.choose}">
 						</div>
 						<div class="nick">
-							<span class="info02">
-								<a href="#" class="info_nick">${item.nick}</a>  
-								♥ <span class="info_like">0</span>
-							</span>
 							<span class="ptag">
 							${item.tag}
 							</span>
@@ -86,7 +89,12 @@ section{
 					</div>
 					<div class="btns">
 						<input class="btn" type="button" value="채팅하기"><br>
-						<input id="cancel_apply" class="btn last" type="button" value="취소하기">
+						<c:if test="${item.choose=='0'}">
+							<input id="cancel_apply" class="btn last" type="button" value="취소하기">
+						</c:if>
+						<c:if test="${item.choose!='0'}">
+							<input class="btn last" type="button" value="채택완료" id="fin_btn">
+						</c:if>
 					</div>
 				</div>
 			</c:forEach>

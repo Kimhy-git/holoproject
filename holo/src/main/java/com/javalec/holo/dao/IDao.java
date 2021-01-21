@@ -225,7 +225,7 @@ public interface IDao {
 	// 게시물 수정
 
 	public void freeboard_write(String post_id, String board, String title,
-			String content, String user_user_id, String nick) throws Exception;
+			String content, String user_user_id, String nick, String file_up) throws Exception;
 	//게시글 작성
 
 	public List<Dto_free_reply> select_free_reply(String post_id);
@@ -281,6 +281,7 @@ public interface IDao {
 	//검색하기
 	public int count_freeboard_search(BoardSearch search);
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
+	
 
 	
 	

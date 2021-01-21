@@ -66,7 +66,7 @@
                             <option id="q5" value="가장 친한 친구 이름은?">가장 친한 친구 이름은?</option>
                             <option id="q6" value="내가 살고싶은 나라는?">내가 살고싶은 나라는?</option>
                             <option id="q7" value="내가 다닌 중학교가 위치한 지역은?">내가 다닌 중학교가 위치한 지역은?</option>
-                            <option id="q8" value="가장 즐겨했던 게임은?">가장 즐겨했던 게임은?"</option>
+                            <option id="q8" value="가장 즐겨했던 게임은?">가장 즐겨했던 게임은?</option>
                         </select>
                     </td>
                 </tr>

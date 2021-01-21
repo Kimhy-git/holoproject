@@ -167,11 +167,6 @@ table a:hover{
 	color:#ccc;
 	font:bold;
 }
-#tabContent04 .applier .info02,
-#tabContent04 .applier .info02 a,
-#tabContent04 .applier .info02 span{
-	color: rgb(175, 107, 230);
-}
 #tossJsp{
 	margin-left:10px;
 }
@@ -182,3 +177,20 @@ table a:hover{
 	font-weight: bold;
 }
 
+#apply_selected{
+	color:#fff;
+	background-color: rgb(175, 107, 230);
+}
+#fin_btn{
+	background-color: rgb(175, 107, 230);
+}
+
+#apply_title {
+    padding-left: 10px;
+}
+.nick {
+    padding-left: 4px;
+}
+.intro {
+    padding-left: 10px;
+}

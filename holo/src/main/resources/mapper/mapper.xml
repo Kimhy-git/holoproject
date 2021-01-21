@@ -621,7 +621,7 @@
 		FROM reply
 		where board=2 and post_post_id=#{post_id}
 		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
-		limit 0,5;
+		limit 0,5
     </select>
     <!-- 댓글 보여주기 -->
     
@@ -722,6 +722,7 @@
             order by post_id
             <!--    limit #{pagination.startPage}, #{pagination.endPage}  -->
 	</select>
+
     
 
 
