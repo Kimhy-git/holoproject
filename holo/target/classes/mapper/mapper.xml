@@ -312,7 +312,7 @@
 	<!-- helpyou_write -->
 	<insert id="helpyou_submit" parameterType="dto_p">
 		insert into help_post(tag_area, board, title, nick, tag_job, content, img, gender, min_price, payment, complete, user_user_id)
-		 values(#{tag_area},0,#{title},(select nick from user where user_id=#{user_id}),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,#{user_user_id});
+		 values(#{tag_area},0,#{title},(select nick from user where user_id=#{user_user_id}),#{tag_job},#{content},#{img},#{gender},#{min_price},#{payment},0,#{user_user_id});
 	</insert>
 	<!-- helpyou_write_view -->
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
@@ -342,8 +342,9 @@
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
 		SELECT help_reply.*, user.nick
 		FROM help_reply, user
-		where user.user_id=help_reply.user_user_id and board=0 and help_post_post_id=#{help_post_post_id}
-		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
+		where user.user_id=help_reply.user_user_id and board=0 and help_post_post_id=#{help_post_id}
+		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index
+		limit #{page},5;
 	</select>
 	<!-- helpyou reply del -->
 	<delete id="helpyou_reply_delete" parameterType="int">

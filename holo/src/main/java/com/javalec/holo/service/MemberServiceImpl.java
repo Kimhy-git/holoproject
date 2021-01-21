@@ -300,8 +300,8 @@ public class MemberServiceImpl implements MemberService {
 		dao.helpyou_re_recomment_submit(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
 	}
 	@Override
-	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
-		return dao.helpyou_reply_list(help_post_post_id);
+	public List<Dto_help_reply> helpyou_reply_list(Pagination_help pagination){
+		return dao.helpyou_reply_list(pagination);
 	}
 	@Override
 	public void helpyou_reply_delete(int help_reply_id) {

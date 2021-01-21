@@ -212,8 +212,8 @@ public class IDaolmpl implements IDao {
 		//help_me 댓글 카운트
 		@Override
 		public int help_reply_count(int help_post_id){
-			Object help_reply_count = sqlSession.selectList(Namespace+".help_reply_count",help_post_id);
-			return (Integer) help_reply_count;
+			
+			return sqlSession.selectOne(Namespace+".help_reply_count",help_post_id);
 		}
 		//help_me 검색
 		@Override
@@ -302,8 +302,8 @@ public class IDaolmpl implements IDao {
 	}
 	
 	@Override
-	public List<Dto_help_reply> helpyou_reply_list(int help_post_post_id){
-		return sqlSession.selectList(Namespace+".helpyou_reply_list",help_post_post_id);
+	public List<Dto_help_reply> helpyou_reply_list(Pagination_help pagination){
+		return sqlSession.selectList(Namespace+".helpyou_reply_list",pagination);
 	}
 	
 	@Override

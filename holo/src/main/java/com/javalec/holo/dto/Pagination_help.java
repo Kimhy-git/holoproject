@@ -3,6 +3,8 @@ package com.javalec.holo.dto;
 public class Pagination_help {
 	private int listSize = 9;                //초기값으로 목록개수를 10으로 셋팅
 
+	private int replySize = 5;
+	
 	private int rangeSize = 5;            //초기값으로 페이지범위를 10으로 셋팅
 
 	private int page;
@@ -23,9 +25,24 @@ public class Pagination_help {
 
 	private boolean next;
 
+	private int help_post_id;
 	
 	
 	
+	
+	
+
+	public int getHelp_post_id() {
+		return help_post_id;
+	}
+
+
+
+	public void setHelp_post_id(int help_post_id) {
+		this.help_post_id = help_post_id;
+	}
+
+
 
 	public int getPageCnt() {
 		return pageCnt;

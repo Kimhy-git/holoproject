@@ -48,30 +48,28 @@
             </nav>
             <div class="clear"></div>
             <div id="center">
-                        <table>
-                <tr>
-                    <td>아이디</td>
-                    <td class="readonly">${user.user_id}</td>
-                </tr>                
-                <tr id="like">
-                    <td>좋아요</td>
-                    <td readonly>${user.likes}</td>
-                    <!-- 좋아요 기능 추가되면, login, user 테이블에 like 넣기 dto 수정 -->
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td readonly>${user.nick}</td>
-                </tr>
-                <tr>
-                	<td>성격 태그</td>
-                	<td readonly>
-                		${user.tag}
-					</td>
-                </tr>
-                <tr>
-                	<td>자기소개</td>
-                	<td><textarea readonly>${user.cv}</textarea></td>
-                </tr>
+                <table>
+	                <tr>
+	                    <td>아이디</td>
+	                    <td>${user.user_id}</td>
+	                </tr>
+	                <tr id="like">
+	                    <td>좋아요</td>
+	                    <td>${user.likes}</td>
+	                </tr>
+	                <tr>
+	                    <td>닉네임</td>
+	                    <td>${user.nick}</td>
+	                </tr>
+	                <tr>
+	                	<td>성격 태그</td>
+	                	<td id="user_tag">
+						</td>
+	                </tr>
+	                <tr>
+	                	<td>자기소개</td>
+	                	<td><textarea readonly>${user.cv}</textarea></td>
+	                </tr>
                 </table>
  			</div><br><br>
     </section>
@@ -81,6 +79,19 @@
     </footer>
 </body>
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+$(document)
+.ready(function(){
+	var tag=${user.tag};
+	console.log(tag);
+	tag=tag.split(',');
+	var content="";
+	for(var i in tag){
+		content=content+"<span>"+tag[i]+"</span>";
+	}
+	$('#user_tag').append();
+})
+</script>
 <script>
 //이전 버튼 이벤트
 function fn_prev(page, range, rangeSize) {

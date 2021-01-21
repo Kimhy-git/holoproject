@@ -110,7 +110,7 @@
 		                    <div id="date">${read.operator}</div>
 		            		<input type="hidden" id="title_par" value="${read.title}">
 		            </div>
-		            <c:if test="${read.complete==0}">
+		            <c:if test="${read.complete==0} or ${read.user_user_id==login.user_id}">
 						<input type="button" id="sub_btn"  value="요청하기">
 	                </c:if>
 		            <input type="hidden" value="${read.user_user_id}" id="user_user_id">
@@ -142,7 +142,7 @@
 		                    	<c:if test="${read.img!=null}">
 		                    		<img src="${read.img}" id="image"/><br><br>
 		                    	</c:if>
-		                    	${read.content}</div>
+		                    	<pre>${read.content}</pre></div>
 		                    </td>
 		                </tr>
 		            </table>
@@ -173,7 +173,7 @@
               	<input type=hidden value="${list.nick}" name="nick">   
                 <p class="writer" id="mp_popGo${list.help_reply_id}">
                   ${list.nick}</p>
-	           <p class="reply_comment">${list.re_comment}</p>
+	           <p class="reply_comment"><pre>${list.re_comment}</pre></p>
 	           <p class="reply_date">${list.operator}</p>
 	           <input type=hidden value="${read.help_post_id}" name="help_post_id">
 	           
@@ -199,22 +199,29 @@
 				      <input type="hidden" name="re_class" value="${list.re_class}">
 				      <input type="hidden" name="groupNum" value="${list.groupNum}">
 				      <input type="hidden" name="re_post_id" value="${list.help_post_post_id}">
-                      <input type=text class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요."> 
-                      <input type=submit class="re_re_submit"value="등록" onclick="javascript: form.action='helpyou_re_recomment_submit';"/> 
+                      <textarea id="re_re_comment${list.help_reply_id}" class="re_re_comment" name="re_re_comment" placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>
+                      <input type=submit class="re_re_submit" id="re_re_submit${list.help_reply_id}"value="등록" onclick="javascript: form.action='helpyou_re_recomment_submit';"/> 
                    </div>
                    <div id="clr"></div>
         	</div>
            
           </form>
 		</c:forEach>
-
+		<div id="comments_add">
+				
+			</div>
+ 
+		<input type="hidden" name="page" id="page" value="${page}">
+		<input type="hidden" name="listCnt" id="listCnt" value="${pagination.listCnt}">
+		<input type="hidden" id="range" value="${pagination.range}">
+		<a href="#" id="more">더보기</a> 
 	         <div id="btn">
 	             <c:if test="${login.user_id==read.user_user_id || login.user_id=='admin'}">
 	              <a href="helpyou_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
 	              <a href="helpyou_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
 	         	</c:if>
 	             <a href="help_you"><input type="button" id="list" value="목록보기"></a>
-	         </div>      
+	         </div>
     	</div>
     </div>
     </section>
@@ -233,6 +240,7 @@ function getContextPath() {
 }
 var ip='http://localhost:8080';
 */
+var page=$('#page').val();
 $(document)
 .ready(function(){
 	$('.comments').each(function(index,item){
@@ -274,17 +282,17 @@ $(document)
 			alert("내용을 입력하세요.");
 			return false;
 	   }
-		   
-	   
 })
-.on('click','.re_re_submit',function(){
-	   if($('.re_re_comment').val()==''){
+.on('click','[id^=re_re_submit]',function(){
+	var n=(this.id).substr(12); 
+	   if($('#re_re_comment'+n).val()==''){
 			alert("내용을 입력하세요.");
 			return false;
 	   }
 })
-.on('click','.edit-go',function(){
-		if($('.edit-input').val()==''){
+.on('click','[id^=edit-go]',function(){
+	var n=(this.id).substr(7); 
+		if($('#edit-input'+n).val()==''){
 			alert("내용을 입력하세요.");
 			return false;
 	   }
@@ -304,20 +312,23 @@ $(document)
 			window.location.href="<c:url value='login'/>"
 	   }else{
 		   var n=(this.id).substr(11); 
-		   console.log($('#reply_again_textarea'+n).css("display"));
+
+		   
 		   if($('#reply_again_textarea'+n).css("display")=="none"){
-		         $('#reply_again_textarea'+n).show();
-		         $('#re_edit_txt'+n).hide();
-		         //$('.reply_again_txt').hide()
-			     //$('.re_edit_txt').hide()
-			     $('#reply_again_textarea'+n).show()
+			   $('.reply_again_txt').hide(); 
+			   $('.re_edit_txt').hide();
+			   $('.commentsbox').show();
+			   $('#re_edit_txt'+n).hide();
+			   $('#re_re_comment'+n).val("@"+$('#whoru'+n).val()+" ");
+			   $('#reply_again_textarea'+n).show();
+			   
 		   }else{
 		      $('#reply_again_textarea'+n).hide();
 		   } 
 		   
 		   
 	   }
-})     
+})    
 
 .on('click','input[id^=re_edit]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(7); 
@@ -353,6 +364,80 @@ $(document)
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
 	}
+})
+.on('click','#more',function(){
+	console.log("more");
+	
+	var listCnt=$('#listCnt').val();
+	console.log("listCnt : "+listCnt);
+	page=parseInt(page);
+	page+=5;
+	console.log("page : "+page);
+	
+	if(page>listCnt){
+		alert("댓글이 더 없습니다");
+		$('#more').hide();
+	}
+	
+	var range=$('#range').val();
+	var post_id=$('#pId').val();
+	console.log("page : "+page);
+	
+	$.post("helpyou_write_view_reply",
+			{"page":page,"range":range,"help_post_id":post_id},
+			function(data){
+				console.log("post ajax data : "+data);
+				
+				$.each(data,function(ndx,value){
+					console.log("each: "+value['reply_id']+", "+value['re_comment']);
+					var ifbtn="";
+					if(value['user_id']==value['user_user_id']){
+		            	 ifbtn='<input type=button id=remove_reply'+value['reply_id']+'value=삭제 data_r='+value['reply_id']+'>'
+			             +'<input type=button id=reply_update'+value['reply_id']+'value=수정 data_r='+value['reply_id']+'>'
+		            }
+					console.log("ifbtn: "+ifbtn);
+					var content=
+					'<form action=update_comment method=post class=comments value='+value['re_class']+'>'
+					+'<div id=comments'+value['reply_id']+'>'
+					+'<input type=text name=re_comment id=re_comment value='+value['re_comment']+'>'+'<br>'
+			        +value['user_user_id']+value['operator']+'<br>'
+					+'<input type=hidden name=post_post_id value='+value['post_post_id']+'>'
+		            +'<input type=hidden name=reply_id value='+value['reply_id']+'>'
+		            +'<input type=hidden name=re_index value='+value['re_index']+'>'
+		            +'<input type=hidden name=re_order value='+value['re_order']+'>'
+		            +'<input type=hidden name=re_class value='+value['re_class']+'>'
+		            +'<input type=hidden name=groupNum value='+value['reply_id']+'>'
+		            +'</div>'
+		            
+		            +'<div id=btn_reply>'
+		            +ifbtn
+		            
+		            +'<input type=button id=reply_again'+value['reply_id']+' value=답글달기>'
+		            +'<br><br><br>'
+	                +'<div id=reply_again_textarea'+value['reply_id']+' style=display:none>'
+		                +'<input id=comment-input name=re_re_comment>'
+		                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=add_re_comment/>'
+		                +'<input type=button value=취소 id=rere_cancel'+value['reply_id']+'>'
+	                +'</div>'
+	                
+	                +'<div id=reply_update_textarea'+value['reply_id']+' style=display:none>'
+	                +'<input id=comment-input name=update_comment placeholder='+value['re_comment']+'>'
+	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=update_comment/>'
+	                +'<input type=button value=취소 id=edit_cancel'+value['reply_id']+'>'
+	                +'</div>'
+		            console.log("content: "+content);
+					$('#comments_add').append(content);
+			})
+			
+		$('.comments').each(function(index,item){
+		var n = $(this).attr("value");
+		console.log(n);
+		$(this).css("margin-left",(n*50)+"px");
+		console.log((n*50));
+		})
+		},'json')
+		
+		
 })
 
 $('[id^=mp_popGo]').click(function () {
