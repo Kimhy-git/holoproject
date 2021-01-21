@@ -137,7 +137,7 @@
                 	<c:if test="${read.img!=null}">
                 		<img src="${read.img}" id="image"/><br><br>
                 	</c:if>
-                	${read.content}</div>
+                	<pre>${read.content}</pre></div>
                 </td>
             </tr>
         </table>
@@ -160,9 +160,9 @@
 
           <form method="post" action="mp_popup" target="mp_popGoGo" id="mpGol${list.help_reply_id}">
           		
-          	<div class="comments" value="${list.re_class}">
+          	<div class="comments" value="${list.re_class}" style="word-break:break-all;">
           	<input type="hidden" class="re_class" value="${list.re_class}">	     
-            <div id="comments${list.help_reply_id}" class="commentsbox">
+            <div id="comments${list.help_reply_id}" class="commentsbox" >
                <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 	           
               	  <input type=hidden value="${list.user_user_id}" name="user_id">

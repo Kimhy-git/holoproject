@@ -58,10 +58,15 @@
                     <td>비밀번호 질문</td>
                     <td>
                         <select id="choice" name="passwd_q">
-                        	<option id="q0">질문을 선택해 주세요</option>
+                            <option id="q0">질문을 선택해 주세요</option>
                             <option id="q1" value="처음 키운 강아지 이름은?">처음 키운 강아지 이름은?</option>
                             <option id="q2" value="아버지 이름은?">아버지 이름은?</option>
                             <option id="q3" value="출신 초등학교 이름은?">출신 초등학교 이름은?</option>
+                            <option id="q4" value="나의 보물 1호는?">나의 보물 1호는?</option>
+                            <option id="q5" value="가장 친한 친구 이름은?">가장 친한 친구 이름은?</option>
+                            <option id="q6" value="내가 살고싶은 나라는?">내가 살고싶은 나라는?</option>
+                            <option id="q7" value="내가 다닌 중학교가 위치한 지역은?">내가 다닌 중학교가 위치한 지역은?</option>
+                            <option id="q8" value="가장 즐겨했던 게임은?">가장 즐겨했던 게임은?"</option>
                         </select>
                     </td>
                 </tr>
