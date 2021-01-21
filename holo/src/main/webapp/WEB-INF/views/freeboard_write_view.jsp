@@ -42,31 +42,21 @@
                <c:forEach var="dto" items="${freeboard}">
                 <form action="freeboard_modify" method="get">
 	                <tr>
-	                <p id="ftitle" name="ftitle">${dto.title}<p>
-	                <tr>
-                    <input type="hidden" name="title" value="${dto.title}">
-	                <tr>
-	                 <td><input type="hidden" id="post_id" name="post_id" value="${dto.post_id}"></td>
-            		 <td><input type="hidden" id="board" value="${dto.board}"></td>
-            		 <td><input type="hidden" id="user_user_id" value="${dto.user_user_id}"></td>
-                	</tr>
-	                <tr>
-
+	                <p>${dto.title}<p>
                     <td>${dto.nick}</td>
-                	</tr>
-	            
-	                <tr>
-
-                    <td>${dto.operator}</td>
-                    </tr>
-                    <tr>
-                    <td>조회수</td>
-                    <td>${dto.hit}</td>
+                    <td> ${dto.operator}</td>
+ 		            <td>조회수 : ${dto.hit}</td>
                 	</tr>
 
 	                <tr>
                     <td>글내용</td>
                     <td></td>
+                	</tr>
+                	<tr>
+                	 <td><input type="hidden" name="title" value="${dto.title}"></td>
+	                 <td><input type="hidden" id="post_id" name="post_id" value="${dto.post_id}"></td>
+            		 <td><input type="hidden" id="board" value="${dto.board}"></td>
+            		 <td><input type="hidden" id="user_user_id" value="${dto.user_user_id}"></td>
                 	</tr> 
                </c:forEach>
             </table>

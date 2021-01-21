@@ -1,13 +1,12 @@
 @charset "ISO-8859-1";
 #content{
-    margin:0 auto;
-    width: 940px;
+    width: 740px;
     border: 1px solid #ccc;
     border-radius: 3px;
     margin-top: 10px;
-    resize: none;
+    padding: 50px 30px;
 }
-#ftitle{
+p{
     margin: 0 auto;
     font-size: 26px;
     text-align: left;
@@ -54,11 +53,16 @@ table tr td{
 	margin-right:5px;
 }
 #btn{
-	padding-top:3px;
-	padding-left:670px;
+	margin-left:630px;
+	padding-top:20px;
+	width:800px;
+	padding-bottom:20px;
+	clear:both;
+
 }
 
 #first{
+	background-color: white;
 	margin-left:30px;
 	width:700px;
 }
