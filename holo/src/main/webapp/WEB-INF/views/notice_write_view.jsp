@@ -157,6 +157,7 @@
 			</div>
  
 		<input type="hidden" name="page" id="page" value="${page}">
+		<input type="hidden" name="listCnt" id="listCnt" value="${listCnt}">
 		<input type="hidden" id="range" value="${pagination.range}">
 		<a href="#" id="more">더보기</a> 
     </section>
@@ -185,7 +186,7 @@ function loadNextPage(page){
 	});
 }  
 */
-
+var page=$('#page').val();
 $(document)
 .ready(function(){
 	$('.comments').each(function(index,item){
@@ -200,9 +201,16 @@ $(document)
 .on('click','#more',function(){
 	console.log("more");
 	
-	var page=$('#page').val();
+	var listCnt=$('#listCnt').val();
+	console.log("listCnt : "+listCnt);
 	page=parseInt(page);
 	page+=5;
+	console.log("page : "+page);
+	
+	if(page>listCnt){
+		alert("댓글이 더 없습니다");
+		$('#more').hide();
+	}
 	
 	var range=$('#range').val();
 	var post_id=$('#post_id').val();

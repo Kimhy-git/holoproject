@@ -84,7 +84,7 @@
 		
 						 	</select>
                         <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요">
-					    <input type="submit" value="검색">
+					    <input type="submit" value="검색" id="scbtn">
 	                    </div>
                     </form>
                     

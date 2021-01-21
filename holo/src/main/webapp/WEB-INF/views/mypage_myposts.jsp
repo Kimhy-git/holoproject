@@ -70,8 +70,6 @@ font-weight:bold;
                 &nbsp; &nbsp; 
                 <span><a href="mypage_mycomments" >내가 쓴 댓글</a></span>
                 &nbsp; &nbsp; 
-                <span><a href="mypage">내가 쓴 글에 지원한 지원자 목록</a></span>
-                &nbsp; &nbsp; 
                 <span><a href="mypage_apply">내가 지원한 게시글 목록</a></span>
                 &nbsp; &nbsp; 
                 <span><a href="edit_mp?user_id=${login.user_id}">내 정보 수정</a></span>

@@ -767,6 +767,7 @@ public class BoardController {
         model.addAttribute("reply", reply);
         model.addAttribute("page",0);
         model.addAttribute("replyCnt",replyCnt);
+        model.addAttribute("listCnt",listCnt);
         
 		 Dto_login dto = new Dto_login();
 		 HttpSession session = req.getSession();

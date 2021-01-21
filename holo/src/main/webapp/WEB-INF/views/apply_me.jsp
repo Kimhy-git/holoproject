@@ -42,6 +42,7 @@
             <div class="clear"></div>
             <div id="center">
 			<article>
+			
 			<c:forEach var="list" items="${list}">
         		<div class="applier">
 					<div class="info">
