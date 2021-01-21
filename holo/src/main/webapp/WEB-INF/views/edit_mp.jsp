@@ -37,6 +37,7 @@
         <div id="wrap">
         <h2>내 정보 수정</h2>
         	<form method="post" id="modify">
+        	<input type=hidden name="user_id" value="${mp_user.user_id}">
             <table>
                 <tr>
                     <td>아이디</td>
@@ -314,7 +315,12 @@ $(document)
 		
 		return false;
 	}else{
-		alert("수정 되었습니다.");
+
+		if(confirm("수정하시겠습니까?")){
+
+				alert("수정되었습니다.");
+			
+		}
 	}
 })	
 

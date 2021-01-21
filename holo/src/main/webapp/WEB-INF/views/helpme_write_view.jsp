@@ -135,7 +135,7 @@
                 <td>
                 <div id="content">
                 	<c:if test="${read.img!=null}">
-                		<img src="http://localhost:8080/holo/img/${read.img}" id="image"/><br><br>
+                		<img src="${read.img}" id="image"/><br><br>
                 	</c:if>
                 	${read.content}</div>
                 </td>
