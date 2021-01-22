@@ -55,6 +55,9 @@ public interface MemberService {
 	public void helpyou_edit(int help_post_id,String tag_area,String title,String tag_job, String content,String img,String gender,int min_price,String payment,String user_user_id);
 	public void helpyou_reply_edit(int help_reply_id, String re_comment);
 	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception;
+	
+	public List<String> helpyou_applier_check(int help_post_id);
+	
 	//mypage
 	public void help_complete(int help_post_id);
 	public List<Dto_total> mypage_total_list(Pagination pagination);

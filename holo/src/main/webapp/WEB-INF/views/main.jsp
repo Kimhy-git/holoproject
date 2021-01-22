@@ -12,6 +12,9 @@
 <!-- <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet"> -->
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/main.css">
+<style>
+h1 span{color:rgb(107, 156, 230); font-size:17px;}
+</style>
 <body>
  <header>
         <nav>
@@ -21,9 +24,10 @@
         </c:if>
         <c:if test="${login.nick!=null}">
             <a href="logout" id=login>로그아웃</a>
+            <a href="mypage" id="mypage">마이페이지</a>
         </c:if>
         <c:if test="${login.nick!=null}">
-        	<h1>${login.nick}님 환영합니다</h1>
+        	<h1><span>${login.nick}</span>님 환영합니다</h1>
         </c:if>
         </nav>
         <div id="logo">
@@ -41,13 +45,7 @@
             	${dto.user_pw}
             </c:forEach>
             <nav id="sub_menu">
-                <a href="freeboard">자유게시판</a>  
-	            <c:if test="${login.nick==null}">
-		           <a href="#" id="mypage">마이페이지</a>
-		        </c:if>
-	            <c:if test="${login.nick!=null}">
-		           <a href="mypage" id="mypage">마이페이지</a>
-		        </c:if>
+                <a href="freeboard">자유게시판</a>&nbsp;&nbsp;
                 <a href="notice">공지사항</a>
             </nav>
         </div>

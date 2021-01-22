@@ -10,28 +10,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/mypage.css">
+<style>
+#center{width:600px;}
+table{width:600px;}
+td{padding:10px 0;}
+textarea{
+	padding:5px;
+	width:450px;
+	height:100px;
+	border:1px solid #ccc;
+	outline:none;
+	resize: none;
+}
+tr td:first-child{font-weight:bold;}
+</style>
 <body>
     <header>
         <nav>
-            <input type=hidden value="${login.user_id}" id="user_id_login">
-	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
         </div>
         <div id="move">
-                <a href="help_me">도움받기</a>
-                <a href="help_you">도움주기</a>
-                <a href="freeboard">자유게시판</a>
-                <a href="mypage">마이페이지</a>
-            </div>
+            <a href="help_me">도움받기</a>
+            <a href="help_you">도움주기</a>
+            <a href="freeboard">자유게시판</a>
+            <a href="notice">공지사항</a>
+        </div>
     </header>
     <section>
         <div id="wrap">
@@ -82,14 +97,16 @@
 <script>
 $(document)
 .ready(function(){
-	var tag=${user.tag};
+	var tag="${user.tag}";
 	console.log(tag);
-	tag=tag.split(',');
+	var tags=tag.split(',');
 	var content="";
-	for(var i in tag){
-		content=content+"<span>"+tag[i]+"</span>";
+	for(var i in tags){
+		console.log("tag: "+tags[i]);
+		content=content+"<span>"+tags[i]+"</span>";
+		console.log("content: "+content);
 	}
-	$('#user_tag').append();
+	$('#user_tag').append(content);
 })
 </script>
 <script>

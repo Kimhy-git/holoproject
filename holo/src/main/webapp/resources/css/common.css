@@ -18,27 +18,23 @@ header{
     /* border: 1px solid red; */
 }
 header nav{
-    position: absolute;
     margin-top: 10px;
 }
 header nav a{
     text-decoration: none;
-    position: relative;
-    left:880px;
-    padding-left: 5px;
+    float:right;
     color: #777;
+    margin-left:10px;
 }
 header #logo{
     /* width: 1000px; */
     height: 100px;
     text-align: center;
-    padding-right: 20px;
-    /* border: 1px solid red; */
-   
+    clear:both;
 }
 header #logo img{
     width: 150px;
-    margin-top: 30px;
+    
 }
 section{
     background-color: rgb(225, 238, 250);
@@ -90,11 +86,20 @@ footer p{
     color: #818181;
     text-decoration: none;
 }
+#move a:first-child:hover{
+	color:#6085b6;
+}
+#move a:nth-child(2):hover{
+	color:#9660b6;
+}
+#move a:hover{
+	font-weight:bold;
+}
 
 h1{
 	padding:20px;
-	font-size:20pt;
-	color : #8a0000;	
+	font-size:12pt;
+	color : #aaa;	
 }
 #search select, #search input{
 	border:1px solid #ccc;

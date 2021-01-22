@@ -316,6 +316,12 @@ public class MemberServiceImpl implements MemberService {
 		dao.helpyou_reply_edit(help_reply_id, re_comment);
 	}
 	
+	@Override
+	public List<String> helpyou_applier_check(int help_post_id) {
+		return dao.helpyou_applier_check(help_post_id);
+	}
+
+	
 	//mypage
 	@Override
 	public void help_complete(int help_post_id) {
@@ -661,7 +667,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
 			String gender, String applier, String price, String nick, String title) {
-		System.out.println("service nick and title : "+nick+", "+title);
+		System.out.println("service nick and title : "+nick+", "+title+"post_id"+help_post_help_post_id);
 		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price, nick, title);	
 	}
 

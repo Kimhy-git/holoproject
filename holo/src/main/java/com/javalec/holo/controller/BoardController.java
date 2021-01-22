@@ -474,7 +474,7 @@ public class BoardController {
         
         search.setPagination_help(pagination);
         
-        System.out.println("help_me board page: "+search.getPagination_help().getStartList());
+        System.out.println("help_you board page: "+search.getPagination_help().getStartList());
         //검색 조건으로 게시글 목록 조회
         List<Dto_help_post> list = service.helpyou_search(search);
         ModelAndView mav = new ModelAndView();
@@ -516,12 +516,26 @@ public class BoardController {
 			String image=read.getImg();
 			read.setImg("holoimg/img/"+image);
 		}
+		int already_apply=0;
+		if(dto!=null) {
+			List<String> applier_list=service.helpyou_applier_check(help_post_id);
+			System.out.println(service.helpyou_applier_check(help_post_id));
+			
+			for(int i=0; i<applier_list.size();i++) {
+				System.out.println("applier list: "+applier_list.get(i));
+				if((dto.getUser_id()).equals(applier_list.get(i))) {
+					already_apply=1;
+				}
+			}
+		}
+		
 		System.out.println("boardcontroller nick: "+read.getlikes());
 		int listCnt = service.help_reply_count(help_post_id);
   		System.out.println("listCnt: "+listCnt);
   		Pagination_help pagination = new Pagination_help();
   		pagination.pageInfo(0, range, listCnt);
   		pagination.setHelp_post_id(help_post_id);
+  		model.addAttribute("already_apply",already_apply);
   		model.addAttribute("pagination", pagination);
   		model.addAttribute("page",0);
         System.out.println("range : "+pagination.getRange());
@@ -608,7 +622,7 @@ public class BoardController {
     }
 	@RequestMapping(value="/helpyou_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public String helpyou_delete(HttpServletRequest req) {
-    	int help_post_id=Integer.parseInt(req.getParameter("post_id"));
+    	int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
     	service.helpyou_delete(help_post_id);
 		return "redirect:help_you";
 	}

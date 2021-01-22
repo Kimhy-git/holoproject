@@ -318,6 +318,12 @@ public class IDaolmpl implements IDao {
 		sqlSession.update(Namespace+".helpyou_reply_edit",helpreplyDto);
 	}
 	
+	@Override
+	public List<String> helpyou_applier_check(int help_post_id) {
+		System.out.println("Idao, help_post_id : "+help_post_id);
+		return sqlSession.selectList(Namespace+".helpyou_applier_check", help_post_id);
+	}
+	
 	// Mypage
 	// help_complete
 	@Override
@@ -686,6 +692,7 @@ public class IDaolmpl implements IDao {
 				System.out.println("Idao, nick : "+nick);
 				System.out.println("Idao, title : "+title);
 				Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price,nick,title);
+				System.out.println("Idao, Dto, post_id: "+dto.getHelp_post_help_post_id());
 				sqlSession.insert(Namespace+".add_apply_you",dto);
 
 			}

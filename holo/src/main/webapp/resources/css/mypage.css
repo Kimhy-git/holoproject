@@ -194,3 +194,15 @@ table a:hover{
 .intro {
     padding-left: 10px;
 }
+
+#user_tag span{
+	background:#bbb;
+	border-radius: 5px;
+	color:#fff;
+	font-size: 12px;
+	padding:3px;
+	margin-left:5px;
+}
+#user_tag span:first-child{
+	margin-left:0px;
+}

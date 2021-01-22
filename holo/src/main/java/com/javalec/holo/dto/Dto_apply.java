@@ -148,7 +148,7 @@ public class Dto_apply {
 		this.title = title;
 	}
 
-	public Dto_apply(String helpyou_id, String tag, String cv, String help_post_help_post_id, String board,
+	public Dto_apply(String helpyou_id, String tag, String cv, String board,String help_post_help_post_id, 
 			String gender, String applier, String price, String nick, String title) {
 		super();
 		this.helpyou_id = helpyou_id;

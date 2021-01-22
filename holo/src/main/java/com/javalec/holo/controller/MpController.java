@@ -186,8 +186,11 @@ public class MpController {
         	String help_post_help_post_id=req.getParameter("post_id");
         	String helpyou_id=req.getParameter("user_id");
         	String title=req.getParameter("title");
+        	String price=req.getParameter("price");
         	
         	model.addAttribute("nick",nick);
+        	model.addAttribute("price",price);
+        	System.out.println("price: "+price);
         	model.addAttribute("help_post_help_post_id",help_post_help_post_id);
         	model.addAttribute("helpyou_id",helpyou_id);
         	model.addAttribute("title",title);

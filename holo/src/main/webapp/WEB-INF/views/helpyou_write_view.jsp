@@ -19,7 +19,8 @@
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
 	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
@@ -30,12 +31,7 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <c:if test="${login.nick==null}">
-	           <a href="#" id="mypage">마이페이지</a>
-	        </c:if>
-            <c:if test="${login.nick!=null}">
-	           <a href="mypage" id="mypage">마이페이지</a>
-	        </c:if>
+            <a href="notice">공지사항</a>
         </div>
         <div class="clear"></div>
     </header>
@@ -88,8 +84,9 @@
        </div>
        <div id="wrap">
 			<div id="center">   
-		    	<input type=hidden id=pId value="${read.help_post_id}">
+		    	<input type=hidden id=post_id value="${read.help_post_id}">
 		    	<input type=hidden id=userId value="${read.user_user_id}">
+		        
 		        
 		            <div id="first">
 		            	<div id="title">
@@ -98,6 +95,7 @@
 		                    </div>
 		                    	<c:if test="${read.complete==1}">[완료]</c:if>
 		                    	${read.title}
+		                    	<input type=hidden id=title_table value="${read.title }">
 	                    </div>
 	                    <form method="post" action="mp_popup" target="mp_popGo" id="mpGo${read.help_post_id}"> 
   	                        <input type="hidden" value="${read.help_post_id}" name="help_post_id">
@@ -110,7 +108,7 @@
 		                    <div id="date">${read.operator}</div>
 		            		<input type="hidden" id="title_par" value="${read.title}">
 		            </div>
-		            <c:if test="${read.complete==0} or ${read.user_user_id==login.user_id}">
+		            <c:if test="${read.complete==0}">
 						<input type="button" id="sub_btn"  value="요청하기">
 	                </c:if>
 		            <input type="hidden" value="${read.user_user_id}" id="user_user_id">
@@ -118,7 +116,7 @@
 		            	<table>
 		            		<tr>
 		            			<td>최소 금액</td>
-		            			<td>${read.min_price}</td>
+		            			<td id="min_price">${read.min_price}</td>
 			            	</tr>
 			            	<tr>
 			            		<td>요청 가능 성별</td>
@@ -153,7 +151,7 @@
 				             <div id=cc>
 				             	 <input type=hidden value="${login.user_id}" id="user_id_login" name=user_id>
 				             	 <input type=hidden id=pId value="${read.help_post_id}" name="help_post_post_id">
-					             <input id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요.">
+					             <textarea id="comment-input" name="re_comment" placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>
 					             <input type=submit id="submit" value="등록">
 					         </div> 
 					     </form>    
@@ -164,29 +162,32 @@
 
           <form method="post" action="mp_popup" target="mp_popGoGo" id="mpGol${list.help_reply_id}">
           		
-          	<div class=comments value="${list.re_class}">
+          	<div class="comments" value="${list.re_class}" style="word-break:break-all;">
           	<input type="hidden" class="re_class" value="${list.re_class}">	     
-            <div id="comments${list.help_reply_id}" >
+            <div id="comments${list.help_reply_id}" class="commentsbox" >
                <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">
 	           
-	            <input type=hidden value="${list.user_user_id}" name="user_id">
-              	<input type=hidden value="${list.nick}" name="nick">   
-                <p class="writer" id="mp_popGo${list.help_reply_id}">
+              	  <input type=hidden value="${list.user_user_id}" name="user_id">
+              	  <input type=hidden id="whoru${list.help_reply_id}" value="${list.nick}" name="nick">   
+                  <p class="writer" id="mp_popGo${list.help_reply_id}">
                   ${list.nick}</p>
-	           <p class="reply_comment"><pre>${list.re_comment}</pre></p>
+	           <p class="reply_comment">${list.re_comment}</p>
 	           <p class="reply_date">${list.operator}</p>
 	           <input type=hidden value="${read.help_post_id}" name="help_post_id">
-	           
+	      </form>
+	      <form method="post">
+	      	<input type=hidden value="${read.help_post_id}" name="help_post_post_id">
+	        <input type="hidden" name="help_reply_id" value="${list.help_reply_id}">  
 	        <c:if test="${login.user_id==list.user_user_id || login.user_id=='admin'}">
-	           <input type=submit class="re_remove" value="삭제" onclick="javascript: form.action='helpyou_reply_delete';"/> 
-	           <input type=button class="re_edit" id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='helpyou_reply_edit';"/>
+	           <input type=submit class="re_remove" value="삭제" onclick="javascript: form.action='help_reply_del';"/> 
+	           <input type=button class="re_edit" id="re_edit${list.help_reply_id}" value="수정" onclick="javascript: form.action='help_reply_edit_go';"/>
 	        </c:if>
 	           <input type="button" class="re_again" id="reply_again${list.help_reply_id}" value="답글달기" >
 	        </div>
            
            
            <div class="re_edit_txt" id="re_edit_txt${list.help_reply_id}" style="display:none">
-	           <input class="edit-input" id="edit-input${list.help_reply_id}" name="re_comment_edit" value="${list.re_comment}" placeholder="댓글을 입력해 주세요.">
+	           <textarea class="edit-input" id="edit-input${list.help_reply_id}" name="re_comment_edit" placeholder="댓글을 입력해 주세요." style="resize:none">${list.re_comment}</textarea>
            	   <input type=submit class="edit-go" id="edit_go${list.help_reply_id}" value="수정">
            	   <input type=button class="edit-cancel" id="edit_cancel${list.help_reply_id}" value="취소">
            </div>
@@ -204,8 +205,7 @@
                    </div>
                    <div id="clr"></div>
         	</div>
-           
-          </form>
+            </form>
 		</c:forEach>
 		<div id="comments_add">
 				
@@ -217,7 +217,7 @@
 		<a href="#" id="more">더보기</a> 
 	         <div id="btn">
 	             <c:if test="${login.user_id==read.user_user_id || login.user_id=='admin'}">
-	              <a href="helpyou_del?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
+	              <a href="helpyou_delete?help_post_id=${read.help_post_id}"><input type="button" id="remove" value="삭제"></a>
 	              <a href="helpyou_write_edit?help_post_id=${read.help_post_id}"><input type="button" id="edit" value="수정"></a>
 	         	</c:if>
 	             <a href="help_you"><input type="button" id="list" value="목록보기"></a>
@@ -255,17 +255,21 @@ $(document)
 .on('click','#sub_btn',function(){
 	var login_user_id=$('#login_user_id').val();
 	console.log(login_user_id);
+		
+		console.log('${already_apply}');
 	   if(login_user_id==null || login_user_id==""){
 			alert("로그인 해주세요");
 			window.location.href="<c:url value='login'/>"
 	   }else if(login_user_id==$('#userId').val()){
-		   alert("본인 글에 지원할 수 없습니다");
+		   alert("본인 글에 요청할 수 없습니다");
+	   }else if('${already_apply}'==1){
+	       alert("이미 요청 완료한 글입니다");
 	   }else{
 		   window.open("request_popup?nick="+$('#NICK').val()+
-				   "&post_id="+$('#pId').val()+
-				   "&user_id="+$('#user_user_id').val()
-				   +"&title="+$('#title_table').val()+
-				   "&title="+$('#title_par').val(),
+				   "&post_id="+$('#post_id').val()+
+				   "&user_id="+$('#user_user_id').val()+
+				   "&title="+$('#title_par').val()+
+				   "&price="+$('#min_price').text(),
 				   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
@@ -358,7 +362,13 @@ $(document)
       $('#re_edit_txt'+n).show();
    }
 })
-
+.on('click','[id^=mp_go]',function(){
+	console.log("mp_go click");
+	var n=(this.id).substr(5);
+	console.log("n: "+n);
+	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
+	$("#mpGo"+n).submit();
+})
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
 	console.log(user_id);

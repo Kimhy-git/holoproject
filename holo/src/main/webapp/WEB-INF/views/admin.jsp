@@ -15,16 +15,16 @@
 <body>
 	<header>
         <nav>
-        <c:if test="${login.nick==null}">
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
-        </c:if>
-        <c:if test="${login.nick!=null}">
-            <a href="logout" id=login>로그아웃</a>
-        </c:if>
-        <c:if test="${login.nick!=null}">
-        	<h1>${login.nick}님 환영합니다</h1>
-        </c:if>
+        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -33,8 +33,8 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
-        </div>        
+            <a href="notice">공지사항</a>
+        </div>       
     </header>
     <div class="clear"></div>
     <section>

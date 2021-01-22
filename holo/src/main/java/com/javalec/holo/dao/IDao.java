@@ -126,6 +126,8 @@ public interface IDao {
 	public void helpyou_reply_edit(int help_reply_id,String comment);
 	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception;
 	
+	public List<String> helpyou_applier_check(int help_post_id);
+	
 	//mypage
 	public void help_complete(int help_post_id);
 	public List<Dto_total> mypage_total_list(Pagination pagination);
@@ -324,4 +326,5 @@ public interface IDao {
 	public void cancel_apply(String apply_id);
 	
 	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination);
+	
 }

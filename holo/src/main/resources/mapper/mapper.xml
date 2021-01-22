@@ -233,6 +233,9 @@
 	
 	
 	
+	
+	
+	
 	<!-- help_you -->
 	<select id="helpyou_list" resultType="dto_p">
 		select *
@@ -318,6 +321,10 @@
 	<select id="helpyou_write_view" parameterType="int" resultType="dto_p">
 		select help_post.*,user.likes,ifnull((select count(*) from help_reply where help_post_post_id=help_post.help_post_id group by help_post_post_id), 0) as replyCnt
 		from help_post,user where help_post.user_user_id=user.user_id and help_post_id=#{help_post_id}
+	</select>
+	<!-- helpyou applier check -->
+	<select id="helpyou_applier_check" resultType="string">
+		select applier from apply where help_post_help_post_id=#{help_post_id};
 	</select>
 	<!-- helpyou write delete -->
 	<delete id="helpyou_delete" parameterType="int">
