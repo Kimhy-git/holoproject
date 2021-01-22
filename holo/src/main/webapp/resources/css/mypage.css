@@ -61,7 +61,8 @@ table tr td:first-child{
 	width: 70px;
 }
 #my_list #info td:first-child{
-	padding-left: 20px;
+	padding: 5px 20px;
+	width: 70px;
 }
 #my_list tr td:nth-child(2){
 	width: 300px;

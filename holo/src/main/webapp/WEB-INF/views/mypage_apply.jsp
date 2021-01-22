@@ -19,9 +19,17 @@ color:#000;
 section{
 	height:900px;
 }
+ul.pagination {
+    text-align: center;
+    padding: 20px;
+}
+a.page-link {
+    font-size: 12pt;
+    padding: 10px;
+}
 </style>
 <body>
-    <header>
+<header>
         <nav>
         <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
@@ -66,11 +74,13 @@ section{
 					<div class="info">
 						<div class="title">
 						<p id="apply_title">${item.title}
+							<c:if test="${item.choose=='1'}">
 							<span id="apply_selected">
-								<c:if test="${item.choose=='1'}">
+								
 									작성자 채택
-								</c:if>
+								
 							</span>
+							</c:if>
 						</p>
 						
 						<span class="date">${item.operator}</span>

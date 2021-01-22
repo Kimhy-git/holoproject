@@ -16,9 +16,9 @@ color:#000;
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
-<link rel="stylesheet" href="resources/css/mypage.css">
+<link rel="stylesheet" href="resources/css/mypage_mycomments.css">
 <body>
-    <header>
+ <header>
         <nav>
         <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
@@ -146,5 +146,4 @@ function fn_prev(page, range, rangeSize) {
 		console.log(url);
 	}
 </script>
-<script>
 </html>
