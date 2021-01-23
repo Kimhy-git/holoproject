@@ -4,8 +4,8 @@
 }
 section{
 	margin-top: 40px;
-    margin-bottom: 10px;
-    height: 650px;
+    margin-bottom: 20px;
+    height: auto;
 }
 h2{
 	padding-top:20px;
@@ -19,17 +19,6 @@ h2{
 	margin-left: 12px;
 	width : 800px;
 	float: left;
-}
-.tabMenu{
-	list-style : none;
-	float: left;
-}
-.tabs li{
-	padding-right: 10px;
-	border-right: 1px solid #000;
-}
-.tabs li a:hover{
-	color: #fff;
 }
 #mine a{
 	margin-left: 10px;
@@ -49,16 +38,16 @@ table{
     border-collapse: collapse;
 }
 table #info td{
-	font-weight: bold;
-	text-align: left;
-	padding: 7px 0;
-
-	font-weight: bold;
-    background-color:#bbbbbb;
+    font-weight: bold;
+    text-align: center;
+    padding: 7px 0;
+    font-weight: bold;
+    background-color: #bbbbbb;
 }
-table tr td:first-child{
-	padding: 5px 20px;
-	width: 70px;
+table tr td:first-child {
+    padding: 10px;
+    padding-left: 20px;
+    width: 300px;
 }
 #my_list #info td:first-child{
 	padding-left: 20px;
@@ -83,9 +72,15 @@ table tr td:first-child{
 table tr{
 	border-bottom: 1px solid #bbb;
 }
-#my_list1 tr td:nth-child(2){
-	padding: 5px 20px;
-	text-align: right;
+#my_list1 tr td:nth-child(2) {
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+}
+#my_list1 tr td:nth-child(3) {
+    padding: 10px;
+    text-align: center;
+    width: 150px;
 }
 table a{
 	text-decoration: none;
@@ -194,6 +189,11 @@ table a:hover{
 .intro {
     padding-left: 10px;
 }
-span#apply_selected {
-    padding: 0 5px;
+ul.pagination {
+    text-align: center;
+    padding: 20px;
+}
+a.page-link {
+    font-size: 12pt;
+    padding: 10px;
 }

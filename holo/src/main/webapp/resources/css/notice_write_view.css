@@ -1,11 +1,13 @@
 @charset "ISO-8859-1";
+
 #content{
-    margin:0 auto;
-    width: 940px;
+    width: 792px;
     border: 1px solid #ccc;
+    background-color : white;
     border-radius: 3px;
     margin-top: 10px;
-    resize: none;
+    padding: 50px 30px;
+    margin-left : 95px;
 }
 table tr{
 	padding:5px;
@@ -16,14 +18,17 @@ table tr td{
 	padding-right:50px;
 }
 #wrap{
-    width:1000px;
+    width:1040px;
+    background-color: white;
+    height: auto;
+    margin-bottom: 30px;
 }
 #form-commentInfo{
-	margin-top:30px;
+	margin-top:40px;
 }
 #form-commentInfo, #btn, #comments{
-	width:300px;
-	padding-left:35px;
+	width:820px;
+	padding-left:45px;
 	padding-bottom:5px;
 }
 #comment-count, #comment-input, #submit,
@@ -31,31 +36,28 @@ table tr td{
 	padding:5px;
 }
 #comment-input{
-	width:790px;
+	width:837px;
 	height:100px;
+	border : 1px solid #ccc;
+	border-radius:3px;
 }
-#submit{
-	height:112px;
-	width:112px;
-	float:right;
+#submit, .reply_sub_btn, .reply_cn_btn{
+	float: right;
+    display: block;
+    margin: 10px 5px 0 0px;
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+.reply_cn_btn{
+	margin-left : 50px;
 }
 #cc{
-	width:930px;
+	width:850px;
 }
-#btn input{
-    background-color: rgb(107, 156, 230);
-    box-shadow: 3px 3px 4px rgba(0,0,0,0.1);
-    padding: 7px 17px;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-    margin-left:220px;
-    border:none;
-}
-#btn{
-	padding-top:3px;
-	padding-left:670px;
-}
+
 
 #first{
 	background-color: white;
@@ -80,21 +82,83 @@ table tr td{
 .clear{
 	clear:both;
 }
+section{
+	height:auto;
+	margin-bottom:100px;
+	border: 1px solid rgba(0,0,0,0);
+}
 h2{
 	margin:40px;
+	margin-bottom: 20px;
 	padding-top:30px;
-}
-.reply_sub_btn{
-	background-color: rgb(107, 156, 230);
-    padding: 7px 17px;
-    color: white;
-    text-decoration: none;
-    height:112px;
-    width:116px;
-    font-size:14pt;
-    border:none;
+	padding-left:80px;
 }
 
 #comments_add {
     margin-left: 33px;
+}
+
+#image{
+	max-width:740px;
+	margin:0 auto;
+	display:block;
+	text-align:center;
+}
+
+#title{
+    margin: 0;
+    font-size: 26px;
+    text-align: left;
+    font-weight: 500;
+    color: #6085b6;
+    padding-top : 50px;
+}
+#date {
+    color: #767676;
+}
+#title, #nick, #date, #hit{
+	padding-left : 95px;
+}
+#comment-count{
+	margin-left:40px;
+}
+#operator{
+	color:#838383;
+}
+.re_again, .re_remove, .re_edit{
+	border: none;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    margin-right: 5px;
+    outline: none;
+}
+
+#btn{
+	padding-top: 20px;
+	margin-left: 105px;
+    width: 800px;
+    padding-bottom: 20px;
+    clear: both;
+}
+#btn input{
+    margin-left: 5px;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#list, #remove, #edit{
+    outline: none;
+    background-color:white;
+}
+#remove{
+    color: #f26231;
+}
+form.comments {
+    width: 853px;
+    padding-left:45px;
+}
+#re_comment {
+    border: none;
 }

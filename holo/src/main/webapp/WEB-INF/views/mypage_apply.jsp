@@ -19,29 +19,38 @@ color:#000;
 section{
 	height:900px;
 }
+ul.pagination {
+    text-align: center;
+    padding: 20px;
+}
+a.page-link {
+    font-size: 12pt;
+    padding: 10px;
+}
 </style>
 <body>
-    <header>
+<header>
         <nav>
-            <input type=hidden value="${login.user_id}" id="user_id_login">
-	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
         </div>
         <div id="move">
-                <a href="help_me">도움받기</a>
-                <a href="help_you">도움주기</a>
-                <a href="freeboard">자유게시판</a>
-                <a href="edit_mp">마이페이지</a>
-            </div>
+            <a href="help_me">도움받기</a>
+            <a href="help_you">도움주기</a>
+            <a href="freeboard">자유게시판</a>
+            <a href="notice">공지사항</a>
+        </div>
     </header>
     <section>
         <div id="wrap">
@@ -65,11 +74,13 @@ section{
 					<div class="info">
 						<div class="title">
 						<p id="apply_title">${item.title}
+							<c:if test="${item.choose=='1'}">
 							<span id="apply_selected">
-								<c:if test="${item.choose=='1'}">
+								
 									작성자 채택
-								</c:if>
+								
 							</span>
+							</c:if>
 						</p>
 						
 						<span class="date">${item.operator}</span>

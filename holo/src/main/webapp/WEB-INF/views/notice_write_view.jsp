@@ -13,95 +13,77 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/notice_write_view.css">
 <body>
- <header>
+<header>
         <nav>
-	        <input type=hidden value="${login.user_id}" id="user_id_login">
-	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
         </div>
         <div id="move">
-                <a href="help_me">도움받기</a>
-                <a href="help_you">도움주기</a>
-                <a href="freeboard">자유게시판</a>
-	            <c:if test="${login.nick==null}">
-		           <a href="#" id="mypage">마이페이지</a>
-		        </c:if>
-	            <c:if test="${login.nick!=null}">
-		           <a href="mypage" id="mypage">마이페이지</a>
-		        </c:if>
+            <a href="help_me">도움받기</a>
+            <a href="help_you">도움주기</a>
+            <a href="freeboard">자유게시판</a>
+            <a href="notice">공지사항</a>
         </div>
     </header>
     <div class="clear"></div>
     <section>
+	    <h2>공지사항</h2>
 	    <div id="wrap">
-	    	<h2>공지사항</h2>
         	<div id="center">
         		<c:forEach var="dto" items="${notice}">
 		        <form action="update_post" method="post">
-		            <table id="first">
-		                <tr>
-		                <td><input type=hidden id=post_id name=post_id value=${dto.post_id}></td>
-		            	<td><input type=hidden id=user_user_id value=${dto.user_user_id}></td>
-		            	</tr>
-		            	<tr>
-		                    <td>제목</td>
-		                    <td>${dto.title}
-		                    <input type=hidden name=title value=${dto.title}></td>
-		                    <td>닉네임</td>
-		                    <td>${dto.nick}</td>
-		                </tr>
-		                <tr>
-		                    <td>작성날짜</td>
-		                    <td>${dto.operator}</td>
-		                    
-		                    <td>조회수</td>
-		                    <td>${dto.hit}</td>
-		                </tr>
-		                <tr>
-		                    <td>글내용</td>
-		                </tr>
-		            </table>
-		            <table id="second">
-		            	<tr>                
-		                    <td><textarea id="content" name="content" cols="130" rows="40" readonly>${dto.content}
-		                    ${dto.img}
-		                    </textarea>
-		                    </td>
-		                    <img src="http://localhost:8080/holo/img/${dto.img}"/>
-		                </tr>
-		            </table>
+		                <input type=hidden id=post_id name=post_id value=${dto.post_id}>
+		            	<input type=hidden id=user_user_id value=${dto.user_user_id}>
+		            	
+		             <div id="title">
+		             	${dto.title}<input type=hidden name=title value=${dto.title}>
+		             </div>
+		             <div id="nick">
+		             	${dto.nick}
+		             </div>
+		             <div id="date">
+		             	${dto.operator}
+		             </div>
+		             <div id="hit">
+		             	조회수 ${dto.hit}
+		             </div>               
+		             <div id=content>
+		             	<c:if test="${dto.img!=null}">
+		                    <img src="holoimg/img/${dto.img}" id="image"/><br><br>
+		                </c:if>
+		                <pre>${dto.content}</pre>
+		             </div>
+
 				   	<div id="btn">
-		            <c:forEach var="dto" items="${notice}">
-		            <c:if test="${login.user_id==dto.user_user_id}">
-			                <input type="button" id="remove" value="삭제">
-			                <input type="submit" id="edit" value="수정">
-			        </c:if>
-			        </c:forEach>
+			            <c:if test="${login.user_id==dto.user_user_id}">
+				                <input type="button" id="remove" value="삭제"> <input type="submit" id="edit" value="수정">
+				        </c:if>
+				        <a href="notice"><input type="button" id="list" value="목록보기"></a>
+		        	</div>
 		        </form>
 		        </c:forEach>
 		        </div>
-           
-                <a href="notice"><input type="button" id="list" value="목록보기"></a>
-            </div>
 
             <div id="form-commentInfo"> 
-                <div id="comment-count">댓글 <span id="count">${replyCnt}</span></div> 
-                <form method="post" action="add_comment">
+                <div id="comment-count">댓글 <span id="count">(${replyCnt})</span></div> 
+                <form method="post" action="add_comment" id="comments">
 	                <div id=cc>
 	                <c:forEach var="dto" items="${notice}">
 	                	<input type=hidden value="${dto.post_id}" name="post_post_id">
 	                </c:forEach>
 	                	<input type="hidden" name="user_user_id" value="${login.user_id}">
-	                	<input type="text" name="nick" value="${login.nick}">
+	                	<input type="hidden" name="nick" value="${login.nick}">
 	                	<c:if test="${login.nick==null}">
 					         <input id="comment-input" name="re_comment" placeholder="로그인 한 회원만 입력이 가능합니다.">
 				        </c:if>
@@ -117,10 +99,11 @@
             <c:forEach var="dto_reply" items="${reply}">
             <div id=comments> 
             <form action="update_comment" method=post class="comments" value="${dto_reply.re_class}">
-	            <div id="comments${dto_reply.reply_id}">
-			            <input type=text id="re_comment" value="${dto_reply.re_comment}" name="re_comment"><br>
-			            ${dto_reply.nick}  ${dto_reply.operator}<br>
-
+	            <div id="comments${dto_reply.reply_id}" class="comments">
+	           			<p class="writer" id="mp_popGo${dto_reply.reply_id}">
+                  		${dto_reply.nick}</p><br>
+			            <p id="re_comment" value="${dto_reply.re_comment}" name="re_comment">${dto_reply.re_comment}</p>
+			            <p id="operator">${dto_reply.operator}</p>
 			            <input type=hidden name="post_post_id" value=${dto_reply.post_post_id}>
 			            <input type=hidden name="reply_id" value=${dto_reply.reply_id}>
 			            <input type=hidden name="re_index" value=${dto_reply.re_index}>
@@ -129,23 +112,23 @@
 			            <input type=hidden name="groupNum" value=${dto_reply.reply_id}>    
 			    </div>
 			            <div id="btn_reply">
-			            <c:if test="${login.user_id}==${dto_reply.user_user_id}">
-			                <input type="button" id="remove_reply${dto_reply.reply_id}" value="삭제" data_r=${dto_reply.reply_id}>
-			                <input type="button" id="reply_update${dto_reply.reply_id}" value="수정" data_r=${dto_reply.reply_id}>
-			            </c:if>
-			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" >
-			                
+			                <input type="button" id="reply_again${dto_reply.reply_id}" value="답글달기" class="re_again">
+			                <c:if test="${login.user_id==dto_reply.user_user_id}">
+				                <input type="button" id="remove_reply${dto_reply.reply_id}" class="re_remove" value="삭제" data_r="${dto_reply.reply_id}">
+				                <input type="button" id="reply_update${dto_reply.reply_id}" class="re_edit" value="수정" data_r="${dto_reply.reply_id}">
+			            	</c:if>
 			                <br><br><br>
+
 			                <div id="reply_again_textarea${dto_reply.reply_id}" style="display:none">
 			                <input id="comment-input" name="re_re_comment">
 			                <input type=submit class="reply_sub_btn" value="등록" onclick="javascript: form.action='add_re_comment';">
-			                <input type="button" value="취소" id="rere_cancel${dto_reply.reply_id}">
+			                <input type="button" value="취소" class="reply_cn_btn" id="rere_cancel${dto_reply.reply_id}">
 			                </div>
 			                
 			                <div id="reply_update_textarea${dto_reply.reply_id}" style="display:none">
 			                <input id="comment-input" name="update_comment" placeholder="${dto_reply.re_comment}">
 			                <input type=submit class="reply_sub_btn" value="등록" onclick="javascript: form.action='update_comment';"/>
-			                <input type="button" value="취소" id="edit_cancel${dto_reply.reply_id}">
+			                <input type="button" value="취소" class="reply_cn_btn" id="edit_cancel${dto_reply.reply_id}">
 			                </div>
 			         	</div>
 			</form>
@@ -160,6 +143,7 @@
 		<input type="hidden" name="listCnt" id="listCnt" value="${listCnt}">
 		<input type="hidden" id="range" value="${pagination.range}">
 		<a href="#" id="more">더보기</a> 
+	</div>
     </section>
     <footer>
         <p>copyright 홀로서기 
@@ -169,23 +153,6 @@
 
 <script src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script type="text/javascript">
-/*
-function loadNextPage(){
-	var page=$('#page').val();
-	page=parseInt(page);
-	page+=5;
-	var post_id=$('#post_id').val();
-}*/
-</script>
-<script>
-/*
-function loadNextPage(page){
-	var param="page="+page;
-	$('#comment').load("notice_write_view",param,function(data){
-		alert(data);
-	});
-}  
-*/
 var page=$('#page').val();
 $(document)
 .ready(function(){
@@ -224,16 +191,17 @@ $(document)
 				$.each(data,function(ndx,value){
 					console.log("each: "+value['reply_id']+", "+value['re_comment']);
 					var ifbtn="";
-					if(value['user_id']==value['user_user_id']){
-		            	 ifbtn='<input type=button id=remove_reply'+value['reply_id']+'value=삭제 data_r='+value['reply_id']+'>'
-			             +'<input type=button id=reply_update'+value['reply_id']+'value=수정 data_r='+value['reply_id']+'>'
+					if(value['user_id']==value['user_user_id']||value['user_id']==value["admin"]){
+		            	 ifbtn='<input type=button class=re_remove value=삭제 id=remove_reply'+value['reply_id']+' data_r='+value['reply_id']+'>'
+			             +'<input type=button class=re_edit id=reply_update'+value['reply_id']+' value=수정 data_r='+value['reply_id']+'>'
 		            }
 					console.log("ifbtn: "+ifbtn);
 					var content=
 					'<form action=update_comment method=post class=comments value='+value['re_class']+'>'
 					+'<div id=comments'+value['reply_id']+'>'
-					+'<input type=text name=re_comment id=re_comment value='+value['re_comment']+'>'+'<br>'
-			        +value['user_user_id']+value['operator']+'<br>'
+					+'<p class=writer id=mp_popGo'+value['reply_id']+'>'+value['nick']+'</p><br>'
+					+'<p id=re_comment name=re_comment'+'>'+value['re_comment']+'</p>'+'<br>'
+			        +'<p id=operator>'+value['operator']+'</p>'
 					+'<input type=hidden name=post_post_id value='+value['post_post_id']+'>'
 		            +'<input type=hidden name=reply_id value='+value['reply_id']+'>'
 		            +'<input type=hidden name=re_index value='+value['re_index']+'>'
@@ -245,17 +213,17 @@ $(document)
 		            +'<div id=btn_reply>'
 		            +ifbtn
 		            
-		            +'<input type=button id=reply_again'+value['reply_id']+' value=답글달기>'
+		            +'<input type=button id=reply_again'+value['reply_id']+' value=답글달기 class=re_again>'
 		            +'<br><br><br>'
 	                +'<div id=reply_again_textarea'+value['reply_id']+' style=display:none>'
 		                +'<input id=comment-input name=re_re_comment>'
-		                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=add_re_comment/>'
+		                +'<input type=submit class=reply_sub_btn class=reply_sub_btn value=등록 onclick=javascript: form.action=add_re_comment;/>'
 		                +'<input type=button value=취소 id=rere_cancel'+value['reply_id']+'>'
 	                +'</div>'
 	                
 	                +'<div id=reply_update_textarea'+value['reply_id']+' style=display:none>'
 	                +'<input id=comment-input name=update_comment placeholder='+value['re_comment']+'>'
-	                +'<input type=submit class=reply_sub_btn value=등록 onclick=javascript: form.action=update_comment/>'
+	                +'<input type=submit class=reply_sub_btn class=reply_sub_btn value=등록 onclick=javascript: form.action=update_comment;/>'
 	                +'<input type=button value=취소 id=edit_cancel'+value['reply_id']+'>'
 	                +'</div>'
 		            console.log("content: "+content);

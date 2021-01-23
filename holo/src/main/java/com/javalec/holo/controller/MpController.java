@@ -62,11 +62,12 @@ public class MpController {
   		pagination.pageInfo(page, range, listCnt);
         model.addAttribute("pagination", pagination);
         System.out.println("range: "+pagination.getRange());
+        System.out.println("pageCnt : "+pagination.getPageCnt());
 		
 		List<Dto_total_reply>total_reply = service.total_reply(dto.getUser_id(),pagination);
 		model.addAttribute("total_reply",total_reply);
-		List<Dto_apply> apply=service.applier(dto.getUser_id());
-		model.addAttribute("apply",apply);
+//		List<Dto_apply> apply=service.applier(dto.getUser_id());
+//		model.addAttribute("apply",apply);
 		
        return "mypage_mycomments";
     }

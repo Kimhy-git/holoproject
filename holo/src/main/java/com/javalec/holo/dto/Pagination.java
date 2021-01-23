@@ -13,13 +13,13 @@ public class Pagination {
 
 	private int listCnt;
 
-	private int pageCnt;
+	private double pageCnt;
 
 	private int startPage;
 
 	private int startList;
 
-	private int endPage;
+	private double endPage;
 
 	private boolean prev;
 
@@ -42,7 +42,7 @@ public class Pagination {
 	}
 
 
-	public int getPageCnt() {
+	public double getPageCnt() {
 		return pageCnt;
 	}
 
@@ -110,7 +110,7 @@ public class Pagination {
 		this.startPage = startPage;
 	}
 
-	public int getEndPage() {
+	public double getEndPage() {
 		return endPage;
 	}
 
@@ -160,7 +160,11 @@ public class Pagination {
 		this.listCnt = listCnt;
 
 		//전체 페이지수 
-		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		if(listCnt%listSize!=0) {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		} else {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize);
+		}
 
 		//시작 페이지
 		this.startPage = (range - 1) * rangeSize + 1 ;
@@ -190,7 +194,7 @@ public class Pagination {
 		this.user_id = user_id;
 		
 		//전체 페이지수 
-		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		this.pageCnt = (double)Math.ceil(listCnt/listSize)+1;
 
 		//시작 페이지
 		this.startPage = (range - 1) * rangeSize + 1 ;
