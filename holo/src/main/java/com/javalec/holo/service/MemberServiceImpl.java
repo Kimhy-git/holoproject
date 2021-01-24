@@ -15,6 +15,7 @@ import com.javalec.holo.dao.IDao;
 import com.javalec.holo.dto.BoardSearch;
 import com.javalec.holo.dto.Dto;
 import com.javalec.holo.dto.Dto_apply;
+import com.javalec.holo.dto.Dto_chat;
 import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
@@ -366,6 +367,20 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
+	//chat
+	@Override
+	public void chat_send(String message_sender, String message_receiver, String message_content) {
+		// TODO Auto-generated method stub
+		dao.chat_send(message_sender, message_receiver, message_content);
+	}
+	@Override
+	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id){
+		return dao.chat_read(message_sender, message_receiver, last_id);
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -376,27 +391,27 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override //notice_write_view
-	public List<Dto_post> select_post_view(String post_id) throws Exception {
+	public Dto_post select_post_view(int post_id) throws Exception {
 		return dao.select_post_view(post_id);
 	}
 
 	@Override
-	public int count_post_reply(String post_id) {
+	public int count_post_reply(int post_id) {
 		return dao.count_post_reply(post_id);
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception {
+	public List<Dto_reply> select_post_reply(int post_id) throws Exception {
 		return dao.select_post_reply(post_id);
 	}
 
 	@Override //delete posts
-	public List<Dto_post> select_post_delete(String post_id) throws Exception {
+	public List<Dto_post> select_post_delete(int post_id) throws Exception {
 		return dao.select_post_delete(post_id);
 	}
 	
 	@Override //delete comments with a post
-	public List<Dto_reply> select_reply_delete(String post_id) throws Exception {
+	public List<Dto_reply> select_reply_delete(int post_id) throws Exception {
 		return dao.select_reply_delete(post_id);
 	}
 	
@@ -442,7 +457,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void update_post(String post_id, String board, String title, String content) {
+	public void update_post(int post_id, String board, String title, String content) {
 
 		System.out.println("MemberServiceImpl, post_id : "+post_id);
 		System.out.println("MemberServiceImpl, title : "+title);
@@ -464,7 +479,7 @@ public class MemberServiceImpl implements MemberService {
 
 	//hits
 	@Override
-	public void uphit(String post_id) {
+	public void uphit(int post_id) {
 		System.out.println("MemberServiceImpl, post_id : "+post_id);
 		dao.uphit(post_id);
 	}
@@ -520,6 +535,104 @@ public class MemberServiceImpl implements MemberService {
 	public List<Dto_post> list_notice(BoardSearch search) {
 		return dao.list_notice(search);
 	}	
+	
+	//notice_mpPopUp
+	@Override
+	public Dto_post read_post(int post_id) {
+		return dao.read_post(post_id);
+	}
+	@Override
+	public Dto_user mp_user_post(String user_id) {
+		return dao.mp_user_post(user_id);
+	}
+	
+	//help_me에 지원하기
+	@Override
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
+			String applier, String price, String nick, String title) {
+		
+		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
+	}
+	//help_you에 지원하기
+	@Override
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
+			String gender, String applier, String price, String nick, String title) {
+		System.out.println("service nick and title : "+nick+", "+title);
+		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price, nick, title);	
+	}
+
+
+
+	//apply_you
+
+	
+	//apply you paging
+	@Override
+	public int count_apply(String applier) {
+		return dao.count_apply(applier);
+	}
+
+	@Override
+	public Dto_apply apply_you_page(Pagination pagination) {
+		System.out.println("Service apply_you_page");
+		return dao.apply_you_page(pagination);
+	}
+
+
+	//help_post 글제목 가져오기(join 이용)
+	@Override
+	public List<Dto_help_post> help_title(String user_user_id) {
+		System.out.println("service, user_user_id : "+user_user_id);
+		return dao.help_title(user_user_id);
+	}
+
+	//apply에서 지원자 가져오기
+	@Override
+	public List<Dto_apply> applier(String user_id) {
+		return dao.applier(user_id);
+	}
+	
+	//전체 댓글 가져오기
+	@Override
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination) {
+		return dao.total_reply(user_id, pagination);
+	}
+
+	@Override
+	public int total_reply_count(String user_id) {
+		return dao.total_reply_count(user_id);
+	}
+	
+	//전체 지원 게시글 수
+	@Override
+	public int total_apply_count(String user_id) {
+		return dao.total_apply_count(user_id);
+	}
+
+	//전체 지원 게시글 가져오기
+	@Override
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
+		return dao.total_apply(user_id,pagination);
+	}
+	
+	//post_id에 해당하는 댓글 수
+	@Override
+	public int count_reply(int post_id) {
+		return dao.count_reply(post_id);
+	}
+
+	@Override
+	public void cancel_apply(String apply_id) {
+		System.out.println("Service apply_id : "+apply_id);
+		dao.cancel_apply(apply_id);
+	}
+	
+	@Override
+	public List<Dto_reply> select_post_reply_ajax(int post_id, Pagination pagination) {
+		return dao.select_post_reply_ajax(post_id,pagination);
+	}
+	
+	
 	
 	
 	
@@ -648,97 +761,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dao.select_free_reply_ajax(post_id, pagination);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	//help_me에 지원하기
-	@Override
-	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price, String nick, String title) {
-		
-		dao.add_apply_me(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
-	}
-	//help_you에 지원하기
-	@Override
-	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
-			String gender, String applier, String price, String nick, String title) {
-		System.out.println("service nick and title : "+nick+", "+title+"post_id"+help_post_help_post_id);
-		dao.add_apply_you(helpyou_id, tag, cv, board, help_post_help_post_id, gender, applier, price, nick, title);	
-	}
 
 
-
-	//apply_you
-
-	
-	//apply you paging
-	@Override
-	public int count_apply(String applier) {
-		return dao.count_apply(applier);
-	}
-
-	@Override
-	public Dto_apply apply_you_page(Pagination pagination) {
-		System.out.println("Service apply_you_page");
-		return dao.apply_you_page(pagination);
-	}
-
-
-	//help_post 글제목 가져오기(join 이용)
-	@Override
-	public List<Dto_help_post> help_title(String user_user_id) {
-		System.out.println("service, user_user_id : "+user_user_id);
-		return dao.help_title(user_user_id);
-	}
-
-	//apply에서 지원자 가져오기
-	@Override
-	public List<Dto_apply> applier(String user_id) {
-		return dao.applier(user_id);
-	}
-	
-	//전체 댓글 가져오기
-	@Override
-	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination) {
-		return dao.total_reply(user_id, pagination);
-	}
-
-	@Override
-	public int total_reply_count(String user_id) {
-		return dao.total_reply_count(user_id);
-	}
-	
-	//전체 지원 게시글 수
-	@Override
-	public int total_apply_count(String user_id) {
-		return dao.total_apply_count(user_id);
-	}
-
-	//전체 지원 게시글 가져오기
-	@Override
-	public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
-		return dao.total_apply(user_id,pagination);
-	}
-	
-	//post_id에 해당하는 댓글 수
-	@Override
-	public int count_reply(String post_id) {
-		return dao.count_reply(post_id);
-	}
-
-	@Override
-	public void cancel_apply(String apply_id) {
-		System.out.println("Service apply_id : "+apply_id);
-		dao.cancel_apply(apply_id);
-	}
-	
-	@Override
-	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination) {
-		return dao.select_post_reply_ajax(post_id,pagination);
-	}
 }

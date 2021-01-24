@@ -46,6 +46,7 @@
 			<c:forEach var="list" items="${list}">
         		<div class="applier">
 					<div class="info">
+						<input type="hidden" id="applier${list.apply_id}" value="${list.applier}">
 						<div class="title"><a href="#">${list.title}</a>
 							<span class="date">${list.operator}</span>
 						</div>
@@ -68,7 +69,7 @@
 						</div>
 					</div>
 					<div class="btns">
-						<input class="btn" type="button" value="채팅하기"><br>
+						<input class="btn" type="button" value="채팅하기" id="chat${list.apply_id}"><br>
 						<c:if test="${list.complete==0}">
 							<input class="btn last" type="button" value="채택하기" id="choosebtn${list.help_post_help_post_id}" data-n="${list.apply_id}">
 						</c:if>
@@ -160,6 +161,14 @@ $(document)
 	    }
 
 	});
+})
+.on('click','input[id^=chat]',function(){ //input[id가 chat으로 시작하는 버튼]
+    var n=(this.id).substr(4); 
+    console.log("chat id: "+n);
+    var applier=$('#applier'+n).val();
+    console.log("applier: "+applier);
+    window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
+   
 })
 </script>
 </html>

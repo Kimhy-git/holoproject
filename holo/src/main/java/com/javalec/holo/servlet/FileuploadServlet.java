@@ -7,10 +7,10 @@ import java.util.Calendar;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileuploadServlet {
-//	private static final String SAVE_PATH = "\\D:\\img";
-//	private static final String PREFIX_URL = "\\D:\\img\\";
-	private static final String SAVE_PATH = "/holoimg/img";
-	private static final String PREFIX_URL = "/holoimg/img/";
+	private static final String SAVE_PATH = "\\D:\\img";
+	private static final String PREFIX_URL = "\\D:\\img\\";
+//	private static final String SAVE_PATH = "/holoimg/img";
+//	private static final String PREFIX_URL = "/holoimg/img/";
 	
 	public static String restore(MultipartFile multipartFile) {
 		String url = null;

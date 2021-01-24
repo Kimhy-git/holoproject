@@ -8,7 +8,9 @@
             <typeAlias type="com.javalec.holo.dto.Dto" alias="dto"/>
             <!-- mypage -->
             <typeAlias type="com.javalec.holo.dto.Dto_total" alias="dto_my_total"/>
-
+            
+            <!-- chat -->
+			<typeAlias type="com.javalec.holo.dto.Dto_chat" alias="dto_chat"/>
             
             
             <!-- notice -->
