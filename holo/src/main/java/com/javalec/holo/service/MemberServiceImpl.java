@@ -472,10 +472,10 @@ public class MemberServiceImpl implements MemberService {
 	//add re_comments
 	@Override
 	public void add_re_comment(String re_index, String re_comment, String re_order, String re_class, 
-			String groupNum, String post_post_id, String user_user_id) {
+			String groupNum, String post_post_id, String user_user_id, String nick) {
 		
 		System.out.println("MemberServiceImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
-		dao.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+		dao.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id, nick);
 		
 	}	
 

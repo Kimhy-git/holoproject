@@ -1018,6 +1018,7 @@ public class BoardController {
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
 		
+		String nick=dto.getNick();
     	String user_user_id=dto.getUser_id();
     	String re_index=req.getParameter("reply_id");
     	String re_comment=req.getParameter("re_re_comment");
@@ -1039,7 +1040,7 @@ public class BoardController {
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
     	
     	
     	System.out.println("The end of update_post_now");

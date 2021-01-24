@@ -186,7 +186,7 @@ public interface IDao {
 	public void update_post(int post_id, String board, String title, String content, String img);
 
 	//add re_comments
-	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id, String nick);
 	
 	//hits
 	public void uphit(int post_id); 
