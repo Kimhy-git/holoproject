@@ -130,15 +130,33 @@ public class BoardController {
 		 
      
    @RequestMapping(value = "/helpme_write_view", method = RequestMethod.GET)
-   public String helpme_write_view(HttpServletRequest req, Model model) throws Exception {
+   public String helpme_write_view(HttpServletRequest req, Model model,
+		    @RequestParam(required = false, defaultValue = "1") int page, 
+   			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
 		  System.out.println("helpme_write_view작동");
 		  
 		  
+		  Dto_login dto = new Dto_login();
+			 
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+
 		  int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
-		  System.out.println("help_post_id:"+help_post_id);
+  		  System.out.println("help_post_id:"+help_post_id);
+		  
+			int listCnt = service.help_reply_count(help_post_id);
+	  		System.out.println("listCnt: "+listCnt);
+	  		Pagination_help pagination = new Pagination_help();
+	  		pagination.pageInfo(0, range, listCnt);
+	  		pagination.setHelp_post_id(help_post_id);
+	  		model.addAttribute("pagination", pagination);
+	  		model.addAttribute("page",0);
+	        System.out.println("range : "+pagination.getRange());
+			List<Dto_help_reply> re_list=service.re_list(pagination);
+			model.addAttribute("re_list",re_list);
+
 		  service.hit(help_post_id);
 		  Dto_help_post read = service.read(help_post_id);
-		  List<Dto_help_reply> re_list=service.re_list(help_post_id);
 		  System.out.println("겟 젠더 : "+read.getGender());
 		  
 		  model.addAttribute("re_list",re_list);
@@ -154,12 +172,8 @@ public class BoardController {
 				read.setImg("holoimg/img/"+image);
 			}
 		  model.addAttribute("read", read);
-		  
-		  Dto_login dto = new Dto_login();
-			 
-		  HttpSession session = req.getSession();
-		  dto=(Dto_login)session.getAttribute("login");
-		  
+
+			
 		  System.out.println("helpme_write_view종료");
 	      return "helpme_write_view";
    }
@@ -250,7 +264,7 @@ public class BoardController {
    	return "redirect:helpme_write_view?help_post_id="+help_post_id;
    }
 	
-	@RequestMapping(value="/help_reply_del", method=RequestMethod.POST)
+	@RequestMapping(value="/help_reply_del", method={RequestMethod.POST,RequestMethod.GET})
 	public String help_reply_del(HttpServletRequest req, Model model) throws Exception{
 		System.out.println("help_reply_del 실행");
 		int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
@@ -263,7 +277,7 @@ public class BoardController {
 		return "redirect:helpme_write_view?help_post_id="+help_post_id;
 	}
 	
-	@RequestMapping(value="/help_reply_edit_go", method=RequestMethod.POST)
+	@RequestMapping(value="/help_reply_edit_go", method={RequestMethod.POST,RequestMethod.GET})
 	    public String help_reply_edit_go(HttpServletRequest req, Model model) throws Exception{
 	   	System.out.println("help_reply_edit_go 작동");
 	   	int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
@@ -359,6 +373,34 @@ public class BoardController {
         mav.setViewName("help_me_search");   //자료를 넘길 뷰의 이름
         return mav;   //게시판 페이지로 이동   
     } // 검색하기
+	
+	
+	@RequestMapping(value = "helpme_write_view_reply", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
+    public @ResponseBody String helpme_write_view_reply(HttpServletRequest req, Model model,
+    		@RequestParam(required = false, defaultValue = "1") int page, 
+			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
+			
+    		System.out.println("댓글 페이징");
+    	
+    		//전체 댓글 수
+    		int help_post_id=Integer.parseInt(req.getParameter("help_post_id"));
+    		System.out.println("this is post_id : " +help_post_id);
+			int listCnt = service.help_reply_count(help_post_id);
+			System.out.println("json listCnt: "+listCnt);
+			Dto_help_post read = service.read(help_post_id);
+			
+			//Pagination 객제 생성
+			Pagination_help pagination = new Pagination_help();
+	  		pagination.pageInfo(page, range, listCnt);
+	  		pagination.setHelp_post_id(help_post_id);
+	  		model.addAttribute("pagination", pagination);
+	        System.out.println("range : "+pagination.getRange());
+			List<Dto_help_reply> reply_list=service.re_list(pagination);
+			Gson gson = new Gson();
+			String json = gson.toJson(reply_list);
+			
+			return json;
+	}
 	
 	
 	

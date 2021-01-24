@@ -76,7 +76,7 @@ public interface IDao {
 	public List<Dto_help_post> likes()  throws Exception;
 	
 	//help_me 댓글 보기
-	public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
+	public List<Dto_help_reply> re_list(Pagination_help pagination) throws Exception;
 
 	//help_me 댓글 작성
 	void re_write( String re_commnet,int help_post_id,String user_user_id
@@ -105,6 +105,7 @@ public interface IDao {
 	public List<Dto_help_post> helpme_search(BoardSearch search);
 	//help_me 검색 카운트
 	public int helpme_search_count(BoardSearch search);
+	
 	
 		
 		

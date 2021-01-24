@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/helpme_write.css">
 <body>
- <header>
-        <nav>
+ 	<header>
+       <nav>
 	        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
@@ -20,6 +20,7 @@
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
 	            <a href="logout" id=login>로그아웃</a>
+	            <a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
 	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
@@ -30,9 +31,9 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <a href="notice">공지사항</a>
         </div>
-    </header>
+ 	</header> 
     <div class="clear"></div>
     <section>
         <!-- <h2>도움받기 글 작성</h2> -->

@@ -232,7 +232,7 @@ public interface MemberService {
 	public void delete(int help_post_id) throws Exception;
 
 	//help_me 댓글 보기
-	public List<Dto_help_reply> re_list(int help_post_id) throws Exception;
+	public List<Dto_help_reply> re_list(Pagination_help pagination) throws Exception;
 	
 	//help_me 댓글 쓰기
 	public void re_write(String re_comment,int help_post_id, String user_user_id) throws Exception;

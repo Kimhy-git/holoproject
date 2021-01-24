@@ -11,16 +11,18 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/help_me.css">
 <body>
-    <header>
-        <nav>
-        <input type=hidden value="${login.user_id}" id="user_id_login">
-        <c:if test="${login.nick==null}">
-            <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
-        </c:if>
-        <c:if test="${login.nick!=null}">
-            <a href="logout" id=login>로그아웃</a>
-        </c:if>
+ 	<header>
+       <nav>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	            <a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -29,15 +31,15 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <a href="notice">공지사항</a>
         </div>
-    </header>
+ 	</header> 
     <div class="clear"></div>
     <section>
         <div id="center">
             <div id="wrap">
                 <div id="section_h">
-                    <h2>도움 받기</h2>
+                    <h2>도움받기</h2>
                     <form id="form1" method="post" action="help_me_search" >
 	                    <div id="search">
 	                       <select id="area" name="area">

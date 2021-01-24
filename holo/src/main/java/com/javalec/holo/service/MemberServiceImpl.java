@@ -180,10 +180,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	//help_me 댓글 보여주기
-	public List<Dto_help_reply> re_list(int help_post_id) throws Exception{
+	public List<Dto_help_reply> re_list(Pagination_help pagination) throws Exception{
 			
-	return dao.re_list(help_post_id);
+	return dao.re_list(pagination);
 	}
+	
 	//help_me 댓글 작성
 	public void re_write(String re_comment,int help_post_id ,String user_user_id) throws Exception {
 	System.out.println("멤버서비스 댓글보여주기 reply"+re_comment);
@@ -222,6 +223,7 @@ public class MemberServiceImpl implements MemberService {
 	public int help_reply_count(int help_post_id) throws Exception{
 		return dao.help_reply_count(help_post_id);
 	}
+
 	
 	@Override
 	public List<Dto_help_post> helpme_search(BoardSearch search) {

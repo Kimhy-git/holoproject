@@ -106,127 +106,125 @@ public class IDaolmpl implements IDao {
 	};
     
 	   
-	  //help_me게시글 리스트
-	  	@Override
-	  	public List<Dto_help_post> list(Pagination_help pagination) throws Exception {
-	  		// TODO Auto-generated method stub
-	  		System.out.println("idao pagination: "+pagination.getStartPage());
-	  		System.out.println("idao pagination: "+pagination.getEndPage());
-	  		return sqlSession.selectList(Namespace+".list",pagination);
-	  	}
-	  	//카운트
-	  	public int count_helpme() throws Exception{
-	  		return sqlSession.selectOne(Namespace+".count_helpme");
-	  	}
-	  	
-	  	//help_me게시글 상세보기 (뷰어)
-			@Override
-			public Dto_help_post read(int help_post_id) throws Exception{
-			return sqlSession.selectOne(Namespace+".read",help_post_id);
-			}
-	  	
-			@Override
-			public List<Dto_help_post> likes(){
-			return sqlSession.selectList(Namespace+".likes");
-			}
-			
-	  	//help_me게시글 쓰기
+	@Override
+  	public List<Dto_help_post> list(Pagination_help pagination) throws Exception {
+  		// TODO Auto-generated method stub
+  		System.out.println("idao pagination: "+pagination.getStartPage());
+  		System.out.println("idao pagination: "+pagination.getEndPage());
+  		return sqlSession.selectList(Namespace+".list",pagination);
+  	}
+  	//카운트
+  	public int count_helpme() throws Exception{
+  		return sqlSession.selectOne(Namespace+".count_helpme");
+  	}
+  	
+  	//help_me게시글 상세보기 (뷰어)
+		@Override
+		public Dto_help_post read(int help_post_id) throws Exception{
+		return sqlSession.selectOne(Namespace+".read",help_post_id);
+		}
+  	
+		@Override
+		public List<Dto_help_post> likes(){
+		return sqlSession.selectList(Namespace+".likes");
+		}
+		
+  	//help_me게시글 쓰기
 
-			@Override
-			public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
-				int min_price,String img, String user_user_id)throws Exception {
-			System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
-					"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img+" user_user_id : "+user_user_id);
-			Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img,user_user_id);
-	  		sqlSession.insert(Namespace+".write",Dto_p);
-	  	}
-	  	//help_me게시글 수정
-			@Override
-			public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
-					int min_price, int help_post_id,String img)throws Exception {
-			System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
-			Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
-					tag_job,payment, min_price,help_post_id,img);
-	  		sqlSession.insert(Namespace+".edit",Dto_p);
-			}
-	  	//help_me게시글 삭제
-	  	@Override
-	  	public void delete(int help_post_id) throws Exception {
-	  		sqlSession.delete(Namespace+".delete_re",help_post_id);
-	  		sqlSession.delete(Namespace+".delete",help_post_id);
-	  	}
+		@Override
+		public void write(String title, String content, String tag_area, String tag_job, String gender, String payment,
+			int min_price,String img, String user_user_id)throws Exception {
+		System.out.println("title :"+title+" content :"+content+" tag_area :"+tag_area+" tag_job :"+tag_job+
+				"gender :"+gender+" payment :"+payment+" minp_price :"+min_price+"img :"+img+" user_user_id : "+user_user_id);
+		Dto_help_post Dto_p = new Dto_help_post(title, content, gender, tag_area, tag_job, payment, min_price,img,user_user_id);
+  		sqlSession.insert(Namespace+".write",Dto_p);
+  	}
+  	//help_me게시글 수정
+		@Override
+		public void edit(String title, String content, String gender, String tag_area, String tag_job, String payment,
+				int min_price, int help_post_id,String img)throws Exception {
+		System.out.println("헬프미 에디트 아이다오 임플로먼트 실행이 잘 되고있나요?"+help_post_id);
+		Dto_help_post Dto_p = new Dto_help_post(title,content,gender,tag_area,
+				tag_job,payment, min_price,help_post_id,img);
+  		sqlSession.insert(Namespace+".edit",Dto_p);
+		}
+  	//help_me게시글 삭제
+  	@Override
+  	public void delete(int help_post_id) throws Exception {
+  		sqlSession.delete(Namespace+".delete_re",help_post_id);
+  		sqlSession.delete(Namespace+".delete",help_post_id);
+  	}
 
-			//help_me 댓글 보기
-	  	@Override
-	  	public List<Dto_help_reply> re_list(int help_post_id){
-	  		
-	  		return sqlSession.selectList(Namespace+".re_list",help_post_id);
-	  	}
-	  	//help_me 댓글 작성
-	  	@Override
-	  	public void re_write(String re_comment,int help_post_id ,String user_user_id)throws Exception {
-	  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment+" 유저아이디 : "+user_user_id);
-	  		
-	  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id, user_user_id);
-	  		sqlSession.insert(Namespace+".re_write",Dto_pr);
-	  	}
-	  	//help_me 수정 댓글 보기
-	  	@Override
-	  	public Dto_help_reply re_read(int help_reply_id)throws Exception{
-	  		return sqlSession.selectOne(Namespace+".re_edit_view",help_reply_id);
-	  	};
-	  	//help_me 댓글 수정
-	  	@Override
-	  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
-	  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
-	  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
-	  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
-	  		sqlSession.insert(Namespace+".re_edit",Dto_pr);
-	  	}
-	  	//help_me 댓글 삭제
-		@Override
-	  	public void re_delete(int help_reply_id) throws Exception {
-	  		sqlSession.delete(Namespace+".re_delete",help_reply_id);
-	  	}
-		
-		//help_me 대댓글 작성
-		@Override
-		public void helpme_re_recomment_submit(int re_index, String re_comment, 
-				int re_order, int re_class, int groupNum, int help_post_post_id, 
-				String user_user_id) throws Exception {
-			System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
-			int re_groupNum=sqlSession.selectOne(Namespace+".helpme_groupNum_select",groupNum);
-			re_index=re_groupNum+1;
-			Dto_help_reply recomment=new Dto_help_reply();
-			recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
-			System.out.println(recomment.getRe_index());
-			sqlSession.insert(Namespace+".helpme_re_recommnet_submit",recomment);
-			
-		}
-		
-		//help_me hit
-		@Override
-		public void hit(int help_post_id) throws Exception{
-		    sqlSession.insert(Namespace+".hit",help_post_id);
-		};
-		
-		//help_me 댓글 카운트
-		@Override
-		public int help_reply_count(int help_post_id){
-			
-			return sqlSession.selectOne(Namespace+".help_reply_count",help_post_id);
-		}
-		//help_me 검색
-		@Override
-		public List<Dto_help_post> helpme_search(BoardSearch search) {
-			return sqlSession.selectList(Namespace+".helpme_search", search);
-		}
-		//help_me 검색 카운트
-		@Override
-		public int helpme_search_count(BoardSearch search) {
-			return sqlSession.selectOne(Namespace+".helpme_search_count",search);
-		}
+	//help_me 댓글 보기
+  	@Override
+  	public List<Dto_help_reply> re_list(Pagination_help pagination){
+  		
+  		return sqlSession.selectList(Namespace+".re_list",pagination);
+  	}
+  	//help_me 댓글 작성
+  	@Override
+  	public void re_write(String re_comment,int help_post_id ,String user_user_id)throws Exception {
+  		System.out.println("아이다오 댓글보여주기 reply :"+re_comment+" 유저아이디 : "+user_user_id);
+  		
+  		Dto_help_reply Dto_pr = new Dto_help_reply(re_comment, help_post_id, user_user_id);
+  		sqlSession.insert(Namespace+".re_write",Dto_pr);
+  	}
+  	//help_me 수정 댓글 보기
+  	@Override
+  	public Dto_help_reply re_read(int help_reply_id)throws Exception{
+  		return sqlSession.selectOne(Namespace+".re_edit_view",help_reply_id);
+  	};
+  	//help_me 댓글 수정
+  	@Override
+  	public void re_edit(int help_reply_id,String re_comment)throws Exception {
+  		System.out.println("아이다오임플로먼트~ 리코멘트 수정한거 ~~:"+re_comment);
+  		System.out.println("아이다오 아이디는 replyID :"+help_reply_id);
+  		Dto_help_reply Dto_pr = new Dto_help_reply(help_reply_id, re_comment);
+  		sqlSession.insert(Namespace+".re_edit",Dto_pr);
+  	}
+  	//help_me 댓글 삭제
+	@Override
+  	public void re_delete(int help_reply_id) throws Exception {
+  		sqlSession.delete(Namespace+".re_delete",help_reply_id);
+  	}
 	
+	//help_me 대댓글 작성
+	@Override
+	public void helpme_re_recomment_submit(int re_index, String re_comment, 
+			int re_order, int re_class, int groupNum, int help_post_post_id, 
+			String user_user_id) throws Exception {
+		System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
+		int re_groupNum=sqlSession.selectOne(Namespace+".helpme_groupNum_select",groupNum);
+		re_index=re_groupNum+1;
+		Dto_help_reply recomment=new Dto_help_reply();
+		recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);
+		System.out.println(recomment.getRe_index());
+		sqlSession.insert(Namespace+".helpme_re_recommnet_submit",recomment);
+		
+	}
+	
+	//help_me hit
+	@Override
+	public void hit(int help_post_id) throws Exception{
+	    sqlSession.insert(Namespace+".hit",help_post_id);
+	};
+	
+	//help_me 댓글 카운트
+	@Override
+	public int help_reply_count(int help_post_id){
+		
+		return sqlSession.selectOne(Namespace+".help_reply_count",help_post_id);
+	}
+	//help_me 검색
+	@Override
+	public List<Dto_help_post> helpme_search(BoardSearch search) {
+		return sqlSession.selectList(Namespace+".helpme_search", search);
+	}
+	//help_me 검색 카운트
+	@Override
+	public int helpme_search_count(BoardSearch search) {
+		return sqlSession.selectOne(Namespace+".helpme_search_count",search);
+	}
 	
     
 		
