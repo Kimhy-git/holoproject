@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.javalec.holo.dto.Dto_total;
 import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.BoardSearch;
@@ -74,19 +76,19 @@ public interface MemberService {
 	public List<Dto_post> select_post(Pagination pagination) throws Exception;
 	
 	//notice_write_view
-	public List<Dto_post> select_post_view(String post_id) throws Exception;
+	public Dto_post select_post_view(int post_id) throws Exception;
 	
 	//notice_write_view : 총 댓글 수
-	public int count_post_reply(String post_id);
+	public int count_post_reply(int post_id);
 	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) throws Exception;
+	public List<Dto_reply> select_post_reply(int post_id) throws Exception;
 	
 	//notice_write_view : delete
-	public List<Dto_post> select_post_delete(String post_id) throws Exception;
+	public List<Dto_post> select_post_delete(int post_id) throws Exception;
 	
 	//notice_write_view : delete comments with a post
-	public List<Dto_reply> select_reply_delete(String post_id) throws Exception;
+	public List<Dto_reply> select_reply_delete(int post_id) throws Exception;
 
 
 	public void add_post(String title,String content, String file_up);
@@ -101,13 +103,13 @@ public interface MemberService {
 	public void update_comment(String reply_id, String re_comment, String post_post_id, String board);
 	
 	//update posts
-	public void update_post(String post_id, String board, String title, String content);
+	public void update_post(int post_id, String board, String title, String content, String img);
 
 	//add re_comments
-	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id, String nick);
 	
 	//hits
-	public void uphit(String post_id);
+	public void uphit(int post_id);
 	
 	//the number of comments
 //	public void num_of_comments(String post_id);
@@ -129,6 +131,53 @@ public interface MemberService {
 	
 	//noitce 검색 조건으로 게시글 목록 조회
 	public List<Dto_post> list_notice(BoardSearch search);
+	
+	//help_me에 지원하기
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
+			String applier, String price, String nick, String title);
+
+	//help_you에 지원하기
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
+			String gender, String applier, String price, String nick, String title);
+
+	//apply_you page
+	public Dto_apply apply_you_page(Pagination pagination);
+
+	//apply_you paging
+	public int count_apply(String applier);
+
+
+	//help_post 제목 가져오기(Join 사용)
+	public List<Dto_help_post> help_title(String user_user_id);
+
+	//apply에서 지원자 가져오기
+	public List<Dto_apply> applier(String user_id);
+
+	//전체 댓글 가져오기
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
+
+	//전체 댓글 수 
+	public int total_reply_count(String user_id);
+
+	//전체 지원 게시글 수
+	public int total_apply_count(String user_id);
+
+	//전체 지원 게시글 가져오기
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+
+	//post_id에 해당하는 댓글 개수
+	public int count_reply(int post_id);
+
+
+	public void cancel_apply(String apply_id);
+
+
+	public List<Dto_reply> select_post_reply_ajax(int post_id, Pagination pagination);
+
+	//notice_mpPopUp
+	public Dto_post read_post(int post_id);
+	public Dto_user mp_user_post(String user_id);
+	
 	
 	
 	
@@ -270,54 +319,6 @@ public interface MemberService {
 	// 검색하기 카운트
 
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
-;
-
-	
-	
-	
-	
-	
-	//help_me에 지원하기
-	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price, String nick, String title);
-
-	//help_you에 지원하기
-	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
-			String gender, String applier, String price, String nick, String title);
-
-	//apply_you page
-	public Dto_apply apply_you_page(Pagination pagination);
-
-	//apply_you paging
-	public int count_apply(String applier);
-
-
-	//help_post 제목 가져오기(Join 사용)
-	public List<Dto_help_post> help_title(String user_user_id);
-
-	//apply에서 지원자 가져오기
-	public List<Dto_apply> applier(String user_id);
-
-	//전체 댓글 가져오기
-	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
-
-	//전체 댓글 수 
-	public int total_reply_count(String user_id);
-
-	//전체 지원 게시글 수
-	public int total_apply_count(String user_id);
-
-	//전체 지원 게시글 가져오기
-	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
-
-	//post_id에 해당하는 댓글 개수
-	public int count_reply(String post_id);
-
-
-	public void cancel_apply(String apply_id);
-
-
-	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination);
 }
 
 

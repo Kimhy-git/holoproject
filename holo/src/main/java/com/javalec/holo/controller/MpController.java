@@ -20,6 +20,7 @@ import com.javalec.holo.dto.Dto_free_reply;
 import com.javalec.holo.dto.Dto_freeboard;
 import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_login;
+import com.javalec.holo.dto.Dto_post;
 import com.javalec.holo.dto.Dto_total;
 import com.javalec.holo.dto.Dto_total_reply;
 import com.javalec.holo.dto.Dto_user;
@@ -298,6 +299,37 @@ public class MpController {
 	   String complete="추천이 완료되었습니다.";
 	   return complete;
    }
+   @RequestMapping(value = "/mp_popup_post", method = RequestMethod.POST)
+   public String mp_popup_post(HttpServletRequest req, Model model) throws Exception {
+ 	  Dto_login dto = new Dto_login();
+		  HttpSession session = req.getSession();
+		  dto=(Dto_login)session.getAttribute("login");
+ 	  
+ 	  
+ 	  String user_id=req.getParameter("user_id");
+ 	  int post_id=Integer.parseInt(req.getParameter("post_id"));
+ 	  model.addAttribute("user_id",user_id);
+ 	  model.addAttribute("post_id",post_id);
+ 	  System.out.println("유저아이디 : "+user_id+" 포스트아이디 : "+post_id);
+ 	  Dto_post read = service.read_post(post_id);
+ 	  Dto_user mp_user = service.mp_user_post(user_id);
+ 	  System.out.println("read and mp_user has finished");
+ 	  
+		 
+		  List<Dto_total_reply>total_reply = service.total_reply_pop(user_id);
+		  model.addAttribute("total_reply",total_reply);  		
+		  System.out.println("total_reply has finished");
+		  
+		  List<Dto_total> total_list=service.mypage_total_list_pop(user_id);
+		  System.out.println("controller list: "+total_list);
+		  model.addAttribute("mylist",total_list);
+
+ 	  model.addAttribute("read", read);
+ 	  model.addAttribute("mp_user", mp_user);
+
+ 	  return "mp_popup";
+   }
+   
    @RequestMapping(value = "/mp_popup", method = RequestMethod.POST)
    public String mp_popup(HttpServletRequest req, Model model) throws Exception {
  	  Dto_login dto = new Dto_login();
@@ -326,8 +358,9 @@ public class MpController {
  	  model.addAttribute("read", read);
  	  model.addAttribute("mp_user", mp_user);
 
- 	  return "mp_popup";
+ 	  return "redirect:mp_popup";
    }
+
 
    @RequestMapping(value = "cancel_apply", method = {RequestMethod.POST,RequestMethod.GET})
    public String cancel_apply(HttpServletRequest req) throws Exception {

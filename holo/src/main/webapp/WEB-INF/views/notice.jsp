@@ -74,8 +74,9 @@ function fn_prev(page, range, rangeSize) {
         	<div id="section_h">
 	            <h2>공지사항</h2>
 			        <form name="form1" method="post" action="notice_do">
-				    <select name="search_option">
-						<option value="user_id"
+				    <div id="search">
+				    <select name="search_option" id="area">
+						<option value="user_id" 
 						<c:if test="${map.search_option == 'user_id'}">selected</c:if>
 						>작성자</option>
 						
@@ -89,8 +90,10 @@ function fn_prev(page, range, rangeSize) {
 
 				 	</select>
 					    <input name="keyword" value="${map.keyword}">
-					    <input type="submit" value="조회">
+					    <input type="submit" id="scbtn" value="조회">
+					</div>
 					</form>
+					
 		         	<c:if test="${login.nick!=admin}">
 		        		<div class="write" id="writing">글쓰기</div>
 		        	</c:if>

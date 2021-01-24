@@ -146,19 +146,19 @@ public interface IDao {
 	public List<Dto_post> select_post(Pagination pagination);
 	
 	//notice_write_view
-	public List<Dto_post> select_post_view(String post_id);
+	public Dto_post select_post_view(int post_id);
 	
 	//notice_write_view : 댓글 개수
-	public int count_post_reply(String post_id);
+	public int count_post_reply(int post_id);
 	
 	//notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id);
+	public List<Dto_reply> select_post_reply(int post_id);
 	
 	//notice_write_view : delete posts
-	public List<Dto_post> select_post_delete(String post_id);
+	public List<Dto_post> select_post_delete(int post_id);
 	
 	//notice_reply_view : delete comments with a post
-	public List<Dto_reply> select_reply_delete(String post_id);
+	public List<Dto_reply> select_reply_delete(int post_id);
 	
 	//notice_write : add a post
 	
@@ -174,13 +174,13 @@ public interface IDao {
 	public void update_comment(String reply_id, String re_comment, String post_post_id, String board);
 	
 	//update posts
-	public void update_post(String post_id, String board, String title, String content);
+	public void update_post(int post_id, String board, String title, String content, String img);
 
 	//add re_comments
-	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id, String nick);
 	
 	//hits
-	public void uphit(String post_id); 
+	public void uphit(int post_id); 
 	
 	//the number of comments
 //	public void num_of_comments(String post_id);
@@ -202,6 +202,50 @@ public interface IDao {
 	public int count_notice_search(BoardSearch search);
 	
 	public List<Dto_post> list_notice(BoardSearch search);
+	
+	//notice_mpPopUp
+	public Dto_post read_post(int post_id);
+	public Dto_user mp_user_post(String user_id);
+	
+	//helpme에 지원하기
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
+			String applier, String price, String nick, String title);
+	
+	//helpyou에 지원하기
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
+			String gender, String applier, String price, String nick, String title);
+	
+	//apply_you page 보여줌
+	public Dto_apply apply_you_page(Pagination pagination);
+	
+	//apply_you 게시물 수
+	public int count_apply(String applier);
+
+	//help_post 글 제목 가져오기(join)
+	public List<Dto_help_post> help_title(String user_user_id);
+	
+	//apply에서 지원자 가져오기
+	public List<Dto_apply> applier(String user_id);
+	
+	//전체 댓글 가져오기
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
+	
+	//전체 댓글 수 
+	public int total_reply_count(String user_id);
+	
+	//전체 지원 게시글 수
+	public int total_apply_count(String user_id);
+	
+	//전체 지원 게시글 불러오기
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
+	
+	//post_id에 해당하는 댓글 수
+	public int count_reply(int post_id);
+	
+	public void cancel_apply(String apply_id);
+	
+	public List<Dto_reply> select_post_reply_ajax(int post_id, Pagination pagination);
+	
 	
 	
 	
@@ -281,47 +325,4 @@ public interface IDao {
 	//검색하기
 	public int count_freeboard_search(BoardSearch search);
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
-	
-
-	
-	
-	
-	//helpme에 지원하기
-	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id, String gender,
-			String applier, String price, String nick, String title);
-	
-	//helpyou에 지원하기
-	public void add_apply_you(String helpyou_id, String tag, String cv, String board, String help_post_help_post_id,
-			String gender, String applier, String price, String nick, String title);
-	
-	//apply_you page 보여줌
-	public Dto_apply apply_you_page(Pagination pagination);
-	
-	//apply_you 게시물 수
-	public int count_apply(String applier);
-
-	//help_post 글 제목 가져오기(join)
-	public List<Dto_help_post> help_title(String user_user_id);
-	
-	//apply에서 지원자 가져오기
-	public List<Dto_apply> applier(String user_id);
-	
-	//전체 댓글 가져오기
-	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination);
-	
-	//전체 댓글 수 
-	public int total_reply_count(String user_id);
-	
-	//전체 지원 게시글 수
-	public int total_apply_count(String user_id);
-	
-	//전체 지원 게시글 불러오기
-	public List<Dto_apply> total_apply(String user_id, Pagination pagination);
-	
-	//post_id에 해당하는 댓글 수
-	public int count_reply(String post_id);
-	
-	public void cancel_apply(String apply_id);
-	
-	public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination);
 }

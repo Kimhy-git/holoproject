@@ -787,7 +787,8 @@ public class BoardController {
     		@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
       
     	System.out.println("write_view작동");
-    	String post_id=req.getParameter("post_id");
+    	System.out.println("notice_write_view post_id: "+req.getParameter("post_id"));
+    	int post_id=Integer.parseInt(req.getParameter("post_id"));
     	System.out.println("this is post_id : " +post_id);
     	
   		int listCnt = service.count_reply(post_id);
@@ -799,11 +800,10 @@ public class BoardController {
     	
     	//hits
     	service.uphit(post_id);
-    	
     	List<Dto_reply> reply = service.select_post_reply(post_id);
-    	List<Dto_post> notice = service.select_post_view(post_id);
+    	Dto_post notice = service.select_post_view(post_id);
     	int replyCnt = service.count_post_reply(post_id);
-    	
+
         model.addAttribute("notice", notice);
         model.addAttribute("reply", reply);
         model.addAttribute("page",0);
@@ -825,7 +825,7 @@ public class BoardController {
     		System.out.println("댓글 페이징");
     	
     		//전체 댓글 수
-    		String post_id=req.getParameter("post_id");
+    		int post_id=Integer.parseInt(req.getParameter("post_id"));
     		System.out.println("this is post_id : " +post_id);
 			int listCnt = service.count_reply(post_id);
 			System.out.println("json listCnt: "+listCnt);
@@ -849,7 +849,7 @@ public class BoardController {
 			return "notice_write_view";
 		}
     	
-    	String post_id=req.getParameter("post_id");
+    	int post_id=Integer.parseInt(req.getParameter("post_id"));
     	service.select_reply_delete(post_id);
     	service.select_post_delete(post_id);
     	
@@ -882,9 +882,9 @@ public class BoardController {
     	
 		System.out.println("start reply_edit");
 		String post_post_id=req.getParameter("post_post_id");
-		String reply_id=req.getParameter("reply_id");
-		String re_comment=req.getParameter("update_comment");
-		String board="0";
+		String reply_id=req.getParameter("parent_id");
+		String re_comment=req.getParameter("re_comment_edit");
+		String board="3";
 
 		service.update_comment(reply_id, re_comment, post_post_id, board);
 		System.out.println("end reply_edit");
@@ -894,44 +894,57 @@ public class BoardController {
     //update posts
     @RequestMapping(value = "update_post", method = {RequestMethod.POST,RequestMethod.GET})
     public String update_post(HttpServletRequest req, Model model) throws Exception{
-    	
-    	String post_id=req.getParameter("post_id");
-    	String title=req.getParameter("title");
-    	String content=req.getParameter("content");
+
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		 
+    	int post_id=Integer.parseInt(req.getParameter("post_id"));
+    	Dto_post notice = service.select_post_view(post_id);
+    	String title=notice.getTitle();
+    	String content=notice.getContent();
+    	String img=notice.getImg();
     	String board="3";
     	
     	model.addAttribute("title",title);
     	model.addAttribute("post_id",post_id);
     	model.addAttribute("content",content);
-
-    	System.out.println("this is post_id : " +post_id);
-    	System.out.println("this is re_comment : " +title);
-    	System.out.println("this is reply_id : " +content);
-    	
-    	System.out.println("The end of update_post");
-    	
-		 Dto_login dto = new Dto_login();
-		 
-		 HttpSession session = req.getSession();
-		 dto=(Dto_login)session.getAttribute("login");
-    	
-    	return "notice_write_edit";
-    }
-    
-    //update posts
-    @RequestMapping(value = "update_post_now", method = {RequestMethod.POST,RequestMethod.GET})
-    public String update_post_now(HttpServletRequest req, Model model) throws Exception{
-    	
-    	String post_id=req.getParameter("post_id");
-    	String title=req.getParameter("title");
-    	String content=req.getParameter("content");
-    	String board="0";
+    	model.addAttribute("img",img);
 
     	System.out.println("this is post_id : " +post_id);
     	System.out.println("this is title : " +title);
     	System.out.println("this is content : " +content);
     	
-    	service.update_post(post_id,board,title,content);
+    	System.out.println("The end of update_post");
+    	
+    	return "notice_write_edit";
+    }
+    
+//    private int parseInt(String parameter) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+
+	//update posts
+    @RequestMapping(value = "update_post_now", method = {RequestMethod.POST,RequestMethod.GET})
+    public String update_post_now(HttpServletRequest req,  @RequestParam("file_up") MultipartFile file, Model model) throws Exception{
+    	
+    	int post_id=Integer.parseInt(req.getParameter("post_id"));
+    	String title=req.getParameter("title");
+    	String content=req.getParameter("content");
+    	String board="3";
+    	
+		String img=null;
+		if(!file.isEmpty()) {
+			img=FileuploadServlet.restore(file);
+		}
+
+    	System.out.println("this is post_id : " +post_id);
+    	System.out.println("this is title : " +title);
+    	System.out.println("this is content : " +content);
+    	
+    	service.update_post(post_id,board,title,content,img);
     	
     	System.out.println("The end of update_post_now");
 
@@ -950,6 +963,7 @@ public class BoardController {
 		 dto=(Dto_login)session.getAttribute("login");
 		
     	String user_user_id=dto.getUser_id();
+    	String nick=dto.getNick();
     	String re_index=req.getParameter("reply_id");
     	String re_comment=req.getParameter("re_re_comment");
     	int order=Integer.parseInt(req.getParameter("re_order"));
@@ -969,8 +983,9 @@ public class BoardController {
     	System.out.println("this is order : " +re_order);
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
+    	System.out.println("this is nick : " +nick);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
     	
     	
     	System.out.println("The end of update_post_now");

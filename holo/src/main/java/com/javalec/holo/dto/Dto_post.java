@@ -1,7 +1,7 @@
 package com.javalec.holo.dto;
 
 public class Dto_post {
-	private String post_id;
+	private int post_id;
 	private String board;
 	private String title;
 	private String operator;
@@ -27,15 +27,16 @@ public class Dto_post {
 	}
 
 
-	public Dto_post(String post_id, String board, String title, String content) {
+	public Dto_post(int post_id, String board, String title, String content, String img) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
 		this.title = title;
 		this.content = content;
+		this.img = img;
 	}
 	
-	public Dto_post(String post_id, String board, String title, String operator, String content, String img,
+	public Dto_post(int post_id, String board, String title, String operator, String content, String img,
 			String user_user_id, String nick, String hit, String replyCnt) {
 		super();
 		this.post_id = post_id;
@@ -74,7 +75,7 @@ public class Dto_post {
 		this.nick = nick;
 	}
 
-	public String getPost_id() {
+	public int getPost_id() {
 		return post_id;
 	}
 
@@ -102,7 +103,7 @@ public class Dto_post {
 		return user_user_id;
 	}
 
-	public void setPost_id(String post_id) {
+	public void setPost_id(int post_id) {
 		this.post_id = post_id;
 	}
 

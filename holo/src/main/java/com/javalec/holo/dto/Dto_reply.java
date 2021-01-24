@@ -24,7 +24,7 @@ public class Dto_reply {
 	}
 
 	public Dto_reply(String re_index, String re_comment, String re_order, 
-			String re_class, String groupNum, String post_post_id, String user_user_id) {
+			String re_class, String groupNum, String post_post_id, String user_user_id, String nick) {
 		super();
 		this.re_index = re_index;
 		this.re_comment = re_comment;
@@ -33,6 +33,7 @@ public class Dto_reply {
 		this.re_class = re_class;
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
+		this.nick = nick;
 	}
 
 	public Dto_reply(String reply_id, String user_user_id, String post_post_id) {

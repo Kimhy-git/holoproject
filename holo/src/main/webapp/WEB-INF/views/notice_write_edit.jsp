@@ -44,14 +44,16 @@
                 
                 <!-- insert -->
                 <form action="update_post_now" method="post" enctype="multipart/form-data">
-             		<input type="text" id="title" class="input-title" name="title" placeholder="${title}">
+             		<input type="text" id="title" class="input-title" name="title" value="${title}">
              		<input hidden="text" name="post_id" value="${post_id}">
-                <div id="content">
-                    <!-- <p>글내용</p>  -->
-                    <textarea id="txtarea" name="content" cols="60" rows="40" placeholder="${content}"></textarea>
+                <div id="content_edit">
+	             	<c:if test="${img==null||img==''}">
+	                    <img src="holoimg/img/${img}" id="image"/><br><br>
+	                </c:if>
+	                <div name="content">${content}</div>
                 </div>
                 <div id="img_up">
-                    <span>이미지첨부 </span><input type="file" id="file_up">
+                    <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
                 </div>
                 <div id="btn">
                     <a href="notice"><input type="button" id="cancel" value="취소"></a>

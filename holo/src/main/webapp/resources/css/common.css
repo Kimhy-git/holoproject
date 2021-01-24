@@ -5,6 +5,14 @@
     font-size: 15px;
     color: black;
 }
+#section_h{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 50px;
+	width: 1000px;
+	margin: 0 auto;
+}
+
 h2{
     font-size: 23px;
     margin-left: 20px;

@@ -370,28 +370,28 @@ public class IDaolmpl implements IDao {
 	}
 
 	@Override //notice_write_view
-	public List<Dto_post> select_post_view(String post_id) {
-		return sqlSession.selectList(Namespace+".select_post_view",post_id);
+	public Dto_post select_post_view(int post_id) {
+		return sqlSession.selectOne(Namespace+".select_post_view",post_id);
 	}
 	
 	//notice_write_view : 댓글 개수
 	@Override
-	public int count_post_reply(String post_id) {
+	public int count_post_reply(int post_id) {
 		return sqlSession.selectOne(Namespace+".count_post_reply",post_id);
 	}
 
 	@Override //notice_write_view : comments
-	public List<Dto_reply> select_post_reply(String post_id) {
+	public List<Dto_reply> select_post_reply(int post_id) {
 		return sqlSession.selectList(Namespace+".select_post_reply",post_id);
 	}
 
 	@Override //delete posts
-	public List<Dto_post> select_post_delete(String post_id) {
+	public List<Dto_post> select_post_delete(int post_id) {
 		return sqlSession.selectList(Namespace+".select_post_delete",post_id);
 	}
 
 	@Override //delete comments with a post
-	public List<Dto_reply> select_reply_delete(String post_id) {
+	public List<Dto_reply> select_reply_delete(int post_id) {
 		return sqlSession.selectList(Namespace+".select_reply_delete",post_id);
 	}
 
@@ -445,17 +445,17 @@ public class IDaolmpl implements IDao {
 	
 	//add re_comments
 	@Override
-	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id) {
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id,String nick) {
 		
-		System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+		System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id+" /"+nick);
 		
-		Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+		Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
 		sqlSession.insert(Namespace+".add_re_comment",add_re_comment);
 	}
 
 	//hits
 	@Override
-	public void uphit(String post_id) {
+	public void uphit(int post_id) {
 		System.out.println("IdaoImpl, uphit : "+post_id);
 		sqlSession.insert(Namespace+".uphit",post_id);
 	}
@@ -468,13 +468,13 @@ public class IDaolmpl implements IDao {
 //	}
 	
 	@Override
-	public void update_post(String post_id, String board, String title, String content) {
+	public void update_post(int post_id, String board, String title, String content, String img) {
 
 		System.out.println("IDaoImpl, post_id : "+post_id);
 		System.out.println("IDaoImpl, title : "+title);
 		System.out.println("IDaoImpl, content : "+content);
 		
-		Dto_post update_post=new Dto_post(post_id,board,title,content);
+		Dto_post update_post=new Dto_post(post_id,board,title,content,img);
 		
 		sqlSession.insert(Namespace+".update_post",update_post);
 	}
@@ -517,6 +517,123 @@ public class IDaolmpl implements IDao {
 	public List<Dto_post> list_notice(BoardSearch search) {
 		return sqlSession.selectList(Namespace+".list_notice", search);
 	}
+
+	//notice_mpPopUp
+	@Override
+	public Dto_post read_post(int post_id) {
+		return sqlSession.selectOne(Namespace+".read_post",post_id);
+	}
+	@Override
+	public Dto_user mp_user_post(String user_id) {
+		return sqlSession.selectOne(Namespace+".mp_user_post",user_id);
+	}
+	
+	//helpme에 지원하기
+	@Override
+	public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id,
+			String gender, String applier, String price, String nick, String title) {
+		
+		Dto_apply dto = new Dto_apply(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
+		sqlSession.insert(Namespace+".add_apply_me",dto);	
+	}
+
+	//help you//helpyou에 지원하기
+	@Override
+	public void add_apply_you(String helpyou_id, String tag, String cv, String board,
+			String help_post_help_post_id, String gender, String applier, String price, String nick, String title) {
+		System.out.println("Idao, nick : "+nick);
+		System.out.println("Idao, title : "+title);
+		Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price,nick,title);
+		sqlSession.insert(Namespace+".add_apply_you",dto);
+
+	}
+
+	//apply_you 게시물 수
+	@Override
+	public int count_apply(String applier) {
+		return sqlSession.selectOne(Namespace+".count_apply",applier);
+	}
+
+	//apply_you page 보여줌
+	@Override
+	public Dto_apply apply_you_page(Pagination pagination) {
+		System.out.println("IDao apply_you_page");
+		return sqlSession.selectOne(Namespace+".apply_you_page",pagination);
+	}
+
+
+	//help_post 글제목 가져오기(join)
+	@Override
+	public List<Dto_help_post> help_title(String user_user_id) {
+		System.out.println("dao, user_user_id : "+user_user_id);
+		return sqlSession.selectList(Namespace+".help_title",user_user_id);
+	}
+
+	//apply에서 지원자 가져오기
+	@Override
+	public List<Dto_apply> applier(String user_id) {
+		return sqlSession.selectList(Namespace+".applier",user_id);
+	}
+
+	//전체 댓글 가져오기
+	@Override
+	public List<Dto_total_reply> total_reply(String user_id, Pagination pagination) {
+		HashMap<Object,Object> dto = new HashMap<Object,Object>();
+		dto.put("user_id", user_id);
+		dto.put("pagination", pagination);
+//		dto.put(pagination, pagination);
+//		int startList=pagination.getStartList();
+//		int listSize=pagination.getListSize();
+//		dto.put(startList, startList);
+//		dto.put(listSize, listSize);
+		
+		return sqlSession.selectList(Namespace+".total_reply",dto);
+	}
+
+	//전체 댓글 수
+	@Override
+	public int total_reply_count(String user_id) {
+		return sqlSession.selectOne(Namespace+".total_reply_count",user_id);
+	}
+	
+	//전체 지원 게시글 수
+	@Override
+	public int total_apply_count(String user_id) {
+		return sqlSession.selectOne(Namespace+".total_apply_count",user_id);
+	}
+	
+	//전체 지원 게시글 가져오기
+	@Override
+	public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
+		HashMap<Object,Object> dto = new HashMap<Object,Object>();
+		dto.put("user_id", user_id);
+		dto.put("pagination", pagination);
+		
+		return sqlSession.selectList(Namespace+".total_apply",dto);
+	}
+	
+	//post_id에 해당하는 댓글 수
+	@Override
+	public int count_reply(int post_id) {
+		return sqlSession.selectOne(Namespace+".count_reply",post_id);
+	}
+	
+	//apply_cancel
+	@Override
+	public void cancel_apply(String apply_id) {
+		System.out.println("IDao apply_id : "+apply_id);
+		sqlSession.selectOne(Namespace+".cancel_apply",apply_id);
+	}
+
+	@Override
+	public List<Dto_reply> select_post_reply_ajax(int post_id, Pagination pagination) {
+		HashMap<Object,Object> dto = new HashMap<Object,Object>();
+		dto.put("post_post_id", post_id);
+		dto.put("pagination", pagination);
+		return sqlSession.selectList(Namespace+".select_post_reply_ajax",dto);
+	}
+	
+	
 	
 			
 			
@@ -666,112 +783,4 @@ public class IDaolmpl implements IDao {
 		
 		return sqlSession.selectList(Namespace+".select_free_reply_ajax",dto);
 	}
-	
-			
-			
-			
-			//helpme에 지원하기
-			@Override
-			public void add_apply_me(String helpme_id, String tag, String cv, String help_post_help_post_id,
-					String gender, String applier, String price, String nick, String title) {
-				
-				Dto_apply dto = new Dto_apply(helpme_id, tag, cv, help_post_help_post_id, gender, applier, price, nick, title);
-				sqlSession.insert(Namespace+".add_apply_me",dto);	
-			}
-
-			//help you//helpyou에 지원하기
-			@Override
-			public void add_apply_you(String helpyou_id, String tag, String cv, String board,
-					String help_post_help_post_id, String gender, String applier, String price, String nick, String title) {
-				System.out.println("Idao, nick : "+nick);
-				System.out.println("Idao, title : "+title);
-				Dto_apply dto = new Dto_apply(helpyou_id, tag, cv,board, help_post_help_post_id, gender, applier, price,nick,title);
-				sqlSession.insert(Namespace+".add_apply_you",dto);
-
-			}
-
-			//apply_you 게시물 수
-			@Override
-			public int count_apply(String applier) {
-				return sqlSession.selectOne(Namespace+".count_apply",applier);
-			}
-
-			//apply_you page 보여줌
-			@Override
-			public Dto_apply apply_you_page(Pagination pagination) {
-				System.out.println("IDao apply_you_page");
-				return sqlSession.selectOne(Namespace+".apply_you_page",pagination);
-			}
-
-
-			//help_post 글제목 가져오기(join)
-			@Override
-			public List<Dto_help_post> help_title(String user_user_id) {
-				System.out.println("dao, user_user_id : "+user_user_id);
-				return sqlSession.selectList(Namespace+".help_title",user_user_id);
-			}
-
-			//apply에서 지원자 가져오기
-			@Override
-			public List<Dto_apply> applier(String user_id) {
-				return sqlSession.selectList(Namespace+".applier",user_id);
-			}
-
-			//전체 댓글 가져오기
-			@Override
-			public List<Dto_total_reply> total_reply(String user_id, Pagination pagination) {
-				HashMap<Object,Object> dto = new HashMap<Object,Object>();
-				dto.put("user_id", user_id);
-				dto.put("pagination", pagination);
-//				dto.put(pagination, pagination);
-//				int startList=pagination.getStartList();
-//				int listSize=pagination.getListSize();
-//				dto.put(startList, startList);
-//				dto.put(listSize, listSize);
-				
-				return sqlSession.selectList(Namespace+".total_reply",dto);
-			}
-
-			//전체 댓글 수
-			@Override
-			public int total_reply_count(String user_id) {
-				return sqlSession.selectOne(Namespace+".total_reply_count",user_id);
-			}
-			
-			//전체 지원 게시글 수
-			@Override
-			public int total_apply_count(String user_id) {
-				return sqlSession.selectOne(Namespace+".total_apply_count",user_id);
-			}
-			
-			//전체 지원 게시글 가져오기
-			@Override
-			public List<Dto_apply> total_apply(String user_id, Pagination pagination) {
-				HashMap<Object,Object> dto = new HashMap<Object,Object>();
-				dto.put("user_id", user_id);
-				dto.put("pagination", pagination);
-				
-				return sqlSession.selectList(Namespace+".total_apply",dto);
-			}
-			
-			//post_id에 해당하는 댓글 수
-			@Override
-			public int count_reply(String post_id) {
-				return sqlSession.selectOne(Namespace+".count_reply",post_id);
-			}
-			
-			//apply_cancel
-			@Override
-			public void cancel_apply(String apply_id) {
-				System.out.println("IDao apply_id : "+apply_id);
-				sqlSession.selectOne(Namespace+".cancel_apply",apply_id);
-			}
-
-			@Override
-			public List<Dto_reply> select_post_reply_ajax(String post_id, Pagination pagination) {
-				HashMap<Object,Object> dto = new HashMap<Object,Object>();
-				dto.put("post_post_id", post_id);
-				dto.put("pagination", pagination);
-				return sqlSession.selectList(Namespace+".select_post_reply_ajax",dto);
-			}
 }
