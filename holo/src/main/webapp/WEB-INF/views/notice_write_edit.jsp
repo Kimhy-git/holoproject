@@ -11,17 +11,18 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/freeboard_write.css">
 <body>
- <header>
+<header>
         <nav>
-	        <input type=hidden value="${login.user_id}" id="user_id_login">
-	        <input type="hidden" value="${login.user_id}" id="login_user_id">
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
 	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -30,7 +31,7 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <a href="notice">공지사항</a>
         </div>
     </header>
     <div class="clear"></div>
@@ -43,14 +44,14 @@
                 
                 <!-- insert -->
                 <form action="update_post_now" method="post" enctype="multipart/form-data">
-             		<input type="text" id="title" class="input-title" name="title" placeholder="${title}">
+             		<input type="text" id="title" class="input-title" name="title" value="${title}">
              		<input hidden="text" name="post_id" value="${post_id}">
                 <div id="content">
                     <!-- <p>글내용</p>  -->
-                    <textarea id="txtarea" name="content" cols="60" rows="40" placeholder="${content}"></textarea>
+                    <textarea id="txtarea" name="content" cols="60" rows="40">${content}</textarea>
                 </div>
                 <div id="img_up">
-                    <span>이미지첨부 </span><input type="file" id="file_up">
+                    <span>이미지첨부 </span><input type="file" name="file_up" accept="image/png, image/jpeg">
                 </div>
                 <div id="btn">
                     <a href="notice"><input type="button" id="cancel" value="취소"></a>

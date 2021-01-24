@@ -27,12 +27,13 @@ public class Dto_post {
 	}
 
 
-	public Dto_post(int post_id, String board, String title, String content) {
+	public Dto_post(int post_id, String board, String title, String content, String img) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
 		this.title = title;
 		this.content = content;
+		this.img = img;
 	}
 	
 	public Dto_post(int post_id, String board, String title, String operator, String content, String img,

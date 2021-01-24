@@ -490,13 +490,13 @@ public class IDaolmpl implements IDao {
 //	}
 	
 	@Override
-	public void update_post(int post_id, String board, String title, String content) {
+	public void update_post(int post_id, String board, String title, String content, String img) {
 
 		System.out.println("IDaoImpl, post_id : "+post_id);
 		System.out.println("IDaoImpl, title : "+title);
 		System.out.println("IDaoImpl, content : "+content);
 		
-		Dto_post update_post=new Dto_post(post_id,board,title,content);
+		Dto_post update_post=new Dto_post(post_id,board,title,content,img);
 		
 		sqlSession.insert(Namespace+".update_post",update_post);
 	}

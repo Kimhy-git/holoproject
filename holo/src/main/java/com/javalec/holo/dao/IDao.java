@@ -182,7 +182,7 @@ public interface IDao {
 	public void update_comment(String reply_id, String re_comment, String post_post_id, String board);
 	
 	//update posts
-	public void update_post(int post_id, String board, String title, String content);
+	public void update_post(int post_id, String board, String title, String content, String img);
 
 	//add re_comments
 	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id);

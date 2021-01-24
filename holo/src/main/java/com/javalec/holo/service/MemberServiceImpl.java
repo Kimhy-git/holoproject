@@ -457,13 +457,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void update_post(int post_id, String board, String title, String content) {
+	public void update_post(int post_id, String board, String title, String content, String img) {
 
 		System.out.println("MemberServiceImpl, post_id : "+post_id);
 		System.out.println("MemberServiceImpl, title : "+title);
 		System.out.println("MemberServiceImpl, content : "+content);
 		
-		dao.update_post(post_id,board,title,content);
+		dao.update_post(post_id,board,title,content,img);
 		
 	}
 	

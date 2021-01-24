@@ -908,49 +908,57 @@ public class BoardController {
     //update posts
     @RequestMapping(value = "update_post", method = {RequestMethod.POST,RequestMethod.GET})
     public String update_post(HttpServletRequest req, Model model) throws Exception{
+
+		 Dto_login dto = new Dto_login();
+		 
+		 HttpSession session = req.getSession();
+		 dto=(Dto_login)session.getAttribute("login");
+		 
+    	int post_id=Integer.parseInt(req.getParameter("post_id"));
+    	Dto_post notice = service.select_post_view(post_id);
+    	String title=notice.getTitle();
+    	String content=notice.getContent();
+    	String img=notice.getImg();
+    	String board="3";
+    	
+    	model.addAttribute("title",title);
+    	model.addAttribute("post_id",post_id);
+    	model.addAttribute("content",content);
+    	model.addAttribute("img",img);
+
+    	System.out.println("this is post_id : " +post_id);
+    	System.out.println("this is title : " +title);
+    	System.out.println("this is content : " +content);
+    	
+    	System.out.println("The end of update_post");
+    	
+    	return "notice_write_edit";
+    }
+    
+//    private int parseInt(String parameter) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+
+	//update posts
+    @RequestMapping(value = "update_post_now", method = {RequestMethod.POST,RequestMethod.GET})
+    public String update_post_now(HttpServletRequest req,  @RequestParam("file_up") MultipartFile file, Model model) throws Exception{
     	
     	int post_id=Integer.parseInt(req.getParameter("post_id"));
     	String title=req.getParameter("title");
     	String content=req.getParameter("content");
     	String board="3";
     	
-    	model.addAttribute("title",title);
-    	model.addAttribute("post_id",post_id);
-    	model.addAttribute("content",content);
-
-    	System.out.println("this is post_id : " +post_id);
-    	System.out.println("this is re_comment : " +title);
-    	System.out.println("this is reply_id : " +content);
-    	
-    	System.out.println("The end of update_post");
-    	
-		 Dto_login dto = new Dto_login();
-		 
-		 HttpSession session = req.getSession();
-		 dto=(Dto_login)session.getAttribute("login");
-    	
-    	return "notice_write_edit";
-    }
-    
-    private int parseInt(String parameter) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	//update posts
-    @RequestMapping(value = "update_post_now", method = {RequestMethod.POST,RequestMethod.GET})
-    public String update_post_now(HttpServletRequest req, Model model) throws Exception{
-    	
-    	int post_id=Integer.parseInt(req.getParameter("post_id"));
-    	String title=req.getParameter("title");
-    	String content=req.getParameter("content");
-    	String board="0";
+		String img=null;
+		if(!file.isEmpty()) {
+			img=FileuploadServlet.restore(file);
+		}
 
     	System.out.println("this is post_id : " +post_id);
     	System.out.println("this is title : " +title);
     	System.out.println("this is content : " +content);
     	
-    	service.update_post(post_id,board,title,content);
+    	service.update_post(post_id,board,title,content,img);
     	
     	System.out.println("The end of update_post_now");
 

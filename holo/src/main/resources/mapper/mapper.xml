@@ -453,7 +453,7 @@
      <!-- notice_write : add posts -->
     <select id="add_post" parameterType="dto_post"> 
     	insert into post(board, title, nick, content, img, user_user_id)
-		values(3,#{title},'One',#{content},#{img},'admin');
+		values(3,#{title},'admin',#{content},#{img},'admin');
     </select>
     
     <!-- notice_write_view : add comments --> 
@@ -515,8 +515,9 @@
     
     <!-- update posts -->
     <select id="update_post" resultType="dto_post">
-    	update post set title = #{title}, content=#{content} where post_id=#{post_id} and board=3
+    	update post set title = #{title}, content=#{content}, img=#{img} where post_id=#{post_id} and board=3
     </select>
+    
     <!-- 검색하기 count -->
     <select id="count_notice_search" resultType="int">
     select count(*)            
