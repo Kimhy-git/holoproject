@@ -68,6 +68,16 @@ body {
 .messages .message.left .text {
   color: #000;
 }
+.messages .message.left .dateTime {
+  color: #aaa;
+  text-align:right;
+  margin-right:6px;
+}
+.messages .message.right .dateTime {
+  color: #aaa;
+  text-align:left;
+  margin-left:6px;
+}
 .messages .message.right .avatar {
   background-color: #abc7f1;
   background-image: url('../img/chat_icon02.png');

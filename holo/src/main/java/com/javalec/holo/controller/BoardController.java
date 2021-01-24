@@ -718,17 +718,17 @@ public class BoardController {
 //	}
 	@RequestMapping(value="/helpyou_reply_delete", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")
 	public String helpyou_reply_delete(HttpServletRequest req) {
-		int help_reply_id=Integer.parseInt(req.getParameter("reply_id"));
-		String post_id=req.getParameter("post_id");
+		int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+		String post_id=req.getParameter("help_post_post_id");
 		service.helpyou_reply_delete(help_reply_id);
     	return "redirect:helpyou_write_view?help_post_id="+post_id;
 	}
 	@RequestMapping(value="/helpyou_reply_edit", method = {RequestMethod.POST,RequestMethod.GET})
 	public String helpyou_reply_edit(HttpServletRequest req, Model model) {
 		System.out.println("start reply_edit");
-		int help_post_id=Integer.parseInt(req.getParameter("post_id"));
-		int help_reply_id=Integer.parseInt(req.getParameter("reply_id"));
-		String re_comment=req.getParameter("re_comment");
+		int help_post_id=Integer.parseInt(req.getParameter("help_post_post_id"));
+		int help_reply_id=Integer.parseInt(req.getParameter("help_reply_id"));
+		String re_comment=req.getParameter("re_comment_edit");
 		System.out.println("edit: "+help_post_id+","+help_reply_id+","+re_comment);
 		service.helpyou_reply_edit(help_reply_id, re_comment);
 		System.out.println("end reply_edit");

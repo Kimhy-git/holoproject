@@ -378,6 +378,11 @@ public class IDaolmpl implements IDao {
 		return sqlSession.selectList(Namespace+".chat_read",chat);
 	}
 	
+	@Override
+	public Dto_user chat_nick(String applier) {
+		String user_id=applier;
+		return sqlSession.selectOne(Namespace+".chat_nick",user_id);
+	}
 	
 	
 	

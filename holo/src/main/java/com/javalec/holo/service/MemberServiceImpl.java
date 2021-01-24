@@ -379,6 +379,10 @@ public class MemberServiceImpl implements MemberService {
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id){
 		return dao.chat_read(message_sender, message_receiver, last_id);
 	}
+	@Override
+	public Dto_user chat_nick(String applier) {
+		return dao.chat_nick(applier);
+	}
 	
 	
 	

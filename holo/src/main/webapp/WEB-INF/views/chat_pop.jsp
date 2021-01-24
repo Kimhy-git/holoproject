@@ -14,7 +14,7 @@
 <body>
 	<div class="chat_window">
 		<div class="top_menu">
-			<div class="title"><span id="nick">아이작2세</span></div>
+			<div class="title"><span id="nick">${nick}</span></div>
 		</div>
 		<ul class="messages">
 		</ul>
@@ -34,6 +34,7 @@
 			<div class="text_wrapper">
 				<div class="text"></div>
 			</div>
+			<div class="dateTime"></div>
 		</li>
 	</div>
 </body>
@@ -48,7 +49,7 @@ function submitFunction(){
 		{'message_sender':sender, 'message_receiver':receiver, 'message_content':content},
 		function(data){
 			$('.message_input').val('');
-			alert(data);
+			//alert(data);
 		}
 	)
 }
@@ -56,11 +57,13 @@ function submitFunction(){
 function MessageFunction(arg) {
 	console.log(arg);
     this.text = arg.text, this.message_side = arg.message_side;
+    this.dateTime = arg.dateTime;
     this.draw = function (_this) {
         return function () {
             var $message;
             $message = $($('.message_template').clone().html());
             $message.addClass(_this.message_side).find('.text').html(_this.text);
+            $message.find('.dateTime').html(_this.dateTime);
             $('.messages').append($message);
             return setTimeout(function () {
                 return $message.addClass('appeared');
@@ -78,36 +81,60 @@ function readFunction(){
 		function(data){
 			console.log("data: "+data);
 			$.each(data,function(ndx,value){
+				last_id=value['message_id'];
 				var text=value['message_content'];
+				var dateTime=value['message_sendTime'];
+				dateTime=dateTime.substr(0,16);
+				//2021-01-24 12:06:41
 				var message_side;
-				console.log("content: "+text);
 				if(value['message_sender']=='${login.user_id}'){
 					message_side='right';
 				}else if(value['message_sender']=='${applier}'){
 					message_side='left';
 				}
 				$messages = $('.messages');
-				var message=MessageFunction({text: text, message_side: message_side});
+				var message=MessageFunction({text: text, message_side: message_side, dateTime: dateTime});
 				message.draw();
-	            return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
+	            return $messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 0);
 			})
 		}
 	)
 }
 
-
+setInterval(function(){
+	readFunction();
+},7000);
 
 
 
 $(document)
 .ready(function(){
 	readFunction();
-})
-	
+})	
 
 .on('click','.send_message',function(){
-	submitFunction();
+	if($('.message_input').val()==''){
+		alert('내용을 입력해주세요');
+		return;
+	}else{
+		submitFunction();
+	}
+	
 })
+
+.on('keyup','.message_input',function(e){
+	if(e.which===13){
+		if($('.message_input').val()==''){
+			alert('내용을 입력해주세요');
+			return;
+		}else{
+			submitFunction();
+		}
+	}
+})
+
+
+
 
 /*
 (function () {

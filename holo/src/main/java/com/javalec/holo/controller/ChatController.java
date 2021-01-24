@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.javalec.holo.dto.Dto_chat;
 import com.javalec.holo.dto.Dto_login;
+import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.service.MemberService;
 
 @Controller
@@ -30,9 +31,13 @@ public class ChatController {
     	Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
-    	
+
     	String applier=req.getParameter("applier");
    	  	model.addAttribute("applier", applier);
+   	  	
+		Dto_user user = service.chat_nick(applier);
+		String nick = user.getNick();
+		model.addAttribute("nick",nick);
     	return "chat_pop";
     }
     
@@ -44,7 +49,7 @@ public class ChatController {
     	System.out.println("chat_send start");
     	service.chat_send(message_sender, message_receiver, message_content);
     	System.out.println("chat_send end");
-    	return "success";
+    	return "채팅이 전송되었습니다";
     }
     
     @RequestMapping(value = "chat_read", method = {RequestMethod.POST,RequestMethod.GET},produces="application/json;charset=UTF-8")

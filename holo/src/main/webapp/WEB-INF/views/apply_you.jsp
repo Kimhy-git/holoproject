@@ -175,5 +175,13 @@ $(document)
 
 	});
 })
+.on('click','input[id^=chat]',function(){ //input[id가 chat으로 시작하는 버튼]
+    var n=(this.id).substr(4); 
+    console.log("chat id: "+n);
+    var applier=$('#applier'+n).val();
+    console.log("applier: "+applier);
+    window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
+   
+})
 </script>
 </html>
