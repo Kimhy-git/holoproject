@@ -157,9 +157,9 @@ public class IDaolmpl implements IDao {
 
 			//help_me 댓글 보기
 	  	@Override
-	  	public List<Dto_help_reply> re_list(int help_post_id){
+	  	public List<Dto_help_reply> re_list(Pagination_help pagination){
 	  		
-	  		return sqlSession.selectList(Namespace+".re_list",help_post_id);
+	  		return sqlSession.selectList(Namespace+".re_list",pagination);
 	  	}
 	  	//help_me 댓글 작성
 	  	@Override

@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.javalec.holo.dto.Dto_login;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
@@ -69,16 +71,25 @@ private MemberService service;
 	     return "join";
 	  }
 	  @RequestMapping(value = "/find_id", method = RequestMethod.GET)
-	  public String find_id() {
+	  public String find_id(HttpServletRequest req) {
 	     
+			Dto_login dto = new Dto_login();
+			HttpSession session = req.getSession();
+			dto=(Dto_login)session.getAttribute("login");
+		  
 	     return "find_id";
 	  }
 	
 	  
 	  @RequestMapping(value = "/find_id_go", method = RequestMethod.POST)
-	  public String find_id_go(HttpServletResponse response, @RequestParam("email") String email, Model md) throws Exception{
+	  public String find_id_go(HttpServletRequest req,
+			  HttpServletResponse response, @RequestParam("email") String email, Model md) throws Exception{
 		  md.addAttribute("id", service.find_id(response, email));
 			
+			Dto_login dto = new Dto_login();
+			HttpSession session = req.getSession();
+			dto=(Dto_login)session.getAttribute("login");
+		  
 	     return "find_id_complete";
 	  }
 	  

@@ -133,7 +133,8 @@
 	 	SELECT *
 		FROM help_reply, user
 		where user.user_id=help_reply.user_user_id and board=1 and help_post_post_id=#{help_post_id}
-		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index;
+		ORDER BY IF(groupNum=0, help_reply_id, groupNum),re_index
+		limit #{page},5;
 	 	<!--  select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};-->
 	</select>
 	<!-- help_me댓글 작성 -->

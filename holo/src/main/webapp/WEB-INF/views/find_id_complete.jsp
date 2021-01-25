@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +11,18 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/find_id.css">
 <body>
-	<header>
-        <nav>
-           <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+ <header>
+       <nav>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	            <a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -22,18 +31,20 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <a href="notice">공지사항</a>
         </div>
-    </header>
+ </header>
     <div class="clear"></div>
     <section>
     	<form method="POST" action="find_id_go">
 	        <div id="wrap">
 	        	<h2>아이디 찾기 검색결과</h2>
-	            <div>
-	            	<p>${id}</p>
-	                <a href="login"><input type=button value="로그인"></a><br>
-	                <a href="main"><input type=button value="취소"></a>
+	            <div id="cpl">
+	            	<p>회원님의 아이디는 '<span id="idC">${id}</span>'입니다</p>
+	                <div id=btn>
+		                <a href="login"><input type=button value="로그인"></a><br>
+		                <a href="main" id="cancel">취소</a>
+	            	</div>
 	            </div>
 	        </div>
         </form>
@@ -45,13 +56,7 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-$(document)
-.ready(function(){
-	console.log(${ id });
-	if(${ id }!=null){
-		alert=("${ id }")
-	}
-})
+
 
 </script>
 </html>

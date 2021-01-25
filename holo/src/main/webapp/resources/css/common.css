@@ -12,6 +12,7 @@ h2{
     color: #6e6e6e;
     font-weight: 400;
 }
+
 header{
     width: 1000px;
     margin: 0 auto;
@@ -79,7 +80,7 @@ footer p{
     color: white;
     text-decoration: none;
     border-radius: 50px;
-
+	margin-top:7px;
 }
 #move{
     float: right;

@@ -3,14 +3,19 @@ table{
 	text-align: center;
     margin: 0 auto;
 }
-
+.one{
+	padding-right:5px;
+}
 #log_btn{
 	text-align: center;
 	padding: 16px 18px;
     margin: 12px;
 	color: #666666;
+	border:1px solid #bbb;
 	border-radius: 5px;
-	box-shadow: 0 1px 0 black;
+	box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+	cursor:pointer;
+	outline:none;
 }
 
 #bottom{
@@ -21,4 +26,19 @@ section{
 	margin-top: 40px;
 	height: 500px;
     text-align: center;
+}
+#id, #passcode{
+	border:1px solid #ccc;
+}
+#bottom a{
+	margin-right:10px;
+	text-decoration:none;
+	color:rgb(107, 107, 107);
+}
+#bottom a:hover{
+	text-decoration:underline;
+	color:#333;
+}
+#false{
+ 	color:#f26231;
 }
