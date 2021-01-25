@@ -11,16 +11,17 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/find_id.css">
 <body>
- <header>
-       <nav>
-	        <input type=hidden value="${login.user_id}" id="user_id_login">
+    <header>
+        <nav>
+        <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
 	            <a href="login" id=login>로그인</a>
 	            <a href="join" id="join">회원가입</a>
 	        </c:if>
 	        <c:if test="${login.nick!=null}">
-	            <a href="logout" id=login>로그아웃</a>
-	            <a href="mypage" id="mypage">마이페이지</a>
+	        	<a href="logout" id=login>로그아웃</a>
+	        	<a href="mypage" id="mypage">마이페이지</a>
+			<a href="#" id="chat_room">채팅</a>
 	        </c:if>
 	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
@@ -33,7 +34,7 @@
             <a href="freeboard">자유게시판</a>
             <a href="notice">공지사항</a>
         </div>
- </header>
+    </header>
     <div class="clear"></div>
     <section>
     	<form method="POST" action="find_id_go">

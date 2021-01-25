@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/notice_write_view.css">
 <body>
-<header>
+    <header>
         <nav>
         <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
@@ -23,6 +23,7 @@
 	        <c:if test="${login.nick!=null}">
 	        	<a href="logout" id=login>로그아웃</a>
 	        	<a href="mypage" id="mypage">마이페이지</a>
+			<a href="#" id="chat_room">채팅</a>
 	        </c:if>
 	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>

@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/admin.css">
 <body>
-	<header>
+    <header>
         <nav>
         <input type=hidden value="${login.user_id}" id="user_id_login">
 	        <c:if test="${login.nick==null}">
@@ -34,7 +34,7 @@
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
             <a href="notice">공지사항</a>
-        </div>       
+        </div>
     </header>
     <div class="clear"></div>
     <section>
