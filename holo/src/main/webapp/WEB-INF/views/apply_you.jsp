@@ -82,6 +82,7 @@ color:#9660b6;
 						</div>
 					</div>
 					<div class="btns">
+						<div class="unread">${list.unread}</div>
 						<input class="btn" type="button" value="채팅하기"><br>
 						<c:if test="${list.complete==0}">
 							<input class="btn last" type="button" value="채택하기" id="choosebtn${list.help_post_help_post_id}" data-n="${list.apply_id}">

@@ -66,4 +66,17 @@ public class ChatController {
     	return json;
     }
     
+    @RequestMapping(value = "chat_room", method = {RequestMethod.POST,RequestMethod.GET})
+    public String chat_room(HttpServletRequest req, Model model) throws Exception {
+    	
+    	Dto_login dto = new Dto_login();
+		HttpSession session = req.getSession();
+		dto=(Dto_login)session.getAttribute("login");
+		String user_id=dto.getUser_id();
+		List<Dto_chat> chat_list=service.chat_room_list(user_id);
+		
+		model.addAttribute("chat_list", chat_list);
+		return "chat_room";
+    }
+    
 }

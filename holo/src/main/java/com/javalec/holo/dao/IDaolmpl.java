@@ -378,6 +378,7 @@ public class IDaolmpl implements IDao {
 	@Override
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id) {
 		Dto_chat chat = new Dto_chat(message_sender, message_receiver, last_id);
+		sqlSession.update(Namespace+".chat_read_check",chat);
 		return sqlSession.selectList(Namespace+".chat_read",chat);
 	}
 	
@@ -386,6 +387,18 @@ public class IDaolmpl implements IDao {
 		String user_id=applier;
 		return sqlSession.selectOne(Namespace+".chat_nick",user_id);
 	}
+	@Override
+	public int chat_unread_count(String message_sender, String message_receiver) {
+		Dto_chat chat = new Dto_chat(message_sender, message_receiver);
+		return sqlSession.selectOne(Namespace+".chat_unread_count", chat);
+	}
+	
+	@Override
+	public List<Dto_chat> chat_room_list(String user_id) {
+		return sqlSession.selectList(Namespace+".chat_room_list", user_id);
+	}
+	
+	
 	
 	
 	
@@ -815,5 +828,9 @@ public class IDaolmpl implements IDao {
 		
 		return sqlSession.selectList(Namespace+".select_free_reply_ajax",dto);
 	}
+
+
+
+
 
 }

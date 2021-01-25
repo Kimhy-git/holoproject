@@ -164,7 +164,10 @@ public class MpController {
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
 		int post_id=Integer.parseInt(req.getParameter("post_id"));
-    	List<Dto_apply> list=service.mypage_applyme_list(post_id);
+    	List<Dto_apply> list=service.mypage_applyyou_list(post_id);
+    	for(int i=0;i<list.size();i++) {
+    		System.out.println("applyme: "+list.get(i).getUnread());
+    	}
     	model.addAttribute("list",list);
        return "apply_you";
     }
@@ -175,7 +178,10 @@ public class MpController {
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
     	int post_id=Integer.parseInt(req.getParameter("post_id"));
-    	List<Dto_apply> list=service.mypage_applyyou_list(post_id);
+    	List<Dto_apply> list=service.mypage_applyme_list(post_id);
+    	for(int i=0;i<list.size();i++) {
+    		System.out.println("applyme: "+list.get(i).getUnread());
+    	}
     	model.addAttribute("list",list);
        return "apply_me";
     }

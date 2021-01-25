@@ -383,6 +383,28 @@ public class MemberServiceImpl implements MemberService {
 	public Dto_user chat_nick(String applier) {
 		return dao.chat_nick(applier);
 	}
+	@Override
+	public List<Dto_chat> chat_room_list(String user_id) {
+		List<Dto_chat> chat_list = dao.chat_room_list(user_id);
+		for(int i=0;i<chat_list.size();i++) {
+			Dto_chat x=chat_list.get(i);
+			for(int j=0;j<chat_list.size();j++) {
+				Dto_chat y=chat_list.get(j);
+				if(x.getMessage_sender().equals(y.getMessage_receiver()) && x.getMessage_receiver().equals(y.getMessage_sender())) {
+					if(x.getMessage_id() < y.getMessage_id()) {
+						chat_list.remove(x);
+						i--;
+						break;
+					}else {
+						chat_list.remove(y);
+						j--;
+						break;
+					}
+				}
+			}
+		}
+		return chat_list;
+	}
 	
 	
 	

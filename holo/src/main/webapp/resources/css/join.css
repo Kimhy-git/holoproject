@@ -9,6 +9,10 @@ table tr td{
 table tr #male{
 	margin-left:50px;
 }
+input, #choice{
+	border:1px solid #ccc;
+	border-radius:3px;
+}
 #btn{
 	text-align: center;
 	padding-bottom:20px
@@ -17,6 +21,16 @@ table tr #male{
 	margin-top: 20px;
 	margin-right:10px;
 	width: 100px;
+}
+#passC, #showaddr, #btn input{
+	padding:3px 5px;
+	border-radius:5px;
+	box-shadow:1px 1px 3px rgba(0,0,0,0.1)
+}
+#submit{
+	color:white;
+	background-color:rgb(95, 143, 214);
+	border: 1px solid rgb(70, 114, 180);
 }
 section{
 	margin-top: 40px;

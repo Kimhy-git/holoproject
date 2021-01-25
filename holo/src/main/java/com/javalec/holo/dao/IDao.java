@@ -147,6 +147,8 @@ public interface IDao {
 	public void chat_send(String message_sender, String message_receiver, String message_content);
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id);
 	public Dto_user chat_nick(String applier);
+	public int chat_unread_count(String message_sender, String message_receiver);
+	public List<Dto_chat> chat_room_list(String user_id);
 	
 	
 	

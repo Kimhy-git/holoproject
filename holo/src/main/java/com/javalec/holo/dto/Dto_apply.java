@@ -17,9 +17,16 @@ public class Dto_apply {
 	private int likes;
 	private int complete;
 	private int choose;
+	private int unread;
 
 
 	
+	public int getUnread() {
+		return unread;
+	}
+	public void setUnread(int unread) {
+		this.unread = unread;
+	}
 	public int getChoose() {
 		return choose;
 	}

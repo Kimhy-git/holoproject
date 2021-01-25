@@ -51,7 +51,7 @@
             
  <h4>내가 쓴 글</h4>
 	<c:set var="i" value="0" />
-	<c:set var="j" value="5" />
+	<c:set var="j" value="10" />
  
  
     <div class="your-class" style="width: 100%; ">
@@ -80,7 +80,7 @@
   
    <h4>내가 쓴 댓글</h4>
 	<c:set var="i" value="0" />
-	<c:set var="j" value="5" />
+	<c:set var="j" value="10" />
  
  
     <div class="your-class" style="width: auto; ">

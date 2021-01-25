@@ -25,6 +25,7 @@ h1 span{color:rgb(107, 156, 230); font-size:17px;}
         <c:if test="${login.nick!=null}">
             <a href="logout" id=login>로그아웃</a>
             <a href="mypage" id="mypage">마이페이지</a>
+            <a href="#" id="chat_room">채팅</a>
         </c:if>
         <c:if test="${login.nick!=null}">
         	<h1><span>${login.nick}</span>님 환영합니다</h1>
@@ -80,6 +81,10 @@ $(document)
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
 	}
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 </html>

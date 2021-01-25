@@ -7,6 +7,9 @@ public class Dto_chat {
 	private String message_content;
 	private String message_sendTime;
 	private int last_id;
+	private String sender_nick;
+	private String receiver_nick;
+	private int unread;
 	
 	public Dto_chat() {};
 	
@@ -20,6 +23,12 @@ public class Dto_chat {
 	
 	
 
+	public Dto_chat(String message_sender, String message_receiver) {
+		super();
+		this.message_sender = message_sender;
+		this.message_receiver = message_receiver;
+	}
+
 	public Dto_chat(String message_sender, String message_receiver, int last_id) {
 		super();
 		this.message_sender = message_sender;
@@ -29,6 +38,30 @@ public class Dto_chat {
 
 
 
+
+	public int getUnread() {
+		return unread;
+	}
+
+	public void setUnread(int unread) {
+		this.unread = unread;
+	}
+
+	public String getSender_nick() {
+		return sender_nick;
+	}
+
+	public String getReceiver_nick() {
+		return receiver_nick;
+	}
+
+	public void setSender_nick(String sender_nick) {
+		this.sender_nick = sender_nick;
+	}
+
+	public void setReceiver_nick(String receiver_nick) {
+		this.receiver_nick = receiver_nick;
+	}
 
 	public int getLast_id() {
 		return last_id;

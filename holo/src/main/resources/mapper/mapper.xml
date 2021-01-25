@@ -399,13 +399,20 @@
 	</select>
 	<!-- mypage applyme list -->
 	<select id="mypage_applyme_list" parameterType="int" resultType="dto_apply">
-		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
-		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
+		select a.*,b.likes,c.complete,(select count(message_id) from chat
+		where message_sender=a.applier and message_receiver=a.helpme_id and message_read=0)as unread
+		from apply as a,user as b,help_post as c
+		where a.help_post_help_post_id=#{post_id}
+		and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
+
 	</select>
 	<!-- mypage applyyou list -->
 	<select id="mypage_applyyou_list" parameterType="int" resultType="dto_apply">
-		select a.*,b.likes,c.complete from apply as a,user as b,help_post as c 
-		where a.help_post_help_post_id=#{post_id} and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
+		select a.*,b.likes,c.complete,(select count(message_id) from chat
+		where message_sender=a.applier and message_receiver=a.helpyou_id and message_read=0)as unread
+		from apply as a,user as b,help_post as c
+		where a.help_post_help_post_id=#{post_id}
+		and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
 	</select>
 	<update id="mypage_applyme_choose" parameterType="int">
 		update apply set choose=1 where apply_id=#{apply_id};
@@ -440,13 +447,24 @@
 	</select>
 	<!-- chat read check -->
 	<update id="chat_read_check">
-		update chat set read=1 
+		update chat set message_read=1 
 		where message_sender=#{message_receiver} and message_receiver=#{message_sender} 
 	</update>
 	<select id="chat_unread_count">
 		select count(message_id) from chat
 		where message_sender=#{message_receiver} and message_receiver=#{message_sender}
 		and read=0;
+	</select>
+	<!-- chat room -->
+	<select id="chat_room_list" resultType="dto_chat">
+		select *,(select nick from user where user_id=chat.message_receiver)as receiver_nick,
+		(select nick from user where user_id=chat.message_sender)as sender_nick,
+        (select count(a.message_id) from chat as a
+		where a.message_sender=chat.message_sender and a.message_receiver=#{user_id} and a.message_read=1)as unread
+        from chat where message_id in
+		(select max(message_id) from chat
+		where message_receiver=#{user_id} or message_sender=#{user_id}
+		group by message_sender, message_receiver);
 	</select>
 	
 	

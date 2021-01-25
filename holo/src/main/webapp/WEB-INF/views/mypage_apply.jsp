@@ -99,7 +99,8 @@ a.page-link {
 						</div>
 					</div>
 					<div class="btns">
-						<input class="btn" type="button" value="채팅하기"><br>
+						<input type="hidden" id="applier${item.apply_id}" value="${item.applier}">
+						<input class="btn" type="button" value="채팅하기" id="chat${item.apply_id}"><br>
 						<c:if test="${item.choose=='0'}">
 							<input id="cancel_apply" class="btn last" type="button" value="취소하기">
 						</c:if>
@@ -198,6 +199,14 @@ $(document)
 	}else{
 		alert("이미 채택된 게시글은 지원 취소가 불가능합니다");
 	}
+})
+.on('click','input[id^=chat]',function(){ //input[id가 chat으로 시작하는 버튼]
+    var n=(this.id).substr(4); 
+    console.log("chat id: "+n);
+    var applier=$('#applier'+n).val();
+    console.log("applier: "+applier);
+    window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
+   
 })
 
 </script>
