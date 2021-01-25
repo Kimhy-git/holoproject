@@ -473,9 +473,15 @@ public class IDaolmpl implements IDao {
 	
 	//add re_comments
 	@Override
-	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id, String nick) {
+	public void add_re_comment(String re_index,String re_comment,String re_order,String re_class,String groupNum,String post_post_id,String user_user_id,String nick) {
 		
-		System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id);
+		System.out.println("IdaoImpl : "+re_index+" /"+re_comment+" /"+re_order+" /"+groupNum+" /"+post_post_id+" /"+nick);
+		
+		int re_groupNum=sqlSession.selectOne(Namespace+".notice_groupNum_select",groupNum);
+		int re_index_=Integer.parseInt(re_index);
+		re_index_=re_groupNum+1;
+		
+		re_index=String.valueOf(re_index_);
 		
 		Dto_reply add_re_comment=new Dto_reply(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
 		sqlSession.insert(Namespace+".add_re_comment",add_re_comment);

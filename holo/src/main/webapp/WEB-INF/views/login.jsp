@@ -29,25 +29,29 @@
     </header>
     <section>
         <div id="wrap">
+       		<form method="post" action="do_login">
             <table id="info">
-                <form method="post" action="do_login">
+                
+
                 <tr>
-                    <td>아이디</td><td><input type="text" id="id" name="user_id"></td>
+                    <td class="one" align=right>아이디</td><td><input type="text" id="id" name="user_id"></td>
                      <td rowspan="2"><input type="submit" id="log_btn" value="로그인"></td>   
                 </tr>
                 <tr>
-                    <td>비밀번호</td><td><input type="password" id="passcode" name="user_pw"></td>
-                </tr>
-                </form>
-
-       		<c:if test="${msg==false}">
-            	<h1>로그인 실패 : 아이디와 비밀번호를 확인해주세요</h1>
-        	</c:if>
-        	
+                    <td class="one" align=right>비밀번호</td><td><input type="password" id="passcode" name="user_pw"></td>
+                </tr> 
+                <tr>
+                	<td colspan=3>
+                		<c:if test="${msg==false}">
+			            	<p id="false">로그인 실패: 아이디 또는 비밀번호를 확인해주세요</p>
+			        	</c:if> 
+                	</td>
+                </tr>                
             </table>
+            </form>
             <br>
             <div id="bottom">
-                <a href="find_id">아이디/비밀번호 찾기 | </a>
+                <a href="find_id">아이디/비밀번호 찾기</a>
                 <a href="join">회원가입</a>
             </div>
         </div>

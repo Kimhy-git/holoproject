@@ -40,7 +40,7 @@
         <div id="wrap">
         
         <!-- <span>제목</span> -->
-            <h3>도움주기</h3>
+            <h3>도움주기 수정</h3>
             
             <form method='post' action='helpyou_edit_done' enctype="multipart/form-data">
             <input type="hidden" id="pId" name="post_id" value="${post_id}">

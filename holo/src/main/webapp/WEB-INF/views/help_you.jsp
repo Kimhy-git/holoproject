@@ -41,7 +41,7 @@
         <div id="center">
             <div id="wrap">
                 <div id="section_h">
-                    <h2>도움 주기</h2>
+                    <h2>도움주기</h2>
                     <form id="form1" method="post" action="help_you_search" >
 	                    <div id="search">
 	                       <select id="area" name="area">
@@ -190,6 +190,7 @@ $(document)
 		window.location.href="<c:url value='helpyou_write'/>"
 	}
 })
+
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();

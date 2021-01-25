@@ -79,7 +79,7 @@
 					    <input type="submit" id="scbtn" value="검색">
 	                    </div>
                     </form>
-       <a href="helpme_write" class="write">글쓰기</a>
+        <div class="write" id="writing">글쓰기</div>
     </div> 
     <div id="wrap">
    		<div id="center">   
@@ -186,7 +186,7 @@
 	        </c:if>
           </form> 
             </div>
-            </div>
+            
 		
 	      <form method="post">
 
@@ -212,7 +212,7 @@
                    </div>
                    <div id="clr"></div>
             </form>
-         
+         	</div>
 		</c:forEach>
 		<div id="comments_add">
 				
@@ -335,56 +335,57 @@ $(document).on('click','#more',function(){
 					
 						'<div class=comments value='+value['re_class']+'>'
 						+'<input type=hidden class="re_class" value='+value['re_class']+'>'
-						+'<div id=comments'+value['help_reply_id']+' class=commentsbox>'
-			            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
-			            
-						+'<form method="post" action="mp_popup" target="mp_popGoGo" id="mpGol'+value['help_reply_id']+'">'
-								+'<input type=hidden name=help_post_id value='+${read.help_post_id}+'>'
-								+'<input type=hidden name=user_id value='+value['user_user_id']+'>'
-					            +'<input type=hidden id="whoru'+value['help_reply_id']+'" name=nick value="'+value['nick']+'">'
-					            +'<p class="writer" id="mp_popGo'+value['help_reply_id']+'">'
-					            +value['nick']+'</p>'
-						+'</form>'
-						
-						+'<form mehtod="post">'
-					            +'<p class="reply_comment">'+value['re_comment']+'</p>'
-					            +'<p class="reply_date">'+value['operator']+'</p>'
-					            +'<input type=hidden name=help_post_id value='+${read.help_post_id}+'>'
-					            +'<input type=button class="re_again" id=reply_again'+value['help_reply_id']+' value="답글달기">'
-					            +'<input type=hidden name="help_post_post_id" value='+value['help_post_post_id']+'>'
-					            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
-					            +ifbtn
-
-						    +'</form>'
+							+'<div id=comments'+value['help_reply_id']+' class=commentsbox>'
+				            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
+					            
+								+'<form method="post" action="mp_popup" target="mp_popGoGo" id="mpGol'+value['help_reply_id']+'">'
+										+'<input type=hidden name=help_post_id value='+${read.help_post_id}+'>'
+										+'<input type=hidden name=user_id value='+value['user_user_id']+'>'
+							            +'<input type=hidden id="whoru'+value['help_reply_id']+'" name=nick value="'+value['nick']+'">'
+							            +'<p class="writer" id="mp_popGo'+value['help_reply_id']+'">'
+							            +value['nick']+'</p>'
+								+'</form>'
+								
+								+'<form mehtod="post">'
+							            +'<p class="reply_comment">'+value['re_comment']+'</p>'
+							            +'<p class="reply_date">'+value['operator']+'</p>'
+							            +'<input type=hidden name=help_post_id value='+${read.help_post_id}+'>'
+							            +'<input type=button class="re_again" id=reply_again'+value['help_reply_id']+' value="답글달기">'
+							            +'<input type=hidden name="help_post_post_id" value='+value['help_post_post_id']+'>'
+							            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
+							            +ifbtn
+		
+							    +'</form>'
 					        +'</div>'
-			            	+'</div>'
-			            	
-				            +'<form method="post">'
-					            +'<input type=hidden name="help_post_post_id" value='+value['help_post_post_id']+'>'
-					            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
-				                +'<div class="re_edit_txt" id=re_edit_txt'+value['help_reply_id']+' style=display:none>'
-						            +'<textarea class=edit-input id=edit-input'+value['help_reply_id']+' name=re_comment_edit placeholde="댓글을 입력해 주세요" style="resize:none">'
-						            +value['re_comment']+'</textarea>'
-					                +'<input type=submit class=edit-go id=edit_go'+value['help_reply_id']+' value="수정" onclick="javascript: form.action=\'help_reply_edit_go\'";/>'
-						            +'<input type=button class=edit-cancel id=edit_cancel'+value['help_reply_id']+' value="취소">'
-				                +'</div>'
-				                
-				                +'<div class=reply_again_txt id=reply_again_textarea'+value['help_reply_id']+' style=display:none>'
-					                +'<input type=hidden value='+"${login.user_id}"+' id=user_id_login name=user_id>'
-						           
-					                +'<input type=hidden name=parent_id value='+value['help_reply_id']+'>'
-						            +'<input type=hidden name=re_index value='+value['re_index']+'>'
-						            +'<input type=hidden name=re_order value='+value['re_order']+'>'
-						            +'<input type=hidden name=re_class value='+value['re_class']+'>'
-						            +'<input type=hidden name=groupNum value='+value['groupNum']+'>'
-						            +'<input type=hidden name=re_post_id value='+value['help_post_post_id']+'>'
+			            
+				            	
+					            +'<form method="post">'
+						            +'<input type=hidden name="help_post_post_id" value='+value['help_post_post_id']+'>'
+						            +'<input type=hidden name=help_reply_id value='+value['help_reply_id']+'>'
+					                +'<div class="re_edit_txt" id=re_edit_txt'+value['help_reply_id']+' style=display:none>'
+							            +'<textarea class=edit-input id=edit-input'+value['help_reply_id']+' name=re_comment_edit placeholde="댓글을 입력해 주세요" style="resize:none">'
+							            +value['re_comment']+'</textarea>'
+						                +'<input type=submit class=edit-go id=edit_go'+value['help_reply_id']+' value="수정" onclick="javascript: form.action=\'help_reply_edit_go\'";/>'
+							            +'<input type=button class=edit-cancel id=edit_cancel'+value['help_reply_id']+' value="취소">'
+					                +'</div>'
 					                
-						            +'<textarea id=re_re_comment'+value['help_reply_id']+' class=re_re_comment name=re_re_comment placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>'
-						            +'<input type=submit class=re_re_submit id="re_re_submit'+value['help_reply_id']+'" value="등록" onclick="javascript: form.action=\'helpme_re_recomment_submit\'";/>'
-				                +'</div>'
-				                +'<div id="clr"></div>'
-		                
-	                +'</form>'
+					                +'<div class=reply_again_txt id=reply_again_textarea'+value['help_reply_id']+' style=display:none>'
+						                +'<input type=hidden value='+"${login.user_id}"+' id=user_id_login name=user_id>'
+							           
+						                +'<input type=hidden name=parent_id value='+value['help_reply_id']+'>'
+							            +'<input type=hidden name=re_index value='+value['re_index']+'>'
+							            +'<input type=hidden name=re_order value='+value['re_order']+'>'
+							            +'<input type=hidden name=re_class value='+value['re_class']+'>'
+							            +'<input type=hidden name=groupNum value='+value['groupNum']+'>'
+							            +'<input type=hidden name=re_post_id value='+value['help_post_post_id']+'>'
+						                
+							            +'<textarea id=re_re_comment'+value['help_reply_id']+' class=re_re_comment name=re_re_comment placeholder="댓글을 입력해 주세요." style="resize:none"></textarea>'
+							            +'<input type=submit class=re_re_submit id="re_re_submit'+value['help_reply_id']+'" value="등록" onclick="javascript: form.action=\'helpme_re_recomment_submit\'";/>'
+					                +'</div>'
+					                +'<div id="clr"></div>'
+			                
+		                	+'</form>'
+		                +'</div>'
 		            //console.log("content: "+content);
 					$('#comments_add').append(content);
 			})
@@ -427,6 +428,17 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 		   
 	   }
 })   
+.on('click','#writing',function(){
+	user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인이 필요한 서비스입니다.");
+		window.location.href="<c:url value='login'/>"
+	}else{
+		window.location.href="<c:url value='helpme_write'/>"
+	}
+})
+
 .on('click','#comment-input',function(){
 	   var login_user_id=$('#login_user_id').val();
 	   if(login_user_id==null || login_user_id==""){

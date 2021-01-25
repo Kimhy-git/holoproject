@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +13,17 @@
 <link rel="stylesheet" href="resources/css/find_pw.css">
 <body>
 <header>
-        <nav>
-           <a href="login" id=login>로그인</a>
-            <a href="join" id="join">회원가입</a>
+       <nav>
+	        <input type=hidden value="${login.user_id}" id="user_id_login">
+	        <c:if test="${login.nick==null}">
+	            <a href="login" id=login>로그인</a>
+	            <a href="join" id="join">회원가입</a>
+	        </c:if>
+	        <c:if test="${login.nick!=null}">
+	            <a href="logout" id=login>로그아웃</a>
+	            <a href="mypage" id="mypage">마이페이지</a>
+	        </c:if>
+	        <input type="hidden" value="${login.user_id}" id="login_user_id">
         </nav>
         <div id="logo">
             <a href="main"><img src="resources/img/logo1.png"></a>
@@ -22,9 +32,9 @@
             <a href="help_me">도움받기</a>
             <a href="help_you">도움주기</a>
             <a href="freeboard">자유게시판</a>
-            <a href="mypage">마이페이지</a>
+            <a href="notice">공지사항</a>
         </div>
-    </header>
+ </header>
     <div class="clear"></div>
     <section>
         <div id="wrap">

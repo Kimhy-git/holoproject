@@ -10,19 +10,16 @@ input{
     border-radius: 3px;
 }
 #email{
-    
-    margin-top: 220px;
-    margin-left: 5px;
-    margin-bottom: 10px;
+    margin:220px 5px 10px 10px;
 }
 #find{
     width: 70px;
     margin-right: 120px;
-    
+    cursor:pointer;
+    outline:none;
 }
-#wrap div{
-    margin-top: 10px;
-    margin-right: 15px;
+#move{
+	margin-bottom:10px;
 }
 #wrap div a{
     margin-right: 15px;
@@ -37,4 +34,37 @@ h2{
 	padding: 5px 0 5px 0;
 	margin: 0;
 	margin-top:20px
+}
+#cpl{
+	clear:both;
+	height:400px;
+	
+}
+#cpl p{
+	font-size:16px;
+	padding-top:150px;	
+}
+#idC{
+	font-weight:400;
+	color: rgb(95, 143, 214);
+}
+#btn{
+	margin-top:10px;
+}
+#btn input{
+	margin-top:5px;
+	padding:2px 0;
+	width:100px;
+	border-radius:5px;
+	cursor:pointer;
+	outline:none;
+}
+#btn #cancel{
+	display:inline-block;
+	margin-top:5px;
+	color:rgb(107, 107, 107);
+}
+#cancel:hover,
+#findP:hover{
+	text-decoration:underline;
 }

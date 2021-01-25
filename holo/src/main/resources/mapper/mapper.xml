@@ -488,6 +488,11 @@
     	select * from post where board=3 and post_id=#{post_id}
     </select>
     
+    <!-- helpyou re_recommnet submit --> 
+	<select id="notice_groupNum_select" parameterType="string" resultType="int">
+		select count(a.re_index) from reply as a,reply as b where a.re_order=b.reply_id and b.reply_id=#{groupNum};
+	</select>
+    
     <!-- counting -->
     <select id="count_post_reply" resultType="int">
     	select count(*) from reply where board=3 and post_post_id=#{post_id}
@@ -502,7 +507,7 @@
     <select id="select_post_reply" resultType="dto_reply"> 
 		SELECT * FROM reply
 		where board=3 and post_post_id=#{post_post_id}
-		ORDER BY IF(re_index=0,reply_id, re_index),groupNum
+		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
 		limit 0,5
     </select>
     
@@ -578,7 +583,7 @@
     <select id="select_post_reply_ajax" resultType="dto_reply"> 
 		SELECT * FROM reply
 		where board=3 and post_post_id=#{post_post_id}
-		ORDER BY IF(re_index=0,reply_id, re_index),groupNum
+		ORDER BY IF(groupNum=0, reply_id, groupNum),re_index
 		limit #{pagination.page},#{pagination.mypageListSize}
     </select>
     

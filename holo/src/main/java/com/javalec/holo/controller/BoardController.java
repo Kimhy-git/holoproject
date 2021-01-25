@@ -1014,7 +1014,7 @@ public class BoardController {
     	return "redirect:notice";
     }
     
-  //add_re_comments
+    //add_re_comments
     @RequestMapping(value = "add_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
     public String add_re_comment(HttpServletRequest req, Model model) throws Exception{
     	
@@ -1024,38 +1024,43 @@ public class BoardController {
 		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
-		 
-			int re_order_=Integer.parseInt(req.getParameter("parent_id"));
-			int re_class_=Integer.parseInt(req.getParameter("re_class"));
-			if(re_class_==0) {
-				re_class_=re_class_+1;
-			}
-			int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
-			int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
-			int groupNum_=0;
-			if(parent_re_order==0) {
-				groupNum_=re_order_;
-			}else {
-				groupNum_=parent_groupNum;
-			}
-			System.out.println("groupNum: "+groupNum_);
-			
+		
     	String user_user_id=dto.getUser_id();
-    	String re_index=req.getParameter("re_index");
-    	String re_comment=req.getParameter("re_re_comment");
+    	String nick=dto.getNick();
     	String post_post_id=req.getParameter("post_post_id");
+    	
+    	String re_index=req.getParameter("reply_id");
+    	String re_comment=req.getParameter("re_re_comment");
+    	int order=Integer.parseInt(req.getParameter("parent_id"));
+    	int class_re=Integer.parseInt(req.getParameter("re_class"));
 
-    	String re_order=String.valueOf(re_order_);
-    	String re_class=String.valueOf(re_class_);
+		if(class_re==0) {
+			class_re=class_re+1;
+		}
+
+		int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+		int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+		
+		int groupNum_=0;
+		if(parent_re_order==0) {
+			groupNum_=order;
+		}else {
+			groupNum_=parent_groupNum;
+		}
+		
+    	String re_order=String.valueOf(order);
+    	String re_class=String.valueOf(class_re);
     	String groupNum=String.valueOf(groupNum_);
 
     	System.out.println("this is re_index : " +re_index);
     	System.out.println("this is re_comment : " +re_comment);
     	System.out.println("this is order : " +re_order);
+    	System.out.println("this is class : " +re_class);
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
+    	System.out.println("this is nick : " +nick);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id, groupNum);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
     	
     	
     	System.out.println("The end of update_post_now");

@@ -79,7 +79,7 @@
 					    <input type="submit" id="scbtn" value="검색">
 	                    </div>
                     </form>
-       <a href="helpyou_write" class="write">글쓰기</a>
+        <div class="write" id="writing">글쓰기</div>
     </div> 
     <div id="wrap">
    		<div id="center">   
@@ -186,7 +186,7 @@
 	        </c:if>
           </form> 
             </div>
-            </div>
+            
 		
 	      <form method="post">
 
@@ -212,7 +212,7 @@
                    </div>
                    <div id="clr"></div>
             </form>
-         
+         	</div>
 		</c:forEach>
 		<div id="comments_add">
 				
@@ -357,7 +357,7 @@ $(document).on('click','#more',function(){
 
 						    +'</form>'
 					        +'</div>'
-			            	+'</div>'
+			            	
 			            	
 				            +'<form method="post">'
 					            +'<input type=hidden name="help_post_post_id" value='+value['help_post_post_id']+'>'
@@ -385,6 +385,7 @@ $(document).on('click','#more',function(){
 				                +'<div id="clr"></div>'
 		                
 	                +'</form>'
+	                +'</div>'
 		            //console.log("content: "+content);
 					$('#comments_add').append(content);
 			})
@@ -426,7 +427,17 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 		   
 		   
 	   }
-})   
+})  
+.on('click','#writing',function(){
+	user_id=$('#user_id_login').val();
+	console.log(user_id);
+	if(user_id==null || user_id==""){
+		alert("로그인이 필요한 서비스입니다.");
+		window.location.href="<c:url value='login'/>"
+	}else{
+		window.location.href="<c:url value='helpyou_write'/>"
+	}
+})
 .on('click','#comment-input',function(){
 	   var login_user_id=$('#login_user_id').val();
 	   if(login_user_id==null || login_user_id==""){
