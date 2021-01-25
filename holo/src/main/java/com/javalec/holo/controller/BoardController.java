@@ -686,15 +686,21 @@ public class BoardController {
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
 		int help_post_id=Integer.parseInt(req.getParameter("re_post_id"));
+		//re_order=부모의id
 		int re_order=Integer.parseInt(req.getParameter("parent_id"));
 		System.out.println("parent_id: "+re_order);
 		int re_class=Integer.parseInt(req.getParameter("re_class"));
+		//re_class=깊이. 부모의 깊이가 0일경우에만 +1
 		if(re_class==0) {
 			re_class=re_class+1;
 		}
+		//부모의 re_order값, 부모의 groupNum값
 		int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
 		int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+		//groupNum=조상의id
 		int groupNum=0;
+		//부모의 re_order값이 0일때, 즉 일반댓글일때는 groupNum이 부모의id가 된다.
+		//그 외에는 부모의 groupNum값이 현재대댓글의 groupNum값이 된다. 
 		if(parent_re_order==0) {
 			groupNum=re_order;
 		}else {
@@ -703,6 +709,7 @@ public class BoardController {
 		System.out.println("groupNum: "+groupNum);
 		String comment=req.getParameter("re_re_comment");		
 		String user_id=dto.getUser_id();
+		//re_index=순서. IDaoImpl에서 처리한다.
 		int re_index=Integer.parseInt(req.getParameter("re_index"));
 		System.out.println("re_index: "+re_index+"re_order: "+re_order+", re_class: "+re_class+", re_groupNum: "+groupNum+"user_id: "+user_id);
 		service.helpyou_re_recomment_submit(re_index, comment, re_order, re_class, groupNum, help_post_id, user_id);
@@ -1017,22 +1024,30 @@ public class BoardController {
 		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
-		
-		String nick=dto.getNick();
+		 
+			int re_order_=Integer.parseInt(req.getParameter("parent_id"));
+			int re_class_=Integer.parseInt(req.getParameter("re_class"));
+			if(re_class_==0) {
+				re_class_=re_class_+1;
+			}
+			int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+			int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+			int groupNum_=0;
+			if(parent_re_order==0) {
+				groupNum_=re_order_;
+			}else {
+				groupNum_=parent_groupNum;
+			}
+			System.out.println("groupNum: "+groupNum_);
+			
     	String user_user_id=dto.getUser_id();
-    	String re_index=req.getParameter("reply_id");
+    	String re_index=req.getParameter("re_index");
     	String re_comment=req.getParameter("re_re_comment");
-    	int order=Integer.parseInt(req.getParameter("re_order"));
-    	int class_re=Integer.parseInt(req.getParameter("re_class"));
-    	String groupNum=req.getParameter("groupNum");
     	String post_post_id=req.getParameter("post_post_id");
-    	
-    	order+=1;
-    	class_re+=1;
 
-    	
-    	String re_order=String.valueOf(order);
-    	String re_class=String.valueOf(class_re);
+    	String re_order=String.valueOf(re_order_);
+    	String re_class=String.valueOf(re_class_);
+    	String groupNum=String.valueOf(groupNum_);
 
     	System.out.println("this is re_index : " +re_index);
     	System.out.println("this is re_comment : " +re_comment);
@@ -1040,7 +1055,7 @@ public class BoardController {
     	System.out.println("this is groupNum : " +groupNum);
     	System.out.println("this is post_post_id : " +post_post_id);
     	
-    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
+    	service.add_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id, groupNum);
     	
     	
     	System.out.println("The end of update_post_now");

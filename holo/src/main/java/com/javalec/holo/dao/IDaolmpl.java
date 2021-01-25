@@ -288,10 +288,13 @@ public class IDaolmpl implements IDao {
 		sqlSession.insert(Namespace+".helpyou_reply_submit",helpreplyDto);
 	}
 	
+	//대댓글
 	@Override
 	public void helpyou_re_recomment_submit(int re_index, String re_comment, int re_order, int re_class, int groupNum, int help_post_post_id, String user_user_id) throws Exception {
 		System.out.println("submit idao: "+re_index+","+re_comment+","+re_order+","+help_post_post_id+","+user_user_id);
+		//re_groupNum=동일한 groupNum을 가지고 있는 row들의 수
 		int re_groupNum=sqlSession.selectOne(Namespace+".helpyou_groupNum_select",groupNum);
+		//re_index=순서. re_groupNum에 1을 더해준다.
 		re_index=re_groupNum+1;
 		Dto_help_reply recomment=new Dto_help_reply();
 		recomment.Dto_help_re_reply(re_index, re_comment, re_order, re_class, groupNum, help_post_post_id, user_user_id);

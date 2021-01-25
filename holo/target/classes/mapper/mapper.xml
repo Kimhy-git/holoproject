@@ -438,6 +438,16 @@
 	<select id="chat_nick" resultType="dto_user">
 		select * from user where user_id=#{user_id}
 	</select>
+	<!-- chat read check -->
+	<update id="chat_read_check">
+		update chat set read=1 
+		where message_sender=#{message_receiver} and message_receiver=#{message_sender} 
+	</update>
+	<select id="chat_unread_count">
+		select count(message_id) from chat
+		where message_sender=#{message_receiver} and message_receiver=#{message_sender}
+		and read=0;
+	</select>
 	
 	
 
