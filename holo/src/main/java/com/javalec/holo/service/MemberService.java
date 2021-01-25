@@ -283,9 +283,9 @@ public interface MemberService {
 	public void freeboard_write(String post_id, String board, String title,
 			String content, String user_user_id, String nick, String file_up)throws Exception;
 	// 게시물 쓰기
-	public List<Dto_free_reply> select_free_reply(String post_id) throws Exception;
+	public List<Dto_free_reply> select_free_reply(String post_id, Pagination pagination) throws Exception;
 	// 댓글 보기
-	public void add_free_comment(String post_post_id, String re_comment, String user_user_id) throws Exception;
+	public void add_free_comment(String user_user_id, String post_post_id, String re_comment, String nick) throws Exception;
 	// 댓글 쓰기
  
 	public void delete_free_comment(String reply_id, String board, String post_post_id);
@@ -293,7 +293,7 @@ public interface MemberService {
 	public void update_free_comment(String reply_id, String re_comment, String post_post_id, String board);
 	// 댓글 수정
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
-			String groupNum, String post_post_id, String user_user_id);
+			String groupNum, String post_post_id, String user_user_id, String nick);
 	// 대댓글 작성	
 
 	public void free_uphit(String post_id) throws Exception;
@@ -326,5 +326,3 @@ public interface MemberService {
 
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
 }
-
-

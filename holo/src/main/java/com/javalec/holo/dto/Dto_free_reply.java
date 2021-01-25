@@ -11,6 +11,7 @@ public class Dto_free_reply {
 	private String groupNum;
 	private String post_post_id;
 	private String user_user_id;
+	private String nick;
 	
 	public Dto_free_reply() {}
 	
@@ -56,7 +57,7 @@ public class Dto_free_reply {
 	}
 	
 	public Dto_free_reply(String reply_id, String board, String operator, String re_index, String re_comment,
-			String re_class, String re_order, String groupNum, String post_post_id, String user_user_id) {
+			String re_class, String re_order, String groupNum, String post_post_id, String user_user_id, String nick) {
 		super();
 		this.reply_id = reply_id;
 		this.board = board;
@@ -68,6 +69,7 @@ public class Dto_free_reply {
 		this.groupNum = groupNum;
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
+		this.nick = nick;
 	}
 
 
@@ -81,6 +83,19 @@ public class Dto_free_reply {
 		this.groupNum = groupNum;
 		this.post_post_id = post_post_id;
 		this.user_user_id = user_user_id;
+	}	
+
+	public Dto_free_reply(String re_index, String re_comment, String re_order, String re_class,  String groupNum,
+			String post_post_id, String user_user_id, String nick) {
+		super();
+		this.re_index = re_index;
+		this.re_comment = re_comment;
+		this.re_class = re_class;
+		this.re_order = re_order;
+		this.groupNum = groupNum;
+		this.post_post_id = post_post_id;
+		this.user_user_id = user_user_id;
+		this.nick = nick;
 	}
 
 	public String getUser_user_id() {
@@ -142,5 +157,13 @@ public class Dto_free_reply {
 	}
 	public void setPost_post_id(String post_post_id) {
 		this.post_post_id = post_post_id;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
 }

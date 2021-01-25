@@ -162,6 +162,8 @@ table a:hover{
 }
 .applier .btns .last{
 	margin-top: 5px;
+	background:#ddd;
+	color:black;
 }
 
 #mine a:hover{
@@ -179,11 +181,15 @@ table a:hover{
 }
 
 #apply_selected{
-	color:#fff;
-	background-color: rgb(175, 107, 230);
+	color: rgb(175, 107, 230);
+	font-weight:400;
+	/*background-color: rgb(175, 107, 230);*/
 }
 #fin_btn{
-	background-color: rgb(175, 107, 230);
+	color:rgb(175, 107, 230);
+	border:1.5px solid rgb(175, 107, 230);
+	background-color:white;
+	font-weight:400;
 }
 
 #apply_title {

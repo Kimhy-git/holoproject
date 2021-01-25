@@ -1173,7 +1173,7 @@ public class BoardController {
 		
 	  		service.free_uphit(post_id);
 		List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
-		List<Dto_free_reply> free_reply = service.select_free_reply(post_id);
+		List<Dto_free_reply> free_reply = service.select_free_reply(post_id, pagination);
 		int replyCnt = service.selectCount(post_id);
 		model.addAttribute("freeboard",freeboard);
         model.addAttribute("free_reply", free_reply);
@@ -1214,7 +1214,7 @@ public class BoardController {
 			System.out.println("freeboard_write_view_reply, json : "+json);
 			return json;
 	}
-
+		
 
 
 
@@ -1239,6 +1239,7 @@ public class BoardController {
 	    	String board="2";
 	    	
 	    	System.out.println("to modify: "+post_id);
+	    	System.out.println("content: "+content);
 	    	
 	    	model.addAttribute("title",title);
 	    	model.addAttribute("post_id",post_id);
@@ -1298,10 +1299,12 @@ public class BoardController {
 		Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
-    	String post_post_id=req.getParameter("post_post_id");
-    	String re_comment=req.getParameter("re_comment");
     	String user_user_id=dto.getUser_id();
-    	service.add_free_comment(post_post_id, re_comment, user_user_id);
+		String post_post_id=req.getParameter("post_post_id");
+    	String re_comment=req.getParameter("re_comment");
+    	String nick=req.getParameter("nick");
+    	System.out.println("add free comment nick: "+nick);
+    	service.add_free_comment(user_user_id, post_post_id, re_comment, nick);
     	
     	return "redirect:freeboard_write_view?post_id="+post_post_id;
     } //댓글 작성
@@ -1320,7 +1323,7 @@ public class BoardController {
 	 
 	 @RequestMapping(value = "update_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String update_free_comment(HttpServletRequest req, Model model) throws Exception{
-	    	
+
 	    	String post_post_id=req.getParameter("post_post_id");
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
@@ -1347,37 +1350,40 @@ public class BoardController {
 	    
 	    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
-	    	//test_2	    	
-	       	
+	    	//test_2	    		    	
 	    	System.out.println("Start add_recomment");
-
 			 Dto_login dto = new Dto_login();
-			 
 			 HttpSession session = req.getSession();
 			 dto=(Dto_login)session.getAttribute("login");
 			
 	    	String user_user_id=dto.getUser_id();
-	    	String re_index=req.getParameter("reply_id");
+	    	String re_index=req.getParameter("re_index");
 	    	String re_comment=req.getParameter("re_re_comment");
-	    	int order=Integer.parseInt(req.getParameter("re_order"));
+	    	System.out.println("add_free_re_comment 01");
+	    	int order_re=Integer.parseInt(req.getParameter("parent_id"));
+	    	System.out.println("add_free_re_comment order_re: "+order_re);
 	    	int class_re=Integer.parseInt(req.getParameter("re_class"));
-	    	String groupNum=req.getParameter("groupNum");
+	    	System.out.println("add_free_re_comment class_re: "+class_re);
+	    	if(class_re==0) {
+	    		class_re=class_re+1;
+			}
+	    	int parent_re_order=Integer.parseInt(req.getParameter("re_order"));
+			int parent_groupNum=Integer.parseInt(req.getParameter("groupNum"));
+			int groupnum=Integer.parseInt(req.getParameter("groupNum"));
+			groupnum=0;	    	
+			if(parent_re_order==0) {
+				groupnum=order_re;
+			}else {
+				groupnum=parent_groupNum;
+			}
 	    	String post_post_id=req.getParameter("post_post_id");
-	    	
-	    	order+=1;
-	    	class_re+=1;
 
-	    	
-	    	String re_order=String.valueOf(order);
+	    	String re_order=String.valueOf(order_re);
 	    	String re_class=String.valueOf(class_re);
-
-	    	System.out.println("this is re_index : " +re_index);
-	    	System.out.println("this is re_comment : " +re_comment);
-	    	System.out.println("this is order : " +re_order);
-	    	System.out.println("this is groupNum : " +groupNum);
-	    	System.out.println("this is post_post_id : " +post_post_id);
-	    	
-	    	service.add_free_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id);
+	    	String groupNum=String.valueOf(groupnum);
+	    	String nick=req.getParameter("nick");
+	    	System.out.println("boardcontroller nick: "+nick);
+	    	service.add_free_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
 	    	
 	    	
 	    	System.out.println("The end of update_post_now");

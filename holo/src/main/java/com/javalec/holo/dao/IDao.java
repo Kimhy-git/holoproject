@@ -283,10 +283,10 @@ public interface IDao {
 			String content, String user_user_id, String nick, String file_up) throws Exception;
 	//게시글 작성
 
-	public List<Dto_free_reply> select_free_reply(String post_id);
+	public List<Dto_free_reply> select_free_reply(String post_id, Pagination pagination);
 	// 댓글 보여주기
 	
-	public void add_free_comment(String post_post_id, String re_comment, String user_user_id);
+	public void add_free_comment(String user_user_id, String post_post_id, String re_comment, String nick);
 	//댓글 작성
 	
 	public void delete_free_comment(String reply_id, String board, String post_post_id);
@@ -296,7 +296,7 @@ public interface IDao {
 	// 댓글 수정
 
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
-			String groupNum, String post_post_id, String user_user_id);
+			String groupNum, String post_post_id, String user_user_id, String nick);
 	// 대댓글 작성
 
 

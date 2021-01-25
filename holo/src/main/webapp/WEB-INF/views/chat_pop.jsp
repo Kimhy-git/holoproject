@@ -103,7 +103,7 @@ function readFunction(){
 
 setInterval(function(){
 	readFunction();
-},7000);
+},5000);
 
 
 

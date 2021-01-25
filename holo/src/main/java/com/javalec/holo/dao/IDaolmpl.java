@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -724,14 +725,23 @@ public class IDaolmpl implements IDao {
 	}// 게시물 달기
 	
 	@Override 
-	public List<Dto_free_reply> select_free_reply(String post_id) {
-		return sqlSession.selectList(Namespace+".select_free_reply",post_id);
+	public List<Dto_free_reply> select_free_reply(String post_id, Pagination pagination) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("post_id", post_id);
+		map.put("pagination", pagination);
+		return sqlSession.selectList(Namespace+".select_free_reply",map);
 	}// 댓글 보여주기
 	@Override
-	public void add_free_comment(String post_post_id, String re_comment, String user_user_id) {
-		Dto_free_reply dto_free_reply=new Dto_free_reply(re_comment, post_post_id, user_user_id);
-		sqlSession.insert(Namespace+".add_free_comment",dto_free_reply);
+	public void add_free_comment(String user_user_id, String post_post_id, String re_comment, String nick) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("user_user_id",user_user_id);
+		map.put("post_post_id", post_post_id);
+		map.put("re_comment",re_comment);
+		System.out.println("IDao nick: "+nick);
+		map.put("nick",nick);
+		sqlSession.insert(Namespace+".add_free_comment",map);
 	} //댓글 달기
+
 	@Override
 	public void delete_free_comment(String reply_id, String board, String post_post_id) {
 		Dto_free_reply delete_free_comment=new Dto_free_reply();
@@ -745,10 +755,13 @@ public class IDaolmpl implements IDao {
 	} //댓글 수정
 	@Override
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
-			String groupNum, String post_post_id, String user_user_id) {
+			String groupNum, String post_post_id, String user_user_id, String nick) {
 		System.out.println("idao re_re_comment: "+re_comment);
-		Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,re_class, groupNum,post_post_id,user_user_id);
+		int re_groupNum=sqlSession.selectOne(Namespace+".freeboard_groupNum_select",groupNum);
+		re_index=String.valueOf(re_groupNum+1);
+		Dto_free_reply add_free_re_comment=new Dto_free_reply(re_index,re_comment,re_order,re_class, groupNum,post_post_id,user_user_id, nick);
 		System.out.println("get comment"+add_free_re_comment.getRe_comment());
+		System.out.println("get nick: "+add_free_re_comment.getNick());
 		sqlSession.insert(Namespace+".add_free_re_comment",add_free_re_comment);
 	} //대댓글 작성
 
@@ -828,8 +841,6 @@ public class IDaolmpl implements IDao {
 		
 		return sqlSession.selectList(Namespace+".select_free_reply_ajax",dto);
 	}
-
-
 
 
 

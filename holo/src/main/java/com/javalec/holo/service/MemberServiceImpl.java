@@ -403,6 +403,10 @@ public class MemberServiceImpl implements MemberService {
 				}
 			}
 		}
+		for(int i=0;i<chat_list.size();i++) {
+			String date=chat_list.get(i).getMessage_sendTime();
+			chat_list.get(i).setMessage_sendTime(date.substring(0, 16));
+		}
 		return chat_list;
 	}
 	
@@ -705,12 +709,12 @@ public class MemberServiceImpl implements MemberService {
 	} // 게시글 작성
 	
 	@Override 
-	public List<Dto_free_reply> select_free_reply(String post_id) throws Exception {
-		return dao.select_free_reply(post_id);
+	public List<Dto_free_reply> select_free_reply(String post_id, Pagination pagination) throws Exception {
+		return dao.select_free_reply(post_id, pagination);
 	} // 댓글 보여주기
 	@Override
-		public void add_free_comment(String post_post_id, String re_comment, String user_user_id) {
-			dao.add_free_comment(post_post_id, re_comment, user_user_id);
+		public void add_free_comment(String user_user_id, String post_post_id, String re_comment, String nick) {
+			dao.add_free_comment(user_user_id, post_post_id, re_comment, nick);
 	} // 댓글 작성
 	@Override
 	public void delete_free_comment(String reply_id, String board, String post_post_id) {
@@ -721,11 +725,9 @@ public class MemberServiceImpl implements MemberService {
 		dao.update_free_comment(reply_id,re_comment,post_post_id,board);
 	} // 댓글 수정
 	@Override
-
-
 	public void add_free_re_comment(String re_index, String re_comment, String re_order, String re_class,
-			String groupNum, String post_post_id, String user_user_id) {
-		dao.add_free_re_comment(re_index,re_comment,re_order, re_class,groupNum,post_post_id, user_user_id);
+			String groupNum, String post_post_id, String user_user_id, String nick) {
+		dao.add_free_re_comment(re_index,re_comment,re_order, re_class,groupNum,post_post_id, user_user_id, nick);
 	} // 대댓글 작성
 	@Override
 	public void free_uphit(String post_id) throws Exception {
@@ -789,6 +791,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dao.select_free_reply_ajax(post_id, pagination);
 	}
+	
 
 
 }
