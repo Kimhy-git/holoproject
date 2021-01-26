@@ -73,7 +73,7 @@ textarea::placeholder{
     margin-top: 10px;
     resize: none;
     outline: none;
-    
+    height: 500px;
 }
 #img_up{
     float: left;

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자유게시판</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -44,7 +44,7 @@
                 <!-- <span>제목</span>  -->
                 
                 <!-- insert -->
-                <form action="freeboard_update" method="get">
+                <form action="freeboard_update" method="post" enctype="multipart/form-data">
              		<input type="text" id="title" class="input-title" name="title" value="${title}">
              		<input type="hidden" name="post_id" value="${post_id}">
                 <div id="content">
@@ -73,9 +73,5 @@
 <script>
 $(document)
 //Delete post and comments
-.on('click','#chat_room',function(){
-	var user_id='${login.user_id}';
-	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
-})
-</script>
+
 </html>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자유게시판</title>
 
 <script>
 //이전 버튼 이벤트
@@ -160,7 +160,7 @@ function fn_prev(page, range, rangeSize) {
 $(document)
 .on('click','#writing',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
+	
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -170,17 +170,13 @@ $(document)
 })
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
+	
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
 	}else{
 		window.location.href="<c:url value='freeboard'/>"
 	}
-})
-.on('click','#chat_room',function(){
-	var user_id='${login.user_id}';
-	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 </html>

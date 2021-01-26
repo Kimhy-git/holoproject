@@ -1146,19 +1146,15 @@ public class BoardController {
 
 		//Pagination 객제 생성
 		Pagination pagination = new Pagination();
-		System.out.println("board controller range01: "+pagination.getRange());
 		pagination.pageInfo(page, range, listCnt);
-		System.out.println("board controller range02: "+pagination.getRange());
 		List<Dto_freeboard> freeboard = service.select_freeboard(pagination);
-		System.out.println("board controller range03: "+pagination.getRange());
 		model.addAttribute("freeboard",freeboard);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("search_do",0);
-		
-		  Dto_login dto = new Dto_login();
+        Dto_login dto = new Dto_login();
 		  
-		  HttpSession session = req.getSession();
-		  dto=(Dto_login)session.getAttribute("login");
+	    HttpSession session = req.getSession();
+  	    dto=(Dto_login)session.getAttribute("login");
 		return "freeboard";
 	} // 자유게시판 리스트 보여주기
 
@@ -1167,7 +1163,6 @@ public class BoardController {
 	public String freeboard_write(HttpServletRequest req, Model model) throws Exception{
 		
 		 Dto_login dto = new Dto_login();
-		 
 		 HttpSession session = req.getSession();
 		 dto=(Dto_login)session.getAttribute("login");
 	
@@ -1179,27 +1174,22 @@ public class BoardController {
 			@RequestParam(required = false, defaultValue = "1") int page, 
     		@RequestParam(required = false, defaultValue = "1") int range) throws Exception{
 			String post_id=req.getParameter("post_id");
-		
 			int listCnt = service.selectCount(post_id);
 			Pagination pagination = new Pagination();
 	  		pagination.pageInfo(page, range, listCnt);
 	  		model.addAttribute("pagination", pagination);
-		
 	  		service.free_uphit(post_id);
-		List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
-		List<Dto_free_reply> free_reply = service.select_free_reply(post_id, pagination);
-		int replyCnt = service.selectCount(post_id);
-		model.addAttribute("freeboard",freeboard);
-        model.addAttribute("free_reply", free_reply);
-        model.addAttribute("page",0);
-        model.addAttribute("replyCnt",replyCnt);
-        model.addAttribute("listCnt",listCnt);
-        
-		  Dto_login dto = new Dto_login();
-			 
-		  HttpSession session = req.getSession();
-		  dto=(Dto_login)session.getAttribute("login");
-    	
+	  		List<Dto_freeboard> freeboard = service.select_freeboard_view(post_id);
+	  		List<Dto_free_reply> free_reply = service.select_free_reply(post_id, pagination);
+			int replyCnt = service.selectCount(post_id);
+			model.addAttribute("freeboard",freeboard);
+	        model.addAttribute("free_reply", free_reply);
+	        model.addAttribute("page",0);
+	        model.addAttribute("replyCnt",replyCnt);
+	        model.addAttribute("listCnt",listCnt);
+	        Dto_login dto = new Dto_login();
+			HttpSession session = req.getSession();
+			dto=(Dto_login)session.getAttribute("login");
 		return "freeboard_write_view";
 	} //게시글 + 댓글 보기
 	
@@ -1207,41 +1197,23 @@ public class BoardController {
     public @ResponseBody String freeboard_write_view_reply(HttpServletRequest req, Model model,
     		@RequestParam(required = false, defaultValue = "1") int page, 
 			@RequestParam(required = false, defaultValue = "1") int range) throws Exception {
-			
-    		System.out.println("댓글 페이징");
-    	
     		//전체 댓글 수
     		String post_id=req.getParameter("post_id");
-    		System.out.println("this is post_id : " +post_id);
 			int listCnt = service.selectCount(post_id);
-			System.out.println("json listCnt: "+listCnt);
-			
 			//Pagination 객제 생성
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
-			System.out.println("json page: "+page);
 			List<Dto_free_reply> reply = service.select_free_reply_ajax(post_id, pagination);
 			Gson gson = new Gson();
 			String json = gson.toJson(reply);
-			System.out.println("댓글 페이징 완료");
-			
-			System.out.println("freeboard_write_view_reply, json : "+json);
 			return json;
 	}
 		
-
-
-
-
-	
 	  @RequestMapping(value = "/freeboard_write_delete", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String freeboard_write_delete(HttpServletRequest req, Model model) throws Exception{
-	    	
 	    	String post_id=req.getParameter("post_id");
 	    	service.select_free_reply_delete(post_id);
 	    	service.select_freeboard_delete(post_id);
-	    	
-	    	System.out.println("this is post_id : " +post_id);
 	    	return "redirect:freeboard";
 	    } //게시글 삭제
 	  
@@ -1252,31 +1224,25 @@ public class BoardController {
 	    	String content=req.getParameter("content");
 	    	String board="2";
 	    	
-	    	System.out.println("to modify: "+post_id);
-	    	System.out.println("content: "+content);
-	    	
 	    	model.addAttribute("title",title);
 	    	model.addAttribute("post_id",post_id);
 	    	model.addAttribute("content",content);
 
 	    	return "freeboard_modify";
 	    } //수정페이지로 이동
+
 	  @RequestMapping(value = "freeboard_update", method = {RequestMethod.POST,RequestMethod.GET})
-	    public String freeboard_update(HttpServletRequest req, Model model) throws Exception{
-	    	
+	    public String freeboard_update(HttpServletRequest req,  @RequestParam("file_up") MultipartFile file, Model model) throws Exception{
 	    	String post_id=req.getParameter("post_id");
 	    	String board="2";
 	    	String title=req.getParameter("title");
 	    	String content=req.getParameter("content");
-	    	
-	    	System.out.println("test : " +post_id);
-	    	System.out.println("test : " +title);
-	    	System.out.println("test : " +content);
-	    	
-	    	service.freeboard_update(post_id,board,title,content);
-	    	
+	    	String file_up=null;
+			if(!file.isEmpty()) {
+				file_up=FileuploadServlet.restore(file);
+			}
+	    	service.freeboard_update(post_id,board,title,content,file_up);
 			 Dto_login dto = new Dto_login();
-			 
 			 HttpSession session = req.getSession();
 			 dto=(Dto_login)session.getAttribute("login");
 
@@ -1288,12 +1254,10 @@ public class BoardController {
 			Dto_login dto = new Dto_login();
 			HttpSession session = req.getSession();
 			dto=(Dto_login)session.getAttribute("login");
-			 
 			String file_up=null;
 				if(!file.isEmpty()) {
 					file_up=FileuploadServlet.restore(file);
 				}
-				
 			String post_id="10";
 	    	String board="2";
 	    	String title=req.getParameter("title");
@@ -1301,9 +1265,6 @@ public class BoardController {
 	    	String content=req.getParameter("content");
 	    	String nick=req.getParameter("nick");
 			String user_user_id=dto.getUser_id();
-			
-			System.out.println("test : " +title);
-			System.out.println("file_up : " +file_up);
 			service.freeboard_write(post_id, board, title, content,user_user_id,nick, file_up);
 			return "redirect:freeboard";
 		} //게시글 작성
@@ -1317,7 +1278,6 @@ public class BoardController {
 		String post_post_id=req.getParameter("post_post_id");
     	String re_comment=req.getParameter("re_comment");
     	String nick=req.getParameter("nick");
-    	System.out.println("add free comment nick: "+nick);
     	service.add_free_comment(user_user_id, post_post_id, re_comment, nick);
     	
     	return "redirect:freeboard_write_view?post_id="+post_post_id;
@@ -1329,26 +1289,9 @@ public class BoardController {
 	    	String reply_id=req.getParameter("reply_id");
 	    	String board="2";
 		    String post_post_id=req.getParameter("post_id");
-
 			service.delete_free_comment(reply_id,board,post_post_id);
-
 			return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } //댓글 삭제
-	 
-	 @RequestMapping(value = "update_free_comment", method = {RequestMethod.POST,RequestMethod.GET})
-	    public String update_free_comment(HttpServletRequest req, Model model) throws Exception{
-
-	    	String post_post_id=req.getParameter("post_post_id");
-	    	String re_comment=req.getParameter("re_comment");
-	    	String reply_id=req.getParameter("reply_id");
-	    	String board="2";
-	    	
-	    	model.addAttribute("post_post_id",post_post_id);
-	    	model.addAttribute("re_comment",re_comment);
-	    	model.addAttribute("reply_id",reply_id);
-	    	
-	    	return "free_reply_modify";
-	    } // 댓글 수정 페이지로
 	 
 	    @RequestMapping(value = "update_free_comment_now", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String update_free_comment_now(HttpServletRequest req, Model model) throws Exception{
@@ -1356,28 +1299,21 @@ public class BoardController {
 	    	String re_comment=req.getParameter("re_comment");
 	    	String reply_id=req.getParameter("reply_id");
 	    	String board="2";
-	    	
 	    	service.update_free_comment_now(reply_id,re_comment,post_post_id,board);
-
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 댓글 수정
 	    
 	    @RequestMapping(value = "add_free_re_comment", method = {RequestMethod.POST,RequestMethod.GET})
 	    public String add_free_re_comment(HttpServletRequest req, Model model) throws Exception{
 	    	//test_2	    		    	
-	    	System.out.println("Start add_recomment");
 			 Dto_login dto = new Dto_login();
 			 HttpSession session = req.getSession();
 			 dto=(Dto_login)session.getAttribute("login");
-			
 	    	String user_user_id=dto.getUser_id();
 	    	String re_index=req.getParameter("re_index");
 	    	String re_comment=req.getParameter("re_re_comment");
-	    	System.out.println("add_free_re_comment 01");
 	    	int order_re=Integer.parseInt(req.getParameter("parent_id"));
-	    	System.out.println("add_free_re_comment order_re: "+order_re);
 	    	int class_re=Integer.parseInt(req.getParameter("re_class"));
-	    	System.out.println("add_free_re_comment class_re: "+class_re);
 	    	if(class_re==0) {
 	    		class_re=class_re+1;
 			}
@@ -1391,17 +1327,12 @@ public class BoardController {
 				groupnum=parent_groupNum;
 			}
 	    	String post_post_id=req.getParameter("post_post_id");
-
 	    	String re_order=String.valueOf(order_re);
 	    	String re_class=String.valueOf(class_re);
 	    	String groupNum=String.valueOf(groupnum);
 	    	String nick=req.getParameter("nick");
-	    	System.out.println("boardcontroller nick: "+nick);
 	    	service.add_free_re_comment(re_index,re_comment,re_order,re_class,groupNum,post_post_id,user_user_id,nick);
 	    	
-	    	
-	    	System.out.println("The end of update_post_now");
-
 	    	return "redirect:freeboard_write_view?post_id="+post_post_id;
 	    } // 대댓글 작성
 
@@ -1419,7 +1350,6 @@ public class BoardController {
 			HttpSession session = req.getSession();
 			dto=(Dto_login)session.getAttribute("login");
 	    	
-	    	
 	    	BoardSearch search = new BoardSearch();
 	        //전체 로우 수
 	        if(!search_option.equals("")) {
@@ -1428,29 +1358,24 @@ public class BoardController {
 	        if(!keyword.equals("")) {
 	        	search.setKeyword(keyword);
 	        }
-	        System.out.println("boardsearch: "+search.getKeyword());
 	        search.setBoard(board);
 	        int listCnt = service.count_freeboard_search(search);
 	        // 검색조건 + 보드서치 객체 생성
-	        System.out.println("search_count"+listCnt);
 	        Pagination pagination = new Pagination();
 	        pagination.pageInfo(page,range,listCnt);
 	        search.setPagination(pagination);
-	        
 	        
 	        //검색 조건으로 게시글 목록 조회
 	        List<Dto_freeboard> list = service.listAll(search);
 	        ModelAndView mav = new ModelAndView();
 	        Map<String,Object> map = new HashMap<String, Object>();    
 	        //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
-	        System.out.println("search endPage: "+pagination.getEndPage());
 	        map.put("search_option", search_option);
 	        map.put("keyword", keyword);
 	        mav.addObject("map", map);                    
 	        mav.addObject("pagination", pagination);   
 	        mav.addObject("freeboard", list);   
 	        mav.addObject("search_do",1);
-	        System.out.println("map : "+map);
 	        mav.setViewName("freeboard_search");   //자료를 넘길 뷰의 이름
 	        return mav;   //게시판 페이지로 이동   
 	    } // 검색하기

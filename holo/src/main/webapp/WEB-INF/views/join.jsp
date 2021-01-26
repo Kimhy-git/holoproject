@@ -354,15 +354,16 @@ $(document)
 		alert("생년월일을 입력해 주세요")
 		$("#birth").focus();
 		return false;
-	}else if($("#birth").val()==""){
-		alert("생년월일을 입력해 주세요")
-		$("#birth").focus();
-		return false;
 	}else if($("input:checkbox[name='ptag']").is(':checked')==false){
 		alert("성격 태그를 선택해 주세요")
 		return false;
 	}else if($("#cv").val().length>100){
 		alert("자기소개가 100자를 초과합니다.");
+		
+		return false;
+	}else if($("#sample4_postcode").val()==""||
+			$("#sample4_roadAddress").val()==""){
+		alert("주소를 입력해 주세요");
 		
 		return false;
 	}else{

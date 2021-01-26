@@ -771,7 +771,7 @@
     </select>
     <!-- 게시글+댓글 삭제 -->
     <select id="freeboard_update" resultType="dto_freeboard"> 
-    	update post set title=#{title}, content=#{content}
+    	update post set title=#{title}, content=#{content}, img=#{img}
     	where post_id=#{post_id} and board=2;
     </select>
     <!-- 게시물 수정 -->

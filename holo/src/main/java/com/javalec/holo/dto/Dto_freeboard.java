@@ -46,12 +46,13 @@ public class Dto_freeboard {
 		this.nick = nick;
 		this.img = img;
 	}
-	public Dto_freeboard(String post_id, String board, String title, String content) {
+	public Dto_freeboard(String post_id, String board, String title, String content, String img) {
 		super();
 		this.post_id = post_id;
 		this.board = board;
 		this.title = title;
 		this.content = content;
+		this.img = img;
 	}
 	
 	public Dto_freeboard(int hit) {

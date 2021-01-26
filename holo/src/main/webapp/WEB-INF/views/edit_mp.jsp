@@ -348,15 +348,16 @@ $(document)
 		alert("모바일 번호를 입력해 주세요");
 		$("#mobile").focus();
 		return false;
-	}else if($("#mobile_check").html()=="잘못된 모바일 번호 형식입니다."){
-		alert("모바일 번호을 확인해 주세요")
-		$("#mobile").focus();
-		return false;
 	}else if($("input:checkbox[name='ptag']").is(':checked')==false){
 		alert("성격 태그를 선택해 주세요")
 		return false;
 	}else if($("#cv").val().length>100){
 		alert("자기소개가 100자를 초과합니다.");
+		
+		return false;
+	}else if($("#sample4_postcode").val()==""||
+			$("#sample4_roadAddress").val()==""){
+		alert("주소를 입력해 주세요");
 		
 		return false;
 	}else{

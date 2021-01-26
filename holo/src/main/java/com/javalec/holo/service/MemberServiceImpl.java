@@ -712,9 +712,9 @@ public class MemberServiceImpl implements MemberService {
 	} //게시글 + 댓글 삭제
 	
 	@Override
-	public void freeboard_update(String post_id, String board, String title, String content) {
+	public void freeboard_update(String post_id, String board, String title, String content, String file_up) {
 
-		dao.freeboard_update(post_id,board,title,content);			
+		dao.freeboard_update(post_id,board,title,content,file_up);			
 	} // 게시글 수정
 	
 	@Override
@@ -808,6 +808,5 @@ public class MemberServiceImpl implements MemberService {
 		return dao.select_free_reply_ajax(post_id, pagination);
 	}
 	
-
 
 }
