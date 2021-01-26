@@ -159,6 +159,20 @@ public class BoardController {
 		  Dto_help_post read = service.read(help_post_id);
 		  System.out.println("겟 젠더 : "+read.getGender());
 		  
+		  int already_apply=0;
+			if(dto!=null) {
+				List<String> applier_list=service.helpyou_applier_check(help_post_id);
+				System.out.println(service.helpyou_applier_check(help_post_id));
+				
+				for(int i=0; i<applier_list.size();i++) {
+					System.out.println("applier list: "+applier_list.get(i));
+					if((dto.getUser_id()).equals(applier_list.get(i))) {
+						already_apply=1;
+					}
+				}
+			}
+			model.addAttribute("already_apply",already_apply);
+		  
 		  model.addAttribute("re_list",re_list);
 		  if(read.getGender().equals("a")) {
 			  read.setGender("상관없음");
@@ -570,6 +584,7 @@ public class BoardController {
 				}
 			}
 		}
+		model.addAttribute("already_apply",already_apply);
 		
 		System.out.println("boardcontroller nick: "+read.getlikes());
 		int listCnt = service.help_reply_count(help_post_id);
@@ -577,7 +592,6 @@ public class BoardController {
   		Pagination_help pagination = new Pagination_help();
   		pagination.pageInfo(0, range, listCnt);
   		pagination.setHelp_post_id(help_post_id);
-  		model.addAttribute("already_apply",already_apply);
   		model.addAttribute("pagination", pagination);
   		model.addAttribute("page",0);
         System.out.println("range : "+pagination.getRange());

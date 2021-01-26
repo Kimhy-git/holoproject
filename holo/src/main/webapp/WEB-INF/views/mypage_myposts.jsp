@@ -117,13 +117,13 @@ font-weight:bold;
 	                    <c:if test="${item.board==0}">
 	                    	<form method="post" action="apply_you">
 		                    	<input type="hidden" value="${item.post_id}" name="post_id">
-		                    	<input type="submit" value="요청자 확인" class="form_applyyou formbtn">
+		                    	<input type="submit" value="요청자 확인 (${item.applier_count})" class="form_applyyou formbtn">
 	                    	</form>
 	                    </c:if>
 	                    <c:if test="${item.board==1}">
 	                    	<form method="post" action="apply_me">
 		                    	<input type="hidden" value="${item.post_id}" name="post_id">
-		                    	<input type="submit" value="지원자 확인" class="form_applyme formbtn">
+		                    	<input type="submit" value="지원자 확인 (${item.applier_count})" class="form_applyme formbtn">
 	                    	</form>
 	                    </c:if>
 	                    </td>
@@ -166,20 +166,21 @@ font-weight:bold;
 <script>
 $(document)
 .on('click','#edit_btn',function(){
-	console.log("click");
 	$('#edit_page').submit();
 })
 .on('click','input[id^=choosebtn]',function(){ //input[id가 choosebtn으로 시작하는 버튼]
     var n=(this.id).substr(9); 
-    console.log("choose id: "+n);
     $.post("${pageContext.request.contextPath}/help_complete",
 			{"post_id":39},
 			function(data){
-				console.log(data);
 				alert(data);
 			})
 
    
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 <script>

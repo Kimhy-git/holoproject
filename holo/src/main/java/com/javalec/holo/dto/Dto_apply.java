@@ -17,15 +17,16 @@ public class Dto_apply {
 	private int likes;
 	private int complete;
 	private int choose;
-	private int unread;
+	private int applier_count;
 
 
 	
-	public int getUnread() {
-		return unread;
+	
+	public int getApplier_count() {
+		return applier_count;
 	}
-	public void setUnread(int unread) {
-		this.unread = unread;
+	public void setApplier_count(int applier_count) {
+		this.applier_count = applier_count;
 	}
 	public int getChoose() {
 		return choose;

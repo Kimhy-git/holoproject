@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지원자 목록</title>
+<title>요청자 목록</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -62,7 +62,8 @@ color:#9660b6;
 			<c:forEach var="list" items="${list}">
         		<div class="applier">
 					<div class="info">
-						<div class="title"><a href="#">${list.title}</a>
+						<input type="hidden" id="applier${list.apply_id}" value="${list.applier}">
+						<div class="title"><a href="helpyou_write_view?help_post_id=${list.help_post_help_post_id}">${list.title}</a>
 							<span class="date">${list.operator}</span>
 						</div>
 						<div class="nick">
@@ -84,8 +85,7 @@ color:#9660b6;
 						</div>
 					</div>
 					<div class="btns">
-						<div class="unread">${list.unread}</div>
-						<input class="btn" type="button" value="채팅하기"><br>
+						<input class="btn" type="button" value="채팅하기" id="chat${list.apply_id}"><br>
 						<c:if test="${list.complete==0}">
 							<input class="btn last" type="button" value="채택하기" id="choosebtn${list.help_post_help_post_id}" data-n="${list.apply_id}">
 						</c:if>
@@ -118,7 +118,6 @@ $(document)
 .on('click','input[id^=choosebtn]',function(){ //input[id가 choosebtn으로 시작하는 버튼]
     var n=(this.id).substr(9); 
     var applyId=$(this).data("n");
-    console.log("choose apply_id: "+applyId);
 	$.ajax({
 	    type: 'POST',
 	    url: "${pageContext.request.contextPath}/help_complete",
@@ -132,9 +131,6 @@ $(document)
 			location.reload();
 	    },
 	    error: function (request, status, error){
-			console.log(request);
-			console.log(status);
-			console.log(error);
 	    }
 
 	});
@@ -145,20 +141,14 @@ $(document)
 	var n=(this.id).substr(6);
 	var tags=$(this).val();
 	var list=tags.split(',');
-	console.log("test: "+tags+", list: "+list);
 	var string="";
 	for( var i in list){
-		console.log(list[i]);
 		string=string+'<span>'+list[i]+'</span>';
 	}
-	console.log(string);
-	console.log("n: "+n);
-	console.log("ptag: "+$('#ptag'+n));
 	$('#ptag'+n).append(string);
 })
 .on('click','#likesbtn',function(){
 	var applier=$(this).data('l');
-	console.log("applier: "+applier);
 	$.ajax({
 	    type: 'POST',
 	    url: "${pageContext.request.contextPath}/applier_like",
@@ -171,20 +161,19 @@ $(document)
 			location.reload();
 	    },
 	    error: function (request, status, error){
-			console.log(request);
-			console.log(status);
-			console.log(error);
 	    }
 
 	});
 })
 .on('click','input[id^=chat]',function(){ //input[id가 chat으로 시작하는 버튼]
     var n=(this.id).substr(4); 
-    console.log("chat id: "+n);
     var applier=$('#applier'+n).val();
-    console.log("applier: "+applier);
     window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
    
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 </html>

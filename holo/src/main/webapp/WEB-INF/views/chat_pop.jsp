@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-s<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>채팅</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -46,17 +46,17 @@ function submitFunction(){
 	var sender='${login.user_id}';
 	var receiver='${applier}';
 	var content=$('.message_input').val();
+	$('.message_input').val('');
 	$.post('chat_send',
 		{'message_sender':sender, 'message_receiver':receiver, 'message_content':content},
 		function(data){
-			$('.message_input').val('');
+			
 			//alert(data);
 		}
 	)
 }
 
 function MessageFunction(arg) {
-	console.log(arg);
     this.text = arg.text, this.message_side = arg.message_side;
     this.dateTime = arg.dateTime;
     this.draw = function (_this) {
@@ -80,7 +80,6 @@ function readFunction(){
 	$.post('chat_read',
 		{'message_sender':sender, 'message_receiver':receiver, 'last_id':last_id},
 		function(data){
-			console.log("data: "+data);
 			$.each(data,function(ndx,value){
 				last_id=value['message_id'];
 				var text=value['message_content'];

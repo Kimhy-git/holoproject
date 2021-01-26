@@ -114,6 +114,14 @@ color:#000;
 </body>
 <script  src="http://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
+$(document)
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
+
+</script>
+<script>
 //이전 버튼 이벤트
 function fn_prev(page, range, rangeSize) {
 		var page = ((range - 2) * rangeSize) + 1;

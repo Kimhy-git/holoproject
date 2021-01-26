@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움주기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -108,7 +108,7 @@
                     <input type="hidden" id="title_par" value="${read.title}">
             </div>
 			<c:if test="${read.complete==0}">
-						<input type="button" id="sub_btn"  value="지원하기">
+						<input type="button" id="sub_btn"  value="요청하기">
 	        </c:if>
             <div id="second">
 	           	<table>
@@ -119,7 +119,7 @@
 	            	</tr>
 	           		<tr>
 	           			<td>최소 금액</td>
-	           			<td>${read.min_price}</td>
+	           			<td id="min_price">${read.min_price}</td>
 	            	</tr>
 	            	<tr>
 	            		<td>결제 방법</td>
@@ -222,7 +222,7 @@
 		<input type="hidden" name="page" id="page" value="${page}">
 		<input type="hidden" name="listCnt" id="listCnt" value="${pagination.listCnt}">
 		<input type="hidden" id="range" value="${pagination.range}">
-		<a id="more">더보기</a>
+		<div id="more">더보기</div>
 
 	         <div id="btn">
 	             <c:if test="${login.user_id==read.user_user_id || login.user_id=='admin'}">
@@ -250,7 +250,6 @@ $(document)
 	});
 	page=parseInt(page);
 	var listCnt=$('#listCnt').val();
-	console.log(listCnt+","+15%13+","+5%6);
 	if( listCnt<6){
 		$('#more').hide();
 	}
@@ -263,75 +262,60 @@ $(document)
 			window.location.href="<c:url value='login'/>"
 	   }else if(login_user_id==$('#userId').val()){
 		   alert("본인 글에 지원할 수 없습니다");
+	   }else if('${already_apply}'==1){
+	       alert("이미 요청 완료한 글입니다");
 	   }else{
 		   window.open("apply_popup?nick="+$('#nick').val()+
 			   "&post_id="+$('#pId').val()+
 			   "&user_id="+$('#userId').val()+
-			   "&title="+$('#title_table').val()+
-			   "&title="+$('#title_par').val(),
+			   "&title="+$('#title_par').val()+
+			   "&price="+$('#min_price').text(),
 			   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
 
 .on('click','[id^=mp_go]',function(){
-	console.log("mp_go click");
 	var n=(this.id).substr(5);
-	console.log("n: "+n);
 	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGo"+n).submit();
 })
 .on('click','[id^=mp_popGo]',function(){
-	console.log("mp_popgo click");
 	var n=(this.id).substr(8);
-	console.log("n: "+n);
 	window.open("","mp_popGoGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGol"+n).submit();
-	console.log("end!!");
 })
 /*
 $('[id^=mp_popGo]').click(function () {
-	console.log("mp_popgo click");
 	var n=(this.id).substr(8);
-	console.log("n: "+n);
 	window.open("","mp_popGoGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGol"+n).submit();
-	console.log("end!!");
 })
 */
 
 var maxpage =5;
 $(document).on('click','#more',function(){
-	console.log("more");
 	
 	var listCnt=$('#listCnt').val();
-	console.log("listCnt : "+listCnt);
 	page=parseInt(page);
 	page+=5;
 	maxpage=maxpage+page;
-	console.log("page : "+page);
-	console.log("maxpage : "+maxpage);
 	if(maxpage>=listCnt){
 		$('#more').hide();
 	}
 	
 	var range=$('#range').val();
 	var post_id=$('#pId').val();
-	console.log("page : "+page);
 	
 	$.post("helpyou_write_view_reply",
 			{"page":page,"range":range,"help_post_id":post_id},
 			function(data){
-				//console.log("post ajax data : "+data);
 				
 				$.each(data,function(ndx,value){
-					console.log("each 유저아디: "+"${login.user_id}");
-					console.log("each 유저_유저_아디: "+value['user_user_id']);
 					var ifbtn="";
 					if("${login.user_id}"==value['user_user_id']||"${login.user_id}"=="admin"){
 		            	 ifbtn='<input type=submit class=re_remove value=삭제 onclick="javascript: form.action=\'helpyou_reply_delete\';"/>'
 			             +'<input type=button class=re_edit id=re_edit'+value['help_reply_id']+' value=수정>'
 		            }
-					console.log("ifbtn: "+ifbtn);
 					var content=
 					
 						'<div class=comments value='+value['re_class']+'>'
@@ -387,15 +371,12 @@ $(document).on('click','#more',function(){
 		                
 	                +'</form>'
 	                +'</div>'
-		            //console.log("content: "+content);
 					$('#comments_add').append(content);
 			})
 			
 		$('.comments').each(function(index,item){
 		var n = $(this).attr("value");
-		//console.log(n);
 		$(this).css("margin-left",(n*50)+"px");
-		//console.log((n*50));
 		})
 		},'json')
 		
@@ -412,7 +393,6 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 			window.location.href="<c:url value='login'/>"
 	   }else{
 		   var n=(this.id).substr(11); 
-			console.log("닉네임 왜 못불러오나요?"+$('#whoru'+n).val())
 		   
 		   if($('#reply_again_textarea'+n).css("display")=="none"){
 			   $('.reply_again_txt').hide(); 
@@ -431,7 +411,6 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 })  
 .on('click','#writing',function(){
 	user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
@@ -507,7 +486,6 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 
 .on('click','input[id^=re_edit]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(7); 
-	console.log("n: "+n);
    if($('#re_edit_txt'+n).css("display")=="none"){
 	   $('.reply_again_txt').hide(); 
 	   $('.re_edit_txt').hide();
@@ -520,8 +498,6 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 
 .on('click','input[id^=edit_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(11); 
-   console.log(n)
-   console.log($('#comments'+n).css("display"));
    if($('#comments'+n).css("display")=="none"){
        $('#comments'+n).show()
 	   $('#re_edit_txt'+n).hide();
@@ -533,12 +509,15 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 .on('click','input[class=re_remove]',function changeView(){
 	var post_id=$('#pId').val();
 	var reply_id=$('#reply_id').val();
-	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
 	}else{
 		return false;
 	}
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 
 
@@ -546,7 +525,6 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 function clickTagAction(){
 	var form = $("#form1 > div");
 	var tagJob = $(this).text();
-	console.log("tagJob : "+tagJob);
 	$("#tagJob").remove();
 	form.append("<input id='tabJob' name='tagJob' type='hidden' value='"+tagJob+"'/>");
 	$("#form1")[0].submit();

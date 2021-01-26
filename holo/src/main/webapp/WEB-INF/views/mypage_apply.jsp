@@ -100,7 +100,12 @@ a.page-link {
 						</div>
 					</div>
 					<div class="btns">
-						<input type="hidden" id="applier${item.apply_id}" value="${item.applier}">
+						<c:if test="${item.helpyou_id==null}">
+							<input type="hidden" id="applier${item.apply_id}" value="${item.helpme_id}">
+						</c:if>
+						<c:if test="${item.helpme_id==null}">
+							<input type="hidden" id="applier${item.apply_id}" value="${item.helpyou_id}">
+						</c:if>
 						<input class="btn" type="button" value="채팅하기" id="chat${item.apply_id}"><br>
 						<c:if test="${item.choose=='0'}">
 							<input id="cancel_apply" class="btn last" type="button" value="취소하기">
@@ -208,6 +213,10 @@ $(document)
     console.log("applier: "+applier);
     window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
    
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 
 </script>

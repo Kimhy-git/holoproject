@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움주기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -79,10 +79,10 @@
 					<option value="기타">기타
                 </select>
                 <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요.">
-                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남</div>
-                <div id="payment" >결제 방법 
+                <div id="gender"><span class="bold">지원자 성별 </span><input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남 <sapn class="overlap">※중복 선택 가능</sapn></div>
+                <div id="payment" ><span class="bold">결제 방법 </span>
                 <input type="checkbox" value="현금" name="payment" id="cash">현금 
-                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>
+                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체 <sapn class="overlap">※중복 선택 가능</sapn></div>
             	<div><input type="text" id="min" name="min_price" size=9 placeholder="최소(보장) 금액">원</div>
             </div>
             <div id="content">
@@ -121,7 +121,6 @@ $(document)
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -129,7 +128,6 @@ $(document)
 })
 
 .on('click','#submit',function(){
-	console.log($.isNumeric($('#min').val()));
 	//console.log($('#min').isNumeric());
 	if($('#title').val()==""){
 		alert("제목을 입력하세요.");
@@ -158,6 +156,10 @@ $(document)
 	}
 	
 	
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 </html>

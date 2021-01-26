@@ -383,9 +383,13 @@
 	</update>
 	<!-- mypage post list -->
 	<select id="mypage_post_list" resultType="dto_my_total">
-		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit from help_post as a where a.user_user_id=#{user_id}
+		select a.board, a.help_post_id as post_id, a.title, a.operator, a.hit,
+		(select count(apply_id) from apply where help_post_help_post_id=a.help_post_id)as applier_count 
+		from help_post as a where a.user_user_id=#{user_id} 
 		union
-		select b.board, b.post_id as post_id, b.title, b.operator, b.hit from post as b where b.user_user_id=#{user_id}
+		select b.board, b.post_id as post_id, b.title, b.operator, b.hit,
+		null 
+		from post as b where b.user_user_id=#{user_id}
 		order by operator desc
 		limit #{startList}, #{listSize};
 	</select>
@@ -399,8 +403,7 @@
 	</select>
 	<!-- mypage applyme list -->
 	<select id="mypage_applyme_list" parameterType="int" resultType="dto_apply">
-		select a.*,b.likes,c.complete,(select count(message_id) from chat
-		where message_sender=a.applier and message_receiver=a.helpme_id and message_read=0)as unread
+		select a.*,b.likes,c.complete
 		from apply as a,user as b,help_post as c
 		where a.help_post_help_post_id=#{post_id}
 		and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
@@ -408,8 +411,7 @@
 	</select>
 	<!-- mypage applyyou list -->
 	<select id="mypage_applyyou_list" parameterType="int" resultType="dto_apply">
-		select a.*,b.likes,c.complete,(select count(message_id) from chat
-		where message_sender=a.applier and message_receiver=a.helpyou_id and message_read=0)as unread
+		select a.*,b.likes,c.complete
 		from apply as a,user as b,help_post as c
 		where a.help_post_help_post_id=#{post_id}
 		and a.applier=b.user_id and a.help_post_help_post_id=c.help_post_id;
@@ -455,12 +457,17 @@
 		where message_sender=#{message_receiver} and message_receiver=#{message_sender}
 		and read=0;
 	</select>
+	<select id="chat_allUnread_count">
+		select count(message_id) from chat
+		where message_receiver=#{user_id}
+		and read=0;
+	</select>
 	<!-- chat room -->
 	<select id="chat_room_list" resultType="dto_chat">
 		select *,(select nick from user where user_id=chat.message_receiver)as receiver_nick,
 		(select nick from user where user_id=chat.message_sender)as sender_nick,
         (select count(a.message_id) from chat as a
-		where a.message_sender=chat.message_sender and a.message_receiver=#{user_id} and a.message_read=1)as unread
+		where a.message_sender=chat.message_sender and a.message_receiver=#{user_id} and a.message_read=0)as unread
         from chat where message_id in
 		(select max(message_id) from chat
 		where message_receiver=#{user_id} or message_sender=#{user_id}

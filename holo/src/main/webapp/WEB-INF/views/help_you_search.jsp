@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움주기</title>
 
 
 </head>
@@ -168,7 +168,6 @@ $(document)
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul li:eq("+count+")").css("margin-left","0");
-		console.log(count)
 	}
 	
 	$("#category > a").on("click", clickTagAction);
@@ -176,7 +175,6 @@ $(document)
 
 .on('click','#writing',function(){
 	user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
@@ -187,7 +185,6 @@ $(document)
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -199,12 +196,15 @@ $(document)
 		   window.open("mp_popup","mpPop",'width=470, height=580, left=400, top=200, resizable=no');
 
 })
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
 
 
 function clickTagAction(){
 	var form = $("#form1 > div");
 	var tagJob = $(this).text();
-	console.log("tagJob : "+tagJob);
 	$("#tagJob").remove();
 	form.append("<input id='tabJob' name='tagJob' type='hidden' value='"+tagJob+"'/>");
 	$("#form1")[0].submit();

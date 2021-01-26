@@ -165,9 +165,7 @@ public class MpController {
 		dto=(Dto_login)session.getAttribute("login");
 		int post_id=Integer.parseInt(req.getParameter("post_id"));
     	List<Dto_apply> list=service.mypage_applyyou_list(post_id);
-    	for(int i=0;i<list.size();i++) {
-    		System.out.println("applyme: "+list.get(i).getUnread());
-    	}
+
     	model.addAttribute("list",list);
        return "apply_you";
     }
@@ -179,9 +177,7 @@ public class MpController {
 		dto=(Dto_login)session.getAttribute("login");
     	int post_id=Integer.parseInt(req.getParameter("post_id"));
     	List<Dto_apply> list=service.mypage_applyme_list(post_id);
-    	for(int i=0;i<list.size();i++) {
-    		System.out.println("applyme: "+list.get(i).getUnread());
-    	}
+
     	model.addAttribute("list",list);
        return "apply_me";
     }
@@ -194,7 +190,7 @@ public class MpController {
         	String helpyou_id=req.getParameter("user_id");
         	String title=req.getParameter("title");
         	String price=req.getParameter("price");
-        	
+        	System.out.println("price: "+price);
         	model.addAttribute("nick",nick);
         	model.addAttribute("price",price);
         	System.out.println("price: "+price);
@@ -239,7 +235,9 @@ public class MpController {
     	String help_post_help_post_id=req.getParameter("post_id");
     	String helpme_id=req.getParameter("user_id");
     	String title=req.getParameter("title");
-    	
+    	String price=req.getParameter("price");
+    	System.out.println("price: "+price);
+    	model.addAttribute("price",price);
     	model.addAttribute("nick",nick);
     	model.addAttribute("help_post_help_post_id",help_post_help_post_id);
     	model.addAttribute("helpme_id",helpme_id);

@@ -7,6 +7,7 @@ public class Dto_total {
 	private int board;
 	private String operator;
 	private int hit;
+	private int applier_count;
 	
 	public Dto_total() {};
 	
@@ -18,6 +19,17 @@ public class Dto_total {
 		this.board = board;
 		this.operator = operator;
 		this.hit = hit;
+	}
+
+	
+	
+	
+	public int getApplier_count() {
+		return applier_count;
+	}
+
+	public void setApplier_count(int applier_count) {
+		this.applier_count = applier_count;
 	}
 
 	public String getUser_id() {

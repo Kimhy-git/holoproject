@@ -13,7 +13,8 @@
 <head>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-
+<meta charset="UTF-8">
+<title>채팅</title>
 </head>
 <body>
 <div class="container">
@@ -63,13 +64,18 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
+
+
+
 $(document)
 .on('click','[id^=chat_btn]',function(){
-	console.log("chat_btn click");
 	var n=(this.id).substr(8);
-	console.log("n: "+n);
 	window.open("","chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');
 	$("#chat_pop"+n).submit();
+	setTimeout(function(){
+		location.reload();
+	},10000);
+	
 })
 </script>
 </html>

@@ -478,7 +478,10 @@ console.log("more");
 		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment+"&nick="+nick;
 	}
 })
-
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
 
 //show re_reply update textarea
 /*.on('click','input[id^=reply_update]',function(){ //input[id가 reply_update으로 시작하는 버튼]

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움주기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -79,11 +79,11 @@
 					<option value="모닝콜">모닝콜
 					<option value="기타">기타
                 </select>
-                <input type="text" id="title" name="title" class="input-title">
-                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남</div>
+                <input type="text" id="title" name="title" class="input-title" placeholder="제목을 입력하세요." >
+                <div id="gender">지원자 성별 <input type="checkbox" name="female" id="female">여 <input type="checkbox" name="male" id="male">남 <sapn class="overlap">※중복 선택 가능</sapn> </div>
                 <div id="payment" >결제 방법 
                 <input type="checkbox" value="현금" name="payment" id="cash">현금 
-                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체</div>
+                <input type="checkbox" value="계좌이체" name="payment" id="account">계좌이체 <sapn class="overlap">※중복 선택 가능</sapn> </div>
             	<div><input type="text" id="min" name="min_price" size=9>원</div>
             </div>
             <div id="content">
@@ -111,17 +111,14 @@
 
 $(document)
 .ready(function(){
-	console.log("edit ready");
 	$.post('${pageContext.request.contextPath}/helpyou_edit_list',
 			{"post_id":$('#pId').val()},
 			function(data){
-				console.log(data);
 				$('#area').val(data.tag_area);
 				$('#job').val(data.tag_job);
 				$('#title').val(data.title);
 				$('#txtarea').val(data.content);
 				$('#min').val(data.min_price);
-				console.log("gender"+data.gender);
 				if(data.gender=='a'){
 					$('input:checkbox[name="female"]').attr("checked", true);
 					$('input:checkbox[name="male"]').attr("checked", true);
@@ -131,7 +128,6 @@ $(document)
 					$('input:checkbox[name="male"]').attr("checked", true);
 				}
 				var paymentList=(data.payment).split(', ');
-				console.log("payment: "+paymentList);
 				$('input:checkbox[name="payment"]').each(function() {
 					for(var i in paymentList){
 						if(this.value == paymentList[i]){ //값 비교
@@ -152,7 +148,6 @@ $(document)
 })
 $(document)
 .on('click','#submit',function(){
-	console.log($.isNumeric($('#min').val()));
 	//console.log($('#min').isNumeric());
 	if($('#title').val()==""){
 		alert("제목을 입력하세요.");
@@ -181,6 +176,10 @@ $(document)
 	}
 	
 	
+})
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 </script>
 </html>

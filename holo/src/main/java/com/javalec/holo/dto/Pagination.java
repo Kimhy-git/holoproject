@@ -195,7 +195,11 @@ public class Pagination {
 		this.user_id = user_id;
 		
 		//전체 페이지수 
-		this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		if(listCnt%listSize!=0) {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		} else {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize);
+		}
 
 		//시작 페이지
 		this.startPage = (range - 1) * rangeSize + 1 ;

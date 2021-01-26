@@ -267,6 +267,9 @@ public class MemberServiceImpl implements MemberService {
 				list.get(i).setImg("holoimg/img/"+image);
 			}
 		}
+		for(int i=0;i<list.size();i++) {
+			System.out.println("service date: "+list.get(i).getOperator());
+		}
 		return list;
 	}
 	

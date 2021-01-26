@@ -119,7 +119,7 @@
 	            	</tr>
 	           		<tr>
 	           			<td>최소 금액</td>
-	           			<td>${read.min_price}</td>
+	           			<td id="min_price">${read.min_price}</td>
 	            	</tr>
 	            	<tr>
 	            		<td>결제 방법</td>
@@ -263,12 +263,14 @@ $(document)
 			window.location.href="<c:url value='login'/>"
 	   }else if(login_user_id==$('#userId').val()){
 		   alert("본인 글에 지원할 수 없습니다");
+	   }else if('${already_apply}'==1){
+	       alert("이미 요청 완료한 글입니다");
 	   }else{
 		   window.open("apply_popup?nick="+$('#nick').val()+
 			   "&post_id="+$('#pId').val()+
 			   "&user_id="+$('#userId').val()+
-			   "&title="+$('#title_table').val()+
-			   "&title="+$('#title_par').val(),
+			   "&title="+$('#title_par').val()+
+			   "&price="+$('#min_price').text(),
 			   "applyPop",'width=470, height=580, left=400, top=200, resizable=no');
 	   }
 })
@@ -529,6 +531,10 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
          
    }
 })  
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
 
 function clickTagAction(){
 	var form = $("#form1 > div");

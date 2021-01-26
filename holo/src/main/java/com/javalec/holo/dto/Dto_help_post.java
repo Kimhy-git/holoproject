@@ -7,7 +7,7 @@ public class Dto_help_post {
 	private String tag_area;
 	private int board;
 	private String title;
-	private Timestamp operator;
+	private String operator;
 	private String nick;
 	private String tag_job;
 	private String content;
@@ -67,7 +67,7 @@ public class Dto_help_post {
 		this.user_user_id = user_user_id;
 	}*/
 
-	public Dto_help_post(int help_post_id, String tag_area, int board, String title, Timestamp operator, String nick,
+	public Dto_help_post(int help_post_id, String tag_area, int board, String title, String operator, String nick,
 			String tag_job, String content, String img, String gender, int min_price, String payment, int complete,
 			String user_user_id,int hit,int likes,String replyCnt, String birth, String tag, String cv) {
 		super();
@@ -167,7 +167,7 @@ public class Dto_help_post {
 		return title;
 	}
 
-	public Timestamp getOperator() {
+	public String getOperator() {
 		return operator;
 	}
 
@@ -230,7 +230,7 @@ public class Dto_help_post {
 		this.title = title;
 	}
 
-	public void setOperator(Timestamp operator) {
+	public void setOperator(String operator) {
 		this.operator = operator;
 	}
 

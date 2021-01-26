@@ -168,20 +168,17 @@ var c = 0;
 $(document)
 .ready(function(){
 	
-	console.log($('#genderC').text())
 	if($('#genderC').text()=="f"){
 		$('#genderC').text("여성");
 	}else if($('#genderC').text()=="m"){
 		$('#genderC').text("남성");
 	}
 	
-	console.log("태그 :"+$('#tags').val());
 	
 	$('#choice').val($('#passQ').val());
 	
 	//if($('#movie').val("").prop('checked',false);
 	var mp_ptag=$('#tags').val().split(",");
-	console.log("mp_ptag: "+mp_ptag);
 	$('input:checkbox[name="ptag"]').each(function() {
 		for(var i in mp_ptag){
 			if(this.value == mp_ptag[i]){ //값 비교
@@ -206,7 +203,6 @@ $(document)
 })
 .on('keyup','#pass2',function(){
 
-	console.log($("#pass1"))
 	if($("#pass1").val() !== $("#pass2").val()){
 		$("#pw_check").css("color","rgb(223, 64, 43)")
 		$("#pw_check").html("비밀번호가 다릅니다.");
@@ -230,14 +226,12 @@ $(document)
 .on('click', '#showaddr', function(){
 	c=1;
 	$('#addr').val("");
-	console.log($('#addH').css("display"));
 	if($('#addH').css("display")=="none"){
 		$('#addH').show();
 		$('#addS').hide();
 	}
 })
 .on('click','input:checkbox[name=ptag]',function(){
-	console.log($("input:checkbox[name='ptag']:checked").length)
 	if($("input:checkbox[name='ptag']:checked").length>3){
 		alert("3개까지 선택할 수 있습니다.");
 		return false;
@@ -268,8 +262,6 @@ $(document)
 	var maxChecked = 3;   //선택가능한 체크박스 갯수
 	var totalChecked = 0;
 	
-	console.log($("input:checkbox[name='ptag']").is(':checked'))
-	console.log($("#nick").val().length)
 	
 	if(c==1){
 		if($('#sample4_postcode').val()=='' || $('#sample4_roadAddress').val()==''){
@@ -330,7 +322,6 @@ $(document)
 
 
 .on('click','#sign_out',function(){
-	console.log($('#user').val());
 	
 	if(confirm("정말 탈퇴 하시겠습니까? 지금까지 쓴 글과 댓글이 삭제됩니다.")){
 		if(confirm("확인을 누르면 탈퇴됩니다.")){
@@ -402,5 +393,12 @@ $(document)
         }).open();
         
     }
+    
+    
+$(document)
+    .on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
 </script>
 </html>
