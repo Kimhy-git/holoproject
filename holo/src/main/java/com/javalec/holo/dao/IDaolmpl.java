@@ -63,6 +63,8 @@ public class IDaolmpl implements IDao {
   		sqlSession.delete(Namespace+".user_del2",user_id);
   		sqlSession.delete(Namespace+".user_del3",user_id);
   		sqlSession.delete(Namespace+".user_del4",user_id);
+  		sqlSession.delete(Namespace+".user_del5",user_id);
+  		sqlSession.delete(Namespace+".user_del6",user_id);
   		sqlSession.delete(Namespace+".leave",user_id);
   	}
         
@@ -81,6 +83,11 @@ public class IDaolmpl implements IDao {
     public int check_email(String email) throws Exception{
 		return sqlSession.selectOne(Namespace+".check_email", email);
 	}
+    //닉넴 중복 검사 01.26
+    public int check_nick(String nick) throws Exception{
+    	//System.out.println("아이다오 닉넴뭐임?: "+nick);
+		return sqlSession.selectOne(Namespace+".check_nick", nick);
+	}    
     
     //마이페이지 유저정보 불러오기
   	@Override

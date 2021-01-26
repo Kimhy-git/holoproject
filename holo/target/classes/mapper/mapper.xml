@@ -26,6 +26,11 @@
 		select count(*) from user where email = #{email}
 	</select>
 	
+	<!-- 닉네임 중복검사 01.26-->
+	<select id="check_nick" parameterType="String" resultType="int">
+		select count(*) from user where nick = #{nick}
+	</select>
+	
 	<!-- 회원가입 -->
 	<insert id="join" parameterType="dto_user">
 		insert into user
@@ -40,6 +45,14 @@
 	<delete id="leave" parameterType="String">
 		delete from user where user_id=#{user_id}
 	</delete>
+	<delete id="user_del0" parameterType="String">
+		delete b from post as a, reply as b where a.user_user_id=#{user_id}
+		 and a.post_id=b.post_post_id;
+	</delete>
+	<delete id="user_del00" parameterType="String">
+		delete b from help_post as a, help_reply as b where a.user_user_id=#{user_id}
+		and a.help_post_id=b.help_post_post_id; 
+	</delete>
 	<delete id="user_del1" parameterType="String">
 		delete from help_reply where user_user_id=#{user_id} 
 	</delete>
@@ -47,11 +60,19 @@
 		delete from help_post where user_user_id=#{user_id} 
 	</delete>
 	<delete id="user_del3" parameterType="String">
-		delete from post where user_user_id=#{user_id} 
-	</delete>
-	<delete id="user_del4" parameterType="String">
 		delete from reply where user_user_id=#{user_id} 
 	</delete>
+	<delete id="user_del4" parameterType="String">
+		delete from post where user_user_id=#{user_id} 
+	</delete>
+	<delete id="user_del5" parameterType="String">
+		delete from chat where message_sender=#{user_id}
+		 or message_receiver=#{user_id} ;
+	</delete>
+	<delete id="user_del6" parameterType="String">
+		delete from apply where applier=#{user_id};
+	</delete>
+	
 	
 	
 	<!-- mypage user_info (유저 리스트) -->
@@ -137,11 +158,13 @@
 		limit #{page},5;
 	 	<!--  select * from help_reply, user where user.user_id = help_reply.user_user_id and help_post_post_id=#{help_post_id};-->
 	</select>
+	
 	<!-- help_me댓글 작성 -->
 	<select id="re_write"  resultType="dto_pr" parameterType="dto_pr">	 
 		insert into help_reply (board, re_comment, help_post_post_id, 
-		user_user_id) values(1,#{re_comment},#{help_post_post_id},#{user_user_id}) ;
+		user_user_id,nick) values(1,#{re_comment},#{help_post_post_id},#{user_user_id},(select nick from user where user_id=#{user_user_id})) ;
 	</select>
+	
 	<!-- help_me댓글 수정 -->
 	<select id="re_edit" resultType="dto_pr">
 		update help_reply set re_comment=#{re_comment} where help_reply_id=#{help_reply_id}; 
@@ -154,14 +177,16 @@
 	<select id="re_edit_view" resultType="dto_pr">
 		select * from help_reply where help_reply_id=#{help_reply_id}
 	</select>
+	
 	<!-- help_me 대댓글 작성  -->
 	<select id="helpme_groupNum_select" parameterType="int" resultType="int">
 		select count(a.re_index) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{groupNum};
 	</select>
 	<insert id="helpme_re_recommnet_submit" parameterType="dto_pr">
-		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
- 		values(1,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
+		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id,nick)
+ 		values(1,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id},(select nick from user where user_id=#{user_user_id}));
 	</insert>
+	
 	<!-- help_me hit -->
 	<select id="hit" resultType="dto_p">
 		update help_post set hit = hit+1 where help_post_id=#{help_post_id}
@@ -343,8 +368,8 @@
 	</delete>
 	<!-- helpyou_reply_done -->
 	<insert id="helpyou_reply_submit">
-		insert into help_reply(board,re_comment, help_post_post_id, user_user_id)
-		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id})
+		insert into help_reply(board,re_comment, help_post_post_id, user_user_id,nick)
+		 values(0, #{re_comment}, #{help_post_post_id}, #{user_user_id},(select nick from user where user_id=#{user_user_id}))
 	</insert>
 	<!-- helpyou_reply_list --> 
 	<select id="helpyou_reply_list" parameterType="int" resultType="dto_pr">
@@ -370,8 +395,8 @@
 		select count(a.re_index) from help_reply as a,help_reply as b where a.re_order=b.help_reply_id and b.help_reply_id=#{groupNum};
 	</select>
 	<insert id="helpyou_re_recommnet_submit" parameterType="dto_pr">
-		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id)
- 		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id});
+		insert into help_reply(board,re_index,re_comment,re_order,re_class,groupNum,help_post_post_id,user_user_id,nick)
+ 		 values(0,#{re_index},#{re_comment},#{re_order},#{re_class},#{groupNum},#{help_post_post_id},#{user_user_id},(select nick from user where user_id=#{user_user_id}));
 	</insert>
 
 	

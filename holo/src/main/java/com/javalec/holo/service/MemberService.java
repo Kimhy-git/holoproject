@@ -199,7 +199,9 @@ public interface MemberService {
 	public void check_id(String user_id, HttpServletResponse response) throws Exception;
 	//이메일 중복 체크
 	public void check_email(String email, HttpServletResponse response) throws Exception;
-	//회원가입
+	//닉네임 중복 체크 01.26
+	public void check_nick(String nick, HttpServletResponse response) throws Exception;
+		
 	
 	//마이페이지 유저정보 불러오기
 	public Dto_user mp_user(String user_id) throws Exception;

@@ -96,6 +96,19 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
+	//닉네임 중복 체크 01.26
+
+	@Override
+	public void check_nick(String nick, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		//System.out.println("멤버서비스 닉넴뭐임?: "+nick);
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_nick(nick));
+		out.close();
+	}
+	
+	
+	
 	//마이페이지 유저정보 불러오기
 	@Override
 	public Dto_user mp_user(String user_id) throws Exception{

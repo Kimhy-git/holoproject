@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움받기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -176,7 +176,7 @@ $(document)
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul li:eq("+count+")").css("margin-left","0");
-		console.log(count)
+		//console.log(count)
 	}
 	
 	$("#category > a").on("click", clickTagAction);
@@ -184,7 +184,7 @@ $(document)
 
 .on('click','#writing',function(){
 	user_id=$('#user_id_login').val();
-	console.log(user_id);
+	//console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
@@ -194,16 +194,16 @@ $(document)
 })
 
 .on('click','[id^=mp_go]',function(){
-	console.log("mp_go click");
+	//console.log("mp_go click");
 	var n=(this.id).substr(5);
-	console.log("n: "+n);
+	//console.log("n: "+n);
 	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGo"+n).submit();
 })
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
+	//console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -217,7 +217,7 @@ $(document)
 function clickTagAction(){
 	var form = $("#form1 > div");
 	var tagJob = $(this).text();
-	console.log("tagJob : "+tagJob);
+	//console.log("tagJob : "+tagJob);
 	$("#tagJob").remove();
 	form.append("<input id='tabJob' name='tagJob' type='hidden' value='"+tagJob+"'/>");
 	$("#form1")[0].submit();

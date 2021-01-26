@@ -34,6 +34,10 @@ public interface IDao {
 		public int check_id(String user_id) throws Exception;
 		//이메일 중복 체크
 		public int check_email(String email) throws Exception;	
+		//닉네임 중복 체크 01.26
+		public int check_nick(String nick) throws Exception;	
+		
+		
 		//회원가입 submit
 		public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
 				String email, String mobile, String birth, String address, String tag, String cv);

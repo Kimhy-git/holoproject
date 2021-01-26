@@ -94,7 +94,13 @@ private MemberService service;
 	  	service.check_email(email, response);
 	  }
 	
-  
+	  // 닉네임 중복 검사(AJAX)
+	  @RequestMapping(value = "/check_nick_go", method = RequestMethod.POST)
+	  	public void check_nick(@RequestParam("nick") String nick, HttpServletResponse response) throws Exception{
+	  	System.out.println("닉넴이 뭔데ㅐ요? : "+nick);
+		  service.check_nick(nick, response);
+	  }
+	  
       @RequestMapping(value = "find_pw", method = RequestMethod.GET)
       public String find_pw(HttpServletRequest req, Model model)throws Exception  {
 

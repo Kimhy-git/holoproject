@@ -117,3 +117,9 @@ h1{
 #scbtn:hover{
 	cursor:pointer;
 }
+#more{
+	cursor:pointer;
+}
+#more:hover{
+	text-decoration:underline;
+}
