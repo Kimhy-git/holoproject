@@ -218,6 +218,7 @@ public class MpController {
     	String board="0";
       	String nick=req.getParameter("nick");
       	String title=req.getParameter("title");
+      	System.out.println("helpyou_id, request_go : "+helpyou_id);
     	
     	System.out.println("gender/tag/price/cv/helpme_id/help_post_help_post_id/applier/nick/title : ");
     	System.out.println(gender+" / "+tag+" / "+price+" / "+cv+" / "+board

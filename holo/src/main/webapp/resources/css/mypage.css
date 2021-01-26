@@ -213,3 +213,6 @@ table a:hover{
 #user_tag span:first-child{
 	margin-left:0px;
 }
+p.apply_titles {
+    padding-left: 10px;
+}

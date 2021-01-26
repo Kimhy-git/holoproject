@@ -74,7 +74,7 @@ a.page-link {
 				<div class="applier">
 					<div class="info">
 						<div class="title">
-						<p id="apply_title">${item.title}
+						<p id="apply_title_${item.board}_${item.help_post_help_post_id}" class="apply_titles">${item.title}
 							<c:if test="${item.choose=='1'}">
 							<span id="apply_selected">
 								
@@ -175,23 +175,26 @@ function fn_prev(page, range, rangeSize) {
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
 		location.href = url;
-		console.log(url);
+		//console.log(url);
 	}
 </script>
 <script>
 $(document)
-.on('click','#apply_title',function(){
-	var helpyou_id=$('#helpyou_id').val();
-	console.log(helpyou_id);
-	var post_id=$('#help_post_id').val();
-	if(helpyou_id==null || helpyou_id==""){
-		var url = "http://localhost:8080/holo/helpme_write_view?help_post_id="+post_id;    
+.on('click','[id^=apply_title]',function(){
+	var board=(this.id).substring(12,13);
+	var n=(this.id).substr(14);
+
+	//console.log("n : "+n);
+	//console.log("board : "+board);
+	
+	if(board==1){
+		var url = "http://localhost:8080/holo/helpme_write_view?help_post_id="+n;    
 		$(location).attr('href',url);
-		console.log(url);
-	}else{
-		var url = "http://localhost:8080/holo/helpyou_write_view?help_post_id="+post_id;    
+		//console.log(url);
+	}else if(board==0){
+		var url = "http://localhost:8080/holo/helpyou_write_view?help_post_id="+n;    
 		$(location).attr('href',url);
-		console.log(url);
+		//console.log(url);
 	}
 })
 .on('click','#cancel_apply',function(){
@@ -208,9 +211,9 @@ $(document)
 })
 .on('click','input[id^=chat]',function(){ //input[id가 chat으로 시작하는 버튼]
     var n=(this.id).substr(4); 
-    console.log("chat id: "+n);
+    //console.log("chat id: "+n);
     var applier=$('#applier'+n).val();
-    console.log("applier: "+applier);
+    //console.log("applier: "+applier);
     window.open("chat_pop?applier="+applier,"chat_pop",'width=500, height=730, left=400, top=200, resizable=no, scrollbar=no');    
    
 })

@@ -48,7 +48,12 @@
 		             	${dto.title}<input type=hidden name=title value="${dto.title}">
 		             </div>
 		             <div id="nick">
-		             	${dto.nick}
+			          <c:if test="${dto.user_user_id=='admin'}">
+	              			<p class="writer" id="admin_mp_popGo">${dto.nick}</p>
+	              	  </c:if>
+	              	  <c:if test="${dto.user_user_id!='admin'}">
+	                  		<p class="writer" id="mp_popGo${list.help_reply_id}">${dto.nick}</p>
+	                  </c:if>
 		             </div>
 		             <div id="date">
 		             	${dto.operator}
@@ -94,8 +99,12 @@
 			              	  <input type=hidden value="${dto_free_reply.post_post_id}" name="post_id">
 			              	  <input type=hidden value="${dto_free_reply.user_user_id}" name="user_id">
 			              	  <input type=hidden id="whoru${dto_free_reply.reply_id}" value="${dto_free_reply.nick}" name="nick">   
-					          <p class="writer" id="mp_popGo${dto_free_reply.reply_id}">
-			                  ${dto_free_reply.nick}</p>
+			              	  <c:if test="${list.user_user_id=='admin'}">
+			              			<p class="writer" id="admin_mp_popGo">${dto_free_reply.nick}</p>
+			              	  </c:if>
+			              	  <c:if test="${list.user_user_id!='admin'}">
+			                  		<p class="writer" id="mp_popGo${dto_free_reply.reply_id}">${list.nick}</p>
+			                  </c:if>
 		          		</form>        
 		                    <p class="reply_comment">${dto_free_reply.re_comment}</p>
 			           		<p class="reply_date">${dto_free_reply.operator}</p>
@@ -233,6 +242,13 @@ $(document)
 		      $('#reply_again_textarea'+n).hide();
 		   } 
 	   }
+})
+
+.on('click','#admin_mp_popGo',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
+.on('click','#admin_mp_go',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
 })
 
 .on('click','#submit',function(){
@@ -374,6 +390,14 @@ console.log("more");
 		            	 ifbtn='<input type="button" class="re_remove" id="remove_reply'+value['reply_id']+'" value="삭제" data_r='+value['reply_id']+'>'
 			             +'<input type="button" class="re_edit" id="reply_update'+value['reply_id']+'" value="수정" data_r='+value['reply_id']+'>'
 		            }
+					
+					var ifadmin="";
+					if("${list.user_user_id}"=="admin"){
+						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
+					}else{
+						ifadmin='<p class=writer id=mp_popGo'+value['reply_id']+'>'+value['nick']+'</p>'
+					}
+					
 					console.log("ifbtn: "+ifbtn);
 					var user_nick='${login.nick}';
 					console.log("user_nick: "+user_nick);
@@ -388,8 +412,7 @@ console.log("more");
 								+'<input type="hidden" name="post_id" value='+value['post_post_id']+'>'
 								+'<input type="hidden" name="user_id" value='+value['user_user_id']+'>'
 								+'<input type="hidden" id="whoru'+value['reply_id']+'" name="nick" value="'+value['nick']+'">'
-					            +'<p class="writer" id="mp_popGo'+value['reply_id']+'">'
-					            +value['nick']+'</p>'
+								+'<br>'+ifadmin
 					        +'</form>'
 					        +'<p class="reply_comment">'+value['re_comment']+'</p>'
 					        +'<p class="reply_date">'+value['operator']+'</p>'

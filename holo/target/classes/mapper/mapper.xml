@@ -663,7 +663,7 @@
     <!-- helpme에 지원하기 -->
     <select id="add_apply_you" resultType="dto_apply">
     	insert into apply(helpyou_id, tag, cv, board, gender, applier, price, help_post_help_post_id, nick, title)
-		values(#{helpme_id}, #{tag}, #{cv}, 0, 
+		values(#{helpyou_id}, #{tag}, #{cv}, 0, 
 		#{gender}, #{applier}, #{price}, #{help_post_help_post_id}, #{nick}, #{title})
     </select>
     

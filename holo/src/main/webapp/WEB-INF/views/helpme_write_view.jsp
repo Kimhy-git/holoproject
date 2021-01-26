@@ -100,8 +100,16 @@
   	                        <input type="hidden" value="${read.help_post_id}" name="help_post_id">
                         	<input type=hidden value="${read.user_user_id}" name="user_id">
                         	<input type=hidden value="${read.nick}" name="nick" id="who">   
-                            <p class="writer" id="mp_go${read.help_post_id}" >
-                            ${read.nick} <span class="like" style="color:#412e74; font-size:13px;"> ♥ ${read.likes}</span></p>
+                            <c:if test="${read.user_user_id=='admin'}">
+			                  	<p class="writer" id="admin_mp_go" >
+	                            ${read.nick} <span class="like" style="color:#412e74; font-size:13px;"> 
+	                            ♥ ${read.likes}</span></p>
+		              	    </c:if>
+		              	    <c:if test="${read.user_user_id!='admin'}">
+			                  	<p class="writer" id="mp_go${read.help_post_id}" >
+	                            ${read.nick} <span class="like" style="color:#412e74; font-size:13px;"> 
+	                            ♥ ${read.likes}</span></p>
+		                    </c:if>   
                         </form>
                     <input type="hidden" id="NICK" value="${read.nick}">
                     <div id="date">${read.operator}</div>
@@ -170,8 +178,12 @@
               	  <input type=hidden value="${read.help_post_id}" name="help_post_id">
               	  <input type=hidden value="${list.user_user_id}" name="user_id">
               	  <input type=hidden id="whoru${list.help_reply_id}" value="${list.nick}" name="nick">   
-                  <p class="writer" id="mp_popGo${list.help_reply_id}">
-                  ${list.nick}</p>
+              	  <c:if test="${list.user_user_id=='admin'}">
+              			<p class="writer" id="admin_mp_popGo">${list.nick}</p>
+              	  </c:if>
+              	  <c:if test="${list.user_user_id!='admin'}">
+                  		<p class="writer" id="mp_popGo${list.help_reply_id}">${list.nick}</p>
+                  </c:if>
           </form>
           
           <form method="post">
@@ -263,8 +275,6 @@ $(document)
 			window.location.href="<c:url value='login'/>"
 	   }else if(login_user_id==$('#userId').val()){
 		   alert("본인 글에 지원할 수 없습니다");
-	   }else if('${already_apply}'==1){
-	       alert("이미 요청 완료한 글입니다");
 	   }else{
 		   window.open("apply_popup?nick="+$('#nick').val()+
 			   "&post_id="+$('#pId').val()+
@@ -289,6 +299,13 @@ $(document)
 	window.open("","mp_popGoGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGol"+n).submit();
 	//console.log("end!!");
+})
+
+.on('click','#admin_mp_popGo',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
+.on('click','#admin_mp_go',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
 })
 /*
 $('[id^=mp_popGo]').click(function () {
@@ -333,6 +350,13 @@ $(document).on('click','#more',function(){
 		            	 ifbtn='<input type=submit class=re_remove value=삭제 onclick="javascript: form.action=\'help_reply_del\';"/>'
 			             +'<input type=button class=re_edit id=re_edit'+value['help_reply_id']+' value=수정>'
 		            }
+					
+					var ifadmin="";
+					if("${list.user_user_id}"=="admin"){
+						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
+					}else{
+						ifadmin='<p class=writer id=mp_popGo'+value['help_reply_id']+'>'+value['nick']+'</p>'
+					}
 					//console.log("ifbtn: "+ifbtn);
 					var content=
 					
@@ -345,8 +369,7 @@ $(document).on('click','#more',function(){
 										+'<input type=hidden name=help_post_id value='+${read.help_post_id}+'>'
 										+'<input type=hidden name=user_id value='+value['user_user_id']+'>'
 							            +'<input type=hidden id="whoru'+value['help_reply_id']+'" name=nick value="'+value['nick']+'">'
-							            +'<p class="writer" id="mp_popGo'+value['help_reply_id']+'">'
-							            +value['nick']+'</p>'
+							            +'<br>'+ifadmin
 								+'</form>'
 								
 								+'<form mehtod="post">'

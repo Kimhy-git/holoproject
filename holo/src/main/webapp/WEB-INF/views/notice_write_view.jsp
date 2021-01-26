@@ -92,8 +92,12 @@
               	  <input type=hidden value="${notice.post_id}" name="post_id">
               	  <input type=hidden value="${reply.user_user_id}" name="user_id">
               	  <input type=hidden id="whoru${reply.reply_id}" value="${reply.nick}" name="nick">   
-                  <p class="writer" id="mp_popGo${reply.reply_id}">
-                  ${reply.nick}</p>
+              	  <c:if test="${reply.user_user_id=='admin'}">
+              			<p class="writer" id="admin_mp_popGo">${reply.nick}</p>
+              	  </c:if>
+              	  <c:if test="${reply.user_user_id!='admin'}">
+                  		<p class="writer" id="mp_popGo${reply.reply_id}">${reply.nick}</p>
+                  </c:if>
           </form>
           
           <form method="post">
@@ -109,9 +113,8 @@
 	        </c:if>
           </form> 
             </div>
-            </div>
-		
-	      <form method="post">
+            
+            	      <form method="post">
 
 	   	        <input type=hidden value="${notice.post_id}" name="post_post_id">
 	        	<input type="hidden" name="reply_id" value="${reply.reply_id}">    
@@ -135,6 +138,10 @@
                    </div>
                    <div id="clr"></div>
             </form>
+            
+            </div>
+		
+
          
 		</c:forEach>
 		<div id="comments_add">
@@ -145,7 +152,7 @@
 		<input type="hidden" name="replyCnt" id="replyCnt" value="${replyCnt}">
 		<input type="hidden" name="listCnt" id="listCnt" value="${listCnt}">
 		<input type="hidden" id="range" value="${pagination.range}">
-		<a href="#" id="more">더보기</a>
+		<div id="more">더보기</div>
 
 	         <div id="btn">
 	             <c:if test="${login.user_id==notice.user_user_id || login.user_id=='admin'}">
@@ -210,9 +217,15 @@ $(document).on('click','#more',function(){
 					console.log("each 유저_유저_아디: "+value['user_user_id']);
 					var ifbtn="";
 					if("${login.user_id}"==value['user_user_id']||"${login.user_id}"=="admin"){
-		            	 ifbtn='<input type=button class=re_remove value=삭제/>'
+		            	 ifbtn='<input type=button class=re_remove value=삭제>'
 			             +'<input type=button class=re_edit id=re_edit'+value['reply_id']+' value=수정>'
 		            }
+					var ifadmin="";
+					if("${list.user_user_id}"=="admin"){
+						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
+					}else{
+						ifadmin='<p class=writer id=mp_popGo'+value['reply_id']+'>'+value['nick']+'</p>'
+					}
 					console.log("ifbtn: "+ifbtn);
 					var content=
 					
@@ -240,7 +253,7 @@ $(document).on('click','#more',function(){
 
 						    +'</form>'
 					        +'</div>'
-			            	+'</div>'
+			            	
 			            	
 				            +'<form method="post">'
 					            +'<input type=hidden name="post_post_id" value='+value['post_post_id']+'>'
@@ -268,6 +281,7 @@ $(document).on('click','#more',function(){
 				                +'<div id="clr"></div>'
 		                
 	                +'</form>'
+	                +'</div>'
 		            //console.log("content: "+content);
 					$('#comments_add').append(content);
 			})
@@ -294,6 +308,12 @@ $(document).on('click','#more',function(){
 	window.open("","mp_popGoGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGol"+n).submit();
 	console.log("end!!");
+})
+.on('click','#admin_mp_popGo',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
+.on('click','#admin_mp_go',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
 })
 
 

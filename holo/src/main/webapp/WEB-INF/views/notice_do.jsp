@@ -81,26 +81,28 @@ function fn_prev(page, range, rangeSize) {
         	<div id="section_h">
 	            <h2>공지사항</h2>
 			        <form name="form1" method="post" action="notice_do">
-				    <select name="search_option">
-						<option value="user_id"
-						<c:if test="${map.search_option == 'user_id'}">selected</c:if>
-						>작성자</option>
+				        <div id="search">
+					    <select name="search_option" id="area">
+							<option value="user_id"
+							<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+							>작성자</option>
+							
+						    <option value="title" 
+							<c:if test="${map.search_option == 'title'}">selected</c:if>
+						    >제목</option>
 						
-					    <option value="title" 
-						<c:if test="${map.search_option == 'title'}">selected</c:if>
-					    >제목</option>
-					
-					    <option value="content" 
-						<c:if test="${map.search_option == 'content'}">selected</c:if>
-					    >내용</option>
-
-				 	</select>
-					    <input name="keyword" value="${map.keyword}">
-					    <input type="submit" value="조회">
-					</form>
-		         	<c:if test="${login.nick!=admin}">
-		        		<div class="write" id="writing">글쓰기</div>
-		        	</c:if>
+						    <option value="content" 
+							<c:if test="${map.search_option == 'content'}">selected</c:if>
+						    >내용</option>
+	
+					 	</select>
+						    <input name="keyword" value="${map.keyword}">
+						    <input type="submit" value="조회">
+						</div>
+						</form>
+			         	<c:if test="${login.nick=='admin'}">
+			        		<div class="write" id="writing">글쓰기</div>
+			        	</c:if>
 	        </div>
 	        <div id=tablediv>
 	            <table>

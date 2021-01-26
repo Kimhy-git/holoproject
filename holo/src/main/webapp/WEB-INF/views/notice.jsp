@@ -94,8 +94,7 @@ function fn_prev(page, range, rangeSize) {
 					    <input type="submit" id="scbtn" value="조회">
 					</div>
 					</form>
-					
-		         	<c:if test="${login.nick!=admin}">
+		        	<c:if test="${login.nick=='admin'}">
 		        		<div class="write" id="writing">글쓰기</div>
 		        	</c:if>
 	        </div>
