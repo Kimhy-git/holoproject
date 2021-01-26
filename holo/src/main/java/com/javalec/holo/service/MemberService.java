@@ -278,7 +278,7 @@ public interface MemberService {
 	public List<Dto_free_reply> select_free_reply_delete(String post_id) throws Exception;
 	//게시글+댓글 삭제
 
-	public void freeboard_update(String post_id, String board, String title, String content);
+	public void freeboard_update(String post_id, String board, String title, String content, String file_up);
 	// 게시글 수정
 	public void freeboard_write(String post_id, String board, String title,
 			String content, String user_user_id, String nick, String file_up)throws Exception;

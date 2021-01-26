@@ -276,7 +276,7 @@ public interface IDao {
 	//게시글 삭제
 	public List<Dto_free_reply> select_free_reply_delete(String post_id);
 	//게시글 + 댓글 삭제
-	public void freeboard_update(String post_id, String board, String title, String content);
+	public void freeboard_update(String post_id, String board, String title, String content, String file_up);
 	// 게시물 수정
 
 	public void freeboard_write(String post_id, String board, String title,

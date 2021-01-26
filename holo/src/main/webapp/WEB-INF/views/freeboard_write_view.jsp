@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자유게시판</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -152,7 +152,7 @@
         <input type="hidden" name="page" id="page" value="${page}">
 		<input type="hidden" name="listCnt" id="listCnt" value="${listCnt}">
 		<input type="hidden" id="range" value="${pagination.range}">
-		<a href="#" id="more">더보기</a>  
+		<div id="more">더보기</div>
 		
 		<form action="freeboard_modify" method="get">
               <div id="btn">
@@ -188,61 +188,34 @@ $(document)
 .ready(function(){
 	$('.comments').each(function(index,item){
 		var n = $(this).attr("value");
-		console.log(n);
+		
 		$(this).css("margin-left",(n*50)+"px");
-		console.log((n*50));
+		
 	})
 	page=parseInt(page);
 	var listCnt=$('#listCnt').val();
 	if( listCnt<6){
 		$('#more').hide();
 	}
-	//$('.comments').css("margin_left",(n*50)+"px");
-	console.log("dto.user_user_id: "+'${dto.user_user_id}');
-	console.log("login.user_id: "+'${login.user_id}');
 })
 
 .on('click','[id^=mp_go]',function(){
-	console.log("mp_go click");
 	var n=(this.id).substr(5);
-	console.log("n: "+n);
 	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGo"+n).submit();
 })
 .on('click','[id^=mp_popGo]',function(){
-	console.log("mp_popgo click");
 	var n=(this.id).substr(8);
-	console.log("n: "+n);
 	window.open("","mp_popGoGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGol"+n).submit();
-	console.log("end!!");
 })
 
 
-.on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-	 var login_user_id=$('#login_user_id').val();
-	   if(login_user_id==null || login_user_id==""){
-			alert("로그인 해주세요");
-			window.location.href="<c:url value='login'/>"
-	   }else{
-		   var n=(this.id).substr(11); 
-		   console.log($('#reply_again_textarea'+n).css("display"));
-		   if($('#reply_again_textarea'+n).css("display")=="none"){
-		         $('#reply_again_textarea'+n).show();
-		   }else{
-		      $('#reply_again_textarea'+n).hide();
-		   } 
-	   }
-})
-
-.on('click','#submit',function(){
-	
+.on('click','#submit',function(){	
 	   if($('#comment-input').val()==''){
 			alert("내용을 입력하세요.");
 			return false;
 	   }
-	     
-	   
 })
 .on('keyup','#comment-input',function(){
 	str=document.getElementById("comment-input").value;
@@ -287,7 +260,7 @@ $(document)
 })
 
 
-/*.on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+.on('click','input[id^=reply_again]',function(){ //input[id가 reply_again으로 시작하는 버튼]
 	   var login_user_id=$('#login_user_id').val();
 	   if(login_user_id==null || login_user_id==""){
 			alert("로그인 해주세요");
@@ -306,19 +279,14 @@ $(document)
 			   
 		   }else{
 		      $('#reply_again_textarea'+n).hide();
-		   } 
-		   
-		   
+		   } 		   
 	   }
-})*/    
+})   
 
 
-.on('click','input[id^=reply_update]',function(){ //input[id가 reply_again으로 시작하는 버튼]
+.on('click','input[id^=reply_update]',function(){ //input[댓글 수정]
    var n=(this.id).substr(12);
-	console.log("n: "+n);
-	console.log("display: "+$('#re_edit_txt'+n).css("display"));
    if($('#re_edit_txt'+n).css("display")=="none"){
-	   console.log("test");
 	   $('.reply_again_txt').hide(); 
 	   $('.re_edit_txt').hide();
 	   $('.commentsbox').show();       
@@ -330,8 +298,6 @@ $(document)
 
 .on('click','input[id^=edit_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
    var n=(this.id).substr(11); 
-   console.log(n)
-   console.log($('#comments'+n).css("display"));
    if($('#comments'+n).css("display")=="none"){
        $('#comments'+n).show()
 	   $('#re_edit_txt'+n).hide();
@@ -341,14 +307,11 @@ $(document)
 
 var maxpage =5;
 $(document).on('click','#more',function(){
-console.log("more");
 	
 	var listCnt=$('#listCnt').val();
-	console.log("listCnt : "+listCnt);
 	page=parseInt(page);
 	page+=5;
 	maxpage=maxpage+page;
-	console.log("page : "+page);
 	if(maxpage>=listCnt){
 		$('#more').hide();
 	}
@@ -360,31 +323,26 @@ console.log("more");
 	
 	var range=$('#range').val();
 	var post_id=$('#post_id').val();
-	console.log("page : "+page);
 	
 	$.post("freeboard_write_view_reply?post_id="+$('#post_id').val(),
 			{"page":page,"range":range},
 			function(data){
-				console.log("post ajax data : "+data);
 				
 				$.each(data,function(ndx,value){
-					console.log("each: "+value['reply_id']+", "+value['re_comment']);
 					var ifbtn="";
 					if("${login.user_id}"==value['user_user_id'] || "${login.user_id}"=="admin"){
 		            	 ifbtn='<input type="button" class="re_remove" id="remove_reply'+value['reply_id']+'" value="삭제" data_r='+value['reply_id']+'>'
 			             +'<input type="button" class="re_edit" id="reply_update'+value['reply_id']+'" value="수정" data_r='+value['reply_id']+'>'
 		            }
-					console.log("ifbtn: "+ifbtn);
 					var user_nick='${login.nick}';
-					console.log("user_nick: "+user_nick);
 					var content=
 						'<div class="comments" value='+value['re_class']+'>'
 							+'<input type=hidden class="re_class" value='+value['re_class']+'>'
 														
-							+'<div id="comments"'+value['reply_id']+' class="commentsbox">'
+							+'<div id="comments'+value['reply_id']+'" class="commentsbox">'
 							+'<input type=hidden name=reply_id value='+value['reply_id']+'>'
 							
-							+'<form  method="post" action="mp_popup_post" target="mp_popGoGo" id="mpGol'+value['reply_id']+'>'
+							+'<form  method="post" action="mp_popup_post" target="mp_popGoGo" id="mpGol'+value['reply_id']+'">'
 								+'<input type="hidden" name="post_id" value='+value['post_post_id']+'>'
 								+'<input type="hidden" name="user_id" value='+value['user_user_id']+'>'
 								+'<input type="hidden" id="whoru'+value['reply_id']+'" name="nick" value="'+value['nick']+'">'
@@ -430,18 +388,18 @@ console.log("more");
 			           	   		+'<input type="button" class="edit-cancel" id="edit_cancel'+value['reply_id']+'" value="취소">'
 			           	   		+'<div id="clr">'
 			           	   		+'</div>'
+			           	   		
 			            	+'</form>'  
+			            	
+		                		
 	                	+'</div>'
                 +'</div>'
-		            console.log("content: "+content);
 					$('#comments_add').append(content);
 			})
 			
 		$('.comments').each(function(index,item){
 		var n = $(this).attr("value");
-		console.log(n);
 		$(this).css("margin-left",(n*50)+"px");
-		console.log((n*50));
 		})
 		},'json')
 		
@@ -450,7 +408,6 @@ console.log("more");
 //Delete post and comments
 .on('click','#remove',function changeView(){
 	var post_id=$('#post_id').val();
-	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
 		window.location.href="<c:url value='freeboard_write_delete'/>?post_id="+post_id;
@@ -459,7 +416,6 @@ console.log("more");
 //Delete ONLY comments
 .on('click','input[id^=remove_reply]',function changeView(){
 	var post_id=$('#post_id').val();
-	console.log(post_id);
 	var answer=confirm("삭제하시겠습니까?");
 	if(answer==true){
 		window.location.href="<c:url value='delete_free_comment'/>?post_id="
@@ -470,44 +426,11 @@ console.log("more");
 	var re_comment=$('#comment-input').val();
 	var post_id=$('#post_id').val();
 	var nick='${login.nick}';
-	console.log(post_id);
-	console.log(re_comment);
-	console.log("nick: "+nick);
 	var answer=confirm("댓글을 등록하시겠습니까?");
 	if(answer==true){		
 		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment+"&nick="+nick;
 	}
 })
 
-
-//show re_reply update textarea
-/*.on('click','input[id^=reply_update]',function(){ //input[id가 reply_update으로 시작하는 버튼]
-	var n=(this.id).substr(12);
-	console.log("n: "+n);
-	console.log($('#edit_reply_textarea'+n).css("display"));
-	if($('#edit_reply_textarea'+n).css("display")=="none"){
-			$('#edit_reply_textarea'+n).show();
-			$('#comments'+n).hide();
-			$('#reply_update'+n).hide();
-	}else{
-		$('#edit_reply_textarea'+n).hide();
-		$('#comments'+n).show()
-	}
-})*/
-//cancel
-
-//cancel
-/*
-.on('click','input[id^=rere_cancel]',function(){ //input[id가 reply_again으로 시작하는 버튼]
-   var n=(this.id).substr(11); 
-   console.log(n)
-   console.log($('#comments'+n).css("display"));
-   if($('#reply_again_textarea'+n).css("display")=="none"){
-	   $('#reply_again_textarea'+n).show();
-         
-   }else{
-      $('#reply_again_textarea'+n).hide();
-   }
-})*/
 </script>
 </html>

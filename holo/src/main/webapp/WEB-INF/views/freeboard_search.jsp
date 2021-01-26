@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자유게시판</title>
 
 <script>
 //이전 버튼 이벤트
@@ -84,9 +84,10 @@ function fn_prev(page, range, rangeSize) {
         	<div id="section_h">
 	            <h2>자유게시판</h2>
 			        <form name="form1" method="post" action="freeboard_search">
-				    <select name="search_option">
-						<option value="user_id"
-						<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+				    <div id="search">
+				    <select name="search_option" id="area">
+						<option value="nick"
+						<c:if test="${map.search_option == 'nick'}">selected</c:if>
 						>작성자</option>
 						
 					    <option value="title" 
@@ -99,7 +100,8 @@ function fn_prev(page, range, rangeSize) {
 
 				 	</select>
 					    <input name="keyword" value="${map.keyword}">
-					    <input type="submit" value="조회">
+					    <input type="submit" id="scbtn" value="조회">
+					</div>
 					</form>
 
 		        <div class="write" id="writing">글쓰기</div>
@@ -121,8 +123,8 @@ function fn_prev(page, range, rangeSize) {
 	                    <td>${dto.hit}</td>
 	                    
 	                    
-	                    <td><input type="hidden" value="${dto.post_id}"></td>
-            			<td><input type="hidden" value="${dto.board}"></td>
+	                    <input type="hidden" value="${dto.post_id}">
+            			<input type="hidden" value="${dto.board}">
 	                
 	                </tr>
 	                </c:forEach>
@@ -166,7 +168,6 @@ function fn_prev(page, range, rangeSize) {
 $(document)
 .on('click','#writing',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -176,7 +177,6 @@ $(document)
 })
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
