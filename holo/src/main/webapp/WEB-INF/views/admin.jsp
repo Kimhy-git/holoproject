@@ -42,11 +42,23 @@
         <div id="wrap">
         	<div id="section_h">
 	            <h2>관리자</h2>
-			        <div id="search">
-			            회원 ID : 
-			            <input type="text" id="search_txt">
-			            <input type="button" id="search_btn" value="검색">
+	             <form method="post" action="admin_search">
+			        <div id="search" >
+			            <select name="search_option" id=area>
+				            <option value="all"
+				            <c:if test="${map.search_option == 'all'}">selected</c:if>
+							>전체</option>
+							<option value="user_id"
+							<c:if test="${map.search_option == 'user_id'}">selected</c:if>
+							>회원ID</option>
+							<option value="nick"
+							<c:if test="${map.search_option == 'nick'}">selected</c:if>
+							>닉네임</option>
+			            </select>
+			            <input name="keyword" value="${map.keyword}" placeholder="키워드를 입력하세요" id="search_txt">
+			            <input type="submit" id="scbtn" value="검색">
 			        </div>
+			     </form>  
 	        </div>
 	        <div id=tablediv>
 	            <table>
@@ -63,9 +75,9 @@
 		                    <td>${list.nick}</td>
 		                    <td>${list.likes}</td>
 		                    <td>${list.operator}</td>
-		                    <td><form action="leave" method="post">
+		                    <td align=center><form action="admin_leave" method="post">
 		                    	<input type="hidden" value="${list.user_id}" name="user_id">
-		                    	<input type="submit" value="탈퇴">
+		                    	<input type="submit" id="bye" value="탈퇴">
 		                    </form></td>
 		                </tr>
 	                </c:forEach>
@@ -100,7 +112,17 @@
             alone@alone.co.kr</p>
     </footer>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
+
+$(document)
+.on('click','#bye',function(){
+	if(confirm("정말 탈퇴시키겠습니까?")){
+		
+	}else{
+		return false;
+	}
+})
 //이전 버튼 이벤트
 function fn_prev(page, range, rangeSize) {
 		var page = ((range - 2) * rangeSize) + 1;

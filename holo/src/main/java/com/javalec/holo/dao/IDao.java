@@ -34,6 +34,11 @@ public interface IDao {
 		public int check_id(String user_id) throws Exception;
 		//이메일 중복 체크
 		public int check_email(String email) throws Exception;	
+		//닉네임 중복 체크 01.26
+		public int check_nick(String nick) throws Exception;	
+		
+		
+		
 		//회원가입 submit
 		public void join_submit(String user_id, String user_pw, String gender, String nick, String passwd_q, String passwd_a,
 				String email, String mobile, String birth, String address, String tag, String cv);
@@ -142,6 +147,10 @@ public interface IDao {
 	//adminpage
 	public List<Dto_user> admin_user_list(Pagination pagination);
 	public int admin_user_list_count();
+	
+	//01-27
+	public int admin_search_count(BoardSearch search);
+	public List<Dto_user> admin_search(BoardSearch search);
 	
 	//chat
 	public void chat_send(String message_sender, String message_receiver, String message_content);
@@ -336,4 +345,5 @@ public interface IDao {
 	//검색하기
 	public int count_freeboard_search(BoardSearch search);
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
+
 }

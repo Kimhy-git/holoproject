@@ -56,6 +56,7 @@
                     <td>닉네임</td>
                     <td><input type="text" id="nick" name="nick"></td>
                 </tr>
+                <tr><td></td><td colspan=3><span id="nick_check" class="w3-text-red"></span><td></tr>
                 <tr>
                     <td>비밀번호</td>
                     <td><input type="password" id="passcode1" name="passcode"></td>
@@ -220,7 +221,37 @@ $(document)
 			})
 			
 })
-
+.on('keyup','#nick',function(){
+		var email = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		$.ajax({
+				url : "check_nick_go",
+				type : "POST",
+				data : {
+				nick : $("#nick").val()
+				},
+				success : function(result) {
+					if (result == 1) {
+						$("#nick_check").css("color","rgb(223, 64, 43)")
+						$("#nick_check").html("중복된 닉네임이 있습니다.");
+						//$("#submit").attr("disabled", "disabled");
+					} else if($("#nick").val().length<2){
+						$("#nick_check").css("color","rgb(223, 64, 43)")
+						$("#nick_check").html("닉네임은 2-20자 사이로 입력해 주세요.");
+						return false;
+					}else if($("#nick").val().length>20){
+						$("#nick_check").css("color","rgb(223, 64, 43)")
+						$("#nick_check").html("닉네임이 20자를 초과하였습니다.");
+						return false;
+					}else {
+						$("#nick_check").css("color","rgb(22, 97, 182)")
+						$("#nick_check").html("사용 가능한 닉네임 입니다.");
+						//$("#submit").removeAttr("disabled");
+					}
+					
+				},
+			})
+			
+})
 .on('keyup','#mobile',function(){
 	var phone = /^01[0179][0-9]{7,8}$/;
 	if(!phone.test($('#mobile').val())){
@@ -246,7 +277,7 @@ $(document)
 })
 .on('keyup','#passcode2',function(){
 
-	console.log($("#passcode1"))
+	//console.log($("#passcode1"))
 	if($("#passcode1").val() !== $("#passcode2").val()){
 		$("#pw_check").css("color","rgb(223, 64, 43)")
 		$("#pw_check").html("비밀번호가 다릅니다.");
@@ -259,7 +290,7 @@ $(document)
 	}
 })
 .on('click','input:checkbox[name=ptag]',function(){
-	console.log($("input:checkbox[name='ptag']:checked").length)
+	//console.log($("input:checkbox[name='ptag']:checked").length)
 	if($("input:checkbox[name='ptag']:checked").length>3){
 		alert("3개까지 선택할 수 있습니다.");
 		return false;
@@ -277,8 +308,8 @@ $(document)
 	var maxChecked = 3;   //선택가능한 체크박스 갯수
 	var totalChecked = 0;
 	
-	console.log($("input:checkbox[name='ptag']").is(':checked'))
-	console.log($("#nick").val().length)
+	//console.log($("input:checkbox[name='ptag']").is(':checked'))
+	//console.log($("#nick").val().length)
 	if($("#id_check").html()!="사용가능한 아이디 입니다."){
 		alert("아이디를 확인해 주세요")
 		$("#id").focus();
@@ -290,15 +321,12 @@ $(document)
 		alert("닉네임을 입력해 주세요.")
 		$("#nick").focus();
 		return false;
-	}else if($("#nick").val().length<2){
-		alert("닉네임은 2-20자 사이로 입력해 주세요.")
-		$("#nick").focus();
-		return false;
-	}else if($("#nick").val().length>20){
-		alert("닉네임은 20자를 넘을 수 없습니다.")
-		$("#nick").focus();
-		return false;
-	}else if($("#pw_check").html()!="비밀번호가 일치합니다."){
+	}else if($("#nick_check").html()!="사용 가능한 닉네임 입니다."){
+			alert("닉네임을 확인해 주세요.")
+			$("#nick").focus();
+			return false;
+	}else if($("#pw_check").html()!="비밀번호가 일치합니다." ||
+			 $("#pass2").val()==""){
 		alert("비밀번호를 확인해 주세요");
 		$("#passcode1").focus();
 		return false;
@@ -335,6 +363,11 @@ $(document)
 		return false;
 	}else if($("#cv").val().length>100){
 		alert("자기소개가 100자를 초과합니다.");
+		
+		return false;
+	}else if($("#sample4_postcode").val()==""||
+			$("#sample4_roadAddress").val()==""){
+		alert("주소를 입력해 주세요");
 		
 		return false;
 	}else{

@@ -57,6 +57,7 @@
                     <td>닉네임</td>
                     <td><input type="text" id="nick" name="nick" value="${mp_user.nick}"></td>
                 </tr>
+                <tr><td></td><td colspan=3><span id="nick_check" class="w3-text-red"></span><td></tr>
                 <tr>
                     <td>비밀번호</td>
                     <td><input type="password" id="pass1" name="passcode" value="${mp_user.user_pw}" style="background-color:#eee" readonly></td>
@@ -168,20 +169,20 @@ var c = 0;
 $(document)
 .ready(function(){
 	
-	console.log($('#genderC').text())
+	//console.log($('#genderC').text())
 	if($('#genderC').text()=="f"){
 		$('#genderC').text("여성");
 	}else if($('#genderC').text()=="m"){
 		$('#genderC').text("남성");
 	}
 	
-	console.log("태그 :"+$('#tags').val());
+	//console.log("태그 :"+$('#tags').val());
 	
 	$('#choice').val($('#passQ').val());
 	
 	//if($('#movie').val("").prop('checked',false);
 	var mp_ptag=$('#tags').val().split(",");
-	console.log("mp_ptag: "+mp_ptag);
+	//console.log("mp_ptag: "+mp_ptag);
 	$('input:checkbox[name="ptag"]').each(function() {
 		for(var i in mp_ptag){
 			if(this.value == mp_ptag[i]){ //값 비교
@@ -189,6 +190,37 @@ $(document)
 		     }
 		}
 	});
+})
+.on('keyup','#nick',function(){
+	var email = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	$.ajax({
+			url : "check_nick_go",
+			type : "POST",
+			data : {
+			nick : $("#nick").val()
+			},
+			success : function(result) {
+				if (result == 1) {
+					$("#nick_check").css("color","rgb(223, 64, 43)")
+					$("#nick_check").html("중복된 닉네임이 있습니다.");
+					//$("#submit").attr("disabled", "disabled");
+				} else if($("#nick").val().length<2){
+					$("#nick_check").css("color","rgb(223, 64, 43)")
+					$("#nick_check").html("닉네임은 2-20자 사이로 입력해 주세요.");
+					return false;
+				}else if($("#nick").val().length>20){
+					$("#nick_check").css("color","rgb(223, 64, 43)")
+					$("#nick_check").html("닉네임이 20자를 초과하였습니다.");
+					return false;
+				}else {
+					$("#nick_check").css("color","rgb(22, 97, 182)")
+					$("#nick_check").html("사용 가능한 닉네임 입니다.");
+					//$("#submit").removeAttr("disabled");
+				}
+				
+			},
+		})
+		
 })
 		
 .on('keyup','#pass1',function(){
@@ -206,7 +238,7 @@ $(document)
 })
 .on('keyup','#pass2',function(){
 
-	console.log($("#pass1"))
+	//console.log($("#pass1"))
 	if($("#pass1").val() !== $("#pass2").val()){
 		$("#pw_check").css("color","rgb(223, 64, 43)")
 		$("#pw_check").html("비밀번호가 다릅니다.");
@@ -230,14 +262,14 @@ $(document)
 .on('click', '#showaddr', function(){
 	c=1;
 	$('#addr').val("");
-	console.log($('#addH').css("display"));
+	//console.log($('#addH').css("display"));
 	if($('#addH').css("display")=="none"){
 		$('#addH').show();
 		$('#addS').hide();
 	}
 })
 .on('click','input:checkbox[name=ptag]',function(){
-	console.log($("input:checkbox[name='ptag']:checked").length)
+	//console.log($("input:checkbox[name='ptag']:checked").length)
 	if($("input:checkbox[name='ptag']:checked").length>3){
 		alert("3개까지 선택할 수 있습니다.");
 		return false;
@@ -268,8 +300,8 @@ $(document)
 	var maxChecked = 3;   //선택가능한 체크박스 갯수
 	var totalChecked = 0;
 	
-	console.log($("input:checkbox[name='ptag']").is(':checked'))
-	console.log($("#nick").val().length)
+	//console.log($("input:checkbox[name='ptag']").is(':checked'))
+	//console.log($("#nick").val().length)
 	
 	if(c==1){
 		if($('#sample4_postcode').val()=='' || $('#sample4_roadAddress').val()==''){
@@ -281,6 +313,12 @@ $(document)
 	
 	if($("#nick").val()==""){
 		alert("닉네임을 입력해 주세요.")
+		$("#nick").focus();
+		return false;
+	}else if($("#nick_check").html()=="중복된 닉네임이 있습니다." || 
+			 $("#nick_check").html()=="닉네임은 2-20자 사이로 입력해 주세요." ||
+			 $("#nick_check").html()=="닉네임은 20자를 넘을 수 없습니다."){
+			alert("닉네임을 확인해 주세요.")
 		$("#nick").focus();
 		return false;
 	}else if($("#nick").val().length<2){
@@ -321,22 +359,33 @@ $(document)
 		alert("자기소개가 100자를 초과합니다.");
 		
 		return false;
+	}else if($("#sample4_postcode").val()==""||
+			$("#sample4_roadAddress").val()==""){
+		alert("주소를 입력해 주세요");
+		
+		return false;
 	}else{
 		if(confirm("수정하시겠습니까?")){
 			alert("수정되었습니다.");
+		}else{
+			return false;
 		}
 	}
 })	
 
 
 .on('click','#sign_out',function(){
-	console.log($('#user').val());
+	//console.log($('#user').val());
 	
 	if(confirm("정말 탈퇴 하시겠습니까? 지금까지 쓴 글과 댓글이 삭제됩니다.")){
 		if(confirm("확인을 누르면 탈퇴됩니다.")){
 			alert("탈퇴되었습니다.");
 			$('#bye').submit();	
+		}else{
+			return false;
 		}
+	}else{
+		return false;
 	}
 	
 

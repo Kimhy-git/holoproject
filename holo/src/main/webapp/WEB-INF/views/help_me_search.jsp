@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움받기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -65,7 +65,7 @@
                         	</select>
                         	<select name="search_option">
                         		<option value="all"
-								<c:if test="${map.search_option == ''}">selected</c:if>
+								<c:if test="${map.search_option == 'all'}">selected</c:if>
 								>전체</option>
 								<option value="user_id"
 								<c:if test="${map.search_option == 'user_id'}">selected</c:if>
@@ -86,7 +86,7 @@
                     <div class="write" id="writing">글쓰기</div>
                 </div>
                 <div id="category">
-                    <a href="#">전체</a>
+                    <a href="#" class="cate-active">전체</a>
                     <a href="#">벌레잡기</a>
                     <a href="#">쓰레기 분리수거</a>
                     <a href="#">음식물쓰레기 처리</a>
@@ -110,6 +110,9 @@
 	                        	<input type="hidden" value="${list.help_post_id}">
 	                            <img class="thumbnail" src="${list.img}">
 	                            
+	                            <c:if test="${list.complete==1}">
+	                            	<span style="font-weight: bold; color:rgb(107, 156, 230);">[완료]</span>
+	                            </c:if>
 	                            <span class="address">[${list.tag_area}][${list.tag_job}]</span><br>
 	                            <div id="left"><p class="title" style="max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.title}</p>
 	                            <span class="comments">(${list.replyCnt})</span></div>
@@ -176,7 +179,6 @@ $(document)
 	var count = 0
 	for (count; count<=$("#content ul li").length; count=count+3){
 		$("#content ul li:eq("+count+")").css("margin-left","0");
-		console.log(count)
 	}
 	
 	$("#category > a").on("click", clickTagAction);
@@ -184,7 +186,6 @@ $(document)
 
 .on('click','#writing',function(){
 	user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인이 필요한 서비스입니다.");
 		window.location.href="<c:url value='login'/>"
@@ -194,16 +195,13 @@ $(document)
 })
 
 .on('click','[id^=mp_go]',function(){
-	console.log("mp_go click");
 	var n=(this.id).substr(5);
-	console.log("n: "+n);
 	window.open("","mp_popGo",'width=500, height=600, left=400, top=200, resizable=no, scrollbar=no');
 	$("#mpGo"+n).submit();
 })
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
 	if(user_id==null || user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
@@ -213,7 +211,6 @@ $(document)
 function clickTagAction(){
 	var form = $("#form1 > div");
 	var tagJob = $(this).text();
-	console.log("tagJob : "+tagJob);
 	$("#tagJob").remove();
 	form.append("<input id='tabJob' name='tagJob' type='hidden' value='"+tagJob+"'/>");
 	$("#form1")[0].submit();

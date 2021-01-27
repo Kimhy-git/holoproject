@@ -124,7 +124,7 @@ div{
 			</tr>
 			<tr>
 				<td class="bold">희망금액</td>
-				<td><span id="hope"><input type="text" name="price"></span> 원</td>
+				<td><span id="hope"><input type="text" id="price" name="price"></span> 원</td>
 				
 			</tr>
 			<tr>
@@ -150,14 +150,18 @@ div{
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
-.on('click','#close',function(){
-	window.close();
-})
+
 .on('click','#submit',function(){
+	var price=Number($('#price').val());
+	if(price<Number('${price}')){
+		alert("최소금액보다 적게 입력할 수 없습니다.");
+		return false;
+	}
+	
 	if(!confirm('제출 하시겠습니까?')){
 		return false;
 	}else{
-		alert("제출 되었습니다. 창을 닫으시려면 취소 버튼을 클릭해주세요");
+		alert("제출 되었습니다. 창을 닫으시려면 닫기 버튼을 클릭해주세요");
 	}
 })
 

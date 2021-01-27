@@ -68,7 +68,7 @@ div{
 </style>
 <head>
 <meta charset="UTF-8">
-<title>지원하기</title>
+<title>요청하기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <body>
@@ -158,14 +158,21 @@ $(document)
 	if(!confirm('제출 하시겠습니까?')){
 		return false;
 	}else{
-		alert("제출 되었습니다. 창을 닫으시려면 취소 버튼을 클릭해주세요");
+		alert("제출 되었습니다. 창을 닫으시려면 닫기 버튼을 클릭해주세요");
 	}
 })
 .on('click','#cancel',function(){
 	window.close();
 })
-.on('click','#close',function(){
-	window.close();
+
+
+//글자수 세기
+.on('keyup','#txt',function(){
+	
+	if($("#txt").val().length>100){
+		alert("자기소개는 100자 이하로 입력해 주세요");
+		return false;
+	}
 })
 </script>
 </html>

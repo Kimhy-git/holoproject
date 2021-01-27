@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
 <link rel="stylesheet" type="text/css" href="resources/slick-master/slick/slick.css">
 <link rel="stylesheet" type="text/css" href="resources/slick-master/slick/slick-theme.css">
 </head>
@@ -115,7 +115,7 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-  console.log($('.how').length);
+  //console.log($('.how').length);
   $('.your-class').slick({
     dots: true,
     infinite: true,

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>도움받기</title>
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
@@ -111,13 +111,6 @@
 
 $(document)
 .ready(function(){
-	console.log("id : ${read.help_post_id}");
-	console.log("title : ${read.title}");
-	console.log("gender : ${read.gender}");
-	console.log("tag_area: ${read.tag_area}");
-	console.log("tag_job : ${read.tag_job}");
-	console.log("payment : ${read.payment}");
-	console.log("min_price : ${read.min_price}");
 	var g = "${read.gender}"
 	var a = "${read.tag_area}"
 	var j = "${read.tag_job}"
@@ -155,8 +148,7 @@ $(document)
 	}
 })
 .on('click','#submit',function(){
-	console.log($.isNumeric($('#min').val()));
-	//console.log($('#min').isNumeric());
+
 	if($('#title').val()==""){
 		alert("제목을 입력하세요.");
 		return false;

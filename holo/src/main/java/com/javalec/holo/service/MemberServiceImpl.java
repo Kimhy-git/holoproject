@@ -95,6 +95,17 @@ public class MemberServiceImpl implements MemberService {
 		out.close();
 	}
 	
+	//닉네임 중복 체크 01.26
+
+	@Override
+	public void check_nick(String nick, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		//System.out.println("멤버서비스 닉넴뭐임?: "+nick);
+		PrintWriter out = response.getWriter();
+		out.println(dao.check_nick(nick));
+		out.close();
+	}
+	
 	
 	//마이페이지 유저정보 불러오기
 	@Override
@@ -366,6 +377,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int admin_user_list_count() {
 		return dao.admin_user_list_count();
+	}
+	//01-27 애드민
+	@Override
+	public int admin_search_count(BoardSearch search) {
+		// TODO Auto-generated method stub
+		System.out.println("멤버서비스 애드민 써치카운트 "+search);
+		return dao.admin_search_count(search);
+	}
+
+	@Override
+	public List<Dto_user> admin_search(BoardSearch search) {
+		// TODO Auto-generated method stub
+		System.out.println("멤버서비스 애드민 써치 "+search);
+		return dao.admin_search(search);
 	}
 	
 	
@@ -791,7 +816,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dao.select_free_reply_ajax(post_id, pagination);
 	}
-	
+
 
 
 }

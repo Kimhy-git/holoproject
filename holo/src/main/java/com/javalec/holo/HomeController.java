@@ -1,7 +1,9 @@
 package com.javalec.holo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.javalec.holo.dto.BoardSearch;
+import com.javalec.holo.dto.Dto_help_post;
 import com.javalec.holo.dto.Dto_user;
 import com.javalec.holo.dto.Pagination;
 import com.javalec.holo.dto.Pagination_help;
@@ -93,7 +98,14 @@ private MemberService service;
 	  	public void check_email(@RequestParam("email") String email, HttpServletResponse response) throws Exception{
 	  	service.check_email(email, response);
 	  }
-	
+	  
+	   // 닉네임 중복 검사(AJAX)
+	  @RequestMapping(value = "/check_nick_go", method = RequestMethod.POST)
+	  	public void check_nick(@RequestParam("nick") String nick, HttpServletResponse response) throws Exception{
+	  	System.out.println("닉넴이 뭔데ㅐ요? : "+nick);
+		  service.check_nick(nick, response);
+	  }
+	  
   
       @RequestMapping(value = "find_pw", method = RequestMethod.GET)
       public String find_pw(HttpServletRequest req, Model model)throws Exception  {
@@ -139,6 +151,49 @@ private MemberService service;
          model.addAttribute("user_list", user_list);
          return "admin";
       }
+      
+      @RequestMapping(value = "/admin_search", method = RequestMethod.POST)
+      public ModelAndView admin_search(HttpServletRequest req, Model model,
+    		  				@RequestParam(defaultValue="1") int curPage,
+    		  				@RequestParam(defaultValue="all") String search_option,
+    		  				@RequestParam(required = false, defaultValue = "1") int page, 
+    		  				@RequestParam(required = false, defaultValue = "1") int range,
+    		  				@RequestParam(defaultValue="") String keyword ) throws Exception {
+    	 
+    	 //전체 로우 수
+         int count = 1000;
+         BoardSearch search = new BoardSearch();
+         search.setSearch_option(search_option);
+         search.setKeyword(keyword);
+         int listCnt = service.admin_search_count(search);
+    	  //전체 게시글 수
+  	 	 //int listCnt = service.admin_user_list_count();
+  	 	 System.out.println("애드민 써치 listCnt: "+listCnt);
+  		 //Pagination 객제 생성
+  		 Pagination pagination = new Pagination();
+  		 pagination.pageInfo(page, range, listCnt);
+  		 
+  		 search.setPagination(pagination);
+  		 
+         List<Dto_user> user_list=service.admin_search(search);
+         ModelAndView mav = new ModelAndView();
+         Map<String,Object> map = new HashMap<String, Object>();    
+         
+         map.put("count", count);
+         map.put("keyword", keyword);
+         map.put("search_option", search_option);
+         mav.addObject("map", map);
+         mav.addObject("pagination", pagination); 
+         mav.addObject("user_list", user_list);  
+         System.out.println("애드민 map : "+map);
+         mav.setViewName("admin_search");
+         
+         //model.addAttribute("pagination", pagination);
+         model.addAttribute("user_list", user_list);
+         return mav;
+      }
+      
+      
       @RequestMapping(value = "/apply", method = RequestMethod.GET)
       public String apply() {
          

@@ -70,6 +70,9 @@ public interface MemberService {
 	public List<Dto_user> admin_user_list(Pagination pagination);
 	public int admin_user_list_count();
 	
+	public int admin_search_count(BoardSearch search); //2021-01-27
+	public List<Dto_user> admin_search(BoardSearch search);//2021-01-27
+	
 	//chat
 	public void chat_send(String message_sender, String message_receiver, String message_content);
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id);
@@ -199,7 +202,8 @@ public interface MemberService {
 	public void check_id(String user_id, HttpServletResponse response) throws Exception;
 	//이메일 중복 체크
 	public void check_email(String email, HttpServletResponse response) throws Exception;
-	//회원가입
+	//닉네임 중복 체크 01.26
+	public void check_nick(String nick, HttpServletResponse response) throws Exception;
 	
 	//마이페이지 유저정보 불러오기
 	public Dto_user mp_user(String user_id) throws Exception;
@@ -325,4 +329,10 @@ public interface MemberService {
 	// 검색하기 카운트
 
 	public List<Dto_free_reply> select_free_reply_ajax(String post_id, Pagination pagination);
+
+
+
+
+
+	
 }

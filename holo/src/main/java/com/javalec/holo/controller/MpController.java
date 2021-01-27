@@ -286,6 +286,16 @@ public class MpController {
 	    return "redirect:logout";
    }
    
+   @RequestMapping(value = "/admin_leave", method = RequestMethod.POST)
+   public String admin_leave(HttpServletRequest req) throws Exception {
+   	
+   	  String user_id=req.getParameter("user_id");
+	 	  System.out.println("리브 유저 id="+user_id);
+	 	  service.leave(user_id);
+	 	  
+	    return "redirect:admin";
+   }
+   
    @RequestMapping(value = "/help_complete", produces="application/json;charset=UTF-8")
    public @ResponseBody String help_complete(@RequestParam("post_id") String post_id,
 		   									@RequestParam("apply_id") String apply_id) {
