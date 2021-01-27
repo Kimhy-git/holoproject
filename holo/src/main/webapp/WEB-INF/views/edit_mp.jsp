@@ -377,7 +377,11 @@ $(document)
 		if(confirm("확인을 누르면 탈퇴됩니다.")){
 			alert("탈퇴되었습니다.");
 			$('#bye').submit();	
+		}else{
+			return false;
 		}
+	}else{
+		return false;
 	}
 	
 

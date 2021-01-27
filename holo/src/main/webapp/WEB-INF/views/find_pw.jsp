@@ -84,14 +84,14 @@ $(document).ready(function(){
 		    	  },
 
 		      success: function(data, status){
-		    	  console.log("data");
-		    	  console.log(data);
+		    	  //console.log("data");
+		    	 // console.log(data);
 		    	  
 		    	  alert(data);
 		      },
 		 	  complete : function(data){
-		 		 console.log("data");
-		    	  console.log(data);
+		 		 //console.log("data");
+		    	  //console.log(data);
 		    	  
 		    	  alert(data.responseText);
 		    	  

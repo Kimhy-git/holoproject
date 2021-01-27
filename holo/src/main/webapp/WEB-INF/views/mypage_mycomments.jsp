@@ -152,7 +152,7 @@ function fn_prev(page, range, rangeSize) {
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
 		location.href = url;
-		console.log(url);
+		//console.log(url);
 	}
 </script>
 </html>

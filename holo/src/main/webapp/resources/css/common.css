@@ -123,3 +123,7 @@ h1{
 #more:hover{
 	text-decoration:underline;
 }
+#sub_btn{
+	cursor:pointer;
+	outline:none;
+}

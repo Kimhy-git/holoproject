@@ -26,6 +26,10 @@ ul.pagination {
 a.page-link {
     font-size: 12pt;
     padding: 10px;
+    text-decoration:none;
+}
+a.page-link:hover{
+	text-decoration:underline;
 }
 </style>
 <body>
@@ -71,53 +75,54 @@ a.page-link {
             <c:forEach var="item" items="${total_apply}">
             <div id="center">
           	<article>
-				<div class="applier">
-					<div class="info">
-						<div class="title">
-						<p id="apply_title_${item.board}_${item.help_post_help_post_id}" class="apply_titles">${item.title}
-							<c:if test="${item.choose=='1'}">
-							<span id="apply_selected">
-								
-									작성자 채택
-								
-							</span>
+					<div class="applier">
+						<div class="info">
+							<div class="title">
+							<p id="apply_title_${item.board}_${item.help_post_help_post_id}" class="apply_titles">${item.title}
+								<c:if test="${item.choose=='1'}">
+								<span id="apply_selected">
+									
+										작성자 채택
+									
+								</span>
+								</c:if>
+							</p>
+							
+							<span class="date">${item.operator}</span>
+							<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
+							<input type="hidden" id="help_post_id" value="${item.help_post_help_post_id}">
+							<input type="hidden" id="apply_id" value="${item.apply_id}">
+							<input type="hidden" id="choose" value="${item.choose}">
+							</div>
+							<div class="nick">
+								<span class="ptag">
+								${item.tag}
+								</span>
+							</div>
+							<div class="intro">
+								<p>${item.cv}</p>
+							</div>
+						</div>
+						<div class="btns">
+							<c:if test="${item.helpyou_id==null}">
+								<input type="hidden" id="applier${item.apply_id}" value="${item.helpme_id}">
 							</c:if>
-						</p>
-						
-						<span class="date">${item.operator}</span>
-						<input type="hidden" id="helpyou_id" value="${item.helpyou_id}">
-						<input type="hidden" id="help_post_id" value="${item.help_post_help_post_id}">
-						<input type="hidden" id="apply_id" value="${item.apply_id}">
-						<input type="hidden" id="choose" value="${item.choose}">
-						</div>
-						<div class="nick">
-							<span class="ptag">
-							${item.tag}
-							</span>
-						</div>
-						<div class="intro">
-							<p>${item.cv}</p>
+							<c:if test="${item.helpme_id==null}">
+								<input type="hidden" id="applier${item.apply_id}" value="${item.helpyou_id}">
+							</c:if>
+							<input class="btn" type="button" value="채팅하기" id="chat${item.apply_id}"><br>
+							<c:if test="${item.choose=='0'}">
+								<input id="cancel_apply${item.choose}${item.apply_id}" class="btn last" type="button" value="취소하기">
+							</c:if>
+							<c:if test="${item.choose!='0'}">
+								<input class="btn last" type="button" value="채택완료" id="fin_btn">
+							</c:if>
 						</div>
 					</div>
-					<div class="btns">
-						<c:if test="${item.helpyou_id==null}">
-							<input type="hidden" id="applier${item.apply_id}" value="${item.helpme_id}">
-						</c:if>
-						<c:if test="${item.helpme_id==null}">
-							<input type="hidden" id="applier${item.apply_id}" value="${item.helpyou_id}">
-						</c:if>
-						<input class="btn" type="button" value="채팅하기" id="chat${item.apply_id}"><br>
-						<c:if test="${item.choose=='0'}">
-							<input id="cancel_apply" class="btn last" type="button" value="취소하기">
-						</c:if>
-						<c:if test="${item.choose!='0'}">
-							<input class="btn last" type="button" value="채택완료" id="fin_btn">
-						</c:if>
-					</div>
+				</article>
 				</div>
 			</c:forEach>
-			</article>
-	            </table>
+
 				   <div id="paginationBox">
 					<ul class="pagination">
 						<c:if test="${pagination.prev}">
@@ -197,12 +202,12 @@ $(document)
 		//console.log(url);
 	}
 })
-.on('click','#cancel_apply',function(){
-	var choose=$('#choose').val();
-	if(choose==0){
+.on('click','[id^=cancel_apply]',function(){
+	var choose=(this.id).substring(12,13);
+	var apply_id=(this.id).substr(13);
+	if(choose=='0'){
 		var answer=confirm("지원 취소하시겠습니까?");
 		if(answer){
-			var apply_id=$("#apply_id").val();
 			window.location.href="<c:url value='cancel_apply'/>?apply_id="+apply_id;
 		}
 	}else{

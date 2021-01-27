@@ -99,13 +99,13 @@ tr td:first-child{font-weight:bold;}
 $(document)
 .ready(function(){
 	var tag="${user.tag}";
-	console.log(tag);
+	//console.log(tag);
 	var tags=tag.split(',');
 	var content="";
 	for(var i in tags){
-		console.log("tag: "+tags[i]);
+		//console.log("tag: "+tags[i]);
 		content=content+"<span>"+tags[i]+"</span>";
-		console.log("content: "+content);
+		//console.log("content: "+content);
 	}
 	$('#user_tag').append(content);
 })
@@ -145,7 +145,7 @@ function fn_prev(page, range, rangeSize) {
 		url = url + "?page=" + page;
 		url = url + "&range=" + range;
 		location.href = url;
-		console.log(url);
+		//console.log(url);
 	}
 </script>
 </html>

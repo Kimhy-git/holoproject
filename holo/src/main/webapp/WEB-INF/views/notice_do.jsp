@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항</title>
 <script>
 //이전 버튼 이벤트
 function fn_prev(page, range, rangeSize) {
@@ -158,7 +158,7 @@ function fn_prev(page, range, rangeSize) {
 $(document)
 .on('click','#writing',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
+	//console.log(user_id);
 	if(user_id==null || user_id=="" || user_id!="admin"){
 		alert("관리자 로그인 해주세요");
 		window.location.href="<c:url value='notice'/>"

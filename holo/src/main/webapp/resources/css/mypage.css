@@ -107,7 +107,7 @@ table a:hover{
 .applier{
 	width: 800px;
 	height: 120px;
-	border: 1px solid #bbb;
+	border: 1px solid #eee;
 	background: #fff;
 	padding: 7px 10px;
 	
@@ -127,6 +127,8 @@ table a:hover{
 .applier .date{
 	margin-left: 10px;
 	color:#bbb;
+	font-size:14px;
+	margin-top:5px;
 }
 .applier .info .nick{
 	margin-bottom: 7px;
@@ -138,6 +140,7 @@ table a:hover{
 }
 .applier .info .ptag{
 	padding-left: 5px;
+	color:#545454;
 }
 .applier .info .ptag span{
 	background:#bbb;
@@ -215,4 +218,7 @@ table a:hover{
 }
 p.apply_titles {
     padding-left: 10px;
+    font-weight:400;
+    color:454545;
+    cursor:pointer;
 }

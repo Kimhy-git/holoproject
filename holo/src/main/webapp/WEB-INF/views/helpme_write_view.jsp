@@ -532,13 +532,20 @@ $(document).on('click','input[id^=reply_again]',function(){ //input[id가 reply_
 			return false;
 	   }
 })
-.on('click','#remove',function(){
-	if(confirm('삭제하시겠습니까?')){	
+.on('click','.re_remove',function(){
+	if(confirm("댓글을 삭제하시겠습니까?")){
+		
 	}else{
 		return false;
 	}
 })
-
+.on('click','#remove',function(){
+	if(confirm('게시글을 삭제하시겠습니까?')){
+		
+	}else{
+		return false;
+	}
+})
   
 
 .on('click','input[id^=re_edit]',function(){ //input[id가 reply_again으로 시작하는 버튼]

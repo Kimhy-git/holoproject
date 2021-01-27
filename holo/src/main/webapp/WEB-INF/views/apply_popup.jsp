@@ -124,7 +124,7 @@ div{
 			</tr>
 			<tr>
 				<td class="bold">희망금액</td>
-				<td><span id="hope"><input type="text" name="price" value="${price}"></span> 원</td>
+				<td><span id="hope"><input type="text" id="price" name="price" value="${price}"></span> 원</td>
 				
 			</tr>
 			<tr>
@@ -150,24 +150,30 @@ div{
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script>
 $(document)
-.on('click','#close',function(){
-	window.close();
-})
 .on('click','#submit',function(){
-	if(!confirm('제출 하시겠습니까?')){
+	var price=Number($('#price').val());
+	if(price<Number('${price}')){
+		alert("최소금액보다 적게 입력할 수 없습니다.");
 		return false;
 	}
+	if(!confirm('제출 하시겠습니까?')){
+		return false;
+	}else{
+		alert("제출 되었습니다. 창을 닫으시려면 닫기 버튼을 클릭해주세요");
+	}
 })
-
 .on('click','#cancel',function(){
 	window.close();
 })
 
+
 //글자수 세기
 .on('keyup','#txt',function(){
-	
+	str=document.getElementById("txt").value;
 	if($("#txt").val().length>100){
 		alert("자기소개는 100자 이하로 입력해 주세요");
+		document.getElementById("txt").value=str.substring(0,100);
+		
 		return false;
 	}
 })
