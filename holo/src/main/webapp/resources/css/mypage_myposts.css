@@ -169,8 +169,34 @@ table a:hover{
 #tossJsp span:hover{
 	color:#fff;
 }
-.current a{
+#current{
 	font-weight: bold;
+}
+
+.form_applyyou{
+background:rgb(175, 107, 230);
+}
+.form_applyme{
+background:rgb(95, 143, 214);
+}
+.formbtn{
+border: none;
+border-radius:3px;
+padding:2px;
+color:#fff;
+opacity: 0.6;
+}
+.formbtn:hover{
+cursor:pointer;
+opacity: 1;
+}
+.help_me{
+color:rgb(95, 143, 214);
+font-weight:bold;
+}
+.help_you{
+color:rgb(175, 107, 230);
+font-weight:bold;
 }
 
 #apply_selected{

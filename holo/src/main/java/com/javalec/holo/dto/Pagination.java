@@ -220,6 +220,43 @@ public class Pagination {
 
 	}
 	
+	public void pageInfo_mypage_posts(int page, int range, int listCnt,String user_id) {
+		this.page = page;
+		this.range = range;
+		this.listCnt = listCnt;
+		this.user_id = user_id;
+		
+		//전체 페이지수 
+		if(listCnt%listSize!=0) {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		} else {
+			this.pageCnt = (int)Math.ceil(listCnt/listSize);
+		}
+
+		//시작 페이지
+		this.startPage = (range - 1) * rangeSize + 1 ;
+
+		//끝 페이지
+		this.endPage = range * rangeSize;
+
+		//게시판 시작번호
+		this.startList = (page - 1) * listSize;
+		
+		//마이페이지 시작번호
+		this.mypageStartList = (page-1) * mypageListSize;
+
+		//이전 버튼 상태
+		this.prev = range == 1 ? false : true;
+
+		//다음 버튼 상태
+		this.next = endPage > pageCnt ? false : true;
+		if (this.endPage > this.pageCnt) {
+			this.endPage = this.pageCnt;
+			this.next = false;
+		}
+
+	}
+	
 	public void pageInfo_mypage(int page, int range, int listCnt,String user_id) {
 		this.page = page;
 		this.range = range;

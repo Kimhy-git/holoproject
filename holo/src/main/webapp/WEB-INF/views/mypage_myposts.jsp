@@ -11,33 +11,6 @@
 <link rel="stylesheet" href="resources/css/common.css">
 <link rel="stylesheet" href="resources/css/mypage_myposts.css">
 
-<style>
-.form_applyyou{
-background:rgb(175, 107, 230);
-}
-.form_applyme{
-background:rgb(95, 143, 214);
-}
-.formbtn{
-border: none;
-border-radius:3px;
-padding:2px;
-color:#fff;
-opacity: 0.6;
-}
-.formbtn:hover{
-cursor:pointer;
-opacity: 1;
-}
-.help_me{
-color:rgb(95, 143, 214);
-font-weight:bold;
-}
-.help_you{
-color:rgb(175, 107, 230);
-font-weight:bold;
-}
-</style>
 
 <body>
       <header>
@@ -69,7 +42,7 @@ font-weight:bold;
         <h2 onclick="location.href='/holo/mypage'">마이페이지</h2>
          
             <nav id="mine">
-                <span><a href="mypage_myposts" >내가 쓴 글</a></span>
+                <span><a href="mypage_myposts" id="current">내가 쓴 글</a></span>
                 &nbsp; &nbsp; 
                 <span><a href="mypage_mycomments" >내가 쓴 댓글</a></span>
                 &nbsp; &nbsp; 

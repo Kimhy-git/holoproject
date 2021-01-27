@@ -111,7 +111,7 @@ public class MpController {
 		System.out.println("mypage_myposts listCnt: "+listCnt);
 		//Pagination 객제 생성
 		Pagination pagination = new Pagination();
-		pagination.pageInfo_mypage(page, range, listCnt, user_user_id);
+		pagination.pageInfo_mypage_posts(page, range, listCnt, user_user_id);
 		
 		System.out.println("controller user_id: "+user_user_id);
 		List<Dto_total> total_list=service.mypage_total_list(pagination);
