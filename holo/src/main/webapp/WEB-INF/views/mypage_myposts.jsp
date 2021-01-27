@@ -9,7 +9,8 @@
 </head>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="resources/css/common.css">
-<link rel="stylesheet" href="resources/css/mypage.css">
+<link rel="stylesheet" href="resources/css/mypage_myposts.css">
+
 <style>
 .form_applyyou{
 background:rgb(175, 107, 230);
@@ -141,7 +142,7 @@ font-weight:bold;
 			
 						<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
 							<c:out value="${pagination.page == idx ? '' : ''}"/><a class="page-link" href="#" onClick="fn_pagination
-							('${idx}', '${pagination.range}', '${pagination.rangeSize}')"> ${idx} </a>&nbsp;
+							('${idx}', '${pagination.range}', '${pagination.rangeSize}')">${idx}</a>&nbsp;
 						</c:forEach>			
 			
 						<c:if test="${pagination.next}">

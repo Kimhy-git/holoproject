@@ -30,6 +30,8 @@ public class Pagination {
 	private String applier;
 	private String user_id;
 	
+	private int mypageStartList;
+	
 	
 	public Pagination() {}
 	
@@ -39,6 +41,36 @@ public class Pagination {
 		this.helpme_id = helpme_id;
 		this.helpyou_id = helpyou_id;
 		this.applier = applier;
+	}
+
+
+	public int getMypageListSize() {
+		return mypageListSize;
+	}
+
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+
+	public int getMypageStartList() {
+		return mypageStartList;
+	}
+
+
+	public void setMypageListSize(int mypageListSize) {
+		this.mypageListSize = mypageListSize;
+	}
+
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public void setMypageStartList(int mypageStartList) {
+		this.mypageStartList = mypageStartList;
 	}
 
 
@@ -195,10 +227,15 @@ public class Pagination {
 		this.user_id = user_id;
 		
 		//전체 페이지수 
-		if(listCnt%listSize!=0) {
-			this.pageCnt = (int)Math.ceil(listCnt/listSize)+1;
+		if(listCnt%mypageListSize!=0) {
+			System.out.println("Dto, listCnt%mypageListSize(+1) = "+listCnt%mypageListSize);
+			this.pageCnt = (int)Math.ceil(listCnt/mypageListSize)+1;
+			System.out.println("Dto, pageCnt(+1) : "+pageCnt);
 		} else {
-			this.pageCnt = (int)Math.ceil(listCnt/listSize);
+			System.out.println("Dto, listCnt%mypageListSize = "+listCnt%mypageListSize);
+			System.out.println("Dto, listCnt%mypageListSize = "+listCnt%mypageListSize);
+			this.pageCnt = (int)Math.ceil(listCnt/mypageListSize);
+			System.out.println("Dto, pageCnt : "+pageCnt);
 		}
 
 		//시작 페이지
@@ -209,6 +246,9 @@ public class Pagination {
 
 		//게시판 시작번호
 		this.startList = (page - 1) * listSize;
+		
+		//마이페이지 시작번호
+		this.mypageStartList = (page-1) * mypageListSize;
 
 		//이전 버튼 상태
 		this.prev = range == 1 ? false : true;

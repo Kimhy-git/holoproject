@@ -337,7 +337,7 @@ $(document).on('click','#more',function(){
 		            }
 					
 					var ifadmin="";
-					if("${list.user_user_id}"=="admin"){
+					if("${list.user_user_id=='admin'}"){
 						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
 					}else{
 						ifadmin='<p class=writer id=mp_popGo'+value['help_reply_id']+'>'+value['nick']+'</p>'

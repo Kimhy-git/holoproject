@@ -717,7 +717,7 @@
     <!-- 전체 지원 게시글 가져오기 -->
     <select id="total_apply" resultType="dto_apply">
     	select * from apply where applier=#{user_id} order by operator desc 
-		limit #{pagination.startList},#{pagination.mypageListSize}
+		limit #{pagination.mypageStartList},5
     </select>
     
     <!-- 전체 지원 게시글 수 -->

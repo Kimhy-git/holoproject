@@ -80,15 +80,17 @@ public class MpController {
 		Dto_login dto = new Dto_login();
 		HttpSession session = req.getSession();
 		dto=(Dto_login)session.getAttribute("login");
+		String user_id=dto.getUser_id();
 		
   		//전체 지원한 게시글 수
   		int listCnt = service.total_apply_count(dto.getUser_id());
   		
   		//Pagination 객제 생성
   		Pagination pagination = new Pagination();
-  		pagination.pageInfo(page, range, listCnt);
+  		pagination.pageInfo_mypage(page, range, listCnt, user_id);
         model.addAttribute("pagination", pagination);
-        System.out.println("range: "+pagination.getRange());
+        System.out.println("listCnt: "+pagination.getListCnt());
+        System.out.println("pageCnt: "+pagination.getPageCnt());
 		
 		List<Dto_apply>total_apply = service.total_apply(dto.getUser_id(),pagination);
 		model.addAttribute("total_apply",total_apply);

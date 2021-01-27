@@ -123,9 +123,16 @@
 	  	                        <input type="hidden" value="${list.help_post_id}" name="help_post_id">
 	                        	<input type=hidden value="${list.user_user_id}" name="user_id">
 	                        	<input type=hidden value="${list.nick}" name="nick">   
-	                            <p class="writer" id="mp_go${list.help_post_id}"
-	                            style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-	                            ${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+	                            <c:if test="${list.user_user_id=='admin'}">
+		                            <p class="writer" id="admin_mp_go"
+		                            style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+		                            ${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+			              	    </c:if>
+			              	    <c:if test="${list.user_user_id!='admin'}">
+		                            <p class="writer" id="mp_go${list.help_post_id}"
+		                            style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+		                            ${list.nick} <span class="like"> ♥ ${list.likes}</span></p>
+			                    </c:if> 
 	                        </form>
                             <p class="price" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">최소금액 : ${list.min_price}원</p>
                             <p class="date" style="max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${list.operator}</p>
@@ -209,6 +216,9 @@ $(document)
 	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
 })
 
+.on('click','#admin_mp_go',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
 
 function clickTagAction(){
 	var form = $("#form1 > div");

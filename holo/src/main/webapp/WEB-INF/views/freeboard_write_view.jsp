@@ -94,8 +94,12 @@
 			              	  <input type=hidden value="${dto_free_reply.post_post_id}" name="post_id">
 			              	  <input type=hidden value="${dto_free_reply.user_user_id}" name="user_id">
 			              	  <input type=hidden id="whoru${dto_free_reply.reply_id}" value="${dto_free_reply.nick}" name="nick">   
-					          <p class="writer" id="mp_popGo${dto_free_reply.reply_id}">
-			                  ${dto_free_reply.nick}</p>
+			              	  <c:if test="${dto_free_reply.user_user_id=='admin'}">
+			              			<p class="writer" id="admin_mp_popGo">${dto_free_reply.nick}</p>
+			              	  </c:if>
+			              	  <c:if test="${dto_free_reply.user_user_id!='admin'}">
+			                  		<p class="writer" id="mp_popGo${dto_free_reply.reply_id}">${dto_free_reply.nick}</p>
+			                  </c:if>
 		          		</form>        
 		                    <p class="reply_comment">${dto_free_reply.re_comment}</p>
 			           		<p class="reply_date">${dto_free_reply.operator}</p>
@@ -210,6 +214,12 @@ $(document)
 	$("#mpGol"+n).submit();
 })
 
+.on('click','#admin_mp_popGo',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
+.on('click','#admin_mp_go',function(){
+	alert("관리자의 마이페이지는 열람이 불가능합니다");
+})
 
 .on('click','#submit',function(){	
 	   if($('#comment-input').val()==''){
@@ -334,6 +344,12 @@ $(document).on('click','#more',function(){
 		            	 ifbtn='<input type="button" class="re_remove" id="remove_reply'+value['reply_id']+'" value="삭제" data_r='+value['reply_id']+'>'
 			             +'<input type="button" class="re_edit" id="reply_update'+value['reply_id']+'" value="수정" data_r='+value['reply_id']+'>'
 		            }
+					var ifadmin="";
+					if("${dto_free_reply.user_user_id=='admin'}"){
+						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
+					}else{
+						ifadmin='<p class=writer id=mp_popGo'+value['reply_id']+'>'+value['nick']+'</p>'
+					}
 					var user_nick='${login.nick}';
 					var content=
 						'<div class="comments" value='+value['re_class']+'>'
@@ -347,7 +363,7 @@ $(document).on('click','#more',function(){
 								+'<input type="hidden" name="user_id" value='+value['user_user_id']+'>'
 								+'<input type="hidden" id="whoru'+value['reply_id']+'" name="nick" value="'+value['nick']+'">'
 					            +'<p class="writer" id="mp_popGo'+value['reply_id']+'">'
-					            +value['nick']+'</p>'
+					            +'<br>'+ifadmin
 					        +'</form>'
 					        +'<p class="reply_comment">'+value['re_comment']+'</p>'
 					        +'<p class="reply_date">'+value['operator']+'</p>'
@@ -426,11 +442,14 @@ $(document).on('click','#more',function(){
 	var re_comment=$('#comment-input').val();
 	var post_id=$('#post_id').val();
 	var nick='${login.nick}';
+	var login_user_id=$('#login_user_id').val();
+	   if(login_user_id==null || login_user_id==""){
+			alert("로그인 해주세요");
+			window.location.href="<c:url value='login'/>"} else{
 	var answer=confirm("댓글을 등록하시겠습니까?");
 	if(answer==true){		
 		window.location.href="<c:url value='add_free_comment'/>?post_post_id="+post_id+"&re_comment="+re_comment+"&nick="+nick;
-	}
+	}}
 })
-
 </script>
 </html>

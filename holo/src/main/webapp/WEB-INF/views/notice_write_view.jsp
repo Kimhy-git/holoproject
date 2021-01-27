@@ -220,12 +220,15 @@ $(document).on('click','#more',function(){
 		            	 ifbtn='<input type=button class=re_remove value=삭제>'
 			             +'<input type=button class=re_edit id=re_edit'+value['reply_id']+' value=수정>'
 		            }
+					
 					var ifadmin="";
-					if("${list.user_user_id}"=="admin"){
+					if(value['user_user_id']=='admin'){
 						ifadmin='<p class=writer id=admin_mp_popGo>'+value['nick']+'</p>'
 					}else{
 						ifadmin='<p class=writer id=mp_popGo'+value['reply_id']+'>'+value['nick']+'</p>'
 					}
+					
+					
 					console.log("ifbtn: "+ifbtn);
 					var content=
 					
@@ -238,8 +241,7 @@ $(document).on('click','#more',function(){
 								+'<input type=hidden name=post_id value='+${notice.post_id}+'>'
 								+'<input type=hidden name=user_id value='+value['user_user_id']+'>'
 					            +'<input type=hidden id="whoru'+value['reply_id']+'" name=nick value="'+value['nick']+'">'
-					            +'<p class="writer" id="mp_popGo'+value['reply_id']+'">'
-					            +value['nick']+'</p>'
+					            +ifadmin
 						+'</form>'
 						
 						+'<form mehtod="post">'
