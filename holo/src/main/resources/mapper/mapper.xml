@@ -213,7 +213,7 @@
 			            or content like CONCAT('%',#{keyword},'%')) 
 	            	</if>
 	            	<if test='("user_id").equals(search_option)'>
-		            	and nick like CONCAT('%',#{keyword},'%')
+		            	and a.nick like CONCAT('%',#{keyword},'%')
 	            	</if>
 	            	<if test='("title").equals(search_option)'>
 		            	and title like CONCAT('%',#{keyword},'%')
@@ -245,7 +245,7 @@
 			            or content like CONCAT('%',#{keyword},'%')) 
 	            	</if>
 	            	<if test='("user_id").equals(search_option)'>
-		            	and nick like CONCAT('%',#{keyword},'%')
+		            	and a.nick like CONCAT('%',#{keyword},'%')
 	            	</if>
 	            	<if test='("title").equals(search_option)'>
 		            	and title like CONCAT('%',#{keyword},'%')
@@ -294,7 +294,7 @@
 			            or content like CONCAT('%',#{keyword},'%')) 
 	            	</if>
 	            	<if test='("user_id").equals(search_option)'>
-		            	and nick like CONCAT('%',#{keyword},'%')
+		            	and a.nick like CONCAT('%',#{keyword},'%')
 	            	</if>
 	            	<if test='("title").equals(search_option)'>
 		            	and title like CONCAT('%',#{keyword},'%')
@@ -326,7 +326,7 @@
 			            or content like CONCAT('%',#{keyword},'%')) 
 	            	</if>
 	            	<if test='("user_id").equals(search_option)'>
-		            	and nick like CONCAT('%',#{keyword},'%')
+		            	and a.nick like CONCAT('%',#{keyword},'%')
 	            	</if>
 	            	<if test='("title").equals(search_option)'>
 		            	and title like CONCAT('%',#{keyword},'%')
@@ -457,7 +457,44 @@
 	<select id="admin_user_list_count" resultType="int">
 		select count(user_id) from user;
 	</select>
+
+	<!-- admin search 01-27 --> 
 	
+	<select id="admin_search_count" resultType="int">
+    select count(*) from user where
+            <if test='search_option != null and !("").equals(search_option) '>
+	            <if test='("all").equals(search_option)'>
+		            nick like CONCAT('%',#{keyword},'%')       
+		            or user_id like CONCAT('%',#{keyword},'%')
+	         	</if>
+	         	<if test='("user_id").equals(search_option)'>
+					user_id like CONCAT('%',#{keyword},'%')
+	         	</if>
+	         	<if test='("nick").equals(search_option)'>
+		            nick like CONCAT('%',#{keyword},'%')       
+	         	</if>
+         	</if>
+         	order by user_id
+	</select>
+	               
+	<select id="admin_search" resultType="Dto_user" parameterType="com.javalec.holo.dto.BoardSearch">
+           select * from user where
+            <if test='search_option != null and !("").equals(search_option) '>
+	            <if test='("all").equals(search_option)'>
+		            nick like CONCAT('%',#{keyword},'%')       
+		            or user_id like CONCAT('%',#{keyword},'%')
+	         	</if>
+	         	<if test='("user_id").equals(search_option)'>
+					user_id like CONCAT('%',#{keyword},'%')
+	         	</if>
+	         	<if test='("nick").equals(search_option)'>
+		            nick like CONCAT('%',#{keyword},'%')       
+	         	</if>
+         	</if>
+         	order by user_id
+		    limit #{pagination.startList}, #{pagination.listSize}
+    </select>
+		
 	
 	<!-- chat send -->
 	<insert id="chat_send">

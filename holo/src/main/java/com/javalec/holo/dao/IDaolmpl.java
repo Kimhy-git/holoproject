@@ -375,6 +375,21 @@ public class IDaolmpl implements IDao {
 		return sqlSession.selectOne(Namespace+".admin_user_list_count");
 	}
 	
+	//01-27
+	@Override
+	public int admin_search_count(BoardSearch search) {
+		System.out.println("아이다오임플로먼트 애드민 써치카운트 "+search);
+		
+		return sqlSession.selectOne(Namespace+".admin_search_count", search);
+	}
+
+	@Override
+	public List<Dto_user> admin_search(BoardSearch search) {
+		System.out.println("아이다오임플로먼트 애드민 써치 "+search);
+		return sqlSession.selectList(Namespace+".admin_search", search);
+	}
+	
+	
 	//chat
 
 	@Override

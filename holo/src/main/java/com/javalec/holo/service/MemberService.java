@@ -70,6 +70,9 @@ public interface MemberService {
 	public List<Dto_user> admin_user_list(Pagination pagination);
 	public int admin_user_list_count();
 	
+	public int admin_search_count(BoardSearch search); //2021-01-27
+	public List<Dto_user> admin_search(BoardSearch search);//2021-01-27
+	
 	//chat
 	public void chat_send(String message_sender, String message_receiver, String message_content);
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id);

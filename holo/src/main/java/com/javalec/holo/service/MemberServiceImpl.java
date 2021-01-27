@@ -384,6 +384,22 @@ public class MemberServiceImpl implements MemberService {
 		return dao.admin_user_list_count();
 	}
 	
+	//01-27 애드민
+	@Override
+	public int admin_search_count(BoardSearch search) {
+		// TODO Auto-generated method stub
+		System.out.println("멤버서비스 애드민 써치카운트 "+search);
+		return dao.admin_search_count(search);
+	}
+
+	@Override
+	public List<Dto_user> admin_search(BoardSearch search) {
+		// TODO Auto-generated method stub
+		System.out.println("멤버서비스 애드민 써치 "+search);
+		return dao.admin_search(search);
+	}
+	
+	
 	
 	//chat
 	@Override

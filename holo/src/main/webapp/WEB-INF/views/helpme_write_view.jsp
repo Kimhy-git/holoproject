@@ -276,7 +276,7 @@ $(document)
 	   }else if(login_user_id==$('#userId').val()){
 		   alert("본인 글에 지원할 수 없습니다");
 	   }else if('${already_apply}'==1){
-	       alert("이미 요청 완료한 글입니다");
+	       alert("이미 지원 완료한 글입니다");
 	   }else if($('#gender').text()=='여성'){
 		   if('${login.gender}'=='m'){
 			   alert('지원 가능 성별을 확인해주세요');

@@ -147,6 +147,10 @@ public interface IDao {
 	public List<Dto_user> admin_user_list(Pagination pagination);
 	public int admin_user_list_count();
 	
+	//01-27
+	public int admin_search_count(BoardSearch search);
+	public List<Dto_user> admin_search(BoardSearch search);
+	
 	//chat
 	public void chat_send(String message_sender, String message_receiver, String message_content);
 	public List<Dto_chat> chat_read(String message_sender, String message_receiver,int last_id);

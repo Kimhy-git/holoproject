@@ -62,10 +62,10 @@ var n=0;
 $(document)
 .on('click','#p',function(){
 	n=n+1;
-	console.log("n: "+n);
+	//console.log("n: "+n);
 	if(n>=5){
-		console.log("if");
-		console.log("user_id:"+'${login.user_id}');
+		//console.log("if");
+		//console.log("user_id:"+'${login.user_id}');
 		if('${login.user_id}'=='admin'){
 			if(confirm("관리자 페이지로 이동하시겠습니까?")){
 				window.location.href = 'admin';	
@@ -76,7 +76,7 @@ $(document)
 
 .on('click','#mypage',function(){
 	var user_id=$('#user_id_login').val();
-	console.log(user_id);
+	//console.log(user_id);
 	if(user_id==""){
 		alert("로그인하세요");
 		window.location.href="<c:url value='login'/>"
