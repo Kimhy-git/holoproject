@@ -182,5 +182,9 @@ $(document)
 		window.location.href="<c:url value='login'/>"
 	}
 })
+.on('click','#chat_room',function(){
+	var user_id='${login.user_id}';
+	window.open("chat_room?user_id="+user_id,"ChatRoom",'width=490, height=685, left=400, top=200, resizable=no, scrollbar=no');
+})
 </script>
 </html>

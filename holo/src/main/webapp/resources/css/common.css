@@ -6,7 +6,6 @@
     color: black;
 }
 h2{
-    float: left;
     padding: 5px 0px;
     font-size: 23px;
     color: #6e6e6e;
@@ -37,8 +36,9 @@ header #logo img{
     
 }
 section{
-    background-color: rgb(225, 238, 250);
+    /* background-color: rgb(225, 238, 250);*/
     height: auto;
+    background:no-repeat bottom right/30% url(../img/main_back.png)  rgb(225, 238, 250);	
 }
 #wrap{
     width: 1000px;

@@ -193,11 +193,11 @@ $(document)
 	//console.log("board : "+board);
 	
 	if(board==1){
-		var url = "http://localhost:8080/holo/helpme_write_view?help_post_id="+n;    
+		var url = "${pageContext.request.contextPath}/helpme_write_view?help_post_id="+n;    
 		$(location).attr('href',url);
 		//console.log(url);
 	}else if(board==0){
-		var url = "http://localhost:8080/holo/helpyou_write_view?help_post_id="+n;    
+		var url = "${pageContext.request.contextPath}/helpyou_write_view?help_post_id="+n;    
 		$(location).attr('href',url);
 		//console.log(url);
 	}

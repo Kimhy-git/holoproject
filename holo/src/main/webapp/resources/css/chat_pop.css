@@ -56,6 +56,7 @@ body {
   background-image: url('../img/chat_icon.png');
   background-size: cover;
   float: left;
+
 }
 .messages .message.left .text_wrapper {
   background-color: #ddd;
