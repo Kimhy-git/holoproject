@@ -355,8 +355,8 @@ $(document)
 		alert("자기소개가 100자를 초과합니다.");
 		
 		return false;
-	}else if($("#sample4_postcode").val()==""||
-			$("#sample4_roadAddress").val()==""){
+	}else if(($("#sample4_postcode").val()==""||
+			$("#sample4_roadAddress").val()=="") && $('#addr').val()==""){
 		alert("주소를 입력해 주세요");
 		
 		return false;

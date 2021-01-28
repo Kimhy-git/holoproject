@@ -92,6 +92,7 @@ section{
 	/*margin-bottom:100px;*/
 	border: 1px solid rgba(0,0,0,0);
 	padding-bottom: 80px;
+	padding-top: 10px;
 }
 /*h2{
 	margin:40px;
@@ -99,11 +100,7 @@ section{
 	padding-top:30px;
 	padding-left:80px;
 }*/
-h2{
-	float: left;
-	padding: 10px;
-	margin-left: 140px;
-}
+
 
 #image{
 	max-width:740px;

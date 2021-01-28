@@ -141,18 +141,14 @@ reply_sub_btn{
 .clear{
 	clear:both;
 }
-h2{
-	float: left;
-	padding: 10px;
-	margin-left: 140px;
-	/*margin:25px;*/
-}
+
 
 section{
 	height:auto;
 	/*margin-bottom:100px;*/
 	border: 1px solid rgba(0,0,0,0);
 	padding-bottom: 80px;
+	padding-top: 10px;
 }
 #image{
 	max-width:740px;
