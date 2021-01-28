@@ -38,8 +38,9 @@ header #logo img{
 section{
     /* background-color: rgb(225, 238, 250);*/
     height: auto;
-    background:no-repeat bottom right/30% url(../img/main_back.png)  rgb(225, 238, 250);	
+    background-color: rgb(225, 238, 250) ;	
 }
+
 #wrap{
     width: 1000px;
     margin: 0 auto;

@@ -1,6 +1,8 @@
 @charset "EUC-KR";
 section{
-
+    /* background-color: rgb(225, 238, 250);*/
+    height: auto;
+    background:no-repeat bottom right/450px url(../img/main_back2.png)  rgb(225, 238, 250)!important ;	
 }
 #wrap{
     height: 500px;
